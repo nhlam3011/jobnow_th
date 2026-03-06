@@ -1,0 +1,35 @@
+{
+  "node": {
+    "4074008fc079c221c63f168f8c403e5a556b09450a": {
+      "workers": {
+        "app/companies/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/companies/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "saveJob",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/companies/[slug]/page": "action-browser"
+      },
+      "exportedName": "saveJob",
+      "filename": "app/actions/jobs.ts"
+    },
+    "4016bfa22123dad3d3aaeee262b4ebf7358de34cb8": {
+      "workers": {
+        "app/companies/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/companies/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "unsaveJob",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/companies/[slug]/page": "action-browser"
+      },
+      "exportedName": "unsaveJob",
+      "filename": "app/actions/jobs.ts"
+    }
+  },
+  "edge": {}
+}

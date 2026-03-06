@@ -1,0 +1,198 @@
+[00:00:01.171] Server  LOG     ✓ Ready in 907ms
+[00:00:02.440] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:37.857] Browser ERROR   uncaughtError: TypeError: su is not a function
+[00:01:56.447] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[00:01:56.459] Server  LOG     ✓ Compiled in 572ms
+[00:01:57.286] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:25.407] Browser ERROR   uncaughtError: TypeError: su is not a function
+[00:03:37.396] Server  LOG     ✓ Compiled in 826ms
+[00:03:37.540] Browser ERROR   ./app/candidate/cv-builder/page.tsx:5:19
+Ecmascript file had an error
+  3 | import dynamic from "next/dynamic";
+  4 |
+> 5 | const CVBuilder = dynamic(() => import("@/app/components/CVBuilder"), { ssr: false });
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import { auth } from "@/auth";
+  7 | import { redirect } from "next/navigation";
+  8 |
+
+`ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+[00:03:38.707] Server  LOG     ✓ Compiled in 225ms
+[00:03:38.989] Browser ERROR   ./app/candidate/cv-builder/page.tsx:5:19
+Ecmascript file had an error
+  3 | import dynamic from "next/dynamic";
+  4 |
+> 5 | const CVBuilder = dynamic(() => import("@/app/components/CVBuilder"), { ssr: false });
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import { auth } from "@/auth";
+  7 | import { redirect } from "next/navigation";
+  8 |
+
+`ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+[00:04:10.146] Server  ERROR   ⨯ ./app/candidate/cv-builder/page.tsx:5:19
+Ecmascript file had an error
+  3 | import dynamic from "next/dynamic";
+  4 |
+> 5 | const CVBuilder = dynamic(() => import("@/app/components/CVBuilder"), { ssr: false });
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import { auth } from "@/auth";
+  7 | import { redirect } from "next/navigation";
+  8 |
+
+`ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+
+
+[00:04:10.305] Browser ERROR   ./app/candidate/cv-builder/page.tsx:5:19
+Ecmascript file had an error
+  3 | import dynamic from "next/dynamic";
+  4 |
+> 5 | const CVBuilder = dynamic(() => import("@/app/components/CVBuilder"), { ssr: false });
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import { auth } from "@/auth";
+  7 | import { redirect } from "next/navigation";
+  8 |
+
+`ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+[00:04:13.492] Browser ERROR   uncaughtError: Error: ./app/candidate/cv-builder/page.tsx:5:19
+Ecmascript file had an error
+  3 | import dynamic from "next/dynamic";
+  4 |
+> 5 | const CVBuilder = dynamic(() => import("@/app/components/CVBuilder"), { ssr: false });
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import { auth } from "@/auth";
+  7 | import { redirect } from "next/navigation";
+  8 |
+
+`ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+
+
+[00:04:13.683] Browser ERROR   ./app/candidate/cv-builder/page.tsx:5:19
+Ecmascript file had an error
+  3 | import dynamic from "next/dynamic";
+  4 |
+> 5 | const CVBuilder = dynamic(() => import("@/app/components/CVBuilder"), { ssr: false });
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import { auth } from "@/auth";
+  7 | import { redirect } from "next/navigation";
+  8 |
+
+`ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+[00:04:13.683] Browser ERROR   ./app/candidate/cv-builder/page.tsx:5:19
+Ecmascript file had an error
+  3 | import dynamic from "next/dynamic";
+  4 |
+> 5 | const CVBuilder = dynamic(() => import("@/app/components/CVBuilder"), { ssr: false });
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import { auth } from "@/auth";
+  7 | import { redirect } from "next/navigation";
+  8 |
+
+`ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+[00:04:52.020] Browser ERROR   ./app/candidate/cv-builder/page.tsx:7:19
+Ecmascript file had an error
+   5 | import { redirect } from "next/navigation";
+   6 |
+>  7 | const CVBuilder = dynamic(() => import("@/app/components/CVBuilder"), { ssr: false });
+     |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import { redirect } from "next/navigation";
+   9 |
+  10 | export default async function CVBuilderPage() {
+
+`ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+[00:04:52.020] Browser ERROR   ./app/candidate/cv-builder/page.tsx:8:10
+Ecmascript file had an error
+   6 |
+   7 | const CVBuilder = dynamic(() => import("@/app/components/CVBuilder"), { ssr: false });
+>  8 | import { redirect } from "next/navigation";
+     |          ^^^^^^^^
+   9 |
+  10 | export default async function CVBuilderPage() {
+  11 |     const session = await auth();
+
+the name `redirect` is defined multiple times
+[00:05:04.224] Browser ERROR   ./app/candidate/cv-builder/page.tsx:7:19
+Ecmascript file had an error
+   5 | import { redirect } from "next/navigation";
+   6 |
+>  7 | const CVBuilder = dynamic(() => import("@/app/components/CVBuilder"), { ssr: false });
+     |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 |
+   9 | export default async function CVBuilderPage() {
+  10 |     const session = await auth();
+
+`ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+[00:05:26.074] Server  ERROR   ⨯ ./app/candidate/cv-builder/page.tsx:7:19
+Ecmascript file had an error
+   5 | import { redirect } from "next/navigation";
+   6 |
+>  7 | const CVBuilder = dynamic(() => import("@/app/components/CVBuilder"), { ssr: false });
+     |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 |
+   9 | export default async function CVBuilderPage() {
+  10 |     const session = await auth();
+
+`ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+
+
+[00:05:26.256] Browser ERROR   uncaughtError: Error: ./app/candidate/cv-builder/page.tsx:7:19
+Ecmascript file had an error
+   5 | import { redirect } from "next/navigation";
+   6 |
+>  7 | const CVBuilder = dynamic(() => import("@/app/components/CVBuilder"), { ssr: false });
+     |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 |
+   9 | export default async function CVBuilderPage() {
+  10 |     const session = await auth();
+
+`ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+
+
+[00:05:26.420] Browser ERROR   ./app/candidate/cv-builder/page.tsx:7:19
+Ecmascript file had an error
+   5 | import { redirect } from "next/navigation";
+   6 |
+>  7 | const CVBuilder = dynamic(() => import("@/app/components/CVBuilder"), { ssr: false });
+     |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 |
+   9 | export default async function CVBuilderPage() {
+  10 |     const session = await auth();
+
+`ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+[00:05:26.420] Browser ERROR   ./app/candidate/cv-builder/page.tsx:7:19
+Ecmascript file had an error
+   5 | import { redirect } from "next/navigation";
+   6 |
+>  7 | const CVBuilder = dynamic(() => import("@/app/components/CVBuilder"), { ssr: false });
+     |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 |
+   9 | export default async function CVBuilderPage() {
+  10 |     const session = await auth();
+
+`ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+[00:07:13.114] Server  LOG     ✓ Compiled in 339ms
+[00:07:15.095] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:09:20.893] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[00:09:41.263] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:10:17.832] Server  LOG     ✓ Compiled in 1627ms
+[00:10:25.305] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:10:53.329] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:11:43.878] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[00:12:26.509] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:12:29.004] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[00:12:42.696] Browser ERROR   uncaughtError: TypeError: su is not a function
+[00:13:00.929] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:14:24.810] Server  LOG     ✓ Compiled in 80ms
+[00:14:35.725] Server  LOG     ✓ Compiled in 43ms
+[00:15:26.054] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[00:16:41.488] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:17:27.176] Server  LOG     ✓ Compiled in 463ms
+[00:18:06.006] Server  LOG     ✓ Compiled in 332ms
+[00:19:18.670] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:21:48.006] Server  LOG     ✓ Compiled in 389ms
+[00:21:54.150] Server  LOG     ✓ Compiled in 232ms
+[00:22:27.809] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:23:13.743] Server  LOG     ✓ Compiled in 128ms
+[00:23:46.485] Server  LOG     ✓ Compiled in 110ms
+[00:24:31.872] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:24:47.933] Server  LOG     ✓ Compiled in 295ms
+[00:26:50.327] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold

@@ -1,0 +1,425 @@
+{
+  "node": {
+    "0007a258849600f1e47ef31b0e377cb9818299ed43": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "logoutUser",
+          "filename": "app/actions/auth.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "action-browser"
+      },
+      "exportedName": "logoutUser",
+      "filename": "app/actions/auth.ts"
+    },
+    "003f953b1b1545163dcef0a6165caf5601ac8e82f7": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "getDashboardStats",
+          "filename": "app/actions/profile.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "getDashboardStats",
+      "filename": "app/actions/profile.ts"
+    },
+    "004308c88c048d10b6f2909a46314934e9e900ee4a": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "getCandidateProfile",
+          "filename": "app/actions/profile.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "getCandidateProfile",
+      "filename": "app/actions/profile.ts"
+    },
+    "00df55332174fe9664bd8e13d0e16ecf1a2d14e5af": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "getEmployerProfile",
+          "filename": "app/actions/profile.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "getEmployerProfile",
+      "filename": "app/actions/profile.ts"
+    },
+    "40acdb7e590f609b2eba21acb1db32e9ab90bed218": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "upsertCompany",
+          "filename": "app/actions/profile.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "upsertCompany",
+      "filename": "app/actions/profile.ts"
+    },
+    "40b7b566870c4ffd74bfaa77d8ffaee737cb96beb4": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "updateCandidateProfile",
+          "filename": "app/actions/profile.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "updateCandidateProfile",
+      "filename": "app/actions/profile.ts"
+    },
+    "4028c413a090b10dea80dc641b98e619196d92f025": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "generateEmbeddingForAllJobs",
+          "filename": "lib/ai.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "generateEmbeddingForAllJobs",
+      "filename": "lib/ai.ts"
+    },
+    "4055cb05c3595fb75acd5c57d00683ec98d43fe959": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "generateJobEmbedding",
+          "filename": "lib/ai.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "generateJobEmbedding",
+      "filename": "lib/ai.ts"
+    },
+    "40cf8de396c48d6129d2f068ce39dba2ca9a2a99f0": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "generateProfileEmbedding",
+          "filename": "lib/ai.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "generateProfileEmbedding",
+      "filename": "lib/ai.ts"
+    },
+    "607f9314295e95c49b16e8d98647fb8e2c93577015": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "getRecommendedJobs",
+          "filename": "lib/ai.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "getRecommendedJobs",
+      "filename": "lib/ai.ts"
+    },
+    "60e8b0c93bb6887ea268e46fcc059d01fefac016b6": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "semanticJobSearch",
+          "filename": "lib/ai.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "semanticJobSearch",
+      "filename": "lib/ai.ts"
+    },
+    "000addd89e7b000b6f2aec98f87d2b397be44d6b98": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "getJobLocations",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "getJobLocations",
+      "filename": "app/actions/jobs.ts"
+    },
+    "0018e06a3f3027e0180bef2a8f53cbc1c14ab3fd49": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "getIndustries",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "getIndustries",
+      "filename": "app/actions/jobs.ts"
+    },
+    "005d3eb4c96740a5efab406dc525e6ae1eb721c5a9": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "getAllJobsForAdmin",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "getAllJobsForAdmin",
+      "filename": "app/actions/jobs.ts"
+    },
+    "0096cdb58aa44b622e0c877fe1fbba7b1be6a2741a": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "getSavedJobIds",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "getSavedJobIds",
+      "filename": "app/actions/jobs.ts"
+    },
+    "00ea0fb2a99022f8bfdb1efbedac6d0077d40a7cad": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "getJobFilters",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "getJobFilters",
+      "filename": "app/actions/jobs.ts"
+    },
+    "00ea2f5e43f8eca115d0aef96ba54bbfae5f3bfd2e": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "getSavedJobs",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "getSavedJobs",
+      "filename": "app/actions/jobs.ts"
+    },
+    "00f234c6c4a6b71705aeaae31716d2c0edb643d6bc": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "getAllIndustries",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "getAllIndustries",
+      "filename": "app/actions/jobs.ts"
+    },
+    "00f8c5f5fdf4a3dbe7eee0e0ae7f4a700b1d5df5a9": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "getEmployerJobs",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "getEmployerJobs",
+      "filename": "app/actions/jobs.ts"
+    },
+    "400d2ede6cbb13918c67c4bb0e7f56b92634b2cc03": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "unsaveJob",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "unsaveJob",
+      "filename": "app/actions/jobs.ts"
+    },
+    "40258173e8e49c10d9d03e0dffe025a584e0227b51": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "saveJob",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "saveJob",
+      "filename": "app/actions/jobs.ts"
+    },
+    "402cc33333ed2df0c9eb2202caae72cd35dfe93674": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "getJobBySlug",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "getJobBySlug",
+      "filename": "app/actions/jobs.ts"
+    },
+    "403a083e1c66a5edbf28a17868d9d0a02bb7e7b609": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "getJobById",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "getJobById",
+      "filename": "app/actions/jobs.ts"
+    },
+    "404f177a054ea224242b06a85a7487e8300c1ba43f": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "getJobs",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "getJobs",
+      "filename": "app/actions/jobs.ts"
+    },
+    "40553021e9fd4be5f53605093b3704de63ebf367cf": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "createJob",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "createJob",
+      "filename": "app/actions/jobs.ts"
+    },
+    "4069fadecd5a46eb2525fd8d5f439d07146abf1f90": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "isJobSaved",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "isJobSaved",
+      "filename": "app/actions/jobs.ts"
+    },
+    "40bdd98f6ba54edded1093ebf269f1a25bf794aba2": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "deleteJob",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "deleteJob",
+      "filename": "app/actions/jobs.ts"
+    },
+    "609c42e3a2749c3926b1503a7ae48b33f464e5e910": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": 27103,
+          "async": true,
+          "exportedName": "updateJobStatus",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "exportedName": "updateJobStatus",
+      "filename": "app/actions/jobs.ts"
+    }
+  },
+  "edge": {}
+}

@@ -1,0 +1,689 @@
+{
+  "node": {
+    "004ef6b8b03859795d5d052679092a11ed48e2c1e2": {
+      "workers": {
+        "app/candidate/cv-builder/page": {
+          "moduleId": "[project]/.next-internal/server/app/candidate/cv-builder/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/cv.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getCVTemplates",
+          "filename": "app/actions/cv.ts"
+        }
+      },
+      "layer": {
+        "app/candidate/cv-builder/page": "action-browser"
+      },
+      "filename": "app/actions/cv.ts",
+      "exportedName": "getCVTemplates"
+    },
+    "404f55471ab7d5eb3b3e728482112fee6b9b8a6293": {
+      "workers": {
+        "app/candidate/cv-builder/page": {
+          "moduleId": "[project]/.next-internal/server/app/candidate/cv-builder/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/cv.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "saveUserCV",
+          "filename": "app/actions/cv.ts"
+        }
+      },
+      "layer": {
+        "app/candidate/cv-builder/page": "action-browser"
+      },
+      "filename": "app/actions/cv.ts",
+      "exportedName": "saveUserCV"
+    },
+    "00224f11441e675c5b3522a3fd480060e4f366fa76": {
+      "workers": {
+        "app/jobs/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getSavedJobs",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/jobs/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getSavedJobs",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getSavedJobs",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/jobs/[slug]/page": "rsc",
+        "app/jobs/page": "rsc",
+        "app/page": "rsc"
+      },
+      "filename": "app/actions/jobs.ts",
+      "exportedName": "getSavedJobs"
+    },
+    "0058643d0f29418568c8238ea5a57c7771456597d1": {
+      "workers": {
+        "app/jobs/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getEmployerJobs",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/jobs/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getEmployerJobs",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getEmployerJobs",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/jobs/[slug]/page": "rsc",
+        "app/jobs/page": "rsc",
+        "app/page": "rsc"
+      },
+      "filename": "app/actions/jobs.ts",
+      "exportedName": "getEmployerJobs"
+    },
+    "0093aa74813cb000553169de8dc72cb31dcabdeb89": {
+      "workers": {
+        "app/jobs/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getJobFilters",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/jobs/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getJobFilters",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getJobFilters",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/jobs/[slug]/page": "rsc",
+        "app/jobs/page": "rsc",
+        "app/page": "rsc"
+      },
+      "filename": "app/actions/jobs.ts",
+      "exportedName": "getJobFilters"
+    },
+    "00a70cf1fec7b617f646ec35d545707736f811df1b": {
+      "workers": {
+        "app/jobs/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getAllIndustries",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/jobs/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getAllIndustries",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getAllIndustries",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/jobs/[slug]/page": "rsc",
+        "app/jobs/page": "rsc",
+        "app/page": "rsc"
+      },
+      "filename": "app/actions/jobs.ts",
+      "exportedName": "getAllIndustries"
+    },
+    "00a80d882e5497d7436a7dc0616e0c1ddb2994413b": {
+      "workers": {
+        "app/jobs/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getSavedJobIds",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/jobs/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getSavedJobIds",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getSavedJobIds",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/jobs/[slug]/page": "rsc",
+        "app/jobs/page": "rsc",
+        "app/page": "rsc"
+      },
+      "filename": "app/actions/jobs.ts",
+      "exportedName": "getSavedJobIds"
+    },
+    "00bbed9864cd7c08ed300bc4c2a9e24657e5376aa9": {
+      "workers": {
+        "app/jobs/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getAllJobsForAdmin",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/jobs/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getAllJobsForAdmin",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getAllJobsForAdmin",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/jobs/[slug]/page": "rsc",
+        "app/jobs/page": "rsc",
+        "app/page": "rsc"
+      },
+      "filename": "app/actions/jobs.ts",
+      "exportedName": "getAllJobsForAdmin"
+    },
+    "00cb9cede009da617c31e137e69dc0fd966ea96c0d": {
+      "workers": {
+        "app/jobs/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getIndustries",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/jobs/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getIndustries",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getIndustries",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/jobs/[slug]/page": "rsc",
+        "app/jobs/page": "rsc",
+        "app/page": "rsc"
+      },
+      "filename": "app/actions/jobs.ts",
+      "exportedName": "getIndustries"
+    },
+    "00eae5274380d25b61b6402c08c8cb8b165107724b": {
+      "workers": {
+        "app/jobs/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getJobLocations",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/jobs/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getJobLocations",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getJobLocations",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/jobs/[slug]/page": "rsc",
+        "app/jobs/page": "rsc",
+        "app/page": "rsc"
+      },
+      "filename": "app/actions/jobs.ts",
+      "exportedName": "getJobLocations"
+    },
+    "4016bfa22123dad3d3aaeee262b4ebf7358de34cb8": {
+      "workers": {
+        "app/jobs/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "unsaveJob",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/jobs/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "unsaveJob",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "unsaveJob",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/jobs/[slug]/page": "rsc",
+        "app/jobs/page": "action-browser",
+        "app/page": "action-browser"
+      },
+      "filename": "app/actions/jobs.ts",
+      "exportedName": "unsaveJob"
+    },
+    "4074008fc079c221c63f168f8c403e5a556b09450a": {
+      "workers": {
+        "app/jobs/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "saveJob",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/jobs/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "saveJob",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "saveJob",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/jobs/[slug]/page": "rsc",
+        "app/jobs/page": "action-browser",
+        "app/page": "action-browser"
+      },
+      "filename": "app/actions/jobs.ts",
+      "exportedName": "saveJob"
+    },
+    "4075cdaad048ff9d0b78527b798678780daff1d456": {
+      "workers": {
+        "app/jobs/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "isJobSaved",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/jobs/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "isJobSaved",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "isJobSaved",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/jobs/[slug]/page": "rsc",
+        "app/jobs/page": "rsc",
+        "app/page": "rsc"
+      },
+      "filename": "app/actions/jobs.ts",
+      "exportedName": "isJobSaved"
+    },
+    "409873f3b6c306239b1795e77009c479d8815fc51f": {
+      "workers": {
+        "app/jobs/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "deleteJob",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/jobs/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "deleteJob",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "deleteJob",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/jobs/[slug]/page": "rsc",
+        "app/jobs/page": "rsc",
+        "app/page": "rsc"
+      },
+      "filename": "app/actions/jobs.ts",
+      "exportedName": "deleteJob"
+    },
+    "4098c9e81be5fcaaa602abcfd4834700a2970ffbea": {
+      "workers": {
+        "app/jobs/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getJobBySlug",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/jobs/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getJobBySlug",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getJobBySlug",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/jobs/[slug]/page": "rsc",
+        "app/jobs/page": "rsc",
+        "app/page": "rsc"
+      },
+      "filename": "app/actions/jobs.ts",
+      "exportedName": "getJobBySlug"
+    },
+    "4099e4737f909665d78f0e0807e6ff8b1705fee95b": {
+      "workers": {
+        "app/jobs/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getJobById",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/jobs/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getJobById",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getJobById",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/jobs/[slug]/page": "rsc",
+        "app/jobs/page": "rsc",
+        "app/page": "rsc"
+      },
+      "filename": "app/actions/jobs.ts",
+      "exportedName": "getJobById"
+    },
+    "40c7dd443a340e62bc3691c22671451c4f35a94697": {
+      "workers": {
+        "app/jobs/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getJobs",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/jobs/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getJobs",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getJobs",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/jobs/[slug]/page": "rsc",
+        "app/jobs/page": "rsc",
+        "app/page": "rsc"
+      },
+      "filename": "app/actions/jobs.ts",
+      "exportedName": "getJobs"
+    },
+    "40dc614e97b330026d966988413fca692d8852a426": {
+      "workers": {
+        "app/jobs/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "createJob",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/jobs/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "createJob",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "createJob",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/jobs/[slug]/page": "rsc",
+        "app/jobs/page": "rsc",
+        "app/page": "rsc"
+      },
+      "filename": "app/actions/jobs.ts",
+      "exportedName": "createJob"
+    },
+    "6002477e38c017ee90de72bc3bc93d48b09b18629d": {
+      "workers": {
+        "app/jobs/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "updateJobStatus",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/jobs/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "updateJobStatus",
+          "filename": "app/actions/jobs.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "updateJobStatus",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/jobs/[slug]/page": "rsc",
+        "app/jobs/page": "rsc",
+        "app/page": "rsc"
+      },
+      "filename": "app/actions/jobs.ts",
+      "exportedName": "updateJobStatus"
+    },
+    "4072f243bb5500c021bcff18b4d24d79f652d254d1": {
+      "workers": {
+        "app/jobs/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "generateProfileEmbedding",
+          "filename": "lib/ai.ts"
+        },
+        "app/jobs/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "generateProfileEmbedding",
+          "filename": "lib/ai.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "generateProfileEmbedding",
+          "filename": "lib/ai.ts"
+        }
+      },
+      "layer": {
+        "app/jobs/[slug]/page": "rsc",
+        "app/jobs/page": "rsc",
+        "app/page": "rsc"
+      },
+      "filename": "lib/ai.ts",
+      "exportedName": "generateProfileEmbedding"
+    },
+    "40a83d6e62199fe1e0287a27bf774108e5da966b71": {
+      "workers": {
+        "app/jobs/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "generateJobEmbedding",
+          "filename": "lib/ai.ts"
+        },
+        "app/jobs/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "generateJobEmbedding",
+          "filename": "lib/ai.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "generateJobEmbedding",
+          "filename": "lib/ai.ts"
+        }
+      },
+      "layer": {
+        "app/jobs/[slug]/page": "rsc",
+        "app/jobs/page": "rsc",
+        "app/page": "rsc"
+      },
+      "filename": "lib/ai.ts",
+      "exportedName": "generateJobEmbedding"
+    },
+    "40d5d52eb905018b24fa4ba8f8ae53ae9440bd47d9": {
+      "workers": {
+        "app/jobs/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "generateEmbeddingForAllJobs",
+          "filename": "lib/ai.ts"
+        },
+        "app/jobs/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "generateEmbeddingForAllJobs",
+          "filename": "lib/ai.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "generateEmbeddingForAllJobs",
+          "filename": "lib/ai.ts"
+        }
+      },
+      "layer": {
+        "app/jobs/[slug]/page": "rsc",
+        "app/jobs/page": "rsc",
+        "app/page": "rsc"
+      },
+      "filename": "lib/ai.ts",
+      "exportedName": "generateEmbeddingForAllJobs"
+    },
+    "60884262ba84c553abe771218755495ff6aa2cae85": {
+      "workers": {
+        "app/jobs/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "semanticJobSearch",
+          "filename": "lib/ai.ts"
+        },
+        "app/jobs/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "semanticJobSearch",
+          "filename": "lib/ai.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "semanticJobSearch",
+          "filename": "lib/ai.ts"
+        }
+      },
+      "layer": {
+        "app/jobs/[slug]/page": "rsc",
+        "app/jobs/page": "rsc",
+        "app/page": "rsc"
+      },
+      "filename": "lib/ai.ts",
+      "exportedName": "semanticJobSearch"
+    },
+    "60e11703cb6437504f1f4607a12dbd06a7e0b64cf6": {
+      "workers": {
+        "app/jobs/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getRecommendedJobs",
+          "filename": "lib/ai.ts"
+        },
+        "app/jobs/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getRecommendedJobs",
+          "filename": "lib/ai.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getRecommendedJobs",
+          "filename": "lib/ai.ts"
+        }
+      },
+      "layer": {
+        "app/jobs/[slug]/page": "rsc",
+        "app/jobs/page": "rsc",
+        "app/page": "rsc"
+      },
+      "filename": "lib/ai.ts",
+      "exportedName": "getRecommendedJobs"
+    },
+    "60d08cc6520f641a25d6125c20fe5bf708c7fc4360": {
+      "workers": {
+        "app/jobs/[slug]/page": {
+          "moduleId": "[project]/.next-internal/server/app/jobs/[slug]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "applyToJob",
+          "filename": "app/actions/applications.ts"
+        }
+      },
+      "layer": {
+        "app/jobs/[slug]/page": "action-browser"
+      },
+      "filename": "app/actions/applications.ts",
+      "exportedName": "applyToJob"
+    }
+  },
+  "edge": {},
+  "encryptionKey": "uIJhdyHXot5NtRx4WXicjNH8ZO/rUZUwhggWFlEOCRA="
+}

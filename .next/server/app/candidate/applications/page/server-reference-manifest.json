@@ -1,0 +1,110 @@
+{
+  "node": {
+    "0007a258849600f1e47ef31b0e377cb9818299ed43": {
+      "workers": {
+        "app/candidate/applications/page": {
+          "moduleId": 9289,
+          "async": true,
+          "exportedName": "logoutUser",
+          "filename": "app/actions/auth.ts"
+        }
+      },
+      "layer": {
+        "app/candidate/applications/page": "action-browser"
+      },
+      "exportedName": "logoutUser",
+      "filename": "app/actions/auth.ts"
+    },
+    "000caffe6a5860cc6fc140b65a389b12c4a8e2cda6": {
+      "workers": {
+        "app/candidate/applications/page": {
+          "moduleId": 9289,
+          "async": true,
+          "exportedName": "getMyApplications",
+          "filename": "app/actions/applications.ts"
+        }
+      },
+      "layer": {
+        "app/candidate/applications/page": "rsc"
+      },
+      "exportedName": "getMyApplications",
+      "filename": "app/actions/applications.ts"
+    },
+    "00eecefaae31620a1f96e142fe13a184b6ae6ea926": {
+      "workers": {
+        "app/candidate/applications/page": {
+          "moduleId": 9289,
+          "async": true,
+          "exportedName": "getMyNotifications",
+          "filename": "app/actions/applications.ts"
+        }
+      },
+      "layer": {
+        "app/candidate/applications/page": "rsc"
+      },
+      "exportedName": "getMyNotifications",
+      "filename": "app/actions/applications.ts"
+    },
+    "4018f02f53b85933948487fedf5acc61a3a17c5a9d": {
+      "workers": {
+        "app/candidate/applications/page": {
+          "moduleId": 9289,
+          "async": true,
+          "exportedName": "markNotificationRead",
+          "filename": "app/actions/applications.ts"
+        }
+      },
+      "layer": {
+        "app/candidate/applications/page": "rsc"
+      },
+      "exportedName": "markNotificationRead",
+      "filename": "app/actions/applications.ts"
+    },
+    "40c5de9e8e82b40a8754610f9ac92347551d98f346": {
+      "workers": {
+        "app/candidate/applications/page": {
+          "moduleId": 9289,
+          "async": true,
+          "exportedName": "getJobApplicants",
+          "filename": "app/actions/applications.ts"
+        }
+      },
+      "layer": {
+        "app/candidate/applications/page": "rsc"
+      },
+      "exportedName": "getJobApplicants",
+      "filename": "app/actions/applications.ts"
+    },
+    "600244ab6a2cea5a9e642fc491c019f3134c1a828d": {
+      "workers": {
+        "app/candidate/applications/page": {
+          "moduleId": 9289,
+          "async": true,
+          "exportedName": "applyToJob",
+          "filename": "app/actions/applications.ts"
+        }
+      },
+      "layer": {
+        "app/candidate/applications/page": "rsc"
+      },
+      "exportedName": "applyToJob",
+      "filename": "app/actions/applications.ts"
+    },
+    "703f581af75384c91bdff91f9761d83139c1f50fa9": {
+      "workers": {
+        "app/candidate/applications/page": {
+          "moduleId": 9289,
+          "async": true,
+          "exportedName": "updateApplicationStatus",
+          "filename": "app/actions/applications.ts"
+        }
+      },
+      "layer": {
+        "app/candidate/applications/page": "rsc"
+      },
+      "exportedName": "updateApplicationStatus",
+      "filename": "app/actions/applications.ts"
+    }
+  },
+  "edge": {}
+}

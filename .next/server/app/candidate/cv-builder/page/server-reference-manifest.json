@@ -1,0 +1,35 @@
+{
+  "node": {
+    "002c24482200dbc8b47c4bccbf76996d46cc1dec52": {
+      "workers": {
+        "app/candidate/cv-builder/page": {
+          "moduleId": 12542,
+          "async": true,
+          "exportedName": "getCVTemplates",
+          "filename": "app/actions/cv.ts"
+        }
+      },
+      "layer": {
+        "app/candidate/cv-builder/page": "action-browser"
+      },
+      "exportedName": "getCVTemplates",
+      "filename": "app/actions/cv.ts"
+    },
+    "400fc62a1f648746c80815cf83a8dd8b0b9eea0672": {
+      "workers": {
+        "app/candidate/cv-builder/page": {
+          "moduleId": 12542,
+          "async": true,
+          "exportedName": "saveUserCV",
+          "filename": "app/actions/cv.ts"
+        }
+      },
+      "layer": {
+        "app/candidate/cv-builder/page": "action-browser"
+      },
+      "exportedName": "saveUserCV",
+      "filename": "app/actions/cv.ts"
+    }
+  },
+  "edge": {}
+}

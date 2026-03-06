@@ -1,0 +1,35 @@
+{
+  "node": {
+    "40acdb7e590f609b2eba21acb1db32e9ab90bed218": {
+      "workers": {
+        "app/employer/company/page": {
+          "moduleId": 16470,
+          "async": true,
+          "exportedName": "upsertCompany",
+          "filename": "app/actions/profile.ts"
+        }
+      },
+      "layer": {
+        "app/employer/company/page": "action-browser"
+      },
+      "exportedName": "upsertCompany",
+      "filename": "app/actions/profile.ts"
+    },
+    "0007a258849600f1e47ef31b0e377cb9818299ed43": {
+      "workers": {
+        "app/employer/company/page": {
+          "moduleId": 16470,
+          "async": true,
+          "exportedName": "logoutUser",
+          "filename": "app/actions/auth.ts"
+        }
+      },
+      "layer": {
+        "app/employer/company/page": "action-browser"
+      },
+      "exportedName": "logoutUser",
+      "filename": "app/actions/auth.ts"
+    }
+  },
+  "edge": {}
+}

@@ -1,27 +1,9 @@
 node_modules
-# Keep environment variables out of version control
 .env
-
-/generated/prisma
-
-#.env file
-# ============================================================
-# DATABASE 
-# ============================================================
-# Prisma Postgres URL (current)
-DATABASE_URL="postgresql://postgres.dwxgqzqzhpukudkjyagr:nhatlam3011@aws-1-ap-south-1.pooler.supabase.com:5432/postgres"
-
-# Direct URL if required
-DIRECT_URL="postgresql://postgres.dwxgqzqzhpukudkjyagr:nhatlam3011@aws-1-ap-south-1.pooler.supabase.com:5432/postgres"
-
-# ============================================================
-# AUTHENTICATION (NextAuth v5)
-# ============================================================
-# A random secret used to hash tokens, sign/encrypt cookies and generate cryptographic keys
-# Generate a new one in terminal with: npx auth secret
-AUTH_SECRET="f6a5d4e1c2b3a09f8e7d6c5b4a3928170f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c"
-
-# Replace with your app's canonical URL in production
-AUTH_URL="http://localhost:3000"
-
-# Google OAuth (Planned integration)
+.env*.local
+.next/
+out/
+build/
+dist/
+.DS_Store
+*.tsbuildinfo

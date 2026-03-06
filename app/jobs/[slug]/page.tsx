@@ -34,7 +34,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ slug
     const salaryText = job.salaryMin || job.salaryMax
         ? (job.salaryMin && job.salaryMax
             ? `${job.salaryMin.toLocaleString('vi-VN')}–${job.salaryMax.toLocaleString('vi-VN')} đ`
-            : job.salaryMin ? `Từ ${job.salaryMin.toLocaleString('vi-VN')} đ` : `Đến ${job.salaryMax.toLocaleString('vi-VN')} đ`)
+            : job.salaryMin ? `Từ ${job.salaryMin.toLocaleString('vi-VN')} đ` : `Đến ${job.salaryMax?.toLocaleString('vi-VN')} đ`)
         : "Thỏa thuận";
 
     return (

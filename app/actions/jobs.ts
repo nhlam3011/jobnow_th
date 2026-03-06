@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
+import { Prisma } from "@prisma/client";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { semanticJobSearch } from "@/lib/ai";
@@ -265,7 +266,7 @@ export async function updateJob(jobId: string, formData: FormData) {
     }
 
     // Check if user is employer of this job's company
-    const isEmployer = job.company.employers.some(e => e.userId === session.user.id);
+    const isEmployer = job.company.employers.some((e: Prisma.EmployerProfileGetPayload<{}>) => e.userId === session.user.id);
     if (!isEmployer) {
         return { error: "Bạn không có quyền sửa tin này" };
     }

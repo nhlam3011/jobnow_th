@@ -246,7 +246,7 @@ export default function JobsPageContent({
                                                     `${job.salaryMin.toLocaleString('vi-VN')}–${job.salaryMax.toLocaleString('vi-VN')} đ` :
                                                     job.salaryMin ?
                                                         `Từ ${job.salaryMin.toLocaleString('vi-VN')} đ` :
-                                                        `Đến ${job.salaryMax.toLocaleString('vi-VN')} đ`) :
+                                                        `Đến ${job.salaryMax?.toLocaleString('vi-VN')} đ`) :
                                                 "Thỏa thuận"}
                                             type={job.jobType}
                                             skills={job.skills}

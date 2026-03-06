@@ -20,10 +20,10 @@ interface Blog {
 
 interface BlogListClientProps {
   initialBlogs: Blog[];
-  searchParams: { q?: string; category?: string };
+  searchParams?: { q?: string; category?: string };
 }
 
-export default function BlogListClient({ initialBlogs, searchParams }: BlogListClientProps) {
+export default function BlogListClient({ initialBlogs, searchParams = {} }: BlogListClientProps) {
   const router = useRouter();
   const [search, setSearch] = useState(searchParams.q || "");
 

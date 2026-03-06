@@ -29,7 +29,7 @@ export default function InterviewBlogsPage() {
 
       <div style={{ padding: "2.5rem 0", minHeight: "60vh" }}>
         <div className="container-xl">
-          <BlogListClient blogs={blogs} />
+          <BlogListClient initialBlogs={blogs as any} />
         </div>
       </div>
       <Footer />

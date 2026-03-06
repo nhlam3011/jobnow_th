@@ -165,8 +165,8 @@ export default function KeywordsPage() {
                         <tr>
                             <th>Từ khoá cơ sở</th>
                             <th>Từ khoá gợi ý</th>
-                            <th>Loại</th>
-                            <th style={{ textAlign: "center" }}>Trạng thái</th>
+                            <th className="hide-mobile">Loại</th>
+                            <th className="hide-mobile" style={{ textAlign: "center" }}>Trạng thái</th>
                             <th style={{ textAlign: "right" }}>Hành động</th>
                         </tr>
                     </thead>
@@ -178,7 +178,7 @@ export default function KeywordsPage() {
                                 <tr key={keyword.id}>
                                     <td className="bold">{keyword.baseKeyword}</td>
                                     <td>{keyword.keywordSuggestion}</td>
-                                    <td>
+                                    <td className="hide-mobile">
                                         <span className="dash-badge" style={{
                                             background: keyword.keywordType === "keyword_suggestion" ? "rgba(3,105,161,0.1)" : "rgba(124,58,237,0.1)",
                                             color: keyword.keywordType === "keyword_suggestion" ? "#0369A1" : "#7C3AED",
@@ -186,7 +186,7 @@ export default function KeywordsPage() {
                                             {keyword.keywordType === "keyword_suggestion" ? "Gợi ý" : "Liên quan"}
                                         </span>
                                     </td>
-                                    <td style={{ textAlign: "center" }}>
+                                    <td className="hide-mobile" style={{ textAlign: "center" }}>
                                         <button
                                             className={`dash-btn ${keyword.isActive ? "dash-btn-success" : "dash-btn-danger"}`}
                                             onClick={() => toggleKeyword(keyword.id, keyword.isActive)}

@@ -68,8 +68,8 @@ export default function EmployerJobsTable({ jobs }: { jobs: Job[] }) {
                             <th>Tiêu đề / Vị trí</th>
                             <th>Trạng thái</th>
                             <th>Ứng viên</th>
-                            <th>Lượt xem</th>
-                            <th>Ngày đăng</th>
+                            <th className="hide-mobile">Lượt xem</th>
+                            <th className="hide-mobile">Ngày đăng</th>
                             <th style={{ textAlign: "right" }}>Thao tác</th>
                         </tr>
                     </thead>
@@ -96,8 +96,8 @@ export default function EmployerJobsTable({ jobs }: { jobs: Job[] }) {
                                                 )}
                                             </div>
                                         </td>
-                                        <td className="muted">{job.viewCount}</td>
-                                        <td className="muted">{new Date(job.createdAt).toLocaleDateString("vi-VN")}</td>
+                                        <td className="muted hide-mobile">{job.viewCount}</td>
+                                        <td className="muted hide-mobile">{new Date(job.createdAt).toLocaleDateString("vi-VN")}</td>
                                         <td style={{ textAlign: "right" }}>
                                             <div style={{ display: "flex", gap: "0.5rem", justifyContent: "flex-end" }}>
                                                 <Link href={`/employer/jobs/${job.id}/edit`} className="dash-btn dash-btn-ghost" style={{ fontSize: "0.75rem", padding: "0.3rem 0.625rem" }}>Sửa</Link>

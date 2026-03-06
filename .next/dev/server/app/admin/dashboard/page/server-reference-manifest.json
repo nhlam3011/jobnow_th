@@ -1,5 +1,20 @@
 {
   "node": {
+    "00093e824a305e367a8625f593c9328391ca9ff2d3": {
+      "workers": {
+        "app/admin/dashboard/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getEmployerCompany",
+          "filename": "app/actions/profile.ts"
+        }
+      },
+      "layer": {
+        "app/admin/dashboard/page": "rsc"
+      },
+      "exportedName": "getEmployerCompany",
+      "filename": "app/actions/profile.ts"
+    },
     "00a7702647c2d0c5c1a5f8ca41c50bf579188aa376": {
       "workers": {
         "app/admin/dashboard/page": {
@@ -133,6 +148,21 @@
         "app/admin/dashboard/page": "rsc"
       },
       "exportedName": "getAllIndustries",
+      "filename": "app/actions/jobs.ts"
+    },
+    "00a80d882e5497d7436a7dc0616e0c1ddb2994413b": {
+      "workers": {
+        "app/admin/dashboard/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getSavedJobIds",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/admin/dashboard/page": "rsc"
+      },
+      "exportedName": "getSavedJobIds",
       "filename": "app/actions/jobs.ts"
     },
     "00bbed9864cd7c08ed300bc4c2a9e24657e5376aa9": {
@@ -313,6 +343,21 @@
         "app/admin/dashboard/page": "action-browser"
       },
       "exportedName": "updateJobStatus",
+      "filename": "app/actions/jobs.ts"
+    },
+    "605a75f377383c32584961671679d66f6a5b516abc": {
+      "workers": {
+        "app/admin/dashboard/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "updateJob",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/admin/dashboard/page": "rsc"
+      },
+      "exportedName": "updateJob",
       "filename": "app/actions/jobs.ts"
     },
     "4072f243bb5500c021bcff18b4d24d79f652d254d1": {

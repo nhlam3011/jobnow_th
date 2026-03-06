@@ -118,6 +118,7 @@ async function CandidateDashboard() {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$components$2f$DashboardLayout$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {
         role: "CANDIDATE",
         userName: session.user.name || "Ứng viên",
+        userImage: session.user.image,
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "dash-topbar",
@@ -132,7 +133,7 @@ async function CandidateDashboard() {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/candidate/dashboard/page.tsx",
-                            lineNumber: 36,
+                            lineNumber: 40,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -140,18 +141,18 @@ async function CandidateDashboard() {
                             children: "Đây là bảng tổng quan tài khoản ứng viên của bạn."
                         }, void 0, false, {
                             fileName: "[project]/app/candidate/dashboard/page.tsx",
-                            lineNumber: 37,
+                            lineNumber: 41,
                             columnNumber: 21
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/candidate/dashboard/page.tsx",
-                    lineNumber: 35,
+                    lineNumber: 39,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/candidate/dashboard/page.tsx",
-                lineNumber: 34,
+                lineNumber: 38,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -199,17 +200,17 @@ async function CandidateDashboard() {
                                                 d: stat.icon
                                             }, void 0, false, {
                                                 fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                                lineNumber: 51,
+                                                lineNumber: 55,
                                                 columnNumber: 132
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                            lineNumber: 51,
+                                            lineNumber: 55,
                                             columnNumber: 33
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                        lineNumber: 50,
+                                        lineNumber: 54,
                                         columnNumber: 29
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -217,13 +218,13 @@ async function CandidateDashboard() {
                                         children: stat.label
                                     }, void 0, false, {
                                         fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                        lineNumber: 53,
+                                        lineNumber: 57,
                                         columnNumber: 29
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                lineNumber: 49,
+                                lineNumber: 53,
                                 columnNumber: 25
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -234,18 +235,18 @@ async function CandidateDashboard() {
                                 children: stat.value
                             }, void 0, false, {
                                 fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                lineNumber: 55,
+                                lineNumber: 59,
                                 columnNumber: 25
                             }, this)
                         ]
                     }, stat.label, true, {
                         fileName: "[project]/app/candidate/dashboard/page.tsx",
-                        lineNumber: 48,
+                        lineNumber: 52,
                         columnNumber: 21
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/app/candidate/dashboard/page.tsx",
-                lineNumber: 42,
+                lineNumber: 46,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -261,7 +262,7 @@ async function CandidateDashboard() {
                                         children: "Đơn ứng tuyển gần đây"
                                     }, void 0, false, {
                                         fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                        lineNumber: 64,
+                                        lineNumber: 68,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$react$2d$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {
@@ -270,23 +271,30 @@ async function CandidateDashboard() {
                                         children: "Xem tất cả"
                                     }, void 0, false, {
                                         fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                        lineNumber: 65,
+                                        lineNumber: 69,
                                         columnNumber: 25
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                lineNumber: 63,
+                                lineNumber: 67,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "dash-list-card",
+                                className: "dash-card-grid",
                                 children: recentApps.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "dash-empty",
-                                    children: "Chưa có đơn ứng tuyển nào"
+                                    className: "dash-list-card",
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "dash-empty",
+                                        children: "Chưa có đơn ứng tuyển nào"
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/candidate/dashboard/page.tsx",
+                                        lineNumber: 74,
+                                        columnNumber: 33
+                                    }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                    lineNumber: 69,
+                                    lineNumber: 73,
                                     columnNumber: 29
                                 }, this) : recentApps.map((app)=>{
                                     const st = STATUS_LABEL[app.status] || {
@@ -294,60 +302,145 @@ async function CandidateDashboard() {
                                         color: "#64748B"
                                     };
                                     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "dash-list-item",
+                                        className: "dash-card-item",
+                                        style: {
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            gap: "0.75rem"
+                                        },
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                style: {
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    gap: "0.75rem"
+                                                },
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "dash-list-title",
-                                                        children: app.job.title
+                                                        style: {
+                                                            width: "44px",
+                                                            height: "44px",
+                                                            borderRadius: "10px",
+                                                            border: "1.5px solid var(--border)",
+                                                            background: "var(--bg)",
+                                                            flexShrink: 0,
+                                                            overflow: "hidden",
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            justifyContent: "center"
+                                                        },
+                                                        children: app.job.company.logo ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                                            src: app.job.company.logo,
+                                                            alt: app.job.company.name,
+                                                            style: {
+                                                                width: "100%",
+                                                                height: "100%",
+                                                                objectFit: "contain"
+                                                            },
+                                                            onError: (e)=>{
+                                                                const t = e.currentTarget;
+                                                                t.style.display = "none";
+                                                                t.parentElement.style.background = `${st.color}12`;
+                                                                t.parentElement.innerText = app.job.company.name.charAt(0).toUpperCase();
+                                                            }
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/candidate/dashboard/page.tsx",
+                                                            lineNumber: 96,
+                                                            columnNumber: 53
+                                                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            style: {
+                                                                fontWeight: 700,
+                                                                fontSize: "1.125rem",
+                                                                color: st.color
+                                                            },
+                                                            children: app.job.company.name.charAt(0).toUpperCase()
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/candidate/dashboard/page.tsx",
+                                                            lineNumber: 108,
+                                                            columnNumber: 53
+                                                        }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                                        lineNumber: 76,
+                                                        lineNumber: 83,
                                                         columnNumber: 45
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "dash-list-sub",
-                                                        children: app.job.company.name
-                                                    }, void 0, false, {
+                                                        style: {
+                                                            flex: 1,
+                                                            minWidth: 0
+                                                        },
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "dash-card-item-title",
+                                                                style: {
+                                                                    overflow: "hidden",
+                                                                    textOverflow: "ellipsis",
+                                                                    whiteSpace: "nowrap"
+                                                                },
+                                                                children: app.job.title
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/app/candidate/dashboard/page.tsx",
+                                                                lineNumber: 115,
+                                                                columnNumber: 49
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "dash-card-item-subtitle",
+                                                                children: app.job.company.name
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/app/candidate/dashboard/page.tsx",
+                                                                lineNumber: 118,
+                                                                columnNumber: 49
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
                                                         fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                                        lineNumber: 77,
+                                                        lineNumber: 114,
                                                         columnNumber: 45
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                                lineNumber: 75,
+                                                lineNumber: 81,
                                                 columnNumber: 41
                                             }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                className: "dash-badge",
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 style: {
-                                                    background: `${st.color}15`,
-                                                    color: st.color
+                                                    borderTop: "1px solid var(--border)",
+                                                    paddingTop: "0.625rem"
                                                 },
-                                                children: st.label
+                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    className: "dash-badge",
+                                                    style: {
+                                                        background: `${st.color}15`,
+                                                        color: st.color
+                                                    },
+                                                    children: st.label
+                                                }, void 0, false, {
+                                                    fileName: "[project]/app/candidate/dashboard/page.tsx",
+                                                    lineNumber: 122,
+                                                    columnNumber: 45
+                                                }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                                lineNumber: 79,
+                                                lineNumber: 121,
                                                 columnNumber: 41
                                             }, this)
                                         ]
                                     }, app.id, true, {
                                         fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                        lineNumber: 74,
+                                        lineNumber: 80,
                                         columnNumber: 37
                                     }, this);
                                 })
                             }, void 0, false, {
                                 fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                lineNumber: 67,
+                                lineNumber: 71,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/candidate/dashboard/page.tsx",
-                        lineNumber: 62,
+                        lineNumber: 66,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -360,7 +453,7 @@ async function CandidateDashboard() {
                                         children: "Việc làm gợi ý"
                                     }, void 0, false, {
                                         fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                        lineNumber: 92,
+                                        lineNumber: 136,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$react$2d$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {
@@ -369,111 +462,147 @@ async function CandidateDashboard() {
                                         children: "Xem thêm"
                                     }, void 0, false, {
                                         fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                        lineNumber: 93,
+                                        lineNumber: 137,
                                         columnNumber: 25
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                lineNumber: 91,
+                                lineNumber: 135,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "dash-list-card",
+                                className: "dash-card-grid",
                                 children: suggestedJobs.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "dash-empty",
-                                    children: "Không có việc làm phù hợp"
+                                    className: "dash-list-card",
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "dash-empty",
+                                        children: "Không có việc làm phù hợp"
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/candidate/dashboard/page.tsx",
+                                        lineNumber: 142,
+                                        columnNumber: 33
+                                    }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                    lineNumber: 97,
+                                    lineNumber: 141,
                                     columnNumber: 29
                                 }, this) : suggestedJobs.map((job)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$react$2d$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {
                                         href: `/jobs/${job.slug}`,
-                                        className: "dash-list-item",
+                                        className: "dash-card-item",
                                         style: {
                                             textDecoration: "none"
                                         },
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                style: {
-                                                    flex: 1
-                                                },
+                                                className: "dash-card-item-header",
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "dash-list-title",
-                                                        children: job.title
+                                                        className: "dash-card-item-avatar",
+                                                        style: {
+                                                            background: "var(--tag-bg)",
+                                                            color: "var(--primary)"
+                                                        },
+                                                        children: job.companyName?.charAt(0).toUpperCase() || "?"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                                        lineNumber: 102,
+                                                        lineNumber: 148,
                                                         columnNumber: 41
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "dash-list-sub",
+                                                        className: "dash-card-item-content",
                                                         children: [
-                                                            job.companyName,
-                                                            " · ",
-                                                            job.location
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "dash-card-item-title",
+                                                                children: job.title
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/app/candidate/dashboard/page.tsx",
+                                                                lineNumber: 152,
+                                                                columnNumber: 45
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "dash-card-item-subtitle",
+                                                                children: [
+                                                                    job.companyName,
+                                                                    " · ",
+                                                                    job.location
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/app/candidate/dashboard/page.tsx",
+                                                                lineNumber: 153,
+                                                                columnNumber: 45
+                                                            }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                                        lineNumber: 103,
+                                                        lineNumber: 151,
                                                         columnNumber: 41
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                                lineNumber: 101,
+                                                lineNumber: 147,
                                                 columnNumber: 37
                                             }, this),
-                                            job.similarity && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                style: {
-                                                    textAlign: "right",
-                                                    marginLeft: "1rem"
-                                                },
-                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    style: {
-                                                        fontSize: "0.75rem",
-                                                        fontWeight: 700,
-                                                        color: job.similarity > 0.7 ? "#22C55E" : "#F59E0B",
-                                                        background: job.similarity > 0.7 ? "rgba(34, 197, 94, 0.1)" : "rgba(245, 158, 11, 0.1)",
-                                                        padding: "2px 8px",
-                                                        borderRadius: "12px"
-                                                    },
-                                                    children: [
-                                                        Math.round(job.similarity * 100),
-                                                        "% Match"
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                                    lineNumber: 107,
-                                                    columnNumber: 45
-                                                }, this)
-                                            }, void 0, false, {
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "dash-card-item-footer",
+                                                children: [
+                                                    job.similarity && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        style: {
+                                                            fontSize: "0.75rem",
+                                                            fontWeight: 700,
+                                                            color: job.similarity > 0.7 ? "#22C55E" : "#F59E0B",
+                                                            background: job.similarity > 0.7 ? "rgba(34,197,94,0.1)" : "rgba(245,158,11,0.1)",
+                                                            padding: "2px 8px",
+                                                            borderRadius: "12px"
+                                                        },
+                                                        children: [
+                                                            Math.round(job.similarity * 100),
+                                                            "% Match"
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/app/candidate/dashboard/page.tsx",
+                                                        lineNumber: 158,
+                                                        columnNumber: 45
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        style: {
+                                                            fontSize: "0.8125rem",
+                                                            color: "var(--text-muted)"
+                                                        },
+                                                        children: "Xem →"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/app/candidate/dashboard/page.tsx",
+                                                        lineNumber: 169,
+                                                        columnNumber: 41
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
                                                 fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                                lineNumber: 106,
-                                                columnNumber: 41
+                                                lineNumber: 156,
+                                                columnNumber: 37
                                             }, this)
                                         ]
                                     }, job.id, true, {
                                         fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                        lineNumber: 100,
+                                        lineNumber: 146,
                                         columnNumber: 33
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/app/candidate/dashboard/page.tsx",
-                                lineNumber: 95,
+                                lineNumber: 139,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/candidate/dashboard/page.tsx",
-                        lineNumber: 90,
+                        lineNumber: 134,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/candidate/dashboard/page.tsx",
-                lineNumber: 60,
+                lineNumber: 64,
                 columnNumber: 13
             }, this)
         ]

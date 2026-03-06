@@ -133,11 +133,13 @@ __turbopack_async_result__();
 
 return __turbopack_context__.a(async (__turbopack_handle_async_dependencies__, __turbopack_async_result__) => { try {
 
-/* __next_internal_action_entry_do_not_use__ [{"00a7702647c2d0c5c1a5f8ca41c50bf579188aa376":"getDashboardStats","00bf796ff6f92065bdfcfaf5c738b0371c161514a3":"getCandidateProfile","00c284496e66852b76ef1aa78b101e9f3f8abd5f8f":"getEmployerProfile","40105b66b4410c3cf0ff316a6148f851ca44c3b807":"upsertCompany","40a458d024dd3f0e60304eb6ca0a29c63e8369ce69":"updateCandidateProfile"},"",""] */ __turbopack_context__.s([
+/* __next_internal_action_entry_do_not_use__ [{"00093e824a305e367a8625f593c9328391ca9ff2d3":"getEmployerCompany","00a7702647c2d0c5c1a5f8ca41c50bf579188aa376":"getDashboardStats","00bf796ff6f92065bdfcfaf5c738b0371c161514a3":"getCandidateProfile","00c284496e66852b76ef1aa78b101e9f3f8abd5f8f":"getEmployerProfile","40105b66b4410c3cf0ff316a6148f851ca44c3b807":"upsertCompany","40a458d024dd3f0e60304eb6ca0a29c63e8369ce69":"updateCandidateProfile"},"",""] */ __turbopack_context__.s([
     "getCandidateProfile",
     ()=>getCandidateProfile,
     "getDashboardStats",
     ()=>getDashboardStats,
+    "getEmployerCompany",
+    ()=>getEmployerCompany,
     "getEmployerProfile",
     ()=>getEmployerProfile,
     "updateCandidateProfile",
@@ -236,6 +238,27 @@ async function getEmployerProfile() {
             company: true
         }
     });
+}
+async function getEmployerCompany() {
+    const session = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$auth$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["auth"])();
+    if (!session?.user) return null;
+    const employer = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["prisma"].employerProfile.findUnique({
+        where: {
+            userId: session.user.id
+        },
+        include: {
+            company: {
+                select: {
+                    id: true,
+                    name: true,
+                    logo: true,
+                    slug: true,
+                    verified: true
+                }
+            }
+        }
+    });
+    return employer?.company || null;
 }
 async function upsertCompany(formData) {
     const session = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$auth$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["auth"])();
@@ -391,12 +414,14 @@ async function getDashboardStats() {
     getCandidateProfile,
     updateCandidateProfile,
     getEmployerProfile,
+    getEmployerCompany,
     upsertCompany,
     getDashboardStats
 ]);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getCandidateProfile, "00bf796ff6f92065bdfcfaf5c738b0371c161514a3", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(updateCandidateProfile, "40a458d024dd3f0e60304eb6ca0a29c63e8369ce69", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getEmployerProfile, "00c284496e66852b76ef1aa78b101e9f3f8abd5f8f", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getEmployerCompany, "00093e824a305e367a8625f593c9328391ca9ff2d3", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(upsertCompany, "40105b66b4410c3cf0ff316a6148f851ca44c3b807", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getDashboardStats, "00a7702647c2d0c5c1a5f8ca41c50bf579188aa376", null);
 __turbopack_async_result__();
@@ -429,11 +454,11 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$google$2f$generative$2d$ai$2f$dist$2f$index$2e$mjs__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@google/generative-ai/dist/index.mjs [app-rsc] (ecmascript)");
 ;
 const globalForGemini = globalThis;
-const genAI = globalForGemini.genAI ?? new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$google$2f$generative$2d$ai$2f$dist$2f$index$2e$mjs__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["GoogleGenerativeAI"](process.env.GEMINI_API_KEY || "");
+const genAI = new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$google$2f$generative$2d$ai$2f$dist$2f$index$2e$mjs__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["GoogleGenerativeAI"](process.env.GEMINI_API_KEY);
 if ("TURBOPACK compile-time truthy", 1) globalForGemini.genAI = genAI;
 const AI_CONFIG = {
     chatModel: process.env.GEMINI_CHAT_MODEL || "gemini-2.0-flash",
-    embeddingModel: process.env.GEMINI_EMBEDDING_MODEL || "gemini-embedding-001"
+    embeddingModel: process.env.GEMINI_EMBEDDING_MODEL || "text-embedding-004"
 };
 function setChatModel(model) {
     AI_CONFIG.chatModel = model;
@@ -539,41 +564,21 @@ function createEmbeddingTextForProfile(profile) {
 }
 const MODEL_INFO = {
     chat: {
-        "gemini-2.0-flash": {
-            name: "Gemini 2.0 Flash",
+        "gemini-2.5-flash": {
+            name: "Gemini 2.5 Flash",
             description: "Nhanh và hiệu quả, phù hợp cho hầu hết tác vụ",
             bestFor: "Tìm kiếm, gợi ý, tạo nội dung"
-        },
-        "gemini-2.0-flash-lite": {
-            name: "Gemini 2.0 Flash Lite",
-            description: "Nhẹ hơn, tiết kiệm chi phí",
-            bestFor: "Tác vụ đơn giản, tần suất cao"
-        },
-        "gemini-1.5-pro": {
-            name: "Gemini 1.5 Pro",
-            description: "Mạnh nhất, hiểu ngữ cảnh tốt",
-            bestFor: "Phân tích phức tạp, cover letter chi tiết"
-        },
-        "gemini-1.5-flash": {
-            name: "Gemini 1.5 Flash",
-            description: "Cân bằng giữa tốc độ và chất lượng",
-            bestFor: "Tìm kiếm, resume parsing"
-        },
-        "gemini-1.5-flash-8b": {
-            name: "Gemini 1.5 Flash 8B",
-            description: "Rất nhanh, ít tokens",
-            bestFor: "Tác vụ đơn giản"
         }
     },
     embedding: {
         "text-embedding-004": {
             name: "Text Embedding 004",
-            description: "Embedding tiêu chuẩn cho tìm kiếm vector",
+            description: "Embedding tiêu chuẩn mạnh mẽ nhất hiện nay",
             dimensions: 1536
         },
         "gemini-embedding-001": {
             name: "Gemini Embedding 001",
-            description: "Embedding từ Gemini",
+            description: "Embedding từ Gemini (Cũ hơn)",
             dimensions: 768
         }
     }
@@ -630,9 +635,11 @@ async function generateJobEmbedding(jobId) {
         jobType: job.jobType
     });
     const embedding = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$gemini$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getEmbedding"])(text);
+    const embeddingString = `[${embedding.join(',')}]`;
+    // Lưu vector vào database sử dụng pgvector extension
     await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["prisma"].$executeRaw`
         UPDATE "Job"
-        SET embedding = ${embedding}::vector
+        SET embedding = ${embeddingString}::vector
         WHERE id = ${jobId}
     `;
     return {
@@ -658,9 +665,10 @@ async function generateProfileEmbedding(userId) {
         education: profile.education
     });
     const embedding = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$gemini$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getEmbedding"])(text);
+    const embeddingString = `[${embedding.join(',')}]`;
     await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["prisma"].$executeRaw`
         UPDATE "CandidateProfile"
-        SET embedding = ${embedding}::vector
+        SET embedding = ${embeddingString}::vector
         WHERE "userId" = ${userId}
     `;
     return {
@@ -669,18 +677,19 @@ async function generateProfileEmbedding(userId) {
 }
 async function semanticJobSearch(query, limit = 20) {
     const embedding = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$gemini$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getEmbedding"])(query);
+    const embeddingString = `[${embedding.join(',')}]`;
     const jobs = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["prisma"].$queryRaw`
         SELECT 
             j.*,
             c.name as "companyName",
             c.logo as "companyLogo",
             c.slug as "companySlug",
-            1 - (j.embedding <=> ${embedding}::vector) as similarity
+            1 - (j.embedding <=> ${embeddingString}::vector) as similarity
         FROM "Job" j
         JOIN "Company" c ON j."companyId" = c.id
         WHERE j.status = 'ACTIVE'
             AND j.embedding IS NOT NULL
-        ORDER BY j.embedding <=> ${embedding}::vector
+        ORDER BY j.embedding <=> ${embeddingString}::vector
         LIMIT ${limit}
     `;
     return jobs;
@@ -694,17 +703,18 @@ async function getRecommendedJobs(userId, limit = 10) {
     if (!profile) {
         return [];
     }
+    // Kiểm tra xem ứng viên đã có vector embedding chưa
     const hasEmbedding = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["prisma"].$queryRaw`
         SELECT EXISTS(
             SELECT 1 FROM "CandidateProfile" 
             WHERE "userId" = ${userId} 
             AND embedding IS NOT NULL
-            AND array_length(embedding, 1) > 0
         ) as exists
     `;
     if (!hasEmbedding[0]?.exists) {
         await generateProfileEmbedding(userId);
     }
+    // Thực hiện truy vấn vector để tìm top các công việc phù hợp nhất
     const jobs = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["prisma"].$queryRaw`
         SELECT 
             j.*,
@@ -732,16 +742,8 @@ async function generateEmbeddingForAllJobs(batchSize = 10) {
     let processed = 0;
     for (const job of jobs){
         try {
-            const hasEmbedding = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["prisma"].$queryRaw`
-                SELECT COUNT(*) as count FROM "Job" 
-                WHERE id = ${job.id} 
-                AND embedding IS NOT NULL 
-                AND array_length(embedding, 1) > 0
-            `;
-            if (Number(hasEmbedding[0]?.count) === 0) {
-                await generateJobEmbedding(job.id);
-                processed++;
-            }
+            await generateJobEmbedding(job.id);
+            processed++;
         } catch (e) {
             console.error(`Failed to generate embedding for job ${job.id}:`, e);
         }
@@ -770,7 +772,7 @@ __turbopack_async_result__();
 
 return __turbopack_context__.a(async (__turbopack_handle_async_dependencies__, __turbopack_async_result__) => { try {
 
-/* __next_internal_action_entry_do_not_use__ [{"00224f11441e675c5b3522a3fd480060e4f366fa76":"getSavedJobs","0058643d0f29418568c8238ea5a57c7771456597d1":"getEmployerJobs","0093aa74813cb000553169de8dc72cb31dcabdeb89":"getJobFilters","00a70cf1fec7b617f646ec35d545707736f811df1b":"getAllIndustries","00bbed9864cd7c08ed300bc4c2a9e24657e5376aa9":"getAllJobsForAdmin","00cb9cede009da617c31e137e69dc0fd966ea96c0d":"getIndustries","00eae5274380d25b61b6402c08c8cb8b165107724b":"getJobLocations","4016bfa22123dad3d3aaeee262b4ebf7358de34cb8":"unsaveJob","4074008fc079c221c63f168f8c403e5a556b09450a":"saveJob","4075cdaad048ff9d0b78527b798678780daff1d456":"isJobSaved","409873f3b6c306239b1795e77009c479d8815fc51f":"deleteJob","4098c9e81be5fcaaa602abcfd4834700a2970ffbea":"getJobBySlug","4099e4737f909665d78f0e0807e6ff8b1705fee95b":"getJobById","40c7dd443a340e62bc3691c22671451c4f35a94697":"getJobs","40dc614e97b330026d966988413fca692d8852a426":"createJob","6002477e38c017ee90de72bc3bc93d48b09b18629d":"updateJobStatus"},"",""] */ __turbopack_context__.s([
+/* __next_internal_action_entry_do_not_use__ [{"00224f11441e675c5b3522a3fd480060e4f366fa76":"getSavedJobs","0058643d0f29418568c8238ea5a57c7771456597d1":"getEmployerJobs","0093aa74813cb000553169de8dc72cb31dcabdeb89":"getJobFilters","00a70cf1fec7b617f646ec35d545707736f811df1b":"getAllIndustries","00a80d882e5497d7436a7dc0616e0c1ddb2994413b":"getSavedJobIds","00bbed9864cd7c08ed300bc4c2a9e24657e5376aa9":"getAllJobsForAdmin","00cb9cede009da617c31e137e69dc0fd966ea96c0d":"getIndustries","00eae5274380d25b61b6402c08c8cb8b165107724b":"getJobLocations","4016bfa22123dad3d3aaeee262b4ebf7358de34cb8":"unsaveJob","4074008fc079c221c63f168f8c403e5a556b09450a":"saveJob","4075cdaad048ff9d0b78527b798678780daff1d456":"isJobSaved","409873f3b6c306239b1795e77009c479d8815fc51f":"deleteJob","4098c9e81be5fcaaa602abcfd4834700a2970ffbea":"getJobBySlug","4099e4737f909665d78f0e0807e6ff8b1705fee95b":"getJobById","40c7dd443a340e62bc3691c22671451c4f35a94697":"getJobs","40dc614e97b330026d966988413fca692d8852a426":"createJob","6002477e38c017ee90de72bc3bc93d48b09b18629d":"updateJobStatus","605a75f377383c32584961671679d66f6a5b516abc":"updateJob"},"",""] */ __turbopack_context__.s([
     "createJob",
     ()=>createJob,
     "deleteJob",
@@ -793,6 +795,8 @@ return __turbopack_context__.a(async (__turbopack_handle_async_dependencies__, _
     ()=>getJobLocations,
     "getJobs",
     ()=>getJobs,
+    "getSavedJobIds",
+    ()=>getSavedJobIds,
     "getSavedJobs",
     ()=>getSavedJobs,
     "isJobSaved",
@@ -801,6 +805,8 @@ return __turbopack_context__.a(async (__turbopack_handle_async_dependencies__, _
     ()=>saveJob,
     "unsaveJob",
     ()=>unsaveJob,
+    "updateJob",
+    ()=>updateJob,
     "updateJobStatus",
     ()=>updateJobStatus
 ]);
@@ -854,7 +860,8 @@ async function getJobs(params) {
                         company: {
                             name: job.companyName,
                             logo: job.companyLogo,
-                            slug: job.companySlug
+                            slug: job.companySlug,
+                            verified: false
                         },
                         similarity: job.similarity
                     }));
@@ -926,7 +933,8 @@ async function getJobs(params) {
                 select: {
                     name: true,
                     logo: true,
-                    slug: true
+                    slug: true,
+                    verified: true
                 }
             }
         },
@@ -942,7 +950,15 @@ async function getJobBySlug(slug) {
             slug
         },
         include: {
-            company: true,
+            company: {
+                select: {
+                    name: true,
+                    logo: true,
+                    slug: true,
+                    website: true,
+                    verified: true
+                }
+            },
             industry: true,
             _count: {
                 select: {
@@ -958,7 +974,15 @@ async function getJobById(id) {
             id
         },
         include: {
-            company: true,
+            company: {
+                select: {
+                    name: true,
+                    logo: true,
+                    slug: true,
+                    website: true,
+                    verified: true
+                }
+            },
             applications: {
                 include: {
                     candidate: {
@@ -1138,6 +1162,84 @@ async function deleteJob(jobId) {
         success: true
     };
 }
+async function updateJob(jobId, formData) {
+    const session = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$auth$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["auth"])();
+    if (!session?.user || session.user.role !== "EMPLOYER") {
+        return {
+            error: "Không có quyền truy cập"
+        };
+    }
+    // Verify job belongs to employer
+    const job = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["prisma"].job.findUnique({
+        where: {
+            id: jobId
+        },
+        include: {
+            company: {
+                include: {
+                    employers: true
+                }
+            }
+        }
+    });
+    if (!job) {
+        return {
+            error: "Không tìm thấy tin tuyển dụng"
+        };
+    }
+    // Check if user is employer of this job's company
+    const isEmployer = job.company.employers.some((e)=>e.userId === session.user.id);
+    if (!isEmployer) {
+        return {
+            error: "Bạn không có quyền sửa tin này"
+        };
+    }
+    const title = formData.get("title");
+    const description = formData.get("description");
+    const requirements = formData.get("requirements");
+    const benefits = formData.get("benefits");
+    const location = formData.get("location");
+    const jobType = formData.get("jobType");
+    const salaryMin = parseInt(formData.get("salaryMin")) || null;
+    const salaryMax = parseInt(formData.get("salaryMax")) || null;
+    const skillsRaw = formData.get("skills");
+    const skills = skillsRaw ? skillsRaw.split(",").map((s)=>s.trim()).filter(Boolean) : [];
+    const industrySlug = formData.get("industryId");
+    // Get industry by slug if provided
+    let industryId = null;
+    if (industrySlug) {
+        const industry = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["prisma"].industry.findUnique({
+            where: {
+                slug: industrySlug
+            }
+        });
+        if (industry) {
+            industryId = industry.id;
+        }
+    }
+    await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["prisma"].job.update({
+        where: {
+            id: jobId
+        },
+        data: {
+            title,
+            description,
+            requirements,
+            benefits,
+            location,
+            jobType: jobType,
+            salaryMin,
+            salaryMax,
+            skills,
+            industryId
+        }
+    });
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$cache$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["revalidatePath"])("/employer/jobs");
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$cache$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["revalidatePath"])("/jobs");
+    return {
+        success: true
+    };
+}
 async function getAllJobsForAdmin() {
     return __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["prisma"].job.findMany({
         include: {
@@ -1305,7 +1407,8 @@ async function getSavedJobs() {
                         select: {
                             name: true,
                             logo: true,
-                            slug: true
+                            slug: true,
+                            verified: true
                         }
                     }
                 }
@@ -1315,6 +1418,19 @@ async function getSavedJobs() {
             createdAt: "desc"
         }
     });
+}
+async function getSavedJobIds() {
+    const session = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$auth$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["auth"])();
+    if (!session?.user) return [];
+    const saved = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["prisma"].savedJob.findMany({
+        where: {
+            userId: session.user.id
+        },
+        select: {
+            jobId: true
+        }
+    });
+    return saved.map((s)=>s.jobId);
 }
 async function isJobSaved(jobId) {
     const session = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$auth$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["auth"])();
@@ -1338,6 +1454,7 @@ async function isJobSaved(jobId) {
     updateJobStatus,
     getEmployerJobs,
     deleteJob,
+    updateJob,
     getAllJobsForAdmin,
     getIndustries,
     getAllIndustries,
@@ -1346,6 +1463,7 @@ async function isJobSaved(jobId) {
     saveJob,
     unsaveJob,
     getSavedJobs,
+    getSavedJobIds,
     isJobSaved
 ]);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getJobs, "40c7dd443a340e62bc3691c22671451c4f35a94697", null);
@@ -1355,6 +1473,7 @@ async function isJobSaved(jobId) {
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(updateJobStatus, "6002477e38c017ee90de72bc3bc93d48b09b18629d", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getEmployerJobs, "0058643d0f29418568c8238ea5a57c7771456597d1", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(deleteJob, "409873f3b6c306239b1795e77009c479d8815fc51f", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(updateJob, "605a75f377383c32584961671679d66f6a5b516abc", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getAllJobsForAdmin, "00bbed9864cd7c08ed300bc4c2a9e24657e5376aa9", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getIndustries, "00cb9cede009da617c31e137e69dc0fd966ea96c0d", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getAllIndustries, "00a70cf1fec7b617f646ec35d545707736f811df1b", null);
@@ -1363,6 +1482,7 @@ async function isJobSaved(jobId) {
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(saveJob, "4074008fc079c221c63f168f8c403e5a556b09450a", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(unsaveJob, "4016bfa22123dad3d3aaeee262b4ebf7358de34cb8", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getSavedJobs, "00224f11441e675c5b3522a3fd480060e4f366fa76", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getSavedJobIds, "00a80d882e5497d7436a7dc0616e0c1ddb2994413b", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(isJobSaved, "4075cdaad048ff9d0b78527b798678780daff1d456", null);
 __turbopack_async_result__();
 } catch(e) { __turbopack_async_result__(e); } }, false);}),
@@ -1519,6 +1639,9 @@ var __turbopack_async_dependencies__ = __turbopack_handle_async_dependencies__([
 ;
 ;
 ;
+;
+;
+;
 __turbopack_async_result__();
 } catch(e) { __turbopack_async_result__(e); } }, false);}),
 "[project]/.next-internal/server/app/admin/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)", ((__turbopack_context__) => {
@@ -1527,6 +1650,8 @@ __turbopack_async_result__();
 return __turbopack_context__.a(async (__turbopack_handle_async_dependencies__, __turbopack_async_result__) => { try {
 
 __turbopack_context__.s([
+    "00093e824a305e367a8625f593c9328391ca9ff2d3",
+    ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$profile$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getEmployerCompany"],
     "00224f11441e675c5b3522a3fd480060e4f366fa76",
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$jobs$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getSavedJobs"],
     "0058643d0f29418568c8238ea5a57c7771456597d1",
@@ -1539,6 +1664,8 @@ __turbopack_context__.s([
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$jobs$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getAllIndustries"],
     "00a7702647c2d0c5c1a5f8ca41c50bf579188aa376",
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$profile$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getDashboardStats"],
+    "00a80d882e5497d7436a7dc0616e0c1ddb2994413b",
+    ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$jobs$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getSavedJobIds"],
     "00bbed9864cd7c08ed300bc4c2a9e24657e5376aa9",
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$jobs$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getAllJobsForAdmin"],
     "00bf796ff6f92065bdfcfaf5c738b0371c161514a3",
@@ -1577,6 +1704,8 @@ __turbopack_context__.s([
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$jobs$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["createJob"],
     "6002477e38c017ee90de72bc3bc93d48b09b18629d",
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$jobs$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["updateJobStatus"],
+    "605a75f377383c32584961671679d66f6a5b516abc",
+    ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$jobs$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["updateJob"],
     "60884262ba84c553abe771218755495ff6aa2cae85",
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$ai$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["semanticJobSearch"],
     "60e11703cb6437504f1f4607a12dbd06a7e0b64cf6",

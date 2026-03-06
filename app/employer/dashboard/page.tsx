@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import DashboardLayout from "@/app/components/DashboardLayout";
-import { getDashboardStats } from "@/app/actions/profile";
+import { getDashboardStats, getEmployerCompany } from "@/app/actions/profile";
 import { getEmployerJobs } from "@/app/actions/jobs";
 import Link from "next/link";
 
@@ -16,18 +16,22 @@ export default async function EmployerDashboard() {
     const session = await auth();
     if (!session?.user || session.user.role !== "EMPLOYER") redirect("/login");
 
-    const [stats, jobs] = await Promise.all([getDashboardStats(), getEmployerJobs()]);
+    const [stats, jobs, company] = await Promise.all([getDashboardStats(), getEmployerJobs(), getEmployerCompany()]);
     const s = stats as { jobs: number; activeJobs: number; applicants: number };
     const recentJobs = jobs.slice(0, 8);
 
     return (
-        <DashboardLayout role="EMPLOYER" userName={session.user.name || "Nhà tuyển dụng"}>
+        <DashboardLayout
+            role="EMPLOYER"
+            userName={company?.name || session.user.name || "Nhà tuyển dụng"}
+            userImage={company?.logo || session.user.image}
+        >
             <div className="dash-topbar">
                 <div>
                     <h1 className="dash-page-title">Dashboard</h1>
                     <p className="dash-page-subtitle">Tổng quan hoạt động tuyển dụng</p>
                 </div>
-                <Link href="/employer/jobs/new" className="btn-primary">
+                <Link href="/employer/jobs/new" className="dash-btn dash-btn-primary">
                     <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
                     Đăng tin mới
                 </Link>
@@ -61,9 +65,12 @@ export default async function EmployerDashboard() {
                 <table className="dash-table">
                     <thead>
                         <tr>
-                            {["Vị trí", "Địa điểm", "Trạng thái", "Ứng viên", "Ngày đăng", ""].map((h) => (
-                                <th key={h}>{h}</th>
-                            ))}
+                            <th style={{ minWidth: "200px" }}>Vị trí</th>
+                            <th className="hide-mobile">Địa điểm</th>
+                            <th style={{ textAlign: "center" }}>Trạng thái</th>
+                            <th style={{ textAlign: "center" }}>Ứng viên</th>
+                            <th className="hide-mobile">Ngày đăng</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -80,12 +87,12 @@ export default async function EmployerDashboard() {
                                 return (
                                     <tr key={job.id}>
                                         <td className="bold">{job.title}</td>
-                                        <td className="muted">{job.location}</td>
-                                        <td>
+                                        <td className="muted hide-mobile">{job.location}</td>
+                                        <td className="text-center">
                                             <span className="dash-badge" style={{ background: `${st.color}15`, color: st.color }}>{st.label}</span>
                                         </td>
-                                        <td className="muted">{job._count.applications}</td>
-                                        <td className="muted">{new Date(job.createdAt).toLocaleDateString("vi-VN")}</td>
+                                        <td className="muted text-center">{job._count.applications}</td>
+                                        <td className="muted hide-mobile">{new Date(job.createdAt).toLocaleDateString("vi-VN")}</td>
                                         <td>
                                             <Link href={`/employer/jobs/${job.id}/applicants`} className="dash-section-link">Xem ứng viên</Link>
                                         </td>

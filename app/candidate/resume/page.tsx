@@ -16,7 +16,7 @@ export default async function CandidateResumePage() {
 
     return (
         <DashboardLayout role="CANDIDATE" userName={session.user.name || "Ứng viên"}>
-            <div style={{ padding: "2rem", maxWidth: "800px" }}>
+            <div className="dash-content">
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "2rem", flexWrap: "wrap", gap: "1rem" }}>
                     <div>
                         <h1 style={{ fontSize: "1.5rem", fontWeight: 800, color: "var(--text)", marginBottom: "0.25rem" }}>

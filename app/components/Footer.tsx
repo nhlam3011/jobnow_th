@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useState } from "react";
 
 const FOOTER_LINKS = [
     {
@@ -60,6 +61,8 @@ const SOCIALS = [
 ];
 
 export default function Footer() {
+    const [openSection, setOpenSection] = useState<string | null>(null);
+
     return (
         <footer style={{
             background: "var(--bg-card)", borderTop: "1.5px solid var(--border)", marginTop: "auto",
@@ -114,14 +117,19 @@ export default function Footer() {
 
                     {/* Link columns */}
                     {FOOTER_LINKS.map((col) => (
-                        <div key={col.title}>
-                            <h4 style={{
-                                fontSize: "0.8125rem", fontWeight: 700, textTransform: "uppercase",
-                                letterSpacing: "0.06em", color: "var(--text)", marginBottom: "1rem",
-                            }}>
-                                {col.title}
+                        <div key={col.title} className="footer-col">
+                            <h4
+                                className={`footer-col-title ${openSection === col.title ? 'open' : ''}`}
+                                onClick={() => setOpenSection(openSection === col.title ? null : col.title)}
+                            >
+                                <span>{col.title}</span>
+                                <span className="footer-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </span>
                             </h4>
-                            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                            <ul className={`footer-links-list ${openSection === col.title ? 'open' : ''}`}>
                                 {col.links.map((l) => (
                                     <li key={l.label}>
                                         <Link href={l.href} style={{
@@ -172,17 +180,82 @@ export default function Footer() {
 
             {/* Responsive */}
             <style jsx>{`
+        .footer-col-title {
+            font-size: 0.8125rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text);
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: color 0.2s;
+        }
+        .footer-icon {
+            display: none;
+            color: var(--text-muted);
+        }
+        .footer-links-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
         @media (max-width: 768px) {
           .footer-grid {
             grid-template-columns: 1fr 1fr !important;
             gap: 2rem !important;
           }
         }
-        @media (max-width: 480px) {
+        @media (max-width: 576px) {
           .footer-grid {
             grid-template-columns: 1fr !important;
             gap: 1.5rem !important;
           }
+          .footer-col {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+          }
+          .footer-col:last-child {
+            border-bottom: none;
+          }
+          .footer-col-title {
+            margin-bottom: 0;
+            cursor: pointer;
+            padding: 0.75rem 0;
+          }
+          .footer-icon {
+            display: block;
+            transition: transform 0.2s;
+          }
+          .footer-col-title.open .footer-icon {
+            transform: rotate(180deg);
+            color: var(--primary);
+          }
+          .footer-col-title.open {
+            color: var(--primary);
+          }
+          .footer-links-list {
+            display: none;
+            padding-top: 0.5rem;
+            padding-bottom: 1rem;
+          }
+          .footer-links-list.open {
+            display: flex;
+            animation: slideDown 0.3s ease-out;
+          }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
       `}</style>
         </footer>

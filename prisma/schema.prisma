@@ -271,12 +271,32 @@ model CV {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   templateId   String
   template     Template @relation(fields: [templateId], references: [id])
-  title        String   // Tên CV do user đặt
-  content      Json     // Toàn bộ dữ liệu user điền vào CV (JSON)
+  title        String
+  content      Json
   isPublic     Boolean  @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
   @@index([userId])
   @@index([templateId])
+}
+
+model Blog {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String?
+  content     String   @db.Text
+  coverImage  String?
+  author      String?
+  category    String
+  tags        String[]
+  isPublished Boolean  @default(true)
+  viewCount   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([slug])
+  @@index([category])
+  @@index([isPublished])
 }

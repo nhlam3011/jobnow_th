@@ -173,6 +173,11 @@ const roleNavs = {
                     icon: "M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"
                 },
                 {
+                    href: "/admin/blogs",
+                    label: "Quản lý bài viết",
+                    icon: "M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2m-4-3H9M7 8h10M7 12h10M7 16h10"
+                },
+                {
                     href: "/admin/companies",
                     label: "Quản lý công ty",
                     icon: "M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16"
@@ -299,12 +304,12 @@ function DashboardLayout({ children, role, userName }) {
                                         d: "M6 18L18 6M6 6l12 12"
                                     }, void 0, false, {
                                         fileName: "[project]/app/components/DashboardLayout.tsx",
-                                        lineNumber: 171,
+                                        lineNumber: 172,
                                         columnNumber: 33
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/app/components/DashboardLayout.tsx",
-                                    lineNumber: 170,
+                                    lineNumber: 171,
                                     columnNumber: 29
                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
                                     width: "22",
@@ -318,17 +323,17 @@ function DashboardLayout({ children, role, userName }) {
                                         d: "M4 6h16M4 12h16M4 18h16"
                                     }, void 0, false, {
                                         fileName: "[project]/app/components/DashboardLayout.tsx",
-                                        lineNumber: 175,
+                                        lineNumber: 176,
                                         columnNumber: 33
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/app/components/DashboardLayout.tsx",
-                                    lineNumber: 174,
+                                    lineNumber: 175,
                                     columnNumber: 29
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/app/components/DashboardLayout.tsx",
-                                lineNumber: 164,
+                                lineNumber: 165,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -353,7 +358,7 @@ function DashboardLayout({ children, role, userName }) {
                                                 fill: "var(--primary)"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/components/DashboardLayout.tsx",
-                                                lineNumber: 181,
+                                                lineNumber: 182,
                                                 columnNumber: 29
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -363,7 +368,7 @@ function DashboardLayout({ children, role, userName }) {
                                                 strokeLinejoin: "round"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/components/DashboardLayout.tsx",
-                                                lineNumber: 182,
+                                                lineNumber: 183,
                                                 columnNumber: 29
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
@@ -375,13 +380,13 @@ function DashboardLayout({ children, role, userName }) {
                                                 fill: "#fff"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/components/DashboardLayout.tsx",
-                                                lineNumber: 183,
+                                                lineNumber: 184,
                                                 columnNumber: 29
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/components/DashboardLayout.tsx",
-                                        lineNumber: 180,
+                                        lineNumber: 181,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -399,25 +404,25 @@ function DashboardLayout({ children, role, userName }) {
                                                 children: "Now"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/components/DashboardLayout.tsx",
-                                                lineNumber: 186,
+                                                lineNumber: 187,
                                                 columnNumber: 32
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/components/DashboardLayout.tsx",
-                                        lineNumber: 185,
+                                        lineNumber: 186,
                                         columnNumber: 25
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/components/DashboardLayout.tsx",
-                                lineNumber: 179,
+                                lineNumber: 180,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/components/DashboardLayout.tsx",
-                        lineNumber: 163,
+                        lineNumber: 164,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -441,7 +446,7 @@ function DashboardLayout({ children, role, userName }) {
                                             r: "5"
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/DashboardLayout.tsx",
-                                            lineNumber: 194,
+                                            lineNumber: 195,
                                             columnNumber: 33
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -449,13 +454,13 @@ function DashboardLayout({ children, role, userName }) {
                                             d: "M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/DashboardLayout.tsx",
-                                            lineNumber: 194,
+                                            lineNumber: 195,
                                             columnNumber: 65
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/components/DashboardLayout.tsx",
-                                    lineNumber: 193,
+                                    lineNumber: 194,
                                     columnNumber: 29
                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
                                     width: "16",
@@ -470,17 +475,17 @@ function DashboardLayout({ children, role, userName }) {
                                         d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
                                     }, void 0, false, {
                                         fileName: "[project]/app/components/DashboardLayout.tsx",
-                                        lineNumber: 198,
+                                        lineNumber: 199,
                                         columnNumber: 33
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/app/components/DashboardLayout.tsx",
-                                    lineNumber: 197,
+                                    lineNumber: 198,
                                     columnNumber: 29
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/app/components/DashboardLayout.tsx",
-                                lineNumber: 191,
+                                lineNumber: 192,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -491,19 +496,19 @@ function DashboardLayout({ children, role, userName }) {
                                 children: userName?.charAt(0).toUpperCase() || "U"
                             }, void 0, false, {
                                 fileName: "[project]/app/components/DashboardLayout.tsx",
-                                lineNumber: 202,
+                                lineNumber: 203,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/components/DashboardLayout.tsx",
-                        lineNumber: 190,
+                        lineNumber: 191,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/components/DashboardLayout.tsx",
-                lineNumber: 162,
+                lineNumber: 163,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -511,7 +516,7 @@ function DashboardLayout({ children, role, userName }) {
                 onClick: closeSidebar
             }, void 0, false, {
                 fileName: "[project]/app/components/DashboardLayout.tsx",
-                lineNumber: 209,
+                lineNumber: 210,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("aside", {
@@ -539,7 +544,7 @@ function DashboardLayout({ children, role, userName }) {
                                                     strokeLinejoin: "round"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/components/DashboardLayout.tsx",
-                                                    lineNumber: 221,
+                                                    lineNumber: 222,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
@@ -551,18 +556,18 @@ function DashboardLayout({ children, role, userName }) {
                                                     fill: "#fff"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/components/DashboardLayout.tsx",
-                                                    lineNumber: 222,
+                                                    lineNumber: 223,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/components/DashboardLayout.tsx",
-                                            lineNumber: 220,
+                                            lineNumber: 221,
                                             columnNumber: 29
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/app/components/DashboardLayout.tsx",
-                                        lineNumber: 219,
+                                        lineNumber: 220,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -573,19 +578,19 @@ function DashboardLayout({ children, role, userName }) {
                                                 children: "Now"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/components/DashboardLayout.tsx",
-                                                lineNumber: 225,
+                                                lineNumber: 226,
                                                 columnNumber: 61
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/components/DashboardLayout.tsx",
-                                        lineNumber: 225,
+                                        lineNumber: 226,
                                         columnNumber: 25
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/components/DashboardLayout.tsx",
-                                lineNumber: 218,
+                                lineNumber: 219,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -599,7 +604,7 @@ function DashboardLayout({ children, role, userName }) {
                                         children: userName?.charAt(0).toUpperCase() || "U"
                                     }, void 0, false, {
                                         fileName: "[project]/app/components/DashboardLayout.tsx",
-                                        lineNumber: 228,
+                                        lineNumber: 229,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -609,7 +614,7 @@ function DashboardLayout({ children, role, userName }) {
                                                 children: userName
                                             }, void 0, false, {
                                                 fileName: "[project]/app/components/DashboardLayout.tsx",
-                                                lineNumber: 232,
+                                                lineNumber: 233,
                                                 columnNumber: 29
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -621,25 +626,25 @@ function DashboardLayout({ children, role, userName }) {
                                                 children: roleLabel[role]
                                             }, void 0, false, {
                                                 fileName: "[project]/app/components/DashboardLayout.tsx",
-                                                lineNumber: 233,
+                                                lineNumber: 234,
                                                 columnNumber: 29
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/components/DashboardLayout.tsx",
-                                        lineNumber: 231,
+                                        lineNumber: 232,
                                         columnNumber: 25
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/components/DashboardLayout.tsx",
-                                lineNumber: 227,
+                                lineNumber: 228,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/components/DashboardLayout.tsx",
-                        lineNumber: 217,
+                        lineNumber: 218,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
@@ -651,7 +656,7 @@ function DashboardLayout({ children, role, userName }) {
                                         children: section.section
                                     }, void 0, false, {
                                         fileName: "[project]/app/components/DashboardLayout.tsx",
-                                        lineNumber: 248,
+                                        lineNumber: 249,
                                         columnNumber: 33
                                     }, this),
                                     section.items.map((item)=>{
@@ -673,31 +678,31 @@ function DashboardLayout({ children, role, userName }) {
                                                         d: item.icon
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/components/DashboardLayout.tsx",
-                                                        lineNumber: 260,
+                                                        lineNumber: 261,
                                                         columnNumber: 45
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/components/DashboardLayout.tsx",
-                                                    lineNumber: 259,
+                                                    lineNumber: 260,
                                                     columnNumber: 41
                                                 }, this),
                                                 item.label
                                             ]
                                         }, item.href, true, {
                                             fileName: "[project]/app/components/DashboardLayout.tsx",
-                                            lineNumber: 253,
+                                            lineNumber: 254,
                                             columnNumber: 37
                                         }, this);
                                     })
                                 ]
                             }, sIdx, true, {
                                 fileName: "[project]/app/components/DashboardLayout.tsx",
-                                lineNumber: 246,
+                                lineNumber: 247,
                                 columnNumber: 25
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/app/components/DashboardLayout.tsx",
-                        lineNumber: 244,
+                        lineNumber: 245,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -721,7 +726,7 @@ function DashboardLayout({ children, role, userName }) {
                                                 r: "5"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/components/DashboardLayout.tsx",
-                                                lineNumber: 275,
+                                                lineNumber: 276,
                                                 columnNumber: 33
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -729,13 +734,13 @@ function DashboardLayout({ children, role, userName }) {
                                                 d: "M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/components/DashboardLayout.tsx",
-                                                lineNumber: 275,
+                                                lineNumber: 276,
                                                 columnNumber: 65
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/components/DashboardLayout.tsx",
-                                        lineNumber: 274,
+                                        lineNumber: 275,
                                         columnNumber: 29
                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
                                         width: "18",
@@ -750,19 +755,19 @@ function DashboardLayout({ children, role, userName }) {
                                             d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/DashboardLayout.tsx",
-                                            lineNumber: 279,
+                                            lineNumber: 280,
                                             columnNumber: 33
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/app/components/DashboardLayout.tsx",
-                                        lineNumber: 278,
+                                        lineNumber: 279,
                                         columnNumber: 29
                                     }, this),
                                     theme === "dark" ? "Chế độ sáng" : "Chế độ tối"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/components/DashboardLayout.tsx",
-                                lineNumber: 272,
+                                lineNumber: 273,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -784,36 +789,36 @@ function DashboardLayout({ children, role, userName }) {
                                                 d: "M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v1"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/components/DashboardLayout.tsx",
-                                                lineNumber: 287,
+                                                lineNumber: 288,
                                                 columnNumber: 33
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/DashboardLayout.tsx",
-                                            lineNumber: 286,
+                                            lineNumber: 287,
                                             columnNumber: 29
                                         }, this),
                                         "Đăng xuất"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/components/DashboardLayout.tsx",
-                                    lineNumber: 285,
+                                    lineNumber: 286,
                                     columnNumber: 25
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/app/components/DashboardLayout.tsx",
-                                lineNumber: 284,
+                                lineNumber: 285,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/components/DashboardLayout.tsx",
-                        lineNumber: 271,
+                        lineNumber: 272,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/components/DashboardLayout.tsx",
-                lineNumber: 215,
+                lineNumber: 216,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -823,18 +828,18 @@ function DashboardLayout({ children, role, userName }) {
                     children: children
                 }, void 0, false, {
                     fileName: "[project]/app/components/DashboardLayout.tsx",
-                    lineNumber: 297,
+                    lineNumber: 298,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/components/DashboardLayout.tsx",
-                lineNumber: 296,
+                lineNumber: 297,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/components/DashboardLayout.tsx",
-        lineNumber: 160,
+        lineNumber: 161,
         columnNumber: 9
     }, this);
 }
@@ -912,6 +917,8 @@ function AccountSettings({ user }) {
     const [pwMsg, setPwMsg] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
     const [saving, setSaving] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [changingPw, setChangingPw] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [uploading, setUploading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const fileInputRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
     const handleUpdateInfo = async (e)=>{
         e.preventDefault();
         setSaving(true);
@@ -952,6 +959,40 @@ function AccountSettings({ user }) {
         EMPLOYER: "#22C55E",
         ADMIN: "#A855F7"
     };
+    const handleAvatarUpload = async (e)=>{
+        const file = e.target.files?.[0];
+        if (!file) return;
+        // Validate file type
+        if (!file.type.startsWith("image/")) {
+            setInfoMsg("Vui lòng chọn file hình ảnh");
+            return;
+        }
+        // Validate file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            setInfoMsg("Kích thước file không được vượt quá 5MB");
+            return;
+        }
+        setUploading(true);
+        setInfoMsg("");
+        try {
+            const formData = new FormData();
+            formData.append("avatar", file);
+            const response = await fetch("/api/account/avatar", {
+                method: "POST",
+                body: formData
+            });
+            const result = await response.json();
+            if (result.success && result.url) {
+                setImage(result.url);
+                setInfoMsg("Tải ảnh đại diện thành công!");
+            } else {
+                setInfoMsg(result.error || "Lỗi khi tải ảnh");
+            }
+        } catch (error) {
+            setInfoMsg("Lỗi khi tải ảnh");
+        }
+        setUploading(false);
+    };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -963,7 +1004,7 @@ function AccountSettings({ user }) {
                             children: "Cài đặt tài khoản"
                         }, void 0, false, {
                             fileName: "[project]/app/components/AccountSettings.tsx",
-                            lineNumber: 76,
+                            lineNumber: 121,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -971,18 +1012,18 @@ function AccountSettings({ user }) {
                             children: "Quản lý thông tin cá nhân và bảo mật"
                         }, void 0, false, {
                             fileName: "[project]/app/components/AccountSettings.tsx",
-                            lineNumber: 77,
+                            lineNumber: 122,
                             columnNumber: 21
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/components/AccountSettings.tsx",
-                    lineNumber: 75,
+                    lineNumber: 120,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/components/AccountSettings.tsx",
-                lineNumber: 74,
+                lineNumber: 119,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1011,7 +1052,7 @@ function AccountSettings({ user }) {
                         children: !image && (user.name?.charAt(0).toUpperCase() || "U")
                     }, void 0, false, {
                         fileName: "[project]/app/components/AccountSettings.tsx",
-                        lineNumber: 83,
+                        lineNumber: 128,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1025,7 +1066,7 @@ function AccountSettings({ user }) {
                                 children: user.name || "Chưa đặt tên"
                             }, void 0, false, {
                                 fileName: "[project]/app/components/AccountSettings.tsx",
-                                lineNumber: 92,
+                                lineNumber: 137,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1036,7 +1077,7 @@ function AccountSettings({ user }) {
                                 children: user.email
                             }, void 0, false, {
                                 fileName: "[project]/app/components/AccountSettings.tsx",
-                                lineNumber: 93,
+                                lineNumber: 138,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1049,19 +1090,19 @@ function AccountSettings({ user }) {
                                 children: roleLabel[user.role]
                             }, void 0, false, {
                                 fileName: "[project]/app/components/AccountSettings.tsx",
-                                lineNumber: 94,
+                                lineNumber: 139,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/components/AccountSettings.tsx",
-                        lineNumber: 91,
+                        lineNumber: 136,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/components/AccountSettings.tsx",
-                lineNumber: 82,
+                lineNumber: 127,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -1073,14 +1114,14 @@ function AccountSettings({ user }) {
                             children: "Thông tin cơ bản"
                         }, void 0, false, {
                             fileName: "[project]/app/components/AccountSettings.tsx",
-                            lineNumber: 103,
+                            lineNumber: 148,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                             children: "Cập nhật tên hiển thị và ảnh đại diện"
                         }, void 0, false, {
                             fileName: "[project]/app/components/AccountSettings.tsx",
-                            lineNumber: 104,
+                            lineNumber: 149,
                             columnNumber: 21
                         }, this),
                         infoMsg && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1088,7 +1129,7 @@ function AccountSettings({ user }) {
                             children: infoMsg
                         }, void 0, false, {
                             fileName: "[project]/app/components/AccountSettings.tsx",
-                            lineNumber: 107,
+                            lineNumber: 152,
                             columnNumber: 25
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1102,7 +1143,7 @@ function AccountSettings({ user }) {
                                             children: "Họ tên"
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/AccountSettings.tsx",
-                                            lineNumber: 114,
+                                            lineNumber: 159,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1112,13 +1153,13 @@ function AccountSettings({ user }) {
                                             placeholder: "Nhập họ tên"
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/AccountSettings.tsx",
-                                            lineNumber: 115,
+                                            lineNumber: 160,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/components/AccountSettings.tsx",
-                                    lineNumber: 113,
+                                    lineNumber: 158,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1129,7 +1170,7 @@ function AccountSettings({ user }) {
                                             children: "Email"
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/AccountSettings.tsx",
-                                            lineNumber: 118,
+                                            lineNumber: 163,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1142,19 +1183,19 @@ function AccountSettings({ user }) {
                                             }
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/AccountSettings.tsx",
-                                            lineNumber: 119,
+                                            lineNumber: 164,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/components/AccountSettings.tsx",
-                                    lineNumber: 117,
+                                    lineNumber: 162,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/components/AccountSettings.tsx",
-                            lineNumber: 112,
+                            lineNumber: 157,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1165,7 +1206,7 @@ function AccountSettings({ user }) {
                                     children: "URL Ảnh đại diện"
                                 }, void 0, false, {
                                     fileName: "[project]/app/components/AccountSettings.tsx",
-                                    lineNumber: 123,
+                                    lineNumber: 168,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1175,13 +1216,13 @@ function AccountSettings({ user }) {
                                     placeholder: "https://example.com/avatar.jpg"
                                 }, void 0, false, {
                                     fileName: "[project]/app/components/AccountSettings.tsx",
-                                    lineNumber: 124,
+                                    lineNumber: 169,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/components/AccountSettings.tsx",
-                            lineNumber: 122,
+                            lineNumber: 167,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1191,18 +1232,18 @@ function AccountSettings({ user }) {
                             children: saving ? "Đang lưu..." : "Lưu thay đổi"
                         }, void 0, false, {
                             fileName: "[project]/app/components/AccountSettings.tsx",
-                            lineNumber: 126,
+                            lineNumber: 171,
                             columnNumber: 21
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/components/AccountSettings.tsx",
-                    lineNumber: 102,
+                    lineNumber: 147,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/components/AccountSettings.tsx",
-                lineNumber: 101,
+                lineNumber: 146,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -1214,14 +1255,14 @@ function AccountSettings({ user }) {
                             children: "Đổi mật khẩu"
                         }, void 0, false, {
                             fileName: "[project]/app/components/AccountSettings.tsx",
-                            lineNumber: 135,
+                            lineNumber: 180,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                             children: "Đảm bảo tài khoản của bạn luôn được bảo mật"
                         }, void 0, false, {
                             fileName: "[project]/app/components/AccountSettings.tsx",
-                            lineNumber: 136,
+                            lineNumber: 181,
                             columnNumber: 21
                         }, this),
                         pwMsg && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1229,7 +1270,7 @@ function AccountSettings({ user }) {
                             children: pwMsg
                         }, void 0, false, {
                             fileName: "[project]/app/components/AccountSettings.tsx",
-                            lineNumber: 139,
+                            lineNumber: 184,
                             columnNumber: 25
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1240,7 +1281,7 @@ function AccountSettings({ user }) {
                                     children: "Mật khẩu hiện tại"
                                 }, void 0, false, {
                                     fileName: "[project]/app/components/AccountSettings.tsx",
-                                    lineNumber: 145,
+                                    lineNumber: 190,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1251,13 +1292,13 @@ function AccountSettings({ user }) {
                                     placeholder: "Nhập mật khẩu hiện tại"
                                 }, void 0, false, {
                                     fileName: "[project]/app/components/AccountSettings.tsx",
-                                    lineNumber: 146,
+                                    lineNumber: 191,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/components/AccountSettings.tsx",
-                            lineNumber: 144,
+                            lineNumber: 189,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1271,7 +1312,7 @@ function AccountSettings({ user }) {
                                             children: "Mật khẩu mới"
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/AccountSettings.tsx",
-                                            lineNumber: 150,
+                                            lineNumber: 195,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1282,13 +1323,13 @@ function AccountSettings({ user }) {
                                             placeholder: "Tối thiểu 6 ký tự"
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/AccountSettings.tsx",
-                                            lineNumber: 151,
+                                            lineNumber: 196,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/components/AccountSettings.tsx",
-                                    lineNumber: 149,
+                                    lineNumber: 194,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1299,7 +1340,7 @@ function AccountSettings({ user }) {
                                             children: "Xác nhận mật khẩu mới"
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/AccountSettings.tsx",
-                                            lineNumber: 154,
+                                            lineNumber: 199,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1310,19 +1351,19 @@ function AccountSettings({ user }) {
                                             placeholder: "Nhập lại mật khẩu mới"
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/AccountSettings.tsx",
-                                            lineNumber: 155,
+                                            lineNumber: 200,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/components/AccountSettings.tsx",
-                                    lineNumber: 153,
+                                    lineNumber: 198,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/components/AccountSettings.tsx",
-                            lineNumber: 148,
+                            lineNumber: 193,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1332,18 +1373,18 @@ function AccountSettings({ user }) {
                             children: changingPw ? "Đang đổi..." : "Đổi mật khẩu"
                         }, void 0, false, {
                             fileName: "[project]/app/components/AccountSettings.tsx",
-                            lineNumber: 158,
+                            lineNumber: 203,
                             columnNumber: 21
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/components/AccountSettings.tsx",
-                    lineNumber: 134,
+                    lineNumber: 179,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/components/AccountSettings.tsx",
-                lineNumber: 133,
+                lineNumber: 178,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1356,7 +1397,7 @@ function AccountSettings({ user }) {
                         children: "Thông tin tài khoản"
                     }, void 0, false, {
                         fileName: "[project]/app/components/AccountSettings.tsx",
-                        lineNumber: 166,
+                        lineNumber: 211,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1373,7 +1414,7 @@ function AccountSettings({ user }) {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/components/AccountSettings.tsx",
-                                lineNumber: 168,
+                                lineNumber: 213,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1383,7 +1424,7 @@ function AccountSettings({ user }) {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/components/AccountSettings.tsx",
-                                lineNumber: 169,
+                                lineNumber: 214,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1393,25 +1434,25 @@ function AccountSettings({ user }) {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/components/AccountSettings.tsx",
-                                lineNumber: 170,
+                                lineNumber: 215,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/components/AccountSettings.tsx",
-                        lineNumber: 167,
+                        lineNumber: 212,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/components/AccountSettings.tsx",
-                lineNumber: 165,
+                lineNumber: 210,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true);
 }
-_s(AccountSettings, "BHmjHwUc5pU6buDDau9x6gWqx1A=");
+_s(AccountSettings, "Vac2MqJ1MClFlhZhkJPCq5JJ2+c=");
 _c = AccountSettings;
 var _c;
 __turbopack_context__.k.register(_c, "AccountSettings");

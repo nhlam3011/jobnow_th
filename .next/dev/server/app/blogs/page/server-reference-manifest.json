@@ -1,4 +1,110 @@
 {
-  "node": {},
+  "node": {
+    "40124c1ce10590518c75d6757d18b454d098c3aa7f": {
+      "workers": {
+        "app/blogs/page": {
+          "moduleId": "[project]/.next-internal/server/app/blogs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/blogs.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getBlogs",
+          "filename": "app/actions/blogs.ts"
+        }
+      },
+      "layer": {
+        "app/blogs/page": "rsc"
+      },
+      "exportedName": "getBlogs",
+      "filename": "app/actions/blogs.ts"
+    },
+    "4016d45bb85e876b3cc3fd7e0d76f53a1da86d95d0": {
+      "workers": {
+        "app/blogs/page": {
+          "moduleId": "[project]/.next-internal/server/app/blogs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/blogs.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "deleteBlog",
+          "filename": "app/actions/blogs.ts"
+        }
+      },
+      "layer": {
+        "app/blogs/page": "rsc"
+      },
+      "exportedName": "deleteBlog",
+      "filename": "app/actions/blogs.ts"
+    },
+    "4051ca491192113c7160f9471e7526fed382cee1af": {
+      "workers": {
+        "app/blogs/page": {
+          "moduleId": "[project]/.next-internal/server/app/blogs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/blogs.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "updateBlog",
+          "filename": "app/actions/blogs.ts"
+        }
+      },
+      "layer": {
+        "app/blogs/page": "rsc"
+      },
+      "exportedName": "updateBlog",
+      "filename": "app/actions/blogs.ts"
+    },
+    "40660c5b5e54d5caa45d49a05d1270cfd96cbcdc7e": {
+      "workers": {
+        "app/blogs/page": {
+          "moduleId": "[project]/.next-internal/server/app/blogs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/blogs.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getBlogBySlug",
+          "filename": "app/actions/blogs.ts"
+        }
+      },
+      "layer": {
+        "app/blogs/page": "rsc"
+      },
+      "exportedName": "getBlogBySlug",
+      "filename": "app/actions/blogs.ts"
+    },
+    "406ee92fbf30798c7f2526e872b3b1f98c83d8619d": {
+      "workers": {
+        "app/blogs/page": {
+          "moduleId": "[project]/.next-internal/server/app/blogs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/blogs.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getBlogById",
+          "filename": "app/actions/blogs.ts"
+        }
+      },
+      "layer": {
+        "app/blogs/page": "rsc"
+      },
+      "exportedName": "getBlogById",
+      "filename": "app/actions/blogs.ts"
+    },
+    "40f59d0b09dda35d10decdb936912a993f82ebd3c6": {
+      "workers": {
+        "app/blogs/page": {
+          "moduleId": "[project]/.next-internal/server/app/blogs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/blogs.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "incrementBlogView",
+          "filename": "app/actions/blogs.ts"
+        }
+      },
+      "layer": {
+        "app/blogs/page": "rsc"
+      },
+      "exportedName": "incrementBlogView",
+      "filename": "app/actions/blogs.ts"
+    },
+    "60b7bde6eb5091fca7ffd61134ad381d9c837fd62d": {
+      "workers": {
+        "app/blogs/page": {
+          "moduleId": "[project]/.next-internal/server/app/blogs/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/blogs.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "createBlog",
+          "filename": "app/actions/blogs.ts"
+        }
+      },
+      "layer": {
+        "app/blogs/page": "rsc"
+      },
+      "exportedName": "createBlog",
+      "filename": "app/actions/blogs.ts"
+    }
+  },
   "edge": {}
 }

@@ -69,10 +69,10 @@ export default function AdminJobsTable({ jobs }: { jobs: Job[] }) {
                     <thead>
                         <tr>
                             <th>Tiêu đề</th>
-                            <th>Công ty</th>
-                            <th>Ngày đăng</th>
-                            <th>Trạng thái</th>
-                            <th style={{ textAlign: "right" }}>Thao tác</th>
+                            <th className="hide-mobile">Công ty</th>
+                            <th className="hide-mobile" style={{ textAlign: "left", whiteSpace: "nowrap" }}>Ngày đăng</th>
+                            <th style={{ textAlign: "center" }}>Trạng thái</th>
+                            <th style={{ textAlign: "center" }}>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -89,10 +89,10 @@ export default function AdminJobsTable({ jobs }: { jobs: Job[] }) {
                                             </Link>
                                             <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>{job.location} · {job.jobType}</div>
                                         </td>
-                                        <td className="muted">{job.company.name}</td>
-                                        <td className="muted">{new Date(job.createdAt).toLocaleDateString("vi-VN")}</td>
-                                        <td><span className="dash-badge" style={{ background: `${st.color}15`, color: st.color }}>{st.label}</span></td>
-                                        <td style={{ textAlign: "right" }}><AdminJobActions jobId={job.id} currentStatus={job.status} /></td>
+                                        <td className="muted hide-mobile">{job.company.name}</td>
+                                        <td style={{ textAlign: "center" }} className="muted hide-mobile">{new Date(job.createdAt).toLocaleDateString("vi-VN")}</td>
+                                        <td style={{ textAlign: "center" }}><span className="dash-badge" style={{ background: `${st.color}15`, color: st.color }}>{st.label}</span></td>
+                                        <td style={{ textAlign: "right", justifyContent: "center" }}><AdminJobActions jobId={job.id} currentStatus={job.status} /></td>
                                     </tr>
                                 );
                             })

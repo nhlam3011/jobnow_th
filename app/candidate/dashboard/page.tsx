@@ -3,9 +3,27 @@ import { redirect } from "next/navigation";
 import DashboardLayout from "@/app/components/DashboardLayout";
 import { getDashboardStats } from "@/app/actions/profile";
 import { getMyApplications } from "@/app/actions/applications";
-import { getJobs } from "@/app/actions/jobs";
 import { getRecommendedJobs } from "@/lib/ai";
 import Link from "next/link";
+
+// Avatar component inlined - simplified for server component
+function InlineAvatar({ src, alt, fallback, size = 40, style = {} }: { src?: string | null; alt: string; fallback?: string | null; size?: number; style?: React.CSSProperties }) {
+    const initials = fallback ? fallback.charAt(0).toUpperCase() : alt.split(" ").pop()?.charAt(0).toUpperCase() || "?";
+    const hasValidSrc = src && src !== "" && src !== "null" && src !== "undefined";
+
+    if (!hasValidSrc) {
+        return (
+            <div style={{ width: size, height: size, borderRadius: "50%", background: "var(--primary-light, #E0E7FF)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: "bold", fontSize: size > 30 ? `${size * 0.4}px` : "0.875rem", flexShrink: 0, ...style }}>
+                {initials}
+            </div>
+        );
+    }
+    return (
+        <div style={{ width: size, height: size, borderRadius: "50%", overflow: "hidden", position: "relative", flexShrink: 0, ...style }}>
+            <img src={src} alt={alt} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        </div>
+    );
+}
 
 const STATUS_LABEL: Record<string, { label: string; color: string }> = {
     PENDING: { label: "Đang chờ", color: "#F59E0B" },
@@ -30,7 +48,11 @@ export default async function CandidateDashboard() {
     const s = stats as { applications: number; profileComplete: boolean; totalJobs: number };
 
     return (
-        <DashboardLayout role="CANDIDATE" userName={session.user.name || "Ứng viên"}>
+        <DashboardLayout
+            role="CANDIDATE"
+            userName={session.user.name || "Ứng viên"}
+            userImage={session.user.image}
+        >
             <div className="dash-topbar">
                 <div>
                     <h1 className="dash-page-title">Xin chào, {session.user.name?.split(" ").pop()} 👋</h1>
@@ -64,21 +86,44 @@ export default async function CandidateDashboard() {
                         <h2 className="dash-section-title">Đơn ứng tuyển gần đây</h2>
                         <Link href="/candidate/applications" className="dash-section-link">Xem tất cả</Link>
                     </div>
-                    <div className="dash-list-card">
+                    <div className="dash-card-grid">
                         {recentApps.length === 0 ? (
-                            <div className="dash-empty">Chưa có đơn ứng tuyển nào</div>
+                            <div className="dash-list-card">
+                                <div className="dash-empty">Chưa có đơn ứng tuyển nào</div>
+                            </div>
                         ) : (
                             recentApps.map((app) => {
                                 const st = STATUS_LABEL[app.status] || { label: app.status, color: "#64748B" };
                                 return (
-                                    <div key={app.id} className="dash-list-item">
-                                        <div>
-                                            <div className="dash-list-title">{app.job.title}</div>
-                                            <div className="dash-list-sub">{app.job.company.name}</div>
+                                    <div key={app.id} className="dash-card-item" style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                                        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                                            <InlineAvatar
+                                                src={app.job.company.logo}
+                                                alt={app.job.company.name}
+                                                fallback={app.job.company.name}
+                                                size={44}
+                                                style={{
+                                                    borderRadius: "10px",
+                                                    border: "1.5px solid var(--border)",
+                                                    fontSize: "1rem",
+                                                    fontWeight: 700,
+                                                    color: st.color,
+                                                    background: `${st.color}12`
+                                                }}
+                                            />
+                                            {/* Job info */}
+                                            <div style={{ flex: 1, minWidth: 0 }}>
+                                                <div className="dash-card-item-title" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                                    {app.job.title}
+                                                </div>
+                                                <div className="dash-card-item-subtitle">{app.job.company.name}</div>
+                                            </div>
                                         </div>
-                                        <span className="dash-badge" style={{ background: `${st.color}15`, color: st.color }}>
-                                            {st.label}
-                                        </span>
+                                        <div style={{ borderTop: "1px solid var(--border)", paddingTop: "0.625rem" }}>
+                                            <span className="dash-badge" style={{ background: `${st.color}15`, color: st.color }}>
+                                                {st.label}
+                                            </span>
+                                        </div>
                                     </div>
                                 );
                             })
@@ -92,30 +137,53 @@ export default async function CandidateDashboard() {
                         <h2 className="dash-section-title">Việc làm gợi ý</h2>
                         <Link href="/jobs" className="dash-section-link">Xem thêm</Link>
                     </div>
-                    <div className="dash-list-card">
+                    <div className="dash-card-grid">
                         {suggestedJobs.length === 0 ? (
-                            <div className="dash-empty">Không có việc làm phù hợp</div>
+                            <div className="dash-list-card">
+                                <div className="dash-empty">Không có việc làm phù hợp</div>
+                            </div>
                         ) : (
                             suggestedJobs.map((job) => (
-                                <Link key={job.id} href={`/jobs/${job.slug}`} className="dash-list-item" style={{ textDecoration: "none" }}>
-                                    <div style={{ flex: 1 }}>
-                                        <div className="dash-list-title">{job.title}</div>
-                                        <div className="dash-list-sub">{job.companyName} · {job.location}</div>
+                                <Link key={job.id} href={`/jobs/${job.slug}`} className="dash-card-item" style={{ textDecoration: "none", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                                    <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                                        <InlineAvatar
+                                            src={job.companyLogo}
+                                            alt={job.companyName || "?"}
+                                            fallback={job.companyName || "?"}
+                                            size={44}
+                                            style={{
+                                                borderRadius: "10px",
+                                                border: "1.5px solid var(--border)",
+                                                fontSize: "1rem",
+                                                fontWeight: 700,
+                                                color: "var(--primary)",
+                                                background: "var(--tag-bg)"
+                                            }}
+                                        />
+                                        <div style={{ flex: 1, minWidth: 0 }}>
+                                            <div className="dash-card-item-title" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                                {job.title}
+                                            </div>
+                                            <div className="dash-card-item-subtitle">{job.companyName} · {job.location}</div>
+                                        </div>
                                     </div>
-                                    {job.similarity && (
-                                        <div style={{ textAlign: "right", marginLeft: "1rem" }}>
+                                    <div className="dash-card-item-footer" style={{ borderTop: "1px solid var(--border)", paddingTop: "0.625rem", margin: 0, justifyContent: "space-between" }}>
+                                        {job.similarity && (
                                             <div style={{
                                                 fontSize: "0.75rem",
                                                 fontWeight: 700,
                                                 color: job.similarity > 0.7 ? "#22C55E" : "#F59E0B",
-                                                background: job.similarity > 0.7 ? "rgba(34, 197, 94, 0.1)" : "rgba(245, 158, 11, 0.1)",
+                                                background: job.similarity > 0.7 ? "rgba(34,197,94,0.1)" : "rgba(245,158,11,0.1)",
                                                 padding: "2px 8px",
                                                 borderRadius: "12px"
                                             }}>
                                                 {Math.round(job.similarity * 100)}% Match
                                             </div>
-                                        </div>
-                                    )}
+                                        )}
+                                        <span style={{ fontSize: "0.8125rem", color: "var(--text-muted)", marginLeft: job.similarity ? "0" : "auto" }}>
+                                            Xem →
+                                        </span>
+                                    </div>
                                 </Link>
                             ))
                         )}

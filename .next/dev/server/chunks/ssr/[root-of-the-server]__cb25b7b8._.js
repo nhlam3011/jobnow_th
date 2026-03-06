@@ -133,11 +133,13 @@ __turbopack_async_result__();
 
 return __turbopack_context__.a(async (__turbopack_handle_async_dependencies__, __turbopack_async_result__) => { try {
 
-/* __next_internal_action_entry_do_not_use__ [{"00a7702647c2d0c5c1a5f8ca41c50bf579188aa376":"getDashboardStats","00bf796ff6f92065bdfcfaf5c738b0371c161514a3":"getCandidateProfile","00c284496e66852b76ef1aa78b101e9f3f8abd5f8f":"getEmployerProfile","40105b66b4410c3cf0ff316a6148f851ca44c3b807":"upsertCompany","40a458d024dd3f0e60304eb6ca0a29c63e8369ce69":"updateCandidateProfile"},"",""] */ __turbopack_context__.s([
+/* __next_internal_action_entry_do_not_use__ [{"00093e824a305e367a8625f593c9328391ca9ff2d3":"getEmployerCompany","00a7702647c2d0c5c1a5f8ca41c50bf579188aa376":"getDashboardStats","00bf796ff6f92065bdfcfaf5c738b0371c161514a3":"getCandidateProfile","00c284496e66852b76ef1aa78b101e9f3f8abd5f8f":"getEmployerProfile","40105b66b4410c3cf0ff316a6148f851ca44c3b807":"upsertCompany","40a458d024dd3f0e60304eb6ca0a29c63e8369ce69":"updateCandidateProfile"},"",""] */ __turbopack_context__.s([
     "getCandidateProfile",
     ()=>getCandidateProfile,
     "getDashboardStats",
     ()=>getDashboardStats,
+    "getEmployerCompany",
+    ()=>getEmployerCompany,
     "getEmployerProfile",
     ()=>getEmployerProfile,
     "updateCandidateProfile",
@@ -236,6 +238,27 @@ async function getEmployerProfile() {
             company: true
         }
     });
+}
+async function getEmployerCompany() {
+    const session = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$auth$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["auth"])();
+    if (!session?.user) return null;
+    const employer = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["prisma"].employerProfile.findUnique({
+        where: {
+            userId: session.user.id
+        },
+        include: {
+            company: {
+                select: {
+                    id: true,
+                    name: true,
+                    logo: true,
+                    slug: true,
+                    verified: true
+                }
+            }
+        }
+    });
+    return employer?.company || null;
 }
 async function upsertCompany(formData) {
     const session = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$auth$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["auth"])();
@@ -391,12 +414,14 @@ async function getDashboardStats() {
     getCandidateProfile,
     updateCandidateProfile,
     getEmployerProfile,
+    getEmployerCompany,
     upsertCompany,
     getDashboardStats
 ]);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getCandidateProfile, "00bf796ff6f92065bdfcfaf5c738b0371c161514a3", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(updateCandidateProfile, "40a458d024dd3f0e60304eb6ca0a29c63e8369ce69", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getEmployerProfile, "00c284496e66852b76ef1aa78b101e9f3f8abd5f8f", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getEmployerCompany, "00093e824a305e367a8625f593c9328391ca9ff2d3", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(upsertCompany, "40105b66b4410c3cf0ff316a6148f851ca44c3b807", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getDashboardStats, "00a7702647c2d0c5c1a5f8ca41c50bf579188aa376", null);
 __turbopack_async_result__();
@@ -643,7 +668,7 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$google$2f$generative$2d$ai$2f$dist$2f$index$2e$mjs__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@google/generative-ai/dist/index.mjs [app-rsc] (ecmascript)");
 ;
 const globalForGemini = globalThis;
-const genAI = globalForGemini.genAI ?? new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$google$2f$generative$2d$ai$2f$dist$2f$index$2e$mjs__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["GoogleGenerativeAI"](process.env.GEMINI_API_KEY || "");
+const genAI = new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$google$2f$generative$2d$ai$2f$dist$2f$index$2e$mjs__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["GoogleGenerativeAI"](process.env.GEMINI_API_KEY);
 if ("TURBOPACK compile-time truthy", 1) globalForGemini.genAI = genAI;
 const AI_CONFIG = {
     chatModel: process.env.GEMINI_CHAT_MODEL || "gemini-2.0-flash",
@@ -1098,6 +1123,7 @@ var __turbopack_async_dependencies__ = __turbopack_handle_async_dependencies__([
 ;
 ;
 ;
+;
 __turbopack_async_result__();
 } catch(e) { __turbopack_async_result__(e); } }, false);}),
 "[project]/.next-internal/server/app/candidate/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/applications.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)", ((__turbopack_context__) => {
@@ -1106,6 +1132,8 @@ __turbopack_async_result__();
 return __turbopack_context__.a(async (__turbopack_handle_async_dependencies__, __turbopack_async_result__) => { try {
 
 __turbopack_context__.s([
+    "00093e824a305e367a8625f593c9328391ca9ff2d3",
+    ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$profile$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getEmployerCompany"],
     "005c26bb90fcabb33e6171a1743f7c7fab53ede09f",
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$auth$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["logoutUser"],
     "00a7702647c2d0c5c1a5f8ca41c50bf579188aa376",

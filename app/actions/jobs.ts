@@ -53,6 +53,7 @@ export async function getJobs(params?: {
                         name: job.companyName,
                         logo: job.companyLogo,
                         slug: job.companySlug,
+                        verified: false,
                     },
                     similarity: job.similarity,
                 }));
@@ -86,7 +87,7 @@ export async function getJobs(params?: {
 
     return prisma.job.findMany({
         where,
-        include: { company: { select: { name: true, logo: true, slug: true } } },
+        include: { company: { select: { name: true, logo: true, slug: true, verified: true } } },
         orderBy: params?.q ? undefined : { createdAt: "desc" },
         take: 50,
     });
@@ -96,7 +97,7 @@ export async function getJobBySlug(slug: string) {
     return prisma.job.findUnique({
         where: { slug },
         include: {
-            company: true,
+            company: { select: { name: true, logo: true, slug: true, website: true, verified: true } },
             industry: true,
             _count: { select: { applications: true } }
         },
@@ -106,7 +107,11 @@ export async function getJobBySlug(slug: string) {
 export async function getJobById(id: string) {
     return prisma.job.findUnique({
         where: { id },
-        include: { company: true, applications: { include: { candidate: { select: { name: true, email: true, image: true, candidateProfile: true } } } }, _count: { select: { applications: true } } },
+        include: {
+            company: { select: { name: true, logo: true, slug: true, website: true, verified: true } },
+            applications: { include: { candidate: { select: { name: true, email: true, image: true, candidateProfile: true } } } },
+            _count: { select: { applications: true } }
+        },
     });
 }
 
@@ -243,6 +248,72 @@ export async function deleteJob(jobId: string) {
     return { success: true };
 }
 
+export async function updateJob(jobId: string, formData: FormData) {
+    const session = await auth();
+    if (!session?.user || session.user.role !== "EMPLOYER") {
+        return { error: "Không có quyền truy cập" };
+    }
+
+    // Verify job belongs to employer
+    const job = await prisma.job.findUnique({
+        where: { id: jobId },
+        include: { company: { include: { employers: true } } }
+    });
+
+    if (!job) {
+        return { error: "Không tìm thấy tin tuyển dụng" };
+    }
+
+    // Check if user is employer of this job's company
+    const isEmployer = job.company.employers.some(e => e.userId === session.user.id);
+    if (!isEmployer) {
+        return { error: "Bạn không có quyền sửa tin này" };
+    }
+
+    const title = formData.get("title") as string;
+    const description = formData.get("description") as string;
+    const requirements = formData.get("requirements") as string;
+    const benefits = formData.get("benefits") as string;
+    const location = formData.get("location") as string;
+    const jobType = formData.get("jobType") as string;
+    const salaryMin = parseInt(formData.get("salaryMin") as string) || null;
+    const salaryMax = parseInt(formData.get("salaryMax") as string) || null;
+    const skillsRaw = formData.get("skills") as string;
+    const skills = skillsRaw ? skillsRaw.split(",").map((s) => s.trim()).filter(Boolean) : [];
+    const industrySlug = formData.get("industryId") as string;
+
+    // Get industry by slug if provided
+    let industryId = null;
+    if (industrySlug) {
+        const industry = await prisma.industry.findUnique({
+            where: { slug: industrySlug }
+        });
+        if (industry) {
+            industryId = industry.id;
+        }
+    }
+
+    await prisma.job.update({
+        where: { id: jobId },
+        data: {
+            title,
+            description,
+            requirements,
+            benefits,
+            location,
+            jobType: jobType as "FULL_TIME" | "PART_TIME" | "REMOTE" | "INTERNSHIP" | "CONTRACT",
+            salaryMin,
+            salaryMax,
+            skills,
+            industryId,
+        },
+    });
+
+    revalidatePath("/employer/jobs");
+    revalidatePath("/jobs");
+    return { success: true };
+}
+
 export async function getAllJobsForAdmin() {
     return prisma.job.findMany({
         include: { company: { select: { name: true } }, _count: { select: { applications: true } } },
@@ -342,7 +413,7 @@ export async function getSavedJobs() {
         include: {
             job: {
                 include: {
-                    company: { select: { name: true, logo: true, slug: true } }
+                    company: { select: { name: true, logo: true, slug: true, verified: true } }
                 }
             }
         },

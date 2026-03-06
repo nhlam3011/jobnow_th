@@ -224,10 +224,10 @@ export default function LandingContent({ featuredJobs, industries, companies, st
                         </p>
 
                         <div style={{
-                            display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(155px, 1fr))",
+                            display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))",
                             gap: "0.875rem", maxWidth: "960px", margin: "0 auto",
                         }}>
-                            {industries.slice(0, 8).map((industry) => {
+                            {industries.slice(0, 6).map((industry) => {
                                 const Icon = INDUSTRY_ICONS[industry.slug] || BriefcaseIcon;
                                 return (
                                     <Link key={industry.slug} href={`/jobs?industry=${industry.slug}`} style={{ textDecoration: "none" }}>
@@ -303,7 +303,21 @@ export default function LandingContent({ featuredJobs, industries, companies, st
                         {featuredJobs.length > 0 ? (
                             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "1rem" }}>
                                 {featuredJobs.map((job) => (
-                                    <JobCard key={job.id} {...job} saved={savedJobIds.includes(job.id)} />
+                                    <JobCard
+                                        key={job.id}
+                                        id={job.id}
+                                        slug={job.slug}
+                                        title={job.title}
+                                        company={job.company}
+                                        logo={job.companyLogo ?? undefined}
+                                        location={job.location}
+                                        salary={job.salary}
+                                        type={job.type}
+                                        skills={job.skills}
+                                        posted={job.posted}
+                                        featured={job.featured}
+                                        saved={savedJobIds.includes(job.id)}
+                                    />
                                 ))}
                             </div>
                         ) : (

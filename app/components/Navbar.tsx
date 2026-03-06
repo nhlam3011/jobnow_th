@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import ThemeToggle from "./ThemeToggle";
+import Avatar from "./Avatar";
 import {
     ComputerDesktopIcon,
     BuildingLibraryIcon,
@@ -81,9 +82,28 @@ export default function Navbar({ industries }: NavbarProps) {
     const [open, setOpen] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
     const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const [companyLogo, setCompanyLogo] = useState<string | null>(null);
+    const [companyName, setCompanyName] = useState<string | null>(null);
+
+    // Fetch company info for employers
+    useEffect(() => {
+        if (session?.user?.role === "EMPLOYER") {
+            fetch("/api/employer/company-info")
+                .then(res => res.ok ? res.json() : null)
+                .then(data => {
+                    if (data?.logo) setCompanyLogo(data.logo);
+                    if (data?.name) setCompanyName(data.name);
+                })
+                .catch(() => { });
+        }
+    }, [session]);
 
     const industryList = industries && industries.length > 0 ? industries : DEFAULT_INDUSTRIES;
     const isLoggedIn = status === "authenticated";
+
+    // For employer, show company logo; otherwise show user avatar
+    const displayImage = session?.user?.role === "EMPLOYER" ? (companyLogo || session.user.image) : session?.user?.image;
+    const displayName = session?.user?.role === "EMPLOYER" ? (companyName || session.user.name) : session?.user?.name;
 
     const getDashboardLink = () => {
         if (!session?.user?.role) return "/login";
@@ -476,23 +496,64 @@ export default function Navbar({ industries }: NavbarProps) {
                     </div>
                 </div>
 
-                {/* CTA */}
-                <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }} className="nav-cta">
-                    {isLoggedIn ? (
-                        <>
-                            <Link href={getDashboardLink()} className="btn-outline" style={{ padding: "0.5rem 1.125rem", fontSize: "0.9rem" }}>Dashboard</Link>
-                            <button onClick={() => signOut({ callbackUrl: "/" })} className="btn-primary" style={{ padding: "0.5rem 1.125rem", fontSize: "0.9rem", cursor: "pointer" }}>Đăng xuất</button>
-                        </>
-                    ) : (
-                        <>
-                            <Link href="/login" className="btn-outline" style={{ padding: "0.5rem 1.125rem", fontSize: "0.9rem" }}>Đăng nhập</Link>
-                            <Link href="/register" className="btn-primary" style={{ padding: "0.5rem 1.125rem", fontSize: "0.9rem" }}>Đăng ký</Link>
-                        </>
-                    )}
-                </div>
+                {/* Desktop CTA (Logged Out Only) */}
+                {!isLoggedIn && (
+                    <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }} className="nav-cta">
+                        <Link href="/login" className="btn-outline" style={{ padding: "0.5rem 1.125rem", fontSize: "0.9rem" }}>Đăng nhập</Link>
+                        <Link href="/register" className="btn-primary" style={{ padding: "0.5rem 1.125rem", fontSize: "0.9rem" }}>Đăng ký</Link>
+                    </div>
+                )}
 
-                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginLeft: "auto" }}>
-                    <ThemeToggle />
+                {/* Right controls (Theme, User Avatar, Hamburger) */}
+                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginLeft: isLoggedIn ? "auto" : "0" }}>
+                    <div className="hide-mobile" style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                        <ThemeToggle />
+
+                        {/* User Avatar */}
+                        {isLoggedIn && (
+                            <div style={{ position: "relative" }} onMouseEnter={() => handleMouseEnter("user")} onMouseLeave={handleMouseLeave}>
+                                <div
+                                    onClick={() => setActiveDropdown(activeDropdown === "user" ? null : "user")}
+                                    style={{ display: "block", width: "40px", height: "40px", borderRadius: "50%", overflow: "hidden", cursor: "pointer", background: "var(--bg-card)", flexShrink: 0 }}
+                                >
+                                    <Avatar
+                                        src={displayImage}
+                                        alt={displayName || "User"}
+                                        fallback={displayName}
+                                        size={40}
+                                    />
+                                </div>
+
+                                {/* Dropdown Menu */}
+                                {activeDropdown === "user" && (
+                                    <div
+                                        style={{
+                                            position: "absolute",
+                                            top: "100%",
+                                            right: 0,
+                                            paddingTop: "0.5rem",
+                                            zIndex: 1000,
+                                        }}
+                                    >
+                                        <div style={{ background: "var(--bg-card)", border: "1.5px solid var(--border)", borderRadius: "12px", boxShadow: "0 10px 40px rgba(0,0,0,0.12)", padding: "0.5rem", minWidth: "220px" }}>
+                                            <div style={{ padding: "0.5rem 0.75rem", borderBottom: "1px solid var(--border)", marginBottom: "0.5rem" }}>
+                                                <div style={{ fontWeight: 600, color: "var(--text)" }}>{displayName || "Người dùng"}</div>
+                                                <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)", wordBreak: "break-all" }}>{session?.user?.email}</div>
+                                            </div>
+                                            <Link href={getDashboardLink()} onClick={() => setActiveDropdown(null)} style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.6rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", marginBottom: "0.25rem", transition: "background 0.2s" }} onMouseEnter={(e) => { e.currentTarget.style.background = "var(--tag-bg)" }} onMouseLeave={(e) => { e.currentTarget.style.background = "transparent" }}>
+                                                <ComputerDesktopIcon className="w-5 h-5" style={{ color: "var(--text-muted)" }} />
+                                                <span>Dashboard</span>
+                                            </Link>
+                                            <button onClick={() => signOut({ callbackUrl: "/" })} style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.6rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--danger, #EF4444)", background: "transparent", border: "none", width: "100%", cursor: "pointer", textAlign: "left", fontSize: "0.9375rem", transition: "background 0.2s" }} onMouseEnter={(e) => { e.currentTarget.style.background = "var(--tag-bg)" }} onMouseLeave={(e) => { e.currentTarget.style.background = "transparent" }}>
+                                                <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                                                <span>Đăng xuất</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
 
                     <button onClick={() => setOpen(!open)} style={{ display: "none", background: "none", border: "none", cursor: "pointer", padding: "0.5rem", color: "var(--text)" }} className="nav-hamburger" aria-label="Mở menu">
                         <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -647,20 +708,49 @@ export default function Navbar({ industries }: NavbarProps) {
                         )}
                     </div>
 
-                    {/* CTA buttons */}
-                    <div style={{ display: "flex", gap: "0.75rem", marginTop: "1rem" }}>
-                        {isLoggedIn ? (
-                            <>
-                                <Link href={getDashboardLink()} onClick={() => setOpen(false)} className="btn-outline" style={{ flex: 1, justifyContent: "center" }}>Dashboard</Link>
-                                <button onClick={() => signOut({ callbackUrl: "/" })} className="btn-primary" style={{ flex: 1, justifyContent: "center", cursor: "pointer" }}>Đăng xuất</button>
-                            </>
-                        ) : (
-                            <>
-                                <Link href="/login" onClick={() => setOpen(false)} className="btn-outline" style={{ flex: 1, justifyContent: "center" }}>Đăng nhập</Link>
-                                <Link href="/register" onClick={() => setOpen(false)} className="btn-primary" style={{ flex: 1, justifyContent: "center" }}>Đăng ký</Link>
-                            </>
-                        )}
+                    {/* Theme Toggle (Mobile) */}
+                    <div style={{ padding: "0.875rem 0.5rem", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                        <span style={{ fontWeight: 600, fontSize: "0.9375rem", color: "var(--text)" }}>Giao diện Sáng / Tối</span>
+                        <ThemeToggle />
                     </div>
+
+                    {/* User Profile (Mobile) */}
+                    {isLoggedIn && (
+                        <div style={{ padding: "1rem 0.5rem", borderBottom: "1px solid var(--border)" }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1rem" }}>
+                                <div style={{ display: "block", width: "40px", height: "40px", borderRadius: "50%", overflow: "hidden", background: "var(--bg-card)", flexShrink: 0 }}>
+                                    {session?.user?.image ? (
+                                        <img src={session.user.image} alt="Avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                                    ) : (
+                                        <div style={{ width: "100%", height: "100%", background: "var(--primary-light)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: "bold", fontSize: "1.1rem" }}>
+                                            {session?.user?.name?.charAt(0)?.toUpperCase() || "U"}
+                                        </div>
+                                    )}
+                                </div>
+                                <div style={{ overflow: "hidden" }}>
+                                    <div style={{ fontWeight: 600, color: "var(--text)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{displayName || "Người dùng"}</div>
+                                    <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{session?.user?.email}</div>
+                                </div>
+                            </div>
+
+                            <Link href={getDashboardLink()} onClick={() => setOpen(false)} style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.6rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", marginBottom: "0.25rem", background: "var(--tag-bg)" }}>
+                                <ComputerDesktopIcon className="w-5 h-5" style={{ color: "var(--text-muted)" }} />
+                                <span style={{ fontWeight: 500 }}>Dashboard</span>
+                            </Link>
+                            <button onClick={() => signOut({ callbackUrl: "/" })} style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.6rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--danger, #EF4444)", background: "transparent", border: "none", width: "100%", cursor: "pointer", textAlign: "left", fontSize: "0.9375rem" }}>
+                                <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                                <span style={{ fontWeight: 500 }}>Đăng xuất</span>
+                            </button>
+                        </div>
+                    )}
+
+                    {/* CTA buttons */}
+                    {!isLoggedIn && (
+                        <div style={{ display: "flex", gap: "0.75rem", marginTop: "1rem" }}>
+                            <Link href="/login" onClick={() => setOpen(false)} className="btn-outline" style={{ flex: 1, justifyContent: "center" }}>Đăng nhập</Link>
+                            <Link href="/register" onClick={() => setOpen(false)} className="btn-primary" style={{ flex: 1, justifyContent: "center" }}>Đăng ký</Link>
+                        </div>
+                    )}
                 </div>
             )}
         </nav>

@@ -4,9 +4,7 @@ const globalForGemini = globalThis as unknown as {
     genAI: GoogleGenerativeAI | undefined;
 };
 
-export const genAI =
-    globalForGemini.genAI ??
-    new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+export const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string);
 
 if (process.env.NODE_ENV !== "production") globalForGemini.genAI = genAI;
 

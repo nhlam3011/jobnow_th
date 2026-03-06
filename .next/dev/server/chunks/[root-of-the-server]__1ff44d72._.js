@@ -105,11 +105,11 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$google$2f$generative$2d$ai$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@google/generative-ai/dist/index.mjs [app-route] (ecmascript)");
 ;
 const globalForGemini = globalThis;
-const genAI = globalForGemini.genAI ?? new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$google$2f$generative$2d$ai$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["GoogleGenerativeAI"](process.env.GEMINI_API_KEY || "");
+const genAI = new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$google$2f$generative$2d$ai$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["GoogleGenerativeAI"](process.env.GEMINI_API_KEY);
 if ("TURBOPACK compile-time truthy", 1) globalForGemini.genAI = genAI;
 const AI_CONFIG = {
     chatModel: process.env.GEMINI_CHAT_MODEL || "gemini-2.0-flash",
-    embeddingModel: process.env.GEMINI_EMBEDDING_MODEL || "gemini-embedding-001"
+    embeddingModel: process.env.GEMINI_EMBEDDING_MODEL || "text-embedding-004"
 };
 function setChatModel(model) {
     AI_CONFIG.chatModel = model;
@@ -215,41 +215,21 @@ function createEmbeddingTextForProfile(profile) {
 }
 const MODEL_INFO = {
     chat: {
-        "gemini-2.0-flash": {
-            name: "Gemini 2.0 Flash",
+        "gemini-2.5-flash": {
+            name: "Gemini 2.5 Flash",
             description: "Nhanh và hiệu quả, phù hợp cho hầu hết tác vụ",
             bestFor: "Tìm kiếm, gợi ý, tạo nội dung"
-        },
-        "gemini-2.0-flash-lite": {
-            name: "Gemini 2.0 Flash Lite",
-            description: "Nhẹ hơn, tiết kiệm chi phí",
-            bestFor: "Tác vụ đơn giản, tần suất cao"
-        },
-        "gemini-1.5-pro": {
-            name: "Gemini 1.5 Pro",
-            description: "Mạnh nhất, hiểu ngữ cảnh tốt",
-            bestFor: "Phân tích phức tạp, cover letter chi tiết"
-        },
-        "gemini-1.5-flash": {
-            name: "Gemini 1.5 Flash",
-            description: "Cân bằng giữa tốc độ và chất lượng",
-            bestFor: "Tìm kiếm, resume parsing"
-        },
-        "gemini-1.5-flash-8b": {
-            name: "Gemini 1.5 Flash 8B",
-            description: "Rất nhanh, ít tokens",
-            bestFor: "Tác vụ đơn giản"
         }
     },
     embedding: {
         "text-embedding-004": {
             name: "Text Embedding 004",
-            description: "Embedding tiêu chuẩn cho tìm kiếm vector",
+            description: "Embedding tiêu chuẩn mạnh mẽ nhất hiện nay",
             dimensions: 1536
         },
         "gemini-embedding-001": {
             name: "Gemini Embedding 001",
-            description: "Embedding từ Gemini",
+            description: "Embedding từ Gemini (Cũ hơn)",
             dimensions: 768
         }
     }

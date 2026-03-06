@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
     PENDING: { label: "Đang chờ", color: "#F59E0B" },
@@ -47,10 +48,10 @@ export default function CandidateApplicationsList({ applications }: { applicatio
                 <div className="dash-filter-tabs">
                     {[
                         { key: "ALL", label: "Tất cả" },
-                        { key: "PENDING", label: "Đang chờ" },
+                        { key: "PENDING", label: "Chờ" },
                         { key: "REVIEWING", label: "Xem xét" },
                         { key: "INTERVIEW", label: "Phỏng vấn" },
-                        { key: "ACCEPTED", label: "Chấp nhận" },
+                        { key: "ACCEPTED", label: "Nhận" },
                         { key: "REJECTED", label: "Từ chối" },
                     ].map((tab) => (
                         <button key={tab.key} className={`dash-filter-tab ${statusFilter === tab.key ? "active" : ""}`} onClick={() => setStatusFilter(tab.key)}>
@@ -75,21 +76,21 @@ export default function CandidateApplicationsList({ applications }: { applicatio
                     </div>
                 </div>
             ) : (
-                <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                <div className="dash-card-grid">
                     {filtered.map((app) => {
                         const st = STATUS_CONFIG[app.status] || { label: app.status, color: "#64748B" };
                         return (
-                            <div key={app.id} className="dash-stat-card" style={{ display: "flex", gap: "1.25rem", alignItems: "center", flexWrap: "wrap" }}>
-                                <div style={{ width: 44, height: 44, borderRadius: 10, background: `${st.color}12`, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, color: st.color, fontSize: "1rem", flexShrink: 0 }}>
-                                    {app.job.company.name.charAt(0)}
-                                </div>
-                                <div style={{ flex: 1, minWidth: 200 }}>
-                                    <div style={{ fontWeight: 700, color: "var(--text)", fontSize: "0.9375rem" }}>{app.job.title}</div>
-                                    <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)", marginTop: "0.125rem" }}>
-                                        {app.job.company.name} · {app.job.location}
+                            <div key={app.id} className="dash-card-item">
+                                <div className="dash-card-item-header">
+                                    <div className="dash-card-item-avatar" style={{ background: `${st.color}12`, color: st.color }}>
+                                        {app.job.company.name.charAt(0).toUpperCase()}
+                                    </div>
+                                    <div className="dash-card-item-content">
+                                        <div className="dash-card-item-title">{app.job.title}</div>
+                                        <div className="dash-card-item-subtitle">{app.job.company.name} · {app.job.location}</div>
                                     </div>
                                 </div>
-                                <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
+                                <div className="dash-card-item-footer">
                                     <span className="dash-badge" style={{ background: `${st.color}15`, color: st.color }}>{st.label}</span>
                                     <span style={{ fontSize: "0.8125rem", color: "var(--text-muted)" }}>
                                         {new Date(app.createdAt).toLocaleDateString("vi-VN")}
@@ -100,6 +101,14 @@ export default function CandidateApplicationsList({ applications }: { applicatio
                     })}
                 </div>
             )}
+
+            <style jsx>{`
+                @media (max-width: 768px) {
+                    .dash-card-grid {
+                        grid-template-columns: 1fr;
+                    }
+                }
+            `}</style>
         </>
     );
 }

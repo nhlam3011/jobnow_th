@@ -71,6 +71,18 @@ export async function getEmployerProfile() {
     });
 }
 
+export async function getEmployerCompany() {
+    const session = await auth();
+    if (!session?.user) return null;
+
+    const employer = await prisma.employerProfile.findUnique({
+        where: { userId: session.user.id },
+        include: { company: { select: { id: true, name: true, logo: true, slug: true, verified: true } } },
+    });
+
+    return employer?.company || null;
+}
+
 export async function upsertCompany(formData: FormData) {
     const session = await auth();
     if (!session?.user || session.user.role !== "EMPLOYER") return { error: "Không có quyền" };

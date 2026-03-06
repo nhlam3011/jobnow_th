@@ -51,8 +51,12 @@ export default async function CompanyDetailPage({
             <div style={{ background: "linear-gradient(135deg, #0369A1, #0284C7)", height: "200px" }}></div>
             <div className="container-xl" style={{ marginTop: "-64px", marginBottom: "3rem", position: "relative", zIndex: 10 }}>
                 <div className="card" style={{ padding: "2rem", display: "flex", gap: "2rem", alignItems: "flex-end", flexWrap: "wrap" }}>
-                    <div style={{ width: "128px", height: "128px", borderRadius: "16px", background: "var(--bg-card)", border: "4px solid var(--bg-card)", boxShadow: "0 4px 12px rgba(0,0,0,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "3rem", fontWeight: 800, color: "var(--primary)" }}>
-                        {company.name.charAt(0)}
+                    <div style={{ width: "64px", height: "64px", borderRadius: "12px", background: company.logo ? "transparent" : "var(--tag-bg)", border: "1.5px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: "1.25rem", color: "var(--primary)", flexShrink: 0, overflow: "hidden" }}>
+                        {company.logo ? (
+                            <img src={company.logo} alt={company.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                        ) : (
+                            company.name.charAt(0)
+                        )}
                     </div>
                     <div style={{ flex: 1, minWidth: "280px" }}>
                         <h1 style={{ fontSize: "2rem", fontWeight: 800, color: "var(--text)", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
@@ -83,7 +87,13 @@ export default async function CompanyDetailPage({
                         </div>
                     </div>
                     {company.website && (
-                        <a href={company.website} target="_blank" rel="noopener noreferrer" className="btn-outline" style={{ textDecoration: "none" }}>
+                        <a
+                            href={company.website.startsWith('http') ? company.website : `https://${company.website}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn-outline"
+                            style={{ textDecoration: "none" }}
+                        >
                             Thăm Website
                             <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ marginLeft: "0.5rem" }}><path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
                         </a>
@@ -124,9 +134,17 @@ export default async function CompanyDetailPage({
                                         title={job.title}
                                         company={company.name}
                                         location={job.location}
-                                        salary={job.salaryMin && job.salaryMax ? `${Math.round(job.salaryMin / 1000000)}–${Math.round(job.salaryMax / 1000000)} triệu` : "Thỏa thuận"}
+                                        salary={job.salaryMin || job.salaryMax ?
+                                            (job.salaryMin && job.salaryMax ?
+                                                `${job.salaryMin.toLocaleString('vi-VN')}–${job.salaryMax.toLocaleString('vi-VN')} đ` :
+                                                job.salaryMin ?
+                                                    `Từ ${job.salaryMin.toLocaleString('vi-VN')} đ` :
+                                                    `Đến ${job.salaryMax.toLocaleString('vi-VN')} đ`) :
+                                            "Thỏa thuận"}
                                         type={job.jobType}
                                         skills={job.skills}
+                                        logo={company.logo ?? undefined}
+                                        verified={company.verified}
                                         posted={new Date(job.createdAt).toLocaleDateString("vi-VN")}
                                         featured={false}
                                         saved={savedJobIds.includes(job.id)}
@@ -148,7 +166,7 @@ export default async function CompanyDetailPage({
                         {company.website && (
                             <div>
                                 <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)", marginBottom: "0.25rem" }}>Website</div>
-                                <a href={company.website} target="_blank" rel="noopener noreferrer" style={{ fontWeight: 600, color: "var(--primary)", textDecoration: "none", fontSize: "0.9375rem" }}>{company.website}</a>
+                                <a href={company.website.startsWith('http') ? company.website : `https://${company.website}`} target="_blank" rel="noopener noreferrer" style={{ fontWeight: 600, color: "var(--primary)", textDecoration: "none", fontSize: "0.9375rem" }}>{company.website}</a>
                             </div>
                         )}
                     </div>

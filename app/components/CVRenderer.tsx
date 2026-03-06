@@ -1,26 +1,6 @@
 "use client";
 
-import React from "react";
-import {
-    Document,
-    Page,
-    Text,
-    View,
-    StyleSheet,
-    Font,
-    Image,
-} from "@react-pdf/renderer";
-
-// Đăng ký font Roboto từ Google Fonts để hỗ trợ hiển thị Tiếng Việt đầy đủ các dấu
-Font.register({
-    family: "Roboto",
-    fonts: [
-        { src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf", fontWeight: 300 },
-        { src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-regular-webfont.ttf", fontWeight: 400 },
-        { src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-medium-webfont.ttf", fontWeight: 500 },
-        { src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-bold-webfont.ttf", fontWeight: 700 },
-    ],
-});
+import React, { forwardRef } from "react";
 
 interface CVRendererProps {
     data: any;
@@ -28,144 +8,243 @@ interface CVRendererProps {
 }
 
 /**
- * Component CVRenderer: Chuyển đổi dữ liệu JSON của người dùng thành giao diện PDF chuyên nghiệp.
- * Hỗ trợ các mẫu (template) khác nhau dựa trên layoutConfig và styleConfig.
+ * Component CVRenderer: Chuyển đổi dữ liệu JSON của người dùng thành HTML có thể in thành PDF.
+ * Thiết kế theo dạng 2 cột (trái/phải) chuyên nghiệp.
  */
-const CVRenderer: React.FC<CVRendererProps> = ({ data, template }) => {
+const CVRenderer = forwardRef<HTMLDivElement, CVRendererProps>(({ data, template }, ref) => {
     const { styleConfig, layoutConfig } = template;
 
-    // Khởi tạo styles dựa trên template config
-    const styles = StyleSheet.create({
+    // Base font size
+    const baseFontSize = (styleConfig.fontSize || 10) * 1.2;
+    const primaryColor = styleConfig.primaryColor || "#0056b3";
+    const sidebarBg = layoutConfig.layout === "sidebar-left" ? primaryColor : "#f8f9fa";
+    const sidebarTextColor = layoutConfig.layout === "sidebar-left" ? "#ffffff" : "#333333";
+
+    const styles = {
         page: {
-            flexDirection: layoutConfig.layout === "sidebar-left" ? "row" : "column",
+            display: "flex",
+            flexDirection: layoutConfig.layout === "sidebar-top" ? "column" as const : "row" as const,
             backgroundColor: styleConfig.secondaryColor || "#FFFFFF",
+            minHeight: "1123px", // A4 height
+            width: "794px",      // A4 width
             padding: 0,
-            fontFamily: "Roboto",
+            fontFamily: styleConfig.fontFamily || "'Inter', 'Roboto', sans-serif",
+            color: "#333",
+            margin: "0 auto",
+            boxSizing: "border-box" as const,
+            overflow: "hidden",
+            boxShadow: "0 0 10px rgba(0,0,0,0.1)", // For web preview only, doesn't print if overflow hidden covers
         },
         sidebar: {
-            width: "30%",
-            backgroundColor: styleConfig.primaryColor || "#0056b3",
-            color: "#FFFFFF",
-            padding: 20,
-            height: "100%",
+            width: layoutConfig.layout === "sidebar-top" ? "100%" : "35%",
+            backgroundColor: sidebarBg,
+            color: sidebarTextColor,
+            padding: layoutConfig.layout === "sidebar-top" ? "40px" : "40px 30px",
+            boxSizing: "border-box" as const,
+            display: "flex",
+            flexDirection: "column" as const,
+            gap: "24px",
         },
         main: {
-            width: layoutConfig.layout === "sidebar-left" ? "70%" : "100%",
-            padding: 30,
+            width: layoutConfig.layout === "sidebar-top" ? "100%" : "65%",
+            backgroundColor: "#FFFFFF",
+            padding: "40px",
+            boxSizing: "border-box" as const,
+            display: "flex",
+            flexDirection: "column" as const,
+            gap: "24px",
         },
-        section: {
-            marginBottom: styleConfig.spacing || 10,
+        avatarContainer: {
+            display: "flex",
+            justifyContent: layoutConfig.layout === "sidebar-top" ? "center" : "center",
+            marginBottom: "10px",
         },
-        title: {
-            fontSize: (styleConfig.fontSize || 10) + 8,
-            fontWeight: "bold",
-            marginBottom: 5,
-            color: layoutConfig.layout === "sidebar-left" ? "#FFFFFF" : styleConfig.primaryColor,
+        avatar: {
+            width: "120px",
+            height: "120px",
+            borderRadius: "50%",
+            objectFit: "cover" as const,
+            border: `4px solid ${layoutConfig.layout === "sidebar-left" ? "rgba(255,255,255,0.2)" : primaryColor}`,
         },
-        subtitle: {
-            fontSize: (styleConfig.fontSize || 10) + 2,
-            fontWeight: "bold",
-            marginTop: 10,
-            marginBottom: 5,
-            borderBottomWidth: 1,
-            borderBottomColor: styleConfig.primaryColor || "#EEEEEE",
-            color: styleConfig.primaryColor,
+        nameTitle: {
+            fontSize: `${baseFontSize + 16}px`,
+            fontWeight: 800,
+            marginBottom: "4px",
+            color: layoutConfig.layout === "sidebar-left" ? "#FFFFFF" : primaryColor,
+            textTransform: "uppercase" as const,
+            letterSpacing: "1px",
+            lineHeight: 1.2,
+            textAlign: layoutConfig.layout === "sidebar-top" ? "center" as const : "left" as const,
+        },
+        jobTitle: {
+            fontSize: `${baseFontSize + 4}px`,
+            fontWeight: 500,
+            color: layoutConfig.layout === "sidebar-left" ? "rgba(255,255,255,0.8)" : "#666",
+            textTransform: "uppercase" as const,
+            letterSpacing: "2px",
+            marginBottom: "16px",
+            textAlign: layoutConfig.layout === "sidebar-top" ? "center" as const : "left" as const,
+        },
+        contactList: {
+            display: "flex",
+            flexDirection: "column" as const,
+            gap: "8px",
+            fontSize: `${baseFontSize}px`,
+            color: layoutConfig.layout === "sidebar-left" ? "rgba(255,255,255,0.9)" : "#444",
+        },
+        sectionTitle: {
+            fontSize: `${baseFontSize + 4}px`,
+            fontWeight: 700,
+            color: layoutConfig.layout === "sidebar-left" ? "#FFFFFF" : primaryColor,
+            textTransform: "uppercase" as const,
+            letterSpacing: "1px",
+            borderBottom: `2px solid ${layoutConfig.layout === "sidebar-left" ? "rgba(255,255,255,0.3)" : primaryColor}`,
+            paddingBottom: "6px",
+            marginBottom: "16px",
+        },
+        mainSectionTitle: {
+            fontSize: `${baseFontSize + 6}px`,
+            fontWeight: 800,
+            color: layoutConfig.layout === "sidebar-left" ? primaryColor : primaryColor,
+            textTransform: "uppercase" as const,
+            letterSpacing: "1px",
+            borderBottom: `2px solid ${layoutConfig.layout === "sidebar-left" ? primaryColor : primaryColor}`,
+            paddingBottom: "8px",
+            marginBottom: "16px",
         },
         text: {
-            fontSize: styleConfig.fontSize || 10,
-            lineHeight: 1.5,
-            color: "#333333",
+            fontSize: `${baseFontSize}px`,
+            lineHeight: 1.6,
+            color: "#444",
         },
-        sidebarText: {
-            fontSize: (styleConfig.fontSize || 10) - 1,
-            color: "#EEEEEE",
-            marginBottom: 3,
+        tagContainer: {
+            display: "flex",
+            flexWrap: "wrap" as const,
+            gap: "8px",
         },
-        sidebarLabel: {
-            fontSize: styleConfig.fontSize || 10,
-            fontWeight: "bold",
-            marginTop: 10,
-            marginBottom: 5,
-            color: "#FFFFFF",
+        tag: {
+            background: layoutConfig.layout === "sidebar-left" ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.05)",
+            color: layoutConfig.layout === "sidebar-left" ? "#FFFFFF" : "#333",
+            padding: "4px 10px",
+            borderRadius: "4px",
+            fontSize: `${baseFontSize - 1}px`,
+            fontWeight: 500,
         },
         experienceItem: {
-            marginBottom: 10,
+            marginBottom: "16px",
         },
         company: {
-            fontWeight: "bold",
-            fontSize: styleConfig.fontSize || 10,
+            fontWeight: 700,
+            fontSize: `${baseFontSize + 2}px`,
+            color: "#111",
+        },
+        position: {
+            fontWeight: 600,
+            fontSize: `${baseFontSize}px`,
+            color: primaryColor,
+            marginBottom: "4px",
         },
         date: {
-            fontSize: (styleConfig.fontSize || 10) - 1,
-            color: "#666666",
+            fontSize: `${baseFontSize - 1}px`,
+            color: "#777",
             fontStyle: "italic",
+            marginBottom: "8px",
+            display: "block"
         }
-    });
+    };
 
     return (
-        <Document title={data.title || "My CV"}>
-            <Page size="A4" style={styles.page}>
-                {/* Sidebar nếu layout yêu cầu */}
-                {layoutConfig.layout === "sidebar-left" && (
-                    <View style={styles.sidebar}>
-                        <Text style={styles.title}>{data.name}</Text>
-                        <Text style={styles.sidebarText}>{data.email}</Text>
-                        <Text style={styles.sidebarText}>{data.phone}</Text>
-                        <Text style={styles.sidebarText}>{data.location}</Text>
-
-                        <Text style={styles.sidebarLabel}>KỸ NĂNG</Text>
-                        {data.skills?.map((skill: string, i: number) => (
-                            <Text key={i} style={styles.sidebarText}>• {skill}</Text>
-                        ))}
-                    </View>
+        <div ref={ref} style={styles.page}>
+            {/* Sidebar (Left or Top) */}
+            <div style={styles.sidebar}>
+                {data.avatar && (
+                    <div style={styles.avatarContainer}>
+                        <img src={data.avatar} alt="Avatar" style={styles.avatar} />
+                    </div>
                 )}
 
-                {/* Main Content */}
-                <View style={styles.main}>
-                    {layoutConfig.layout !== "sidebar-left" && (
-                        <View style={styles.section}>
-                            <Text style={styles.title}>{data.name}</Text>
-                            <Text style={styles.text}>{data.email} | {data.phone} | {data.location}</Text>
-                        </View>
-                    )}
+                <div style={{ textAlign: layoutConfig.layout === "sidebar-top" ? "center" : "left" }}>
+                    <h1 style={styles.nameTitle} className="uppercase">{data.name || "Nguyễn Văn A"}</h1>
+                    <div style={styles.jobTitle}>{data.jobTitle || "Vị trí ứng tuyển"}</div>
+                </div>
 
-                    <View style={styles.section}>
-                        <Text style={styles.subtitle}>GIỚI THIỆU</Text>
-                        <Text style={styles.text}>{data.bio || data.summary}</Text>
-                    </View>
+                {/* Contact Info */}
+                <div style={styles.contactList}>
+                    {data.phone && <div>📞 {data.phone}</div>}
+                    {data.email && <div>✉️ {data.email}</div>}
+                    {data.location && <div>📍 {data.location}</div>}
+                    {data.linkedin && <div>💼 {data.linkedin}</div>}
+                    {data.portfolio && <div>🔗 {data.portfolio}</div>}
+                </div>
 
-                    <View style={styles.section}>
-                        <Text style={styles.subtitle}>KINH NGHIỆM LÀM VIỆC</Text>
-                        {data.experience?.map((exp: any, i: number) => (
-                            <View key={i} style={styles.experienceItem}>
-                                <Text style={styles.company}>{exp.position} - {exp.company}</Text>
-                                <Text style={styles.date}>{exp.startDate} - {exp.endDate || "Hiện tại"}</Text>
-                                <Text style={styles.text}>{exp.description}</Text>
-                            </View>
+                {/* Skills (Sidebar) */}
+                {data.skills && data.skills.length > 0 && (
+                    <div>
+                        <div style={styles.sectionTitle}>Kỹ năng</div>
+                        <div style={styles.tagContainer}>
+                            {data.skills.map((skill: string, i: number) => (
+                                <span key={i} style={styles.tag}>{skill}</span>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* Hobbies (Sidebar) */}
+                {data.hobbies && data.hobbies.length > 0 && (
+                    <div>
+                        <div style={styles.sectionTitle}>Sở thích</div>
+                        <div style={styles.tagContainer}>
+                            {data.hobbies.map((hobby: string, i: number) => (
+                                <span key={i} style={styles.tag}>{hobby}</span>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            {/* Main Content */}
+            <div style={styles.main}>
+                {/* Objective / Summary */}
+                {(data.objective || data.summary) && (
+                    <div>
+                        <div style={styles.mainSectionTitle}>Mục tiêu nghề nghiệp</div>
+                        <div style={styles.text}>{data.objective || data.summary}</div>
+                    </div>
+                )}
+
+                {/* Work Experience */}
+                {data.experience && data.experience.length > 0 && (
+                    <div>
+                        <div style={styles.mainSectionTitle}>Kinh nghiệm làm việc</div>
+                        {data.experience.map((exp: any, i: number) => (
+                            <div key={i} style={styles.experienceItem}>
+                                <div style={styles.position}>{exp.position}</div>
+                                <div style={styles.company}>{exp.company}</div>
+                                <span style={styles.date}>{exp.startDate} - {exp.endDate || "Hiện tại"}</span>
+                                <div style={styles.text}>{exp.description}</div>
+                            </div>
                         ))}
-                    </View>
+                    </div>
+                )}
 
-                    <View style={styles.section}>
-                        <Text style={styles.subtitle}>HỌC VẤN</Text>
-                        {data.education?.map((edu: any, i: number) => (
-                            <View key={i} style={styles.experienceItem}>
-                                <Text style={styles.company}>{edu.degree} - {edu.school}</Text>
-                                <Text style={styles.date}>{edu.startYear} - {edu.endYear}</Text>
-                                <Text style={styles.text}>{edu.field}</Text>
-                            </View>
+                {/* Education */}
+                {data.education && data.education.length > 0 && (
+                    <div>
+                        <div style={styles.mainSectionTitle}>Học vấn</div>
+                        {data.education.map((edu: any, i: number) => (
+                            <div key={i} style={styles.experienceItem}>
+                                <div style={styles.position}>{edu.degree} - {edu.field}</div>
+                                <div style={styles.company}>{edu.school}</div>
+                                <span style={styles.date}>{edu.startYear} - {edu.endYear}</span>
+                            </div>
                         ))}
-                    </View>
-
-                    {layoutConfig.layout !== "sidebar-left" && (
-                        <View style={styles.section}>
-                            <Text style={styles.subtitle}>KỸ NĂNG</Text>
-                            <Text style={styles.text}>{data.skills?.join(", ")}</Text>
-                        </View>
-                    )}
-                </View>
-            </Page>
-        </Document>
+                    </div>
+                )}
+            </div>
+        </div>
     );
-};
+});
+
+CVRenderer.displayName = "CVRenderer";
 
 export default CVRenderer;

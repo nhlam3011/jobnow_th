@@ -126,9 +126,9 @@ export default function UsersPage() {
                     <thead>
                         <tr>
                             <th>Người dùng</th>
-                            <th>Email</th>
+                            <th className="hide-mobile">Email</th>
                             <th>Quyền</th>
-                            <th>Ngày tạo</th>
+                            <th className="hide-mobile">Ngày tạo</th>
                             <th style={{ textAlign: "center" }}>Thao tác</th>
                         </tr>
                     </thead>
@@ -150,8 +150,8 @@ export default function UsersPage() {
                                                 <span style={{ fontWeight: 600 }}>{user.name || "Chưa có tên"}</span>
                                             </div>
                                         </td>
-                                        <td className="muted">{user.email}</td>
-                                        <td>
+                                        <td className="muted hide-mobile">{user.email}</td>
+                                        <td style={{ textAlign: "center" }}>
                                             <select className="dash-input" value={user.role} onChange={(e) => handleRoleChange(user.id, e.target.value)}
                                                 style={{ width: "auto", padding: "0.35rem 0.625rem", fontSize: "0.8125rem", fontWeight: 600 }}>
                                                 <option value="CANDIDATE">Ứng viên</option>
@@ -159,7 +159,7 @@ export default function UsersPage() {
                                                 <option value="ADMIN">Quản trị viên</option>
                                             </select>
                                         </td>
-                                        <td className="muted">{new Date(user.createdAt).toLocaleDateString("vi-VN")}</td>
+                                        <td className="muted hide-mobile">{new Date(user.createdAt).toLocaleDateString("vi-VN")}</td>
                                         <td style={{ textAlign: "center" }}>
                                             <button className="dash-btn dash-btn-danger" onClick={() => handleDeleteUser(user.id)} style={{ fontSize: "0.75rem", padding: "0.3rem 0.625rem" }}>
                                                 Xoá

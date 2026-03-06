@@ -11,11 +11,11 @@ export default async function CVBuilderPage() {
     }
 
     return (
-        <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: "var(--bg)" }}>
+        <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: "var(--bg)", overflowX: "hidden", maxWidth: "100vw" }}>
             <Navbar />
 
-            <main style={{ flex: 1, padding: "2rem 0" }}>
-                <div className="container-xl">
+            <main style={{ flex: 1, padding: "2rem 0", overflowX: "hidden", maxWidth: "100%" }}>
+                <div className="container-xl" style={{ overflowX: "hidden", maxWidth: "100%" }}>
                     <div style={{ marginBottom: "2rem", textAlign: "center" }}>
                         <h1 style={{ fontSize: "1.75rem", fontWeight: 800, color: "var(--text)", marginBottom: "0.5rem" }}>
                             Tạo CV của bạn

@@ -40,6 +40,8 @@ export default async function JobsPage({
             createdAt: job.createdAt.toISOString(),
             company: {
                 name: job.company.name,
+                logo: job.company.logo ?? undefined,
+                verified: job.company.verified ?? false,
             },
         }))).catch(() => []),
         getSavedJobIds().catch(() => [] as string[])

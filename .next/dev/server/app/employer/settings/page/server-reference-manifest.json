@@ -1,0 +1,305 @@
+{
+  "node": {
+    "00204bfe9cdf8d26619e6ee550948375dda8d9bca9": {
+      "workers": {
+        "app/employer/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/employer/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/account.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getAccountInfo",
+          "filename": "app/actions/account.ts"
+        }
+      },
+      "layer": {
+        "app/employer/settings/page": "rsc"
+      },
+      "exportedName": "getAccountInfo",
+      "filename": "app/actions/account.ts"
+    },
+    "003878c568f605eaf6d84e2ad20fd3d7ecfad3e182": {
+      "workers": {
+        "app/employer/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/employer/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/account.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "markAllNotificationsAsRead",
+          "filename": "app/actions/account.ts"
+        }
+      },
+      "layer": {
+        "app/employer/settings/page": "rsc"
+      },
+      "exportedName": "markAllNotificationsAsRead",
+      "filename": "app/actions/account.ts"
+    },
+    "00c8d88bbfd6ebf8578318529e3c5b9b4c77fe99b8": {
+      "workers": {
+        "app/employer/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/employer/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/account.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getUnreadNotificationCount",
+          "filename": "app/actions/account.ts"
+        }
+      },
+      "layer": {
+        "app/employer/settings/page": "rsc"
+      },
+      "exportedName": "getUnreadNotificationCount",
+      "filename": "app/actions/account.ts"
+    },
+    "4037d2e677f4770ebf72088587688101d4a6691872": {
+      "workers": {
+        "app/employer/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/employer/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/account.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "updateAccountInfo",
+          "filename": "app/actions/account.ts"
+        }
+      },
+      "layer": {
+        "app/employer/settings/page": "action-browser"
+      },
+      "exportedName": "updateAccountInfo",
+      "filename": "app/actions/account.ts"
+    },
+    "403caa2f3144cd4383c39d9a7fa70de5ceaaba9c0c": {
+      "workers": {
+        "app/employer/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/employer/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/account.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "changePassword",
+          "filename": "app/actions/account.ts"
+        }
+      },
+      "layer": {
+        "app/employer/settings/page": "action-browser"
+      },
+      "exportedName": "changePassword",
+      "filename": "app/actions/account.ts"
+    },
+    "405e1d42447f1281dcd7e9ed45f908d4e5bb4943ee": {
+      "workers": {
+        "app/employer/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/employer/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/account.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "markNotificationAsRead",
+          "filename": "app/actions/account.ts"
+        }
+      },
+      "layer": {
+        "app/employer/settings/page": "rsc"
+      },
+      "exportedName": "markNotificationAsRead",
+      "filename": "app/actions/account.ts"
+    },
+    "40627fa2bc4f0012e1a290bab313bc0721dc0d02bd": {
+      "workers": {
+        "app/employer/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/employer/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/account.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getNotifications",
+          "filename": "app/actions/account.ts"
+        }
+      },
+      "layer": {
+        "app/employer/settings/page": "rsc"
+      },
+      "exportedName": "getNotifications",
+      "filename": "app/actions/account.ts"
+    },
+    "7c430c103bf03d65d9b50c592eecb9e5d77100bd2b": {
+      "workers": {
+        "app/employer/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/employer/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/account.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "createNotification",
+          "filename": "app/actions/account.ts"
+        }
+      },
+      "layer": {
+        "app/employer/settings/page": "rsc"
+      },
+      "exportedName": "createNotification",
+      "filename": "app/actions/account.ts"
+    },
+    "00093e824a305e367a8625f593c9328391ca9ff2d3": {
+      "workers": {
+        "app/employer/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/employer/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/account.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getEmployerCompany",
+          "filename": "app/actions/profile.ts"
+        }
+      },
+      "layer": {
+        "app/employer/settings/page": "rsc"
+      },
+      "exportedName": "getEmployerCompany",
+      "filename": "app/actions/profile.ts"
+    },
+    "00a7702647c2d0c5c1a5f8ca41c50bf579188aa376": {
+      "workers": {
+        "app/employer/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/employer/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/account.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getDashboardStats",
+          "filename": "app/actions/profile.ts"
+        }
+      },
+      "layer": {
+        "app/employer/settings/page": "rsc"
+      },
+      "exportedName": "getDashboardStats",
+      "filename": "app/actions/profile.ts"
+    },
+    "00bf796ff6f92065bdfcfaf5c738b0371c161514a3": {
+      "workers": {
+        "app/employer/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/employer/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/account.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getCandidateProfile",
+          "filename": "app/actions/profile.ts"
+        }
+      },
+      "layer": {
+        "app/employer/settings/page": "rsc"
+      },
+      "exportedName": "getCandidateProfile",
+      "filename": "app/actions/profile.ts"
+    },
+    "00c284496e66852b76ef1aa78b101e9f3f8abd5f8f": {
+      "workers": {
+        "app/employer/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/employer/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/account.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getEmployerProfile",
+          "filename": "app/actions/profile.ts"
+        }
+      },
+      "layer": {
+        "app/employer/settings/page": "rsc"
+      },
+      "exportedName": "getEmployerProfile",
+      "filename": "app/actions/profile.ts"
+    },
+    "40105b66b4410c3cf0ff316a6148f851ca44c3b807": {
+      "workers": {
+        "app/employer/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/employer/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/account.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "upsertCompany",
+          "filename": "app/actions/profile.ts"
+        }
+      },
+      "layer": {
+        "app/employer/settings/page": "rsc"
+      },
+      "exportedName": "upsertCompany",
+      "filename": "app/actions/profile.ts"
+    },
+    "40a458d024dd3f0e60304eb6ca0a29c63e8369ce69": {
+      "workers": {
+        "app/employer/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/employer/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/account.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "updateCandidateProfile",
+          "filename": "app/actions/profile.ts"
+        }
+      },
+      "layer": {
+        "app/employer/settings/page": "rsc"
+      },
+      "exportedName": "updateCandidateProfile",
+      "filename": "app/actions/profile.ts"
+    },
+    "4072f243bb5500c021bcff18b4d24d79f652d254d1": {
+      "workers": {
+        "app/employer/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/employer/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/account.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "generateProfileEmbedding",
+          "filename": "lib/ai.ts"
+        }
+      },
+      "layer": {
+        "app/employer/settings/page": "rsc"
+      },
+      "exportedName": "generateProfileEmbedding",
+      "filename": "lib/ai.ts"
+    },
+    "40a83d6e62199fe1e0287a27bf774108e5da966b71": {
+      "workers": {
+        "app/employer/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/employer/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/account.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "generateJobEmbedding",
+          "filename": "lib/ai.ts"
+        }
+      },
+      "layer": {
+        "app/employer/settings/page": "rsc"
+      },
+      "exportedName": "generateJobEmbedding",
+      "filename": "lib/ai.ts"
+    },
+    "40d5d52eb905018b24fa4ba8f8ae53ae9440bd47d9": {
+      "workers": {
+        "app/employer/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/employer/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/account.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "generateEmbeddingForAllJobs",
+          "filename": "lib/ai.ts"
+        }
+      },
+      "layer": {
+        "app/employer/settings/page": "rsc"
+      },
+      "exportedName": "generateEmbeddingForAllJobs",
+      "filename": "lib/ai.ts"
+    },
+    "60884262ba84c553abe771218755495ff6aa2cae85": {
+      "workers": {
+        "app/employer/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/employer/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/account.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "semanticJobSearch",
+          "filename": "lib/ai.ts"
+        }
+      },
+      "layer": {
+        "app/employer/settings/page": "rsc"
+      },
+      "exportedName": "semanticJobSearch",
+      "filename": "lib/ai.ts"
+    },
+    "60e11703cb6437504f1f4607a12dbd06a7e0b64cf6": {
+      "workers": {
+        "app/employer/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/employer/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/account.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getRecommendedJobs",
+          "filename": "lib/ai.ts"
+        }
+      },
+      "layer": {
+        "app/employer/settings/page": "rsc"
+      },
+      "exportedName": "getRecommendedJobs",
+      "filename": "lib/ai.ts"
+    },
+    "005c26bb90fcabb33e6171a1743f7c7fab53ede09f": {
+      "workers": {
+        "app/employer/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/employer/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/account.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "logoutUser",
+          "filename": "app/actions/auth.ts"
+        }
+      },
+      "layer": {
+        "app/employer/settings/page": "action-browser"
+      },
+      "exportedName": "logoutUser",
+      "filename": "app/actions/auth.ts"
+    }
+  },
+  "edge": {}
+}

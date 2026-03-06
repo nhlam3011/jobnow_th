@@ -31,9 +31,11 @@ export default async function JobDetailPage({ params }: { params: Promise<{ slug
 
     if (!job) notFound();
 
-    const salaryText = job.salaryMin && job.salaryMax
-        ? `${(job.salaryMin / 1000000).toFixed(0)}–${(job.salaryMax / 1000000).toFixed(0)} triệu`
-        : job.salaryMin ? `Từ ${(job.salaryMin / 1000000).toFixed(0)} triệu` : "Thỏa thuận";
+    const salaryText = job.salaryMin || job.salaryMax
+        ? (job.salaryMin && job.salaryMax
+            ? `${job.salaryMin.toLocaleString('vi-VN')}–${job.salaryMax.toLocaleString('vi-VN')} đ`
+            : job.salaryMin ? `Từ ${job.salaryMin.toLocaleString('vi-VN')} đ` : `Đến ${job.salaryMax.toLocaleString('vi-VN')} đ`)
+        : "Thỏa thuận";
 
     return (
         <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
@@ -46,15 +48,24 @@ export default async function JobDetailPage({ params }: { params: Promise<{ slug
                             {/* Header card */}
                             <div className="card" style={{ padding: "2rem", marginBottom: "1.5rem" }}>
                                 <div style={{ display: "flex", gap: "1.25rem", alignItems: "flex-start", marginBottom: "1.5rem", flexWrap: "wrap" }}>
-                                    <div style={{ width: "64px", height: "64px", borderRadius: "12px", background: "var(--tag-bg)", border: "1.5px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: "1.25rem", color: "var(--primary)", flexShrink: 0 }}>
-                                        {job.company.name.charAt(0)}
+                                    <div style={{ width: "64px", height: "64px", borderRadius: "12px", background: job.company.logo ? "transparent" : "var(--tag-bg)", border: "1.5px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: "1.25rem", color: "var(--primary)", flexShrink: 0, overflow: "hidden" }}>
+                                        {job.company.logo ? (
+                                            <img src={job.company.logo} alt={job.company.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                                        ) : (
+                                            job.company.name.charAt(0)
+                                        )}
                                     </div>
                                     <div style={{ flex: 1 }}>
                                         <h1 style={{ fontSize: "clamp(1.25rem, 2.5vw, 1.75rem)", fontWeight: 800, color: "var(--text)", marginBottom: "0.375rem" }}>
                                             {job.title}
                                         </h1>
-                                        <Link href={`/companies/${job.company.slug}`} style={{ color: "var(--primary)", fontWeight: 600, textDecoration: "none", fontSize: "1rem" }}>
+                                        <Link href={`/companies/${job.company.slug}`} style={{ color: "var(--primary)", fontWeight: 600, textDecoration: "none", fontSize: "1rem", display: "inline-flex", alignItems: "center", gap: "0.25rem" }}>
                                             {job.company.name}
+                                            {job.company.verified && (
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="#16A34A">
+                                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                                </svg>
+                                            )}
                                         </Link>
                                     </div>
                                 </div>

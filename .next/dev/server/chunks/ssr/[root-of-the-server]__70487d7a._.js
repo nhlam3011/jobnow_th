@@ -97,7 +97,9 @@ async function JobsPage({ searchParams }) {
                     skills: job.skills,
                     createdAt: job.createdAt.toISOString(),
                     company: {
-                        name: job.company.name
+                        name: job.company.name,
+                        logo: job.company.logo ?? undefined,
+                        verified: job.company.verified ?? false
                     }
                 }))).catch(()=>[]),
         (0, __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$jobs$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getSavedJobIds"])().catch(()=>[])
@@ -113,7 +115,7 @@ async function JobsPage({ searchParams }) {
         savedJobIds: savedJobIds
     }, void 0, false, {
         fileName: "[project]/app/jobs/page.tsx",
-        lineNumber: 49,
+        lineNumber: 51,
         columnNumber: 9
     }, this);
 }

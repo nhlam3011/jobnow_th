@@ -1,5 +1,20 @@
 {
   "node": {
+    "00093e824a305e367a8625f593c9328391ca9ff2d3": {
+      "workers": {
+        "app/candidate/profile/page": {
+          "moduleId": "[project]/.next-internal/server/app/candidate/profile/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "getEmployerCompany",
+          "filename": "app/actions/profile.ts"
+        }
+      },
+      "layer": {
+        "app/candidate/profile/page": "rsc"
+      },
+      "exportedName": "getEmployerCompany",
+      "filename": "app/actions/profile.ts"
+    },
     "00a7702647c2d0c5c1a5f8ca41c50bf579188aa376": {
       "workers": {
         "app/candidate/profile/page": {

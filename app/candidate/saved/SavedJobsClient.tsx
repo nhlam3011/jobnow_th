@@ -3,14 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import JobCard from "@/app/components/JobCard";
-import { JobType } from "@prisma/client";
 
 interface SavedJobData {
     job: {
         id: string;
         slug: string;
         title: string;
-        company: { name: string; slug: string; logo: string | null };
+        company: { name: string; slug: string; logo: string | null; verified: boolean };
         location: string;
         salaryMin: number | null;
         salaryMax: number | null;
@@ -58,7 +57,7 @@ export default function SavedJobsClient({ savedJobs }: { savedJobs: SavedJobData
 
     return (
         <div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
+            <div className="jobs-grid-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem", flexWrap: "wrap", gap: "1rem" }}>
                 <p style={{ color: "var(--text-muted)", margin: 0 }}>
                     Bạn đang theo dõi <strong style={{ color: "var(--primary)" }}>{savedJobs.length}</strong> việc làm
                 </p>
@@ -89,8 +88,15 @@ export default function SavedJobsClient({ savedJobs }: { savedJobs: SavedJobData
                             title={job.title}
                             company={job.company.name}
                             logo={job.company.logo || undefined}
+                            verified={job.company.verified}
                             location={job.location}
-                            salary={job.salaryMin && job.salaryMax ? `${Math.round(job.salaryMin / 1000000)}–${Math.round(job.salaryMax / 1000000)} triệu` : "Thỏa thuận"}
+                            salary={job.salaryMin || job.salaryMax ?
+                                (job.salaryMin && job.salaryMax ?
+                                    `${job.salaryMin.toLocaleString('vi-VN')}–${job.salaryMax.toLocaleString('vi-VN')} đ` :
+                                    job.salaryMin ?
+                                        `Từ ${job.salaryMin.toLocaleString('vi-VN')} đ` :
+                                        `Đến ${job.salaryMax?.toLocaleString('vi-VN')} đ`) :
+                                "Thỏa thuận"}
                             type={job.jobType}
                             skills={job.skills}
                             posted={new Date(job.createdAt).toLocaleDateString("vi-VN")}
@@ -102,19 +108,6 @@ export default function SavedJobsClient({ savedJobs }: { savedJobs: SavedJobData
                     </div>
                 ))}
             </div>
-
-            <style jsx>{`
-                .jobs-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-                    gap: 1.125rem;
-                }
-                .jobs-list-layout {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 1.125rem;
-                }
-            `}</style>
         </div>
     );
 }

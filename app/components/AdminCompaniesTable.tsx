@@ -55,8 +55,8 @@ export default function AdminCompaniesTable({ companies }: { companies: Company[
                     <thead>
                         <tr>
                             <th>Công ty</th>
-                            <th>Ngành nghề</th>
-                            <th>Việc làm</th>
+                            <th className="hide-mobile">Ngành nghề</th>
+                            <th className="hide-mobile">Việc làm</th>
                             <th>Trạng thái</th>
                             <th style={{ textAlign: "right" }}>Thao tác</th>
                         </tr>
@@ -75,9 +75,9 @@ export default function AdminCompaniesTable({ companies }: { companies: Company[
                                             <div style={{ fontSize: "0.8125rem", color: "var(--primary)", marginTop: "0.2rem" }}>{company.website}</div>
                                         )}
                                     </td>
-                                    <td className="muted">{company.industry || "Chưa cập nhật"}</td>
-                                    <td style={{ fontWeight: 600 }}>{company._count.jobs}</td>
-                                    <td>
+                                    <td className="muted hide-mobile">{company.industry || "Chưa cập nhật"}</td>
+                                    <td style={{ fontWeight: 600 }} className="hide-mobile">{company._count.jobs}</td>
+                                    <td style={{ textAlign: "center" }}>
                                         {company.verified ? (
                                             <span className="dash-badge" style={{ background: "rgba(34,197,94,0.1)", color: "#16A34A" }}>Đã xác thực</span>
                                         ) : (

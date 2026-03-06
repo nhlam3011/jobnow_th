@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import SaveJobButton from "./SaveJobButton";
+import Avatar from "./Avatar";
 
 interface JobCardProps {
     id: string;
@@ -13,6 +14,7 @@ interface JobCardProps {
     type: string; // Full-time, Part-time, Remote
     skills: string[];
     logo?: string;
+    verified?: boolean;
     posted: string;
     featured?: boolean;
     saved?: boolean;
@@ -30,6 +32,7 @@ export default function JobCard({
     type,
     skills,
     logo,
+    verified = false,
     posted,
     featured = false,
     saved = false,
@@ -62,28 +65,18 @@ export default function JobCard({
                 {/* Left section: Logo & Header info */}
                 <div className="job-card-left">
                     {/* Company logo */}
-                    <div
+                    <Avatar
+                        src={logo}
+                        alt={company}
+                        fallback={company}
+                        size={isList ? 56 : 44}
                         style={{
-                            width: isList ? "56px" : "44px",
-                            height: isList ? "56px" : "44px",
                             borderRadius: "10px",
-                            background: logo ? "transparent" : "var(--tag-bg)",
                             border: "1.5px solid var(--border)",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            flexShrink: 0,
-                            fontSize: "1.25rem",
+                            fontSize: isList ? "1.25rem" : "1rem",
                             fontWeight: 700,
-                            color: "var(--primary)",
                         }}
-                    >
-                        {logo ? (
-                            <img src={logo} alt={company} style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "10px" }} />
-                        ) : (
-                            company.charAt(0).toUpperCase()
-                        )}
-                    </div>
+                    />
 
                     <div style={{ flex: 1, minWidth: 0 }}>
                         <h3
@@ -110,7 +103,23 @@ export default function JobCard({
                             overflow: "hidden",
                             textOverflow: "ellipsis",
                             minHeight: "1.2em",
-                        }} title={company}>{company || "Công ty ẩn danh"}</p>
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "0.25rem",
+                        }} title={company}>
+                            <span>{company || "Công ty ẩn danh"}</span>
+                            {verified && (
+                                <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="#16A34A"
+                                    style={{ flexShrink: 0 }}
+                                >
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                </svg>
+                            )}
+                        </p>
 
                         {/* Status/Type tags inline for List View */}
                         {isList && type && (
@@ -160,10 +169,6 @@ export default function JobCard({
                                 icon: "M17.657 16.657L13.414 20.9a1.998 1.998 0 0 1-2.827 0l-4.244-4.243a8 8 0 1 1 11.314 0z M15 11a3 3 0 1 1-6 0 3 3 0 0 1 6 0z",
                                 text: location,
                             },
-                            {
-                                icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z",
-                                text: salary,
-                            },
                         ].map((item) => (
                             <div
                                 key={item.text}
@@ -203,6 +208,14 @@ export default function JobCard({
                                 {skill}
                             </span>
                         ))}
+                    </div>
+
+                    {/* Salary - displayed below skills */}
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.375rem", color: "var(--text-muted)", fontSize: "0.875rem", fontWeight: 500, marginTop: "0.5rem" }}>
+                        <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.75" viewBox="0 0 24 24" style={{ flexShrink: 0 }}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" />
+                        </svg>
+                        <span style={{ fontWeight: 600, color: "var(--primary)" }}>{salary}</span>
                     </div>
                 </div>
 

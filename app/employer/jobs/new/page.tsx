@@ -121,7 +121,7 @@ export default function NewJobPage() {
 
     return (
         <DashboardLayout role="EMPLOYER" userName={session?.user?.name || ""}>
-            <div style={{ padding: "2rem", maxWidth: "800px" }}>
+            <div className="dash-content">
                 <h1 style={{ fontSize: "1.5rem", fontWeight: 800, color: "var(--text)", marginBottom: "0.375rem" }}>Đăng tin tuyển dụng mới</h1>
                 <p style={{ color: "var(--text-muted)", marginBottom: "2rem" }}>Điền thông tin chi tiết để thu hút ứng viên phù hợp.</p>
 
@@ -129,7 +129,7 @@ export default function NewJobPage() {
 
                 <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
                     {/* Basic */}
-                    <div className="card" style={{ padding: "1.75rem" }}>
+                    <div className="dash-form-card">
                         <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "1.25rem" }}>Thông tin cơ bản</h3>
                         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                             <div>
@@ -147,7 +147,7 @@ export default function NewJobPage() {
                                 </select>
                             </div>
 
-                            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                            <div className="dash-grid-2">
                                 <div>
                                     <label style={labelStyle}>Địa điểm *</label>
                                     <input name="location" required placeholder="VD: Hà Nội, TP.HCM, Remote" style={inputStyle} />
@@ -159,21 +159,21 @@ export default function NewJobPage() {
                                     </select>
                                 </div>
                             </div>
-                            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                            <div className="dash-grid-2">
                                 <div>
-                                    <label style={labelStyle}>Lương tối thiểu (triệu)</label>
-                                    <input name="salaryMin" type="number" placeholder="VD: 15" style={inputStyle} />
+                                    <label style={labelStyle}>Lương tối thiểu (VNĐ)</label>
+                                    <input name="salaryMin" type="number" placeholder="VD: 7000000" style={inputStyle} />
                                 </div>
                                 <div>
-                                    <label style={labelStyle}>Lương tối đa (triệu)</label>
-                                    <input name="salaryMax" type="number" placeholder="VD: 30" style={inputStyle} />
+                                    <label style={labelStyle}>Lương tối đa (VNĐ)</label>
+                                    <input name="salaryMax" type="number" placeholder="VD: 15000000" style={inputStyle} />
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     {/* Description */}
-                    <div className="card" style={{ padding: "1.75rem" }}>
+                    <div className="dash-form-card">
                         <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "1.25rem" }}>Nội dung tuyển dụng</h3>
                         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                             <div>
@@ -192,7 +192,7 @@ export default function NewJobPage() {
                     </div>
 
                     {/* Skills */}
-                    <div className="card" style={{ padding: "1.75rem" }}>
+                    <div className="dash-form-card">
                         <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "1.25rem" }}>Kỹ năng yêu cầu</h3>
                         <div style={{ display: "flex", gap: "0.625rem", marginBottom: "1rem" }}>
                             <input value={skillInput} onChange={(e) => setSkillInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addSkill(); } }} placeholder="VD: React, Node.js, Kế toán, Tiếng Anh..." style={{ ...inputStyle, flex: 1 }} />

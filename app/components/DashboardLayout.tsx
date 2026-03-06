@@ -2,8 +2,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
+import { useSession } from "next-auth/react";
 import { logoutUser } from "@/app/actions/auth";
 import { useTheme } from "./ThemeProvider";
+import Avatar from "./Avatar";
 import "@/app/dashboard.css";
 
 interface NavItem {
@@ -82,6 +84,7 @@ const roleNavs: Record<string, { section?: string; items: NavItem[] }[]> = {
             section: "Quản lý nội dung",
             items: [
                 { href: "/admin/jobs", label: "Duyệt tin tuyển dụng", icon: "M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" },
+                { href: "/admin/blogs", label: "Quản lý bài viết", icon: "M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2m-4-3H9M7 8h10M7 12h10M7 16h10" },
                 { href: "/admin/companies", label: "Quản lý công ty", icon: "M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16" },
             ],
         },
@@ -118,17 +121,24 @@ export default function DashboardLayout({
     children,
     role,
     userName,
+    userImage,
 }: {
     children: React.ReactNode;
     role: string;
     userName: string;
+    userImage?: string | null;
 }) {
+    const { data: sessionData } = useSession();
     const pathname = usePathname();
     const { theme, toggleTheme } = useTheme();
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const navSections = roleNavs[role] || [];
     const color = roleColor[role] || "#0369A1";
+
+    // Use session data if available, fallback to props
+    const displayName = sessionData?.user?.name || userName;
+    const displayImage = sessionData?.user?.image || userImage;
 
     // Close sidebar on route change
     useEffect(() => {
@@ -187,22 +197,6 @@ export default function DashboardLayout({
                         </span>
                     </Link>
                 </div>
-                <div className="dash-mobile-actions">
-                    <button className="dash-mobile-theme" onClick={toggleTheme} aria-label="Toggle theme">
-                        {theme === "dark" ? (
-                            <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                <circle cx="12" cy="12" r="5" /><path strokeLinecap="round" d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-                            </svg>
-                        ) : (
-                            <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                            </svg>
-                        )}
-                    </button>
-                    <div className="dash-mobile-avatar" style={{ background: color }}>
-                        {userName?.charAt(0).toUpperCase() || "U"}
-                    </div>
-                </div>
             </header>
 
             {/* Overlay (mobile) */}
@@ -225,11 +219,18 @@ export default function DashboardLayout({
                         <span className="dash-logo-text">Job<span>Now</span></span>
                     </Link>
                     <div className="dash-user-info">
-                        <div className="dash-user-avatar" style={{ background: color }}>
-                            {userName?.charAt(0).toUpperCase() || "U"}
-                        </div>
+                        <Avatar
+                            src={displayImage}
+                            alt={displayName || "User"}
+                            fallback={displayName}
+                            size={48}
+                            style={{
+                                borderRadius: "12px",
+                                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.2)",
+                            }}
+                        />
                         <div>
-                            <div className="dash-user-name">{userName}</div>
+                            <div className="dash-user-name">{displayName}</div>
                             <div
                                 className="dash-user-role"
                                 style={{ background: `${color}15`, color }}
@@ -248,7 +249,13 @@ export default function DashboardLayout({
                                 <div className="dash-nav-section">{section.section}</div>
                             )}
                             {section.items.map((item) => {
-                                const active = pathname === item.href || pathname.startsWith(item.href + "/");
+                                // "Đăng tin mới" is "/employer/jobs/new". "Quản lý tin đăng" is "/employer/jobs".
+                                // If we just do startsWith("/employer/jobs"), it matches both when on "/employer/jobs/new"
+                                // Better check: exact match OR it's a sub-page of this item (but exclude if the item is just a parent prefix of another exact item)
+                                const isExact = pathname === item.href;
+                                const isSubPath = pathname.startsWith(item.href + "/") && item.href !== "/employer/jobs"; // special case for employer jobs overlapping with new
+                                const active = isExact || isSubPath;
+
                                 return (
                                     <Link
                                         key={item.href}

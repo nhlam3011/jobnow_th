@@ -31,6 +31,8 @@ interface Job {
     createdAt: string;
     company: {
         name: string;
+        logo?: string;
+        verified?: boolean;
     };
 }
 
@@ -239,9 +241,17 @@ export default function JobsPageContent({
                                             title={job.title}
                                             company={job.company.name}
                                             location={job.location}
-                                            salary={job.salaryMin && job.salaryMax ? `${Math.round(job.salaryMin / 1000000)}–${Math.round(job.salaryMax / 1000000)} triệu` : "Thỏa thuận"}
+                                            salary={job.salaryMin || job.salaryMax ?
+                                                (job.salaryMin && job.salaryMax ?
+                                                    `${job.salaryMin.toLocaleString('vi-VN')}–${job.salaryMax.toLocaleString('vi-VN')} đ` :
+                                                    job.salaryMin ?
+                                                        `Từ ${job.salaryMin.toLocaleString('vi-VN')} đ` :
+                                                        `Đến ${job.salaryMax.toLocaleString('vi-VN')} đ`) :
+                                                "Thỏa thuận"}
                                             type={job.jobType}
                                             skills={job.skills}
+                                            logo={job.company.logo}
+                                            verified={job.company.verified}
                                             posted={new Date(job.createdAt).toLocaleDateString("vi-VN")}
                                             featured={false}
                                             layout={viewMode}

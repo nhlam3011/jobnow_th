@@ -1,0 +1,11 @@
+{
+  "[project]/app/components/EditorWrapper.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/app/components/EditorWrapper.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/node_modules_react-quill-new_dist_quill_snow_98ea75db.css",
+      "static/chunks/node_modules_react-quill-new_lib_index_bfa5a837.js",
+      "static/chunks/app_components_EditorWrapper_tsx_309e8db7._.js",
+      "static/chunks/app_components_EditorWrapper_tsx_445909f2._.js"
+    ]
+  }
+}

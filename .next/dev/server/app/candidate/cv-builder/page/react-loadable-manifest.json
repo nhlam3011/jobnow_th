@@ -1,9 +1,1 @@
-{
-  "[project]/app/components/CVRenderer.tsx [app-client] (ecmascript, next/dynamic entry)": {
-    "id": "[project]/app/components/CVRenderer.tsx [app-client] (ecmascript, next/dynamic entry)",
-    "files": [
-      "static/chunks/app_components_CVRenderer_tsx_f7bb4791._.js",
-      "static/chunks/app_components_CVRenderer_tsx_e0dccbf8._.js"
-    ]
-  }
-}
+{}

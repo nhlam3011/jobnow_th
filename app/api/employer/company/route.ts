@@ -21,6 +21,7 @@ export async function GET() {
     const company = employerProfile.company;
     return NextResponse.json({
         name: company.name,
+        logo: company.logo,
         website: company.website,
         description: company.description,
         industry: company.industry,

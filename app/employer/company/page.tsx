@@ -9,6 +9,7 @@ const SIZES = ["1-10", "11-50", "51-200", "201-500", "501-1000", "1000+"];
 
 interface CompanyData {
     name?: string;
+    logo?: string | null;
     website?: string | null;
     description?: string | null;
     industry?: string | null;
@@ -73,8 +74,12 @@ export default function EmployerCompanyPage() {
     }
 
     return (
-        <DashboardLayout role="EMPLOYER" userName={session.user?.name || ""}>
-            <div style={{ padding: "2rem", maxWidth: "720px" }}>
+        <DashboardLayout
+            role="EMPLOYER"
+            userName={companyData?.name || session.user.name || "Nhà tuyển dụng"}
+            userImage={companyData?.logo || session.user.image}
+        >
+            <div className="dash-content">
                 <h1 style={{ fontSize: "1.5rem", fontWeight: 800, color: "var(--text)", marginBottom: "0.375rem" }}>Trang thương hiệu công ty</h1>
                 <p style={{ color: "var(--text-muted)", marginBottom: "2rem" }}>Thông tin công ty sẽ hiển thị trên tất cả tin tuyển dụng của bạn.</p>
 
@@ -82,7 +87,7 @@ export default function EmployerCompanyPage() {
                 {success && <div style={{ background: "#F0FDF4", border: "1.5px solid #BBF7D0", borderRadius: "8px", padding: "0.875rem", color: "#16A34A", fontWeight: 600, marginBottom: "1.5rem" }}>✓ Thông tin công ty đã được cập nhật!</div>}
 
                 <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-                    <div className="card" style={{ padding: "1.75rem" }}>
+                    <div className="dash-form-card">
                         <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "1.25rem" }}>Thông tin cơ bản</h3>
                         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                             {[
@@ -102,7 +107,7 @@ export default function EmployerCompanyPage() {
                                     />
                                 </div>
                             ))}
-                            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                            <div className="dash-grid-2">
                                 <div>
                                     <label style={labelStyle}>Ngành nghề</label>
                                     <select name="industry" defaultValue={companyData?.industry || ""} style={inputStyle}>

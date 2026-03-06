@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 
 function formatSalary(min?: number | null, max?: number | null) {
     if (!min && !max) return "Thỏa thuận";
-    const format = (n: number) => n >= 1000000 ? `${(n / 1000000).toFixed(0)} triệu` : `${n.toLocaleString()}`;
+    const format = (n: number) => `${n.toLocaleString('vi-VN')} đ`;
     if (min && max) return `${format(min)} - ${format(max)}`;
     if (min) return `Từ ${format(min)}`;
     return `Đến ${format(max!)}`;
@@ -33,7 +33,7 @@ export default async function RecommendedJobsPage() {
 
     const aiResult = await getAIRecommendations(10);
     let jobs: any[] = [];
-    
+
     if (aiResult.success && aiResult.jobs && Array.isArray(aiResult.jobs) && aiResult.jobs.length > 0) {
         jobs = aiResult.jobs.map((job: any) => ({
             ...job,
@@ -58,11 +58,11 @@ export default async function RecommendedJobsPage() {
     };
 
     return (
-        <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+        <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", overflowX: "hidden", maxWidth: "100vw" }}>
             <Navbar />
 
-            <main style={{ flex: 1, background: "var(--bg)", padding: "2rem 0" }}>
-                <div className="container-xl">
+            <main style={{ flex: 1, background: "var(--bg)", padding: "2rem 0", overflowX: "hidden", maxWidth: "100%" }}>
+                <div className="container-xl" style={{ overflowX: "hidden", maxWidth: "100%" }}>
                     <div style={{ marginBottom: "2rem" }}>
                         <h1 style={{ fontSize: "1.75rem", fontWeight: 800, color: "var(--text)", marginBottom: "0.5rem" }}>
                             Việc làm phù hợp
@@ -101,14 +101,14 @@ export default async function RecommendedJobsPage() {
                             </Link>
                         </div>
                     ) : (
-                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))", gap: "1rem" }}>
+                        <div className="jobs-grid" style={{ overflowX: "hidden", maxWidth: "100%" }}>
                             {jobs.map((job) => (
                                 <Link
                                     key={job.id}
                                     href={`/jobs/${job.slug}`}
                                     style={{ textDecoration: "none" }}
                                 >
-                                    <article className="card" style={{ padding: "1.25rem", cursor: "pointer" }}>
+                                    <article className="card" style={{ padding: "1.25rem", cursor: "pointer", overflow: "hidden" }}>
                                         <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem", marginBottom: "0.75rem" }}>
                                             <div style={{
                                                 width: "48px",

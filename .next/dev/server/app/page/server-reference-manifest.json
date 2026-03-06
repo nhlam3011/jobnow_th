@@ -255,6 +255,21 @@
       "exportedName": "updateJobStatus",
       "filename": "app/actions/jobs.ts"
     },
+    "605a75f377383c32584961671679d66f6a5b516abc": {
+      "workers": {
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/jobs.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/ai.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "exportedName": "updateJob",
+          "filename": "app/actions/jobs.ts"
+        }
+      },
+      "layer": {
+        "app/page": "rsc"
+      },
+      "exportedName": "updateJob",
+      "filename": "app/actions/jobs.ts"
+    },
     "4072f243bb5500c021bcff18b4d24d79f652d254d1": {
       "workers": {
         "app/page": {

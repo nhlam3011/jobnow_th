@@ -12,7 +12,7 @@ export default async function JobsPage({
 
     const filters = await getJobFilters();
 
-    let industryId = undefined;
+    let industryId: string | undefined = undefined;
     if (params.industry) {
         const industry = filters.industries.find(i => i.slug === params.industry);
         if (industry) {

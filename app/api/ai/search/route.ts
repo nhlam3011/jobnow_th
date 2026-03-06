@@ -155,7 +155,7 @@ async function performDatabaseSearch(query: string, location?: string, limit = 2
     });
 
     if (companies.length > 0) {
-        orConditions.push({ companyId: { in: companies.map(c => c.id) } } as any);
+        orConditions.push({ companyId: { in: companies.map((c: any) => c.id) } } as any);
     }
 
     // Add industry search
@@ -167,7 +167,7 @@ async function performDatabaseSearch(query: string, location?: string, limit = 2
     });
 
     if (industries.length > 0) {
-        orConditions.push({ industryId: { in: industries.map(i => i.id) } } as any);
+        orConditions.push({ industryId: { in: industries.map((i: any) => i.id) } } as any);
     }
 
     const whereClause: any = {
@@ -200,7 +200,7 @@ async function performDatabaseSearch(query: string, location?: string, limit = 2
     });
 
     // Calculate relevance score for each job
-    const scoredJobs = jobs.map(job => {
+    const scoredJobs = jobs.map((job: any) => {
         let score = 0;
 
         // Title match (highest weight)
@@ -217,7 +217,7 @@ async function performDatabaseSearch(query: string, location?: string, limit = 2
         }
 
         // Skills match
-        job.skills.forEach(skill => {
+        job.skills.forEach((skill: any) => {
             if (skill.toLowerCase().includes(queryLower)) {
                 score += 30;
             }
@@ -242,7 +242,7 @@ async function performDatabaseSearch(query: string, location?: string, limit = 2
     });
 
     // Sort by relevance score
-    scoredJobs.sort((a, b) => b.relevanceScore - a.relevanceScore);
+    scoredJobs.sort((a: any, b: any) => b.relevanceScore - a.relevanceScore);
 
     return {
         success: true,

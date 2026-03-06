@@ -26,8 +26,8 @@ export async function GET(request: NextRequest) {
             orderBy: { viewCount: "desc" },
         });
 
-        matchingJobs.forEach(job => {
-            if (!suggestions.find(s => s.value === job.title)) {
+        matchingJobs.forEach((job: any) => {
+            if (!suggestions.find((s: any) => s.value === job.title)) {
                 suggestions.push({
                     type: "job_title",
                     value: job.title,
@@ -47,8 +47,8 @@ export async function GET(request: NextRequest) {
             take: 3,
         });
 
-        matchingCompanies.forEach(company => {
-            if (!suggestions.find(s => s.value === company.name)) {
+        matchingCompanies.forEach((company: any) => {
+            if (!suggestions.find((s: any) => s.value === company.name)) {
                 suggestions.push({
                     type: "company",
                     value: company.name,
@@ -70,10 +70,10 @@ export async function GET(request: NextRequest) {
 
         if (exactBaseKeywordMatch.length > 0) {
             exactBaseKeywordMatch
-                .filter(k => k.keywordType === "keyword_suggestion")
+                .filter((k: any) => k.keywordType === "keyword_suggestion")
                 .slice(0, 6)
-                .forEach(kw => {
-                    if (!suggestions.find(s => s.value === kw.keywordSuggestion)) {
+                .forEach((kw: any) => {
+                    if (!suggestions.find((s: any) => s.value === kw.keywordSuggestion)) {
                         suggestions.push({
                             type: "keyword_suggestion",
                             value: kw.keywordSuggestion,
@@ -84,10 +84,10 @@ export async function GET(request: NextRequest) {
                 });
 
             exactBaseKeywordMatch
-                .filter(k => k.keywordType === "related_keyword")
+                .filter((k: any) => k.keywordType === "related_keyword")
                 .slice(0, 6)
-                .forEach(kw => {
-                    if (!suggestions.find(s => s.value === kw.keywordSuggestion)) {
+                .forEach((kw: any) => {
+                    if (!suggestions.find((s: any) => s.value === kw.keywordSuggestion)) {
                         suggestions.push({
                             type: "related_keyword",
                             value: kw.keywordSuggestion,
@@ -108,8 +108,8 @@ export async function GET(request: NextRequest) {
                 take: 10,
             });
 
-            prefixMatchKeywords.forEach(kw => {
-                if (!suggestions.find(s => s.value === kw.keywordSuggestion)) {
+            prefixMatchKeywords.forEach((kw: any) => {
+                if (!suggestions.find((s: any) => s.value === kw.keywordSuggestion)) {
                     suggestions.push({
                         type: kw.keywordType,
                         value: kw.keywordSuggestion,
@@ -130,8 +130,8 @@ export async function GET(request: NextRequest) {
                 take: 10,
             });
 
-            textMatchedKeywords.forEach(kw => {
-                if (!suggestions.find(s => s.value === kw.keywordSuggestion)) {
+            textMatchedKeywords.forEach((kw: any) => {
+                if (!suggestions.find((s: any) => s.value === kw.keywordSuggestion)) {
                     suggestions.push({
                         type: kw.keywordType,
                         value: kw.keywordSuggestion,
@@ -170,8 +170,8 @@ export async function GET(request: NextRequest) {
             }),
         ]);
 
-        skills.forEach(skill => {
-            if (!suggestions.find(s => s.value === skill.name)) {
+        skills.forEach((skill: any) => {
+            if (!suggestions.find((s: any) => s.value === skill.name)) {
                 suggestions.push({
                     type: "skill",
                     value: skill.name,
@@ -182,8 +182,8 @@ export async function GET(request: NextRequest) {
             }
         });
 
-        industries.forEach(industry => {
-            if (!suggestions.find(s => s.value === industry.name)) {
+        industries.forEach((industry: any) => {
+            if (!suggestions.find((s: any) => s.value === industry.name)) {
                 suggestions.push({
                     type: "industry",
                     value: industry.name,
@@ -351,7 +351,7 @@ async function getPopularSearches() {
 
         const suggestions: Array<{ type: string; value: string; label: string; extra?: string }> = [];
 
-        popularJobs.forEach(job => {
+        popularJobs.forEach((job: any) => {
             suggestions.push({
                 type: "job_title",
                 value: job.title,
@@ -359,7 +359,7 @@ async function getPopularSearches() {
             });
         });
 
-        popularCompanies.forEach(company => {
+        popularCompanies.forEach((company: any) => {
             suggestions.push({
                 type: "company",
                 value: company.name,
@@ -367,7 +367,7 @@ async function getPopularSearches() {
             });
         });
 
-        popularIndustries.forEach(industry => {
+        popularIndustries.forEach((industry: any) => {
             suggestions.push({
                 type: "industry",
                 value: industry.name,

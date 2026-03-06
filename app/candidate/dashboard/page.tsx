@@ -92,7 +92,7 @@ export default async function CandidateDashboard() {
                                 <div className="dash-empty">Chưa có đơn ứng tuyển nào</div>
                             </div>
                         ) : (
-                            recentApps.map((app) => {
+                            recentApps.map((app: any) => {
                                 const st = STATUS_LABEL[app.status] || { label: app.status, color: "#64748B" };
                                 return (
                                     <div key={app.id} className="dash-card-item" style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>

@@ -2,7 +2,6 @@
 
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
-import { Prisma } from "@prisma/client";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { semanticJobSearch } from "@/lib/ai";
@@ -144,7 +143,7 @@ export async function createJob(formData: FormData) {
     }
 
     // Get industry by slug if provided
-    let industryId = null;
+    let industryId: string | null = null;
     if (industrySlug) {
         const industry = await prisma.industry.findUnique({
             where: { slug: industrySlug }
@@ -266,7 +265,7 @@ export async function updateJob(jobId: string, formData: FormData) {
     }
 
     // Check if user is employer of this job's company
-    const isEmployer = job.company.employers.some((e: Prisma.EmployerProfileGetPayload<{}>) => e.userId === session.user.id);
+    const isEmployer = job.company.employers.some((e: any) => e.userId === session.user.id);
     if (!isEmployer) {
         return { error: "Bạn không có quyền sửa tin này" };
     }
@@ -284,7 +283,7 @@ export async function updateJob(jobId: string, formData: FormData) {
     const industrySlug = formData.get("industryId") as string;
 
     // Get industry by slug if provided
-    let industryId = null;
+    let industryId: string | null = null;
     if (industrySlug) {
         const industry = await prisma.industry.findUnique({
             where: { slug: industrySlug }
@@ -340,7 +339,7 @@ export async function getJobLocations() {
         select: { location: true },
         distinct: ["location"],
     });
-    return jobs.map(j => j.location).filter(Boolean).sort();
+    return jobs.map((j: any) => j.location).filter(Boolean).sort();
 }
 
 export async function getJobFilters() {
@@ -350,7 +349,7 @@ export async function getJobFilters() {
             where: { status: "ACTIVE" },
             select: { location: true },
             distinct: ["location"],
-        }).then(jobs => jobs.map(j => j.location).filter(Boolean).sort())
+        }).then((jobs: any) => jobs.map((j: any) => j.location).filter(Boolean).sort())
     ]);
 
     return {
@@ -431,7 +430,7 @@ export async function getSavedJobIds(): Promise<string[]> {
         select: { jobId: true }
     });
 
-    return saved.map(s => s.jobId);
+    return saved.map((s: any) => s.jobId);
 }
 
 export async function isJobSaved(jobId: string): Promise<boolean> {

@@ -71,7 +71,7 @@ export default async function AdminDashboard() {
                         {jobs.length === 0 ? (
                             <tr><td colSpan={5} className="dash-empty">Không có tin nào</td></tr>
                         ) : (
-                            jobs.slice(0, 15).map((job) => {
+                            jobs.slice(0, 15).map((job: any) => {
                                 const st = JOB_STATUS[job.status] || { label: job.status, color: "#64748B" };
                                 return (
                                     <tr key={job.id}>

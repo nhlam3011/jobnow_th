@@ -121,7 +121,7 @@ export default function JobCard({
                     flex-direction: column;
                     height: 100%;
                     padding: 0.875rem;
-                    background: var(--card-bg, #fff);
+                    background: var(--bg-card);
                     border-radius: 10px;
                     border: 1px solid var(--border);
                     transition: all 0.2s ease;
@@ -248,7 +248,7 @@ export default function JobCard({
                     padding: 0.375rem 0.75rem;
                     border-radius: 6px;
                     background: transparent;
-                    border: 1px solid var(--border-light, #f0f0f0);
+                    border: 1px solid var(--border-light, var(--border));
                     color: var(--text-muted);
                     white-space: nowrap;
                 }
@@ -268,7 +268,7 @@ export default function JobCard({
                 }
                 
                 .job-card-action :global(.save-btn) {
-                    border: 1px solid var(--border-light, #f0f0f0);
+                    border: 1px solid var(--border-light, var(--border));
                     background: transparent;
                 }
                 .job-card-action :global(.save-btn:hover) {

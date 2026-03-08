@@ -280,22 +280,22 @@ export default function LandingContent({ featuredJobs, industries, companies, st
                     background: "var(--bg-card)", padding: "3.5rem 1rem",
                     borderTop: "1.5px solid var(--border)", borderBottom: "1.5px solid var(--border)",
                 }}>
-                    <div className="container-xl">
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "2rem", gap: "1rem", flexWrap: "wrap" }}>
-                            <div>
+                    <div className="container-xl" style={{ textAlign: "center" }}>
+                        <div style={{ marginBottom: "2rem" }}>
+                            <div style={{ marginBottom: "0.75rem" }}>
                                 <div style={{
                                     display: "inline-flex", alignItems: "center", gap: "0.375rem",
                                     background: "var(--tag-bg)", borderRadius: "100px", padding: "0.375rem 1rem",
-                                    marginBottom: "0.75rem", fontSize: "0.8125rem", fontWeight: 700,
+                                    fontSize: "0.8125rem", fontWeight: 700,
                                     color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.05em",
                                 }}>
                                     <BriefcaseIcon style={{ width: "14px", height: "14px" }} />
                                     Mới nhất
                                 </div>
-                                <h2 style={{ fontSize: "clamp(1.5rem, 4vw, 2rem)", fontWeight: 800, color: "var(--text)", margin: 0 }}>
-                                    Việc làm hàng đầu
-                                </h2>
                             </div>
+                            <h2 style={{ fontSize: "clamp(1.5rem, 4vw, 2rem)", fontWeight: 800, color: "var(--text)", margin: "0 0 1.5rem 0" }}>
+                                Việc làm hàng đầu
+                            </h2>
                             <Link href="/jobs" className="btn-primary" style={{ display: "inline-flex", alignItems: "center", gap: "0.375rem", fontSize: "0.875rem", padding: "0.625rem 1.25rem" }}>
                                 Xem tất cả <ArrowRightIcon style={{ width: "16px", height: "16px" }} />
                             </Link>
@@ -307,6 +307,8 @@ export default function LandingContent({ featuredJobs, industries, companies, st
                                 gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
                                 gap: "1rem",
                                 width: "100%",
+                                maxWidth: "960px",
+                                margin: "0 auto",
                                 overflowX: "hidden"
                             }}>
                                 {featuredJobs.map((job) => (

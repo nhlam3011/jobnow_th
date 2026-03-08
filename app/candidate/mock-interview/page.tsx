@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { getRecommendedJobs } from "@/lib/ai";
-import { getJobs } from "@/app/actions/jobs";
+import { getJobs, getSavedJobs } from "@/app/actions/jobs";
 import DashboardLayout from "@/app/components/DashboardLayout";
 import MockInterviewClient from "./MockInterviewClient";
 
@@ -31,6 +31,33 @@ export default async function MockInterviewPage() {
     } catch (e) {
         console.error("Error getting recommended jobs:", e);
     }
+
+    // Lấy danh sách job đã lưu
+    let savedJobs: any[] = [];
+    try {
+        const saved = await getSavedJobs();
+        if (Array.isArray(saved) && saved.length > 0) {
+            savedJobs = saved.map((item: any) => ({
+                id: item.job.id,
+                title: item.job.title,
+                slug: item.job.slug,
+                location: item.job.location,
+                jobType: item.job.jobType,
+                skills: item.job.skills || [],
+                companyName: item.job.company.name,
+                companyLogo: item.job.company.logo,
+                similarity: null,
+                isSaved: true,
+            }));
+        }
+    } catch (e) {
+        console.error("Error getting saved jobs:", e);
+    }
+
+    // Kết hợp jobs: ưu tiên recommended trước, sau đó thêm saved jobs
+    const jobIds = new Set(jobs.map(j => j.id));
+    const uniqueSavedJobs = savedJobs.filter(j => !jobIds.has(j.id));
+    jobs = [...jobs, ...uniqueSavedJobs];
 
     // Fallback: lấy job active nếu không có gợi ý
     if (jobs.length === 0) {

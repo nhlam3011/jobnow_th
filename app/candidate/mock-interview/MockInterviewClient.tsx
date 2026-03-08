@@ -12,6 +12,7 @@ interface Job {
     companyName: string;
     companyLogo: string | null;
     similarity: number | null;
+    isSaved?: boolean;
 }
 
 interface Feedback {
@@ -345,6 +346,18 @@ export default function MockInterviewClient({ jobs }: { jobs: Job[] }) {
                                                 borderRadius: "100px",
                                             }}>
                                                 {Math.round(job.similarity * 100)}% Match
+                                            </span>
+                                        )}
+                                        {job.isSaved && (
+                                            <span style={{
+                                                fontSize: "0.75rem",
+                                                fontWeight: 600,
+                                                color: "#EC4899",
+                                                background: "rgba(236,72,153,0.1)",
+                                                padding: "0.15rem 0.5rem",
+                                                borderRadius: "100px",
+                                            }}>
+                                                Đã lưu
                                             </span>
                                         )}
                                     </div>

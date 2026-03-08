@@ -21,7 +21,7 @@ export default function AdminJobActions({
 
     if (status === "ACTIVE") {
         return (
-            <div style={{ textAlign: "center", display: "flex", gap: "0.5rem", alignItems: "center" }}>
+            <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", justifyContent: "center" }}>
                 <span className="dash-badge" style={{ background: "rgba(34,197,94,0.1)", color: "#16A34A" }}>✓ Đã duyệt</span>
                 <button className="dash-btn dash-btn-ghost" onClick={() => handle("CLOSED")} disabled={isPending} style={{ fontSize: "0.75rem", padding: "0.2rem 0.5rem" }}>
                     Đóng
@@ -35,7 +35,7 @@ export default function AdminJobActions({
     }
 
     return (
-        <div style={{ textAlign: "center", display: "flex ", gap: "0.5rem" }}>
+        <div style={{ display: "flex", gap: "0.5rem", justifyContent: "center" }}>
             <button className="dash-btn dash-btn-success" onClick={() => handle("ACTIVE")} disabled={isPending} style={{ fontSize: "0.75rem", padding: "0.3rem 0.75rem" }}>
                 Duyệt
             </button>

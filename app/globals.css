@@ -484,10 +484,18 @@ h6 {
 /* Jobs grid and list layouts */
 .jobs-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.125rem;
   overflow-x: hidden;
   max-width: 100%;
+}
+
+/* Tablet responsive for jobs grid (641px - 768px) */
+@media (max-width: 768px) and (min-width: 641px) {
+  .jobs-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.875rem;
+  }
 }
 
 /* Mobile responsive for jobs grid */
@@ -527,11 +535,6 @@ h6 {
 
 /* Job cards grid responsive */
 @media (max-width: 768px) {
-  .jobs-grid {
-    grid-template-columns: 1fr !important;
-    gap: 0.75rem !important;
-  }
-
   .jobs-list-layout {
     gap: 0.75rem !important;
   }
@@ -583,5 +586,12 @@ h6 {
 
   main>div>div:nth-child(2) p {
     text-align: left !important;
+  }
+}
+
+/* Market Insights responsive */
+@media (max-width: 768px) {
+  .market-charts-grid {
+    grid-template-columns: 1fr !important;
   }
 }

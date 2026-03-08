@@ -101,7 +101,7 @@ export default async function RecommendedJobsPage() {
                             </Link>
                         </div>
                     ) : (
-                        <div className="jobs-grid" style={{ overflowX: "hidden", maxWidth: "100%" }}>
+                        <div className="jobs-grid" style={{ overflowX: "hidden", maxWidth: "100%", width: "100%" }}>
                             {jobs.map((job) => (
                                 <Link
                                     key={job.id}

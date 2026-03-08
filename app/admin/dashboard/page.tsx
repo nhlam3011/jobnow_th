@@ -62,9 +62,9 @@ export default async function AdminDashboard() {
                         <tr>
                             <th style={{ minWidth: "200px" }}>Vị trí</th>
                             <th className="hide-mobile">Công ty</th>
-                            <th>Trạng thái</th>
+                            <th style={{ textAlign: "center" }}>Trạng thái</th>
                             <th className="hide-mobile">Ngày đăng</th>
-                            <th>Thao tác</th>
+                            <th style={{ textAlign: "center" }}>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -77,11 +77,11 @@ export default async function AdminDashboard() {
                                     <tr key={job.id}>
                                         <td className="bold">{job.title}</td>
                                         <td className="muted hide-mobile">{job.company.name}</td>
-                                        <td>
+                                        <td style={{ textAlign: "center" }}>
                                             <span className="dash-badge" style={{ background: `${st.color}15`, color: st.color }}>{st.label}</span>
                                         </td>
                                         <td className="muted hide-mobile">{new Date(job.createdAt).toLocaleDateString("vi-VN")}</td>
-                                        <td><AdminJobActions jobId={job.id} currentStatus={job.status} /></td>
+                                        <td style={{ textAlign: "center" }}><AdminJobActions jobId={job.id} currentStatus={job.status} /></td>
                                     </tr>
                                 );
                             })

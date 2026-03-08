@@ -84,3 +84,120 @@ export async function getUserCVs() {
         return { error: "Không thể lấy danh sách CV của bạn" };
     }
 }
+
+// ============================================================
+// ADMIN: CRUD Template
+// ============================================================
+
+/**
+ * Lấy tất cả templates (admin - bao gồm inactive)
+ */
+export async function getAllTemplatesAdmin() {
+    const session = await auth();
+    if (!session?.user || (session.user as any).role !== "ADMIN") {
+        return { error: "Không có quyền truy cập" };
+    }
+
+    try {
+        const templates = await prisma.template.findMany({
+            orderBy: { createdAt: "desc" },
+            include: { _count: { select: { cvs: true } } },
+        });
+        return { success: true, templates };
+    } catch (error) {
+        console.error("Error fetching all templates:", error);
+        return { error: "Lỗi khi tải danh sách mẫu CV" };
+    }
+}
+
+/**
+ * Lấy chi tiết template theo ID
+ */
+export async function getTemplateById(id: string) {
+    try {
+        const template = await prisma.template.findUnique({ where: { id } });
+        if (!template) return { error: "Không tìm thấy template" };
+        return { success: true, template };
+    } catch (error) {
+        console.error("Error fetching template:", error);
+        return { error: "Lỗi khi tải template" };
+    }
+}
+
+/**
+ * Tạo template mới (admin)
+ */
+export async function createTemplate(data: {
+    name: string;
+    description?: string;
+    category: string;
+    thumbnailUrl?: string;
+    layoutConfig: any;
+    styleConfig: any;
+}) {
+    const session = await auth();
+    if (!session?.user || (session.user as any).role !== "ADMIN") {
+        return { error: "Không có quyền truy cập" };
+    }
+
+    try {
+        const template = await prisma.template.create({ data });
+        revalidatePath("/admin/cv-templates");
+        return { success: true, template };
+    } catch (error) {
+        console.error("Error creating template:", error);
+        return { error: "Lỗi khi tạo mẫu CV" };
+    }
+}
+
+/**
+ * Cập nhật template (admin)
+ */
+export async function updateTemplate(id: string, data: {
+    name?: string;
+    description?: string;
+    category?: string;
+    thumbnailUrl?: string;
+    layoutConfig?: any;
+    styleConfig?: any;
+    isActive?: boolean;
+}) {
+    const session = await auth();
+    if (!session?.user || (session.user as any).role !== "ADMIN") {
+        return { error: "Không có quyền truy cập" };
+    }
+
+    try {
+        const template = await prisma.template.update({ where: { id }, data });
+        revalidatePath("/admin/cv-templates");
+        return { success: true, template };
+    } catch (error) {
+        console.error("Error updating template:", error);
+        return { error: "Lỗi khi cập nhật mẫu CV" };
+    }
+}
+
+/**
+ * Xoá template (admin)
+ */
+export async function deleteTemplate(id: string) {
+    const session = await auth();
+    if (!session?.user || (session.user as any).role !== "ADMIN") {
+        return { error: "Không có quyền truy cập" };
+    }
+
+    try {
+        // Kiểm tra có CV nào đang dùng template này không
+        const cvCount = await prisma.cV.count({ where: { templateId: id } });
+        if (cvCount > 0) {
+            return { error: `Không thể xoá! Có ${cvCount} CV đang sử dụng mẫu này. Hãy ẩn (deactivate) thay vì xoá.` };
+        }
+        await prisma.template.delete({ where: { id } });
+        revalidatePath("/admin/cv-templates");
+        return { success: true };
+    } catch (error) {
+        console.error("Error deleting template:", error);
+        return { error: "Lỗi khi xoá mẫu CV" };
+    }
+}
+

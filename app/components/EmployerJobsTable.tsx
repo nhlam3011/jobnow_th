@@ -66,11 +66,11 @@ export default function EmployerJobsTable({ jobs }: { jobs: Job[] }) {
                     <thead>
                         <tr>
                             <th>Tiêu đề / Vị trí</th>
-                            <th>Trạng thái</th>
+                            <th style={{ textAlign: "center" }}>Trạng thái</th>
                             <th>Ứng viên</th>
                             <th className="hide-mobile">Lượt xem</th>
                             <th className="hide-mobile">Ngày đăng</th>
-                            <th style={{ textAlign: "right" }}>Thao tác</th>
+                            <th style={{ textAlign: "center" }}>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -87,7 +87,7 @@ export default function EmployerJobsTable({ jobs }: { jobs: Job[] }) {
                                             </Link>
                                             <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>{job.location} · {job.jobType}</div>
                                         </td>
-                                        <td><span className="dash-badge" style={{ background: `${st.color}15`, color: st.color }}>{st.label}</span></td>
+                                        <td style={{ textAlign: "center" }}><span className="dash-badge" style={{ background: `${st.color}15`, color: st.color }}>{st.label}</span></td>
                                         <td>
                                             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
                                                 <span style={{ fontWeight: 600 }}>{job._count.applications}</span>
@@ -98,8 +98,8 @@ export default function EmployerJobsTable({ jobs }: { jobs: Job[] }) {
                                         </td>
                                         <td className="muted hide-mobile">{job.viewCount}</td>
                                         <td className="muted hide-mobile">{new Date(job.createdAt).toLocaleDateString("vi-VN")}</td>
-                                        <td style={{ textAlign: "right" }}>
-                                            <div style={{ display: "flex", gap: "0.5rem", justifyContent: "flex-end" }}>
+                                        <td style={{ textAlign: "center" }}>
+                                            <div style={{ display: "flex", gap: "0.5rem", justifyContent: "center" }}>
                                                 <Link href={`/employer/jobs/${job.id}/edit`} className="dash-btn dash-btn-ghost" style={{ fontSize: "0.75rem", padding: "0.3rem 0.625rem" }}>Sửa</Link>
                                                 <JobDeleteButton jobId={job.id} />
                                             </div>

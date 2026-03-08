@@ -79,70 +79,70 @@ export default function EmployerCompanyPage() {
             userName={companyData?.name || session.user.name || "Nhà tuyển dụng"}
             userImage={companyData?.logo || session.user.image}
         >
-            <div className="dash-content">
-                <h1 style={{ fontSize: "1.5rem", fontWeight: 800, color: "var(--text)", marginBottom: "0.375rem" }}>Trang thương hiệu công ty</h1>
-                <p style={{ color: "var(--text-muted)", marginBottom: "2rem" }}>Thông tin công ty sẽ hiển thị trên tất cả tin tuyển dụng của bạn.</p>
+            <div className="dash-topbar">
+                <div>
+                    <h1 className="dash-page-title">Trang thương hiệu công ty</h1>
+                    <p className="dash-page-subtitle">Thông tin công ty sẽ hiển thị trên tất cả tin tuyển dụng của bạn.</p>
+                </div>
+            </div>
 
-                {error && <div style={{ background: "#FEF2F2", border: "1.5px solid #FECACA", borderRadius: "8px", padding: "0.875rem", color: "#DC2626", marginBottom: "1.5rem" }}>{error}</div>}
-                {success && <div style={{ background: "#F0FDF4", border: "1.5px solid #BBF7D0", borderRadius: "8px", padding: "0.875rem", color: "#16A34A", fontWeight: 600, marginBottom: "1.5rem" }}>✓ Thông tin công ty đã được cập nhật!</div>}
+            {error && <div className="dash-alert dash-alert-error">{error}</div>}
+            {success && <div className="dash-alert dash-alert-success">✓ Thông tin công ty đã được cập nhật!</div>}
 
-                <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-                    <div className="dash-form-card">
-                        <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "1.25rem" }}>Thông tin cơ bản</h3>
-                        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                            {[
-                                { name: "name", label: "Tên công ty *", required: true, placeholder: "VD: FPT Software" },
-                                { name: "website", label: "Website", placeholder: "https://example.com" },
-                                { name: "location", label: "Địa điểm", placeholder: "VD: Hà Nội, TP.HCM" },
-                                { name: "position", label: "Chức vụ của bạn", placeholder: "VD: HR Manager" },
-                            ].map((f) => (
-                                <div key={f.name}>
-                                    <label style={labelStyle}>{f.label}</label>
-                                    <input
-                                        name={f.name}
-                                        required={f.required}
-                                        placeholder={f.placeholder}
-                                        defaultValue={companyData?.[f.name as keyof CompanyData] || ""}
-                                        style={inputStyle}
-                                    />
-                                </div>
-                            ))}
-                            <div className="dash-grid-2">
-                                <div>
-                                    <label style={labelStyle}>Ngành nghề</label>
-                                    <select name="industry" defaultValue={companyData?.industry || ""} style={inputStyle}>
-                                        <option value="">Chọn ngành</option>
-                                        {INDUSTRIES.map((i) => <option key={i} value={i}>{i}</option>)}
-                                    </select>
-                                </div>
-                                <div>
-                                    <label style={labelStyle}>Quy mô</label>
-                                    <select name="size" defaultValue={companyData?.size || ""} style={inputStyle}>
-                                        <option value="">Chọn quy mô</option>
-                                        {SIZES.map((s) => <option key={s} value={s}>{s} nhân viên</option>)}
-                                    </select>
-                                </div>
-                            </div>
-                            <div>
-                                <label style={labelStyle}>Giới thiệu công ty</label>
-                                <textarea
-                                    name="description"
-                                    rows={5}
-                                    defaultValue={companyData?.description || ""}
-                                    placeholder="Mô tả về công ty, văn hóa, môi trường làm việc..."
-                                    style={{ ...inputStyle, resize: "vertical" }}
+            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+                <div className="dash-form-card">
+                    <h3>Thông tin cơ bản</h3>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                        {[
+                            { name: "name", label: "Tên công ty *", required: true, placeholder: "VD: FPT Software" },
+                            { name: "website", label: "Website", placeholder: "https://example.com" },
+                            { name: "location", label: "Địa điểm", placeholder: "VD: Hà Nội, TP.HCM" },
+                            { name: "position", label: "Chức vụ của bạn", placeholder: "VD: HR Manager" },
+                        ].map((f) => (
+                            <div key={f.name}>
+                                <label className="dash-form-label">{f.label}</label>
+                                <input
+                                    name={f.name}
+                                    required={f.required}
+                                    placeholder={f.placeholder}
+                                    defaultValue={companyData?.[f.name as keyof CompanyData] || ""}
+                                    className="dash-input"
                                 />
                             </div>
+                        ))}
+                        <div className="dash-grid-2">
+                            <div>
+                                <label className="dash-form-label">Ngành nghề</label>
+                                <select name="industry" defaultValue={companyData?.industry || ""} className="dash-input">
+                                    <option value="">Chọn ngành</option>
+                                    {INDUSTRIES.map((i) => <option key={i} value={i}>{i}</option>)}
+                                </select>
+                            </div>
+                            <div>
+                                <label className="dash-form-label">Quy mô</label>
+                                <select name="size" defaultValue={companyData?.size || ""} className="dash-input">
+                                    <option value="">Chọn quy mô</option>
+                                    {SIZES.map((s) => <option key={s} value={s}>{s} nhân viên</option>)}
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label className="dash-form-label">Giới thiệu công ty</label>
+                            <textarea
+                                name="description"
+                                rows={5}
+                                defaultValue={companyData?.description || ""}
+                                placeholder="Mô tả về công ty, văn hóa, môi trường làm việc..."
+                                className="dash-input"
+                                style={{ resize: "vertical" }}
+                            />
                         </div>
                     </div>
-                    <button type="submit" disabled={isPending} className="btn-primary" style={{ alignSelf: "flex-start", opacity: isPending ? 0.7 : 1 }}>
-                        {isPending ? "Đang lưu..." : "Lưu thông tin công ty"}
-                    </button>
-                </form>
-            </div>
+                </div>
+                <button type="submit" disabled={isPending} className="dash-btn dash-btn-primary" style={{ alignSelf: "flex-start", opacity: isPending ? 0.7 : 1 }}>
+                    {isPending ? "Đang lưu..." : "Lưu thông tin công ty"}
+                </button>
+            </form>
         </DashboardLayout>
     );
 }
-
-const labelStyle: React.CSSProperties = { display: "block", fontWeight: 600, fontSize: "0.875rem", color: "var(--text)", marginBottom: "0.375rem" };
-const inputStyle: React.CSSProperties = { width: "100%", padding: "0.75rem 1rem", border: "1.5px solid var(--border)", borderRadius: "8px", background: "var(--bg)", color: "var(--text)", fontFamily: "inherit", fontSize: "0.9375rem", outline: "none" };

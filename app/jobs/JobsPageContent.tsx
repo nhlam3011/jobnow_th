@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
@@ -67,6 +67,20 @@ export default function JobsPageContent({
     const router = useRouter();
     const [showFilters, setShowFilters] = useState(false);
     const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+    const [isTablet, setIsTablet] = useState(false);
+
+    useEffect(() => {
+        const checkTablet = () => {
+            const width = window.innerWidth;
+            setIsTablet(width > 640 && width <= 768);
+            if (width > 640 && width <= 768) {
+                setViewMode("list");
+            }
+        };
+        checkTablet();
+        window.addEventListener('resize', checkTablet);
+        return () => window.removeEventListener('resize', checkTablet);
+    }, []);
 
     const currentIndustry = searchParams.industry
         ? industries.find(i => i.slug === searchParams.industry)?.name
@@ -199,7 +213,7 @@ export default function JobsPageContent({
                                     {currentIndustry && <span> trong ngành <strong>{currentIndustry}</strong></span>}
                                 </p>
                                 <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-                                    <div style={{ display: "flex", background: "var(--bg)", border: "1px solid var(--border)", borderRadius: "8px", padding: "0.25rem" }}>
+                                    <div style={{ display: "flex", background: "var(--bg)", border: "1px solid var(--border)", borderRadius: "8px", padding: "0.25rem" }} className="view-toggle-buttons">
                                         <button
                                             onClick={() => setViewMode("grid")}
                                             style={{ padding: "0.375rem 0.625rem", borderRadius: "6px", border: "none", background: viewMode === "grid" ? "var(--bg-card)" : "transparent", boxShadow: viewMode === "grid" ? "var(--shadow-sm)" : "none", color: viewMode === "grid" ? "var(--primary)" : "var(--text-muted)", cursor: "pointer", display: "flex", alignItems: "center" }}
@@ -208,6 +222,7 @@ export default function JobsPageContent({
                                             <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
                                         </button>
                                         <button
+                                            className="list-toggle-btn"
                                             onClick={() => setViewMode("list")}
                                             style={{ padding: "0.375rem 0.625rem", borderRadius: "6px", border: "none", background: viewMode === "list" ? "var(--bg-card)" : "transparent", boxShadow: viewMode === "list" ? "var(--shadow-sm)" : "none", color: viewMode === "list" ? "var(--primary)" : "var(--text-muted)", cursor: "pointer", display: "flex", alignItems: "center" }}
                                             title="Xem danh sách"
@@ -323,14 +338,16 @@ export default function JobsPageContent({
                 }
                 .jobs-grid {
                     display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
                     gap: 1.125rem;
+                    width: 100%;
+                    overflow-x: hidden;
                 }
                 .jobs-list-layout {
                     display: flex;
                     flex-direction: column;
                     gap: 1.125rem;
-                    max-width: 900px;
+                    width: 100%;
                 }
                 
                 @media (max-width: 1024px) {
@@ -358,6 +375,18 @@ export default function JobsPageContent({
                     .jobs-title {
                         font-size: 1.25rem;
                         margin-bottom: 1rem;
+                    }
+                    .list-toggle-btn {
+                        display: none !important;
+                    }
+                }
+
+                @media (min-width: 641px) and (max-width: 768px) {
+                    .jobs-grid {
+                        display: none !important;
+                    }
+                    .jobs-list-layout {
+                        display: flex !important;
                     }
                 }
             `}</style>

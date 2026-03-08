@@ -37,11 +37,13 @@ async function getLandingData() {
       companyLogo: j.company.logo,
       companySlug: j.company.slug,
       location: j.location,
-      salary: j.salaryMin && j.salaryMax
-        ? `${(j.salaryMin / 1000000).toFixed(0)}–${(j.salaryMax / 1000000).toFixed(0)} triệu`
-        : j.salaryMin
-          ? `Từ ${(j.salaryMin / 1000000).toFixed(0)} triệu`
-          : "Thỏa thuận",
+      salary: j.salaryMin || j.salaryMax
+        ? (j.salaryMin && j.salaryMax
+          ? `${j.salaryMin.toLocaleString('vi-VN')}–${j.salaryMax.toLocaleString('vi-VN')} đ`
+          : j.salaryMin
+            ? `Từ ${j.salaryMin.toLocaleString('vi-VN')} đ`
+            : `Đến ${j.salaryMax?.toLocaleString('vi-VN')} đ`)
+        : "Thỏa thuận",
       type: j.jobType === "FULL_TIME" ? "Full-time" : j.jobType === "PART_TIME" ? "Part-time" : j.jobType === "REMOTE" ? "Remote" : j.jobType === "INTERNSHIP" ? "Intern" : "Contract",
       skills: j.skills.slice(0, 3),
       posted: getTimeAgo(j.createdAt),

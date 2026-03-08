@@ -22,11 +22,11 @@ export default async function SavedJobsPage() {
     };
 
     return (
-        <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", overflowX: "hidden", maxWidth: "100vw" }}>
+        <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
             <Navbar />
 
-            <main style={{ flex: 1, background: "var(--bg)", padding: "2rem 0", overflowX: "hidden", maxWidth: "100%" }}>
-                <div className="container-xl" style={{ overflowX: "hidden", maxWidth: "100%" }}>
+            <main style={{ flex: 1, background: "var(--bg)", padding: "2rem 0" }}>
+                <div className="container-xl">
                     <div style={{ marginBottom: "2rem" }}>
                         <h1 style={{ fontSize: "1.75rem", fontWeight: 800, color: "var(--text)", marginBottom: "0.5rem" }}>
                             Việc làm đã lưu

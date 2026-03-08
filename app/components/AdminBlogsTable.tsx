@@ -39,7 +39,6 @@ export default function AdminBlogsTable({ blogs }: { blogs: Blog[] }) {
                     placeholder="Tìm kiếm bài viết..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    style={{ maxWidth: "400px" }}
                 />
 
                 <select
@@ -69,8 +68,8 @@ export default function AdminBlogsTable({ blogs }: { blogs: Blog[] }) {
                             <th className="hide-mobile">Danh mục</th>
                             <th className="hide-mobile">Ngày tạo</th>
                             <th className="hide-mobile">Lượt xem</th>
-                            <th>Trạng thái</th>
-                            <th style={{ textAlign: "right" }}>Thao tác</th>
+                            <th style={{ textAlign: "center" }}>Trạng thái</th>
+                            <th style={{ textAlign: "center" }}>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -91,7 +90,7 @@ export default function AdminBlogsTable({ blogs }: { blogs: Blog[] }) {
                                     <td className="muted hide-mobile">{CATEGORY_LABELS[blog.category] || blog.category}</td>
                                     <td className="muted hide-mobile">{new Date(blog.createdAt).toLocaleDateString("vi-VN")}</td>
                                     <td className="muted hide-mobile">{blog.viewCount.toLocaleString()}</td>
-                                    <td>
+                                    <td style={{ textAlign: "center" }}>
                                         <span className={`dash-badge ${blog.isPublished ? "active" : ""}`} style={{
                                             background: blog.isPublished ? "rgba(34,197,94,0.1)" : "rgba(100,116,139,0.1)",
                                             color: blog.isPublished ? "#16A34A" : "#64748B"
@@ -99,7 +98,7 @@ export default function AdminBlogsTable({ blogs }: { blogs: Blog[] }) {
                                             {blog.isPublished ? "Công khai" : "Bản nháp"}
                                         </span>
                                     </td>
-                                    <td style={{ textAlign: "right" }}>
+                                    <td style={{ textAlign: "center" }}>
                                         <AdminBlogActions
                                             blogId={blog.id}
                                             currentStatus={blog.isPublished}

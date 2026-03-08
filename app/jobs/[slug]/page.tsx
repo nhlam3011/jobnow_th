@@ -42,7 +42,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ slug
             <Navbar />
             <main style={{ flex: 1, background: "var(--bg)", padding: "3rem 0" }}>
                 <div className="container-xl">
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: "2rem", alignItems: "flex-start" }}>
+                    <div className="job-detail-grid" style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: "2rem", alignItems: "flex-start" }}>
                         {/* Main content */}
                         <div>
                             {/* Header card */}
@@ -148,7 +148,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ slug
                         </div>
 
                         {/* Sidebar */}
-                        <div style={{ position: "sticky", top: "88px" }}>
+                        <div className="job-detail-sidebar" style={{ position: "sticky", top: "88px" }}>
                             <div className="card" style={{ padding: "1.75rem" }}>
                                 <ApplyButton jobId={job.id} isLoggedIn={!!session?.user} role={session?.user?.role} />
                                 <CoverLetterButton jobId={job.id} />
@@ -171,6 +171,18 @@ export default async function JobDetailPage({ params }: { params: Promise<{ slug
                 </div>
             </main>
             <Footer />
+            <style>{`
+                @media (max-width: 640px) {
+                    .job-detail-grid {
+                        display: flex !important;
+                        flex-direction: column !important;
+                    }
+                    .job-detail-sidebar {
+                        position: static !important;
+                        width: 100% !important;
+                    }
+                }
+            `}</style>
         </div>
     );
 }

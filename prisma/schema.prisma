@@ -254,7 +254,9 @@ model Template {
   id           String   @id @default(cuid())
   name         String   // Tên template (vd: "Modern Minimalist")
   description  String?
+  category     String   @default("Modern") // Phân loại: Modern, Classic, Creative, Minimal
   thumbnailUrl String?  // Hình ảnh preview của template
+  previewHtml  String?  @db.Text // HTML preview đã render sẵn
   layoutConfig Json     // Cấu trúc dàn trang (JSON)
   styleConfig  Json     // Cấu hình UI (JSON)
   isActive     Boolean  @default(true)

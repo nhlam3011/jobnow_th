@@ -104,7 +104,7 @@ export default function LandingContent({ featuredJobs, industries, companies, st
         <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
             <Navbar />
 
-            <main style={{ flex: 1 }}>
+            <main style={{ flex: 1, marginTop: "-50px" }}>
                 {/* ===== HERO ===== */}
                 <section style={{
                     position: "relative",
@@ -137,6 +137,7 @@ export default function LandingContent({ featuredJobs, industries, companies, st
                             marginBottom: "1.25rem", lineHeight: 1.15,
                         }}>
                             Tìm việc làm{" "}
+                            <br />
                             <span key={wordIndex} style={{
                                 display: "inline-block", color: "#FDE68A",
                                 transition: "opacity 300ms",
@@ -301,7 +302,13 @@ export default function LandingContent({ featuredJobs, industries, companies, st
                         </div>
 
                         {featuredJobs.length > 0 ? (
-                            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "1rem" }}>
+                            <div style={{
+                                display: "grid",
+                                gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+                                gap: "1rem",
+                                width: "100%",
+                                overflowX: "hidden"
+                            }}>
                                 {featuredJobs.map((job) => (
                                     <JobCard
                                         key={job.id}

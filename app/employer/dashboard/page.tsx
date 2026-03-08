@@ -70,7 +70,7 @@ export default async function EmployerDashboard() {
                             <th style={{ textAlign: "center" }}>Trạng thái</th>
                             <th style={{ textAlign: "center" }}>Ứng viên</th>
                             <th className="hide-mobile">Ngày đăng</th>
-                            <th></th>
+                            <th style={{ textAlign: "center" }}>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -93,7 +93,7 @@ export default async function EmployerDashboard() {
                                         </td>
                                         <td className="muted text-center">{job._count.applications}</td>
                                         <td className="muted hide-mobile">{new Date(job.createdAt).toLocaleDateString("vi-VN")}</td>
-                                        <td>
+                                        <td style={{ textAlign: "center" }}>
                                             <Link href={`/employer/jobs/${job.id}/applicants`} className="dash-section-link">Xem ứng viên</Link>
                                         </td>
                                     </tr>

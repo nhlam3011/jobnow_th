@@ -167,7 +167,7 @@ export default function KeywordsPage() {
                             <th>Từ khoá gợi ý</th>
                             <th className="hide-mobile">Loại</th>
                             <th className="hide-mobile" style={{ textAlign: "center" }}>Trạng thái</th>
-                            <th style={{ textAlign: "right" }}>Hành động</th>
+                            <th style={{ textAlign: "center" }}>Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -195,7 +195,7 @@ export default function KeywordsPage() {
                                             {keyword.isActive ? "Hoạt động" : "Bị tắt"}
                                         </button>
                                     </td>
-                                    <td style={{ textAlign: "right" }}>
+                                    <td style={{ textAlign: "center" }}>
                                         <button className="dash-btn dash-btn-danger" onClick={() => deleteKeyword(keyword.id)} style={{ fontSize: "0.75rem", padding: "0.25rem 0.5rem" }}>
                                             Xoá
                                         </button>

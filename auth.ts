@@ -64,7 +64,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             }
             return true;
         },
-        async jwt({ token, user, account }) {
+        async jwt({ token, user, account, trigger, session }) {
+            if (trigger === "update" && session) {
+                if (session.name) token.name = session.name;
+                if (session.image) {
+                    token.picture = session.image;
+                    token.image = session.image;
+                }
+            }
             if (user) {
                 token.id = user.id;
                 token.role = (user as { role?: string }).role || "CANDIDATE";

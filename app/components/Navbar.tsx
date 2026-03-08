@@ -494,6 +494,27 @@ export default function Navbar({ industries }: NavbarProps) {
                             </div>
                         )}
                     </div>
+
+                    {/* Market Insights - Direct Link */}
+                    <Link
+                        href="/market-insights"
+                        style={{
+                            padding: "0.5rem 0.875rem",
+                            borderRadius: "6px",
+                            fontSize: "0.9375rem",
+                            fontWeight: 500,
+                            color: "var(--text-muted)",
+                            textDecoration: "none",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "0.375rem",
+                            transition: "color 180ms",
+                            whiteSpace: "nowrap",
+                        }}
+                    >
+                        <ChartBarIcon className="w-4 h-4" />
+                        Thị trường
+                    </Link>
                 </div>
 
                 {/* Desktop CTA (Logged Out Only) */}
@@ -505,7 +526,7 @@ export default function Navbar({ industries }: NavbarProps) {
                 )}
 
                 {/* Right controls (Theme, User Avatar, Hamburger) */}
-                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginLeft: isLoggedIn ? "auto" : "0" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginLeft: "auto" }}>
                     <div className="hide-mobile" style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
                         <ThemeToggle />
 
@@ -707,6 +728,26 @@ export default function Navbar({ industries }: NavbarProps) {
                             </div>
                         )}
                     </div>
+
+                    {/* Thị trường - Direct Link (Mobile) */}
+                    <Link
+                        href="/market-insights"
+                        onClick={() => setOpen(false)}
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "0.625rem",
+                            padding: "0.875rem 0.5rem",
+                            borderBottom: "1px solid var(--border)",
+                            textDecoration: "none",
+                            color: "var(--text)",
+                            fontWeight: 600,
+                            fontSize: "0.9375rem",
+                        }}
+                    >
+                        <ChartBarIcon className="w-4 h-4" style={{ color: "var(--primary)" }} />
+                        Thị trường
+                    </Link>
 
                     {/* Theme Toggle (Mobile) */}
                     <div style={{ padding: "0.875rem 0.5rem", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>

@@ -92,7 +92,7 @@ export default function AdminJobsTable({ jobs }: { jobs: Job[] }) {
                                         <td className="muted hide-mobile">{job.company.name}</td>
                                         <td style={{ textAlign: "center" }} className="muted hide-mobile">{new Date(job.createdAt).toLocaleDateString("vi-VN")}</td>
                                         <td style={{ textAlign: "center" }}><span className="dash-badge" style={{ background: `${st.color}15`, color: st.color }}>{st.label}</span></td>
-                                        <td style={{ textAlign: "right", justifyContent: "center" }}><AdminJobActions jobId={job.id} currentStatus={job.status} /></td>
+                                        <td style={{ textAlign: "center" }}><AdminJobActions jobId={job.id} currentStatus={job.status} /></td>
                                     </tr>
                                 );
                             })

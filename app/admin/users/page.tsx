@@ -127,7 +127,7 @@ export default function UsersPage() {
                         <tr>
                             <th>Người dùng</th>
                             <th className="hide-mobile">Email</th>
-                            <th>Quyền</th>
+                            <th style={{ textAlign: "center" }}>Quyền</th>
                             <th className="hide-mobile">Ngày tạo</th>
                             <th style={{ textAlign: "center" }}>Thao tác</th>
                         </tr>

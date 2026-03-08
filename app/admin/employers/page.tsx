@@ -123,7 +123,7 @@ export default function EmployersPage() {
                             <th>Nhà tuyển dụng</th>
                             <th>Công ty</th>
                             <th className="hide-mobile">Chức vụ</th>
-                            <th>Trạng thái</th>
+                            <th style={{ textAlign: "center" }}>Trạng thái</th>
                             <th className="hide-mobile">Ngày tạo</th>
                             <th style={{ textAlign: "center" }}>Thao tác</th>
                         </tr>
@@ -136,7 +136,7 @@ export default function EmployersPage() {
                         ) : (
                             filtered.map((employer) => (
                                 <tr key={employer.id}>
-                                    <td style={{ textAlign: "center" }}>
+                                    <td>
                                         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
                                             <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#22C55E", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: "0.875rem", flexShrink: 0 }}>
                                                 {employer.user.name?.charAt(0).toUpperCase() || employer.user.email.charAt(0).toUpperCase()}
@@ -147,8 +147,8 @@ export default function EmployersPage() {
                                             </div>
                                         </div>
                                     </td>
-                                    <td style={{ textAlign: "center" }}>{employer.company?.name || <span className="muted">Chưa có</span>}</td>
-                                    <td style={{ textAlign: "center" }} className="muted hide-mobile">{employer.position || "-"}</td>
+                                    <td>{employer.company?.name || <span className="muted">Chưa có</span>}</td>
+                                    <td className="muted hide-mobile">{employer.position || "-"}</td>
                                     <td style={{ textAlign: "center" }}>
                                         {employer.company?.verified ? (
                                             <span className="dash-badge" style={{ background: "rgba(34,197,94,0.1)", color: "#16A34A" }}>Đã xác minh</span>

@@ -133,104 +133,103 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
 
     return (
         <DashboardLayout role="EMPLOYER" userName={session?.user?.name || ""}>
-            <div className="dash-content">
-                <h1 style={{ fontSize: "1.5rem", fontWeight: 800, color: "var(--text)", marginBottom: "0.375rem" }}>Chỉnh sửa tin tuyển dụng</h1>
-                <p style={{ color: "var(--text-muted)", marginBottom: "2rem" }}>Cập nhật thông tin tin tuyển dụng.</p>
+            <div className="dash-topbar">
+                <div>
+                    <h1 className="dash-page-title">Chỉnh sửa tin tuyển dụng</h1>
+                    <p className="dash-page-subtitle">Cập nhật thông tin tin tuyển dụng.</p>
+                </div>
+            </div>
 
-                {error && <div style={{ background: "#FEF2F2", border: "1.5px solid #FECACA", borderRadius: "8px", padding: "0.875rem 1rem", color: "#DC2626", marginBottom: "1.5rem" }}>{error}</div>}
+            {error && <div className="dash-alert dash-alert-error">{error}</div>}
 
-                <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-                    {/* Basic */}
-                    <div className="dash-form-card">
-                        <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "1.25rem" }}>Thông tin cơ bản</h3>
-                        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+                {/* Basic */}
+                <div className="dash-form-card">
+                    <h3>Thông tin cơ bản</h3>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                        <div>
+                            <label className="dash-form-label">Tiêu đề công việc *</label>
+                            <input name="title" required defaultValue={job.title} placeholder="VD: Senior Frontend Developer, Kế toán tổng hợp, Nhân viên Marketing..." className="dash-input" />
+                        </div>
+
+                        {/* Industry Selection */}
+                        <div>
+                            <label className="dash-form-label">Ngành nghề *</label>
+                            <select name="industry" required defaultValue={job.industry?.slug || ""} className="dash-input">
+                                {INDUSTRIES.map((ind) => (
+                                    <option key={ind.value} value={ind.value}>{ind.label}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className="dash-grid-2">
                             <div>
-                                <label style={labelStyle}>Tiêu đề công việc *</label>
-                                <input name="title" required defaultValue={job.title} placeholder="VD: Senior Frontend Developer, Kế toán tổng hợp, Nhân viên Marketing..." style={inputStyle} />
+                                <label className="dash-form-label">Địa điểm *</label>
+                                <input name="location" required defaultValue={job.location} placeholder="VD: Hà Nội, TP.HCM, Remote" className="dash-input" />
                             </div>
-
-                            {/* Industry Selection */}
                             <div>
-                                <label style={labelStyle}>Ngành nghề *</label>
-                                <select name="industry" required defaultValue={job.industry?.slug || ""} style={inputStyle}>
-                                    {INDUSTRIES.map((ind) => (
-                                        <option key={ind.value} value={ind.value}>{ind.label}</option>
-                                    ))}
+                                <label className="dash-form-label">Loại hình *</label>
+                                <select name="jobType" required defaultValue={job.jobType} className="dash-input">
+                                    {JOB_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
                                 </select>
                             </div>
-
-                            <div className="dash-grid-2">
-                                <div>
-                                    <label style={labelStyle}>Địa điểm *</label>
-                                    <input name="location" required defaultValue={job.location} placeholder="VD: Hà Nội, TP.HCM, Remote" style={inputStyle} />
-                                </div>
-                                <div>
-                                    <label style={labelStyle}>Loại hình *</label>
-                                    <select name="jobType" required defaultValue={job.jobType} style={inputStyle}>
-                                        {JOB_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="dash-grid-2">
-                                <div>
-                                    <label style={labelStyle}>Lương tối thiểu (VNĐ)</label>
-                                    <input name="salaryMin" type="number" defaultValue={job.salaryMin || ""} placeholder="VD: 7000000" style={inputStyle} />
-                                </div>
-                                <div>
-                                    <label style={labelStyle}>Lương tối đa (VNĐ)</label>
-                                    <input name="salaryMax" type="number" defaultValue={job.salaryMax || ""} placeholder="VD: 15000000" style={inputStyle} />
-                                </div>
-                            </div>
                         </div>
-                    </div>
-
-                    {/* Description */}
-                    <div className="dash-form-card">
-                        <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "1.25rem" }}>Nội dung tuyển dụng</h3>
-                        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                        <div className="dash-grid-2">
                             <div>
-                                <label style={labelStyle}>Mô tả công việc *</label>
-                                <textarea name="description" required rows={6} defaultValue={job.description} placeholder="Mô tả các nhiệm vụ, trách nhiệm của vị trí..." style={{ ...inputStyle, resize: "vertical" }} />
+                                <label className="dash-form-label">Lương tối thiểu (VNĐ)</label>
+                                <input name="salaryMin" type="number" defaultValue={job.salaryMin || ""} placeholder="VD: 7000000" className="dash-input" />
                             </div>
                             <div>
-                                <label style={labelStyle}>Yêu cầu ứng viên</label>
-                                <textarea name="requirements" rows={5} defaultValue={job.requirements || ""} placeholder="Bằng cấp, kinh nghiệm, kỹ năng cần có..." style={{ ...inputStyle, resize: "vertical" }} />
-                            </div>
-                            <div>
-                                <label style={labelStyle}>Phúc lợi</label>
-                                <textarea name="benefits" rows={4} defaultValue={job.benefits || ""} placeholder="Bảo hiểm, thưởng, team building, remote policy..." style={{ ...inputStyle, resize: "vertical" }} />
+                                <label className="dash-form-label">Lương tối đa (VNĐ)</label>
+                                <input name="salaryMax" type="number" defaultValue={job.salaryMax || ""} placeholder="VD: 15000000" className="dash-input" />
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    {/* Skills */}
-                    <div className="dash-form-card">
-                        <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "1.25rem" }}>Kỹ năng yêu cầu</h3>
-                        <div style={{ display: "flex", gap: "0.625rem", marginBottom: "1rem" }}>
-                            <input value={skillInput} onChange={(e) => setSkillInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addSkill(); } }} placeholder="VD: React, Node.js, Kế toán, Tiếng Anh..." style={{ ...inputStyle, flex: 1 }} />
-                            <button type="button" onClick={addSkill} className="btn-outline" style={{ padding: "0.75rem 1.25rem" }}>+ Thêm</button>
+                {/* Description */}
+                <div className="dash-form-card">
+                    <h3>Nội dung tuyển dụng</h3>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                        <div>
+                            <label className="dash-form-label">Mô tả công việc *</label>
+                            <textarea name="description" required rows={6} defaultValue={job.description} placeholder="Mô tả các nhiệm vụ, trách nhiệm của vị trí..." className="dash-input" style={{ resize: "vertical" }} />
                         </div>
-                        <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-                            {skills.map((s) => (
-                                <span key={s} style={{ display: "inline-flex", alignItems: "center", gap: "0.375rem", padding: "0.25rem 0.625rem 0.25rem 0.875rem", background: "var(--tag-bg)", color: "var(--tag-text)", borderRadius: "100px", fontSize: "0.875rem" }}>
-                                    {s}
-                                    <button type="button" onClick={() => setSkills(skills.filter((x) => x !== s))} style={{ border: "none", background: "none", cursor: "pointer", color: "var(--tag-text)", fontSize: "1rem", padding: 0 }}>×</button>
-                                </span>
-                            ))}
+                        <div>
+                            <label className="dash-form-label">Yêu cầu ứng viên</label>
+                            <textarea name="requirements" rows={5} defaultValue={job.requirements || ""} placeholder="Bằng cấp, kinh nghiệm, kỹ năng cần có..." className="dash-input" style={{ resize: "vertical" }} />
+                        </div>
+                        <div>
+                            <label className="dash-form-label">Phúc lợi</label>
+                            <textarea name="benefits" rows={4} defaultValue={job.benefits || ""} placeholder="Bảo hiểm, thưởng, team building, remote policy..." className="dash-input" style={{ resize: "vertical" }} />
                         </div>
                     </div>
+                </div>
 
-                    <div style={{ display: "flex", gap: "0.75rem" }}>
-                        <button type="button" onClick={() => router.back()} className="btn-outline">Hủy</button>
-                        <button type="submit" disabled={isPending} className="btn-primary" style={{ opacity: isPending ? 0.7 : 1 }}>
-                            {isPending ? "Đang lưu..." : "Lưu thay đổi"}
-                        </button>
+                {/* Skills */}
+                <div className="dash-form-card">
+                    <h3>Kỹ năng yêu cầu</h3>
+                    <div className="dash-form-row">
+                        <input value={skillInput} onChange={(e) => setSkillInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addSkill(); } }} placeholder="VD: React, Node.js, Kế toán, Tiếng Anh..." className="dash-input" style={{ flex: 1 }} />
+                        <button type="button" onClick={addSkill} className="dash-btn dash-btn-ghost" style={{ flexShrink: 0 }}>+ Thêm</button>
                     </div>
-                </form>
-            </div>
+                    <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+                        {skills.map((s) => (
+                            <span key={s} className="tag" style={{ display: "inline-flex", alignItems: "center", gap: "0.375rem", paddingRight: "0.625rem" }}>
+                                {s}
+                                <button type="button" onClick={() => setSkills(skills.filter((x) => x !== s))} style={{ border: "none", background: "none", cursor: "pointer", color: "var(--tag-text)", fontSize: "1rem", padding: 0 }}>×</button>
+                            </span>
+                        ))}
+                    </div>
+                </div>
+
+                <div style={{ display: "flex", gap: "0.75rem" }}>
+                    <button type="button" onClick={() => router.back()} className="dash-btn dash-btn-ghost">Hủy</button>
+                    <button type="submit" disabled={isPending} className="dash-btn dash-btn-primary" style={{ opacity: isPending ? 0.7 : 1 }}>
+                        {isPending ? "Đang lưu..." : "Lưu thay đổi"}
+                    </button>
+                </div>
+            </form>
         </DashboardLayout>
     );
 }
-
-const labelStyle: React.CSSProperties = { display: "block", fontWeight: 600, fontSize: "0.875rem", color: "var(--text)", marginBottom: "0.375rem" };
-const inputStyle: React.CSSProperties = { width: "100%", padding: "0.75rem 1rem", border: "1.5px solid var(--border)", borderRadius: "8px", background: "var(--bg)", color: "var(--text)", fontFamily: "inherit", fontSize: "0.9375rem", outline: "none" };

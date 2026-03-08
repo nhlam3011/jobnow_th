@@ -16,14 +16,16 @@ export default async function CandidateProfilePage() {
             userName={session.user.name || "Ứng viên"}
             userImage={session.user.image}
         >
-            <div style={{ padding: "2rem" }}>
-                <h1 style={{ fontSize: "1.5rem", fontWeight: 800, color: "var(--text)", marginBottom: "0.375rem" }}>Hồ sơ của tôi</h1>
-                <p style={{ color: "var(--text-muted)", marginBottom: "2rem" }}>
-                    Hồ sơ đầy đủ giúp AI gợi ý việc làm chính xác hơn.
-                </p>
-                <div className="dash-content">
-                    <ProfileForm profile={profile} userName={session.user.name || ""} />
+            <div className="dash-topbar">
+                <div>
+                    <h1 className="dash-page-title">Hồ sơ của tôi</h1>
+                    <p className="dash-page-subtitle">
+                        Hồ sơ đầy đủ giúp AI gợi ý việc làm chính xác hơn.
+                    </p>
                 </div>
+            </div>
+            <div className="dash-content">
+                <ProfileForm profile={profile} userName={session.user.name || ""} />
             </div>
         </DashboardLayout>
     );

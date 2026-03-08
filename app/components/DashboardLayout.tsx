@@ -34,6 +34,7 @@ const roleNavs: Record<string, { section?: string; items: NavItem[] }[]> = {
             items: [
                 { href: "/candidate/applications", label: "Đơn ứng tuyển", icon: "M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2" },
                 { href: "/candidate/saved", label: "Việc đã lưu", icon: "M5 5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16l-7-3.5L5 21V5z" },
+                { href: "/candidate/mock-interview", label: "Phỏng vấn AI", icon: "M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" },
                 { href: "/jobs", label: "Tìm việc làm", icon: "M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" },
             ],
         },
@@ -85,6 +86,7 @@ const roleNavs: Record<string, { section?: string; items: NavItem[] }[]> = {
             items: [
                 { href: "/admin/jobs", label: "Duyệt tin tuyển dụng", icon: "M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" },
                 { href: "/admin/blogs", label: "Quản lý bài viết", icon: "M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2m-4-3H9M7 8h10M7 12h10M7 16h10" },
+                { href: "/admin/cv-templates", label: "Mẫu CV", icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5.586a1 1 0 0 1 .707.293l5.414 5.414a1 1 0 0 1 .293.707V19a2 2 0 0 1-2 2z" },
                 { href: "/admin/companies", label: "Quản lý công ty", icon: "M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16" },
             ],
         },

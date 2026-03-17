@@ -657,15 +657,21 @@ function LoginContent() {
                     </p>
                     <div className="login-features">
                         <div className="login-feature-item">
-                            <div className="login-feature-icon">⚡</div>
+                            <div className="login-feature-icon">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                            </div>
                             <span>Tìm việc nhanh chóng với AI thông minh</span>
                         </div>
                         <div className="login-feature-item">
-                            <div className="login-feature-icon">🎯</div>
+                            <div className="login-feature-icon">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" /></svg>
+                            </div>
                             <span>Ứng tuyển dễ dàng trong 1 click</span>
                         </div>
                         <div className="login-feature-item">
-                            <div className="login-feature-icon">🔔</div>
+                            <div className="login-feature-icon">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                            </div>
                             <span>Nhận thông báo việc làm mới ngay lập tức</span>
                         </div>
                     </div>

@@ -225,32 +225,43 @@ export default function AccountSettings({ user }: AccountSettingsProps) {
                                     onClick={() => fileInputRef.current?.click()}
                                     disabled={uploading}
                                 >
-                                    {uploading ? "Đang tải..." : "Chọn ảnh"}
+                                    {uploading ? "Đang tải..." : "Tải ảnh lên"}
                                 </button>
                                 <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", margin: 0 }}>
                                     PNG, JPG. Tối đa 5MB
                                 </p>
                             </div>
                         </div>
-                        {image && (
-                            <div style={{ marginTop: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                                <input
-                                    className="dash-input"
-                                    value={image}
-                                    onChange={(e) => setImage(e.target.value)}
-                                    placeholder="URL ảnh"
-                                    style={{ flex: 1 }}
-                                />
+                        {/* URL Input */}
+                        <div style={{ marginTop: "0.75rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                            <input
+                                className="dash-input"
+                                value={image}
+                                onChange={(e) => setImage(e.target.value)}
+                                placeholder="Hoặc nhập URL ảnh đại diện"
+                                style={{ flex: 1 }}
+                            />
+                            {image && (
                                 <button
                                     type="button"
                                     className="dash-btn"
-                                    onClick={() => setImage("")}
-                                    style={{ padding: "0.5rem" }}
-                                    title="Xóa"
+                                    onClick={async () => {
+                                        setImage("");
+                                        setInfoMsg("");
+                                    }}
+                                    style={{ padding: "0.5rem 0.75rem", background: "#fee2e2", color: "#dc2626", border: "1px solid #fecaca" }}
+                                    title="Xóa avatar"
                                 >
-                                    ✕
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                    </svg>
                                 </button>
-                            </div>
+                            )}
+                        </div>
+                        {image && (
+                            <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "0.25rem" }}>
+                                Nhập URL hoặc tải ảnh lên để thay đổi avatar
+                            </p>
                         )}
                     </div>
                     <button type="submit" className="dash-btn dash-btn-primary" disabled={saving}>

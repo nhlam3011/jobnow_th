@@ -62,8 +62,8 @@ export default async function MockInterviewPage() {
     // Fallback: lấy job active nếu không có gợi ý
     if (jobs.length === 0) {
         try {
-            const activeJobs = await getJobs({ status: "ACTIVE" });
-            jobs = (activeJobs as any[]).slice(0, 12).map((job: any) => ({
+            const activeJobs = await getJobs({ status: "ACTIVE", limit: 12 });
+            jobs = (activeJobs.jobs || []).slice(0, 12).map((job: any) => ({
                 id: job.id,
                 title: job.title,
                 slug: job.slug,

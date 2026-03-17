@@ -376,7 +376,7 @@ export default function SearchBar({ size = "lg", defaultAI = false }: SearchBarP
                             {keyword.length >= 2 && jobTitleSuggestions.length > 0 && (
                                 <>
                                     <div className="suggestions-header category-header job-header">
-                                        <span>💼 Vị trí công việc</span>
+                                        <span>Vị trí công việc</span>
                                     </div>
                                     {jobTitleSuggestions.map((item, index) => (
                                         <button
@@ -462,7 +462,7 @@ export default function SearchBar({ size = "lg", defaultAI = false }: SearchBarP
                             {keyword.length >= 2 && skillSuggestions.length > 0 && (
                                 <>
                                     <div className="suggestions-header category-header skill-header">
-                                        <span>💡 Kỹ năng</span>
+                                        <span>Kỹ năng</span>
                                     </div>
                                     {skillSuggestions.map((item, index) => (
                                         <button
@@ -482,7 +482,7 @@ export default function SearchBar({ size = "lg", defaultAI = false }: SearchBarP
                             {keyword.length >= 2 && industrySuggestions.length > 0 && (
                                 <>
                                     <div className="suggestions-header category-header industry-header">
-                                        <span>🏢 Ngành nghề</span>
+                                        <span>Ngành nghề</span>
                                     </div>
                                     {industrySuggestions.map((item, index) => (
                                         <button

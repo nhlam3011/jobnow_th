@@ -45,6 +45,8 @@ interface JobsPageContentProps {
     initialIndustry?: string;
     searchParams: { q?: string; loc?: string; type?: string; industry?: string; salary?: string };
     savedJobIds?: string[];
+    totalJobs?: number;
+    currentPage?: number;
 }
 
 const JOB_TYPE_LABELS: Record<string, string> = {
@@ -62,7 +64,9 @@ export default function JobsPageContent({
     salaryRanges,
     initialJobs,
     searchParams,
-    savedJobIds = []
+    savedJobIds = [],
+    totalJobs = 0,
+    currentPage = 1
 }: JobsPageContentProps) {
     const router = useRouter();
     const [showFilters, setShowFilters] = useState(false);
@@ -197,12 +201,14 @@ export default function JobsPageContent({
                     <div className="jobs-layout">
                         {/* Sidebar - Desktop only */}
                         <aside className="filter-sidebar">
-                            <JobFilters
-                                industries={industries}
-                                locations={locations}
-                                jobTypes={jobTypes}
-                                salaryRanges={salaryRanges}
-                            />
+                            <div style={{ position: "sticky", top: "1rem" }}>
+                                <JobFilters
+                                    industries={industries}
+                                    locations={locations}
+                                    jobTypes={jobTypes}
+                                    salaryRanges={salaryRanges}
+                                />
+                            </div>
                         </aside>
 
                         {/* Job list */}
@@ -273,6 +279,31 @@ export default function JobsPageContent({
                                             saved={savedJobIds.includes(job.id)}
                                         />
                                     ))}
+                                </div>
+                            )}
+
+                            {/* Pagination */}
+                            {totalJobs > 12 && (
+                                <div style={{ display: "flex", justifyContent: "center", gap: "0.5rem", marginTop: "2rem" }}>
+                                    {currentPage > 1 && (
+                                        <a
+                                            href={`/jobs?${new URLSearchParams(Object.entries({ ...searchParams, page: String(currentPage - 1) }).filter(([_, v]) => v)).toString()}`}
+                                            style={{ padding: "0.5rem 1rem", border: "1px solid var(--border)", borderRadius: "6px", color: "var(--text)", textDecoration: "none" }}
+                                        >
+                                            ← Trang trước
+                                        </a>
+                                    )}
+                                    <span style={{ padding: "0.5rem 1rem", color: "var(--text-muted)" }}>
+                                        Trang {currentPage} / {Math.ceil(totalJobs / 12)}
+                                    </span>
+                                    {currentPage < Math.ceil(totalJobs / 12) && (
+                                        <a
+                                            href={`/jobs?${new URLSearchParams(Object.entries({ ...searchParams, page: String(currentPage + 1) }).filter(([_, v]) => v)).toString()}`}
+                                            style={{ padding: "0.5rem 1rem", border: "1px solid var(--border)", borderRadius: "6px", color: "var(--text)", textDecoration: "none" }}
+                                        >
+                                            Trang sau →
+                                        </a>
+                                    )}
                                 </div>
                             )}
                         </div>

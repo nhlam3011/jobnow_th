@@ -23,6 +23,8 @@ export async function getJobs(params?: {
     industryId?: string;
     salary?: string;
     useAI?: boolean;
+    page?: number;
+    limit?: number;
 }) {
     const where: Record<string, unknown> = {};
 
@@ -36,27 +38,30 @@ export async function getJobs(params?: {
         try {
             const aiJobs = await semanticJobSearch(params.q, 50);
             if (aiJobs && Array.isArray(aiJobs) && aiJobs.length > 0) {
-                return aiJobs.map((job: any) => ({
-                    id: job.id,
-                    title: job.title,
-                    slug: job.slug,
-                    description: job.description,
-                    requirements: job.requirements,
-                    benefits: job.benefits,
-                    salaryMin: job.salaryMin,
-                    salaryMax: job.salaryMax,
-                    location: job.location,
-                    jobType: job.jobType,
-                    skills: job.skills,
-                    createdAt: job.createdAt,
-                    company: {
-                        name: job.companyName,
-                        logo: job.companyLogo,
-                        slug: job.companySlug,
-                        verified: false,
-                    },
-                    similarity: job.similarity,
-                }));
+                return {
+                    jobs: aiJobs.map((job: any) => ({
+                        id: job.id,
+                        title: job.title,
+                        slug: job.slug,
+                        description: job.description,
+                        requirements: job.requirements,
+                        benefits: job.benefits,
+                        salaryMin: job.salaryMin,
+                        salaryMax: job.salaryMax,
+                        location: job.location,
+                        jobType: job.jobType,
+                        skills: job.skills,
+                        createdAt: job.createdAt,
+                        company: {
+                            name: job.companyName,
+                            logo: job.companyLogo,
+                            slug: job.companySlug,
+                            verified: false,
+                        },
+                        similarity: job.similarity,
+                    })),
+                    total: aiJobs.length
+                };
             }
         } catch (e) {
             console.error("AI search failed, falling back to text search:", e);
@@ -85,12 +90,22 @@ export async function getJobs(params?: {
         ];
     }
 
-    return prisma.job.findMany({
-        where,
-        include: { company: { select: { name: true, logo: true, slug: true, verified: true } } },
-        orderBy: params?.q ? undefined : { createdAt: "desc" },
-        take: 50,
-    });
+    const limit = params?.limit || 12;
+    const page = params?.page || 1;
+    const skip = (page - 1) * limit;
+
+    const [jobs, total] = await Promise.all([
+        prisma.job.findMany({
+            where,
+            include: { company: { select: { name: true, logo: true, slug: true, verified: true } } },
+            orderBy: params?.q ? undefined : { createdAt: "desc" },
+            take: limit,
+            skip,
+        }),
+        prisma.job.count({ where })
+    ]);
+
+    return { jobs, total };
 }
 
 export async function getJobBySlug(slug: string) {

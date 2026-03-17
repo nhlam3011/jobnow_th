@@ -44,9 +44,11 @@ export default async function RecommendedJobsPage() {
             }
         }));
     } else {
-        jobs = await getJobs({
-            status: "ACTIVE"
-        }).catch(() => []);
+        const result = await getJobs({
+            status: "ACTIVE",
+            limit: 50
+        }).catch(() => ({ jobs: [], total: 0 }));
+        jobs = result.jobs;
     }
 
     const jobTypeLabels: Record<string, string> = {

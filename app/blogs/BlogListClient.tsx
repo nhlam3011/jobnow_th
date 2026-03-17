@@ -122,7 +122,9 @@ export default function BlogListClient({ initialBlogs, searchParams = {} }: Blog
           borderRadius: "16px",
           border: "1.5px dashed var(--border)"
         }}>
-          <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>📝</div>
+          <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>
+            <svg width="48" height="48" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 8h10M7 12h10M7 16h10" /></svg>
+          </div>
           <h3 style={{ fontSize: "1.25rem", fontWeight: 700, color: "var(--text)" }}>Không tìm thấy bài viết nào</h3>
           <p style={{ color: "var(--text-muted)", marginTop: "0.5rem" }}>Thử thay đổi từ khóa tìm kiếm hoặc bộ lọc</p>
           <button

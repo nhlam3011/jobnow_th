@@ -6,9 +6,10 @@ import { getJobs, getJobFilters, getSavedJobIds } from "@/app/actions/jobs";
 export default async function JobsPage({
     searchParams,
 }: {
-    searchParams: Promise<{ q?: string; loc?: string; type?: string; industry?: string; salary?: string }>;
+    searchParams: Promise<{ q?: string; loc?: string; type?: string; industry?: string; salary?: string; page?: string }>;
 }) {
     const params = await searchParams;
+    const page = params.page ? parseInt(params.page) : 1;
 
     const filters = await getJobFilters();
 
@@ -20,32 +21,36 @@ export default async function JobsPage({
         }
     }
 
-    const [jobs, savedJobIds] = await Promise.all([
+    const [jobsResult, savedJobIds] = await Promise.all([
         getJobs({
             q: params.q,
             loc: params.loc,
             type: params.type,
             industryId: industryId,
             salary: params.salary,
-            status: "ACTIVE"
-        }).then(jobs => jobs.map(job => ({
-            id: job.id,
-            slug: job.slug,
-            title: job.title,
-            location: job.location,
-            salaryMin: job.salaryMin ?? undefined,
-            salaryMax: job.salaryMax ?? undefined,
-            jobType: job.jobType,
-            skills: job.skills,
-            createdAt: job.createdAt.toISOString(),
-            company: {
-                name: job.company.name,
-                logo: job.company.logo ?? undefined,
-                verified: job.company.verified ?? false,
-            },
-        }))).catch(() => []),
+            status: "ACTIVE",
+            page,
+            limit: 12
+        }).catch(() => ({ jobs: [], total: 0 })),
         getSavedJobIds().catch(() => [] as string[])
     ]);
+
+    const jobs = jobsResult.jobs.map(job => ({
+        id: job.id,
+        slug: job.slug,
+        title: job.title,
+        location: job.location,
+        salaryMin: job.salaryMin ?? undefined,
+        salaryMax: job.salaryMax ?? undefined,
+        jobType: job.jobType,
+        skills: job.skills,
+        createdAt: job.createdAt.toISOString(),
+        company: {
+            name: job.company.name,
+            logo: job.company.logo ?? undefined,
+            verified: job.company.verified ?? false,
+        },
+    }));
 
     return (
         <JobsPageContent
@@ -57,6 +62,8 @@ export default async function JobsPage({
             initialIndustry={params.industry}
             searchParams={params}
             savedJobIds={savedJobIds}
+            totalJobs={jobsResult.total}
+            currentPage={page}
         />
     );
 }

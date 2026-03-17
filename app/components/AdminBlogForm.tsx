@@ -103,11 +103,11 @@ export default function AdminBlogForm({ initialData }: AdminBlogFormProps) {
     };
 
     const categories = [
-        { value: "career", label: "Sự nghiệp", icon: "🎯" },
-        { value: "interview", label: "Phỏng vấn", icon: "💬" },
-        { value: "salary", label: "Tiền lương", icon: "💰" },
-        { value: "tech", label: "Công nghệ", icon: "💻" },
-        { value: "hr", label: "Nhân sự", icon: "👥" },
+        { value: "career", label: "Sự nghiệp" },
+        { value: "interview", label: "Phỏng vấn" },
+        { value: "salary", label: "Tiền lương" },
+        { value: "tech", label: "Công nghệ" },
+        { value: "hr", label: "Nhân sự" },
     ];
 
     return (
@@ -193,7 +193,7 @@ export default function AdminBlogForm({ initialData }: AdminBlogFormProps) {
                                 style={{ width: "18px", height: "18px", accentColor: "var(--primary)", cursor: "pointer" }}
                             />
                             <label htmlFor="isPublished" style={{ fontWeight: 600, cursor: "pointer", fontSize: "0.9375rem" }}>
-                                {formData.isPublished ? "✅ Công khai" : "Bản nháp"}
+                                {formData.isPublished ? "Công khai" : "Bản nháp"}
                             </label>
                         </div>
                         <div style={{ display: "flex", gap: "0.75rem" }}>
@@ -267,7 +267,6 @@ export default function AdminBlogForm({ initialData }: AdminBlogFormProps) {
                                         onChange={handleChange}
                                         style={{ display: "none" }}
                                     />
-                                    <span>{cat.icon}</span>
                                     <span style={{ fontWeight: formData.category === cat.value ? 600 : 400, fontSize: "0.9375rem" }}>{cat.label}</span>
                                 </label>
                             ))}

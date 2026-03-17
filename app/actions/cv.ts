@@ -64,6 +64,57 @@ export async function saveUserCV(data: {
 }
 
 /**
+ * Xóa CV của người dùng
+ */
+export async function deleteUserCV(cvId: string) {
+    const session = await auth();
+    if (!session?.user) {
+        return { error: "Vui lòng đăng nhập" };
+    }
+
+    try {
+        await prisma.cV.delete({
+            where: { id: cvId, userId: session.user.id },
+        });
+        revalidatePath("/candidate/resume");
+        revalidatePath("/candidate/cv-builder");
+        return { success: true };
+    } catch (error) {
+        console.error("Error deleting CV:", error);
+        return { error: "Xóa CV thất bại" };
+    }
+}
+
+/**
+ * Lấy danh sách CV và Resume của người dùng
+ */
+export async function getUserResumesAndCVs() {
+    const session = await auth();
+    if (!session?.user) {
+        return { error: "Vui lòng đăng nhập" };
+    }
+
+    try {
+        const [resumes, cvs] = await Promise.all([
+            prisma.resume.findMany({
+                where: { userId: session.user.id },
+                orderBy: { createdAt: "desc" },
+            }),
+            prisma.cV.findMany({
+                where: { userId: session.user.id },
+                include: { template: true },
+                orderBy: { updatedAt: "desc" },
+            })
+        ]);
+
+        return { success: true, resumes, cvs };
+    } catch (error) {
+        console.error("Error fetching resumes and CVs:", error);
+        return { error: "Không thể lấy danh sách" };
+    }
+}
+
+/**
  * Lấy danh sách CV của người dùng hiện tại
  */
 export async function getUserCVs() {

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { writeFile, mkdir } from "fs/promises";
+import { writeFile, mkdir, unlink } from "fs/promises";
 import path from "path";
 
 export async function POST(request: Request) {
@@ -37,6 +37,20 @@ export async function POST(request: Request) {
             // Directory might already exist
         }
 
+        // Delete old avatar file if exists
+        const currentUser = await prisma.user.findUnique({
+            where: { id: session.user.id },
+            select: { image: true }
+        });
+        if (currentUser?.image && currentUser.image.startsWith("/uploads/avatars/")) {
+            try {
+                const oldFilePath = path.join(process.cwd(), "public", currentUser.image);
+                await unlink(oldFilePath);
+            } catch (e) {
+                // File might not exist
+            }
+        }
+
         // Generate unique filename
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
@@ -56,5 +70,43 @@ export async function POST(request: Request) {
     } catch (error) {
         console.error("Error uploading avatar:", error);
         return NextResponse.json({ error: "Failed to upload avatar" }, { status: 500 });
+    }
+}
+
+export async function DELETE(request: Request) {
+    const session = await auth();
+    if (!session?.user) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    try {
+        // Get current avatar
+        const currentUser = await prisma.user.findUnique({
+            where: { id: session.user.id },
+            select: { image: true }
+        });
+
+        if (currentUser?.image) {
+            // Delete the file if it's a local upload
+            if (currentUser.image.startsWith("/uploads/avatars/")) {
+                try {
+                    const filePath = path.join(process.cwd(), "public", currentUser.image);
+                    await unlink(filePath);
+                } catch (e) {
+                    // File might not exist
+                }
+            }
+
+            // Clear avatar in database
+            await prisma.user.update({
+                where: { id: session.user.id },
+                data: { image: null },
+            });
+        }
+
+        return NextResponse.json({ success: true });
+    } catch (error) {
+        console.error("Error deleting avatar:", error);
+        return NextResponse.json({ error: "Failed to delete avatar" }, { status: 500 });
     }
 }

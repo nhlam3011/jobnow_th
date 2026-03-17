@@ -85,6 +85,53 @@ export async function getNotifications(limit = 50) {
     const session = await auth();
     if (!session?.user) return [];
 
+    // For EMPLOYER role, only show notifications related to their company
+    if (session.user.role === "EMPLOYER") {
+        const employer = await prisma.employerProfile.findUnique({
+            where: { userId: session.user.id },
+            select: { companyId: true }
+        });
+
+        if (!employer?.companyId) return [];
+
+        // Get job titles belonging to this company
+        const companyJobs = await prisma.job.findMany({
+            where: { companyId: employer.companyId },
+            select: { title: true }
+        });
+
+        const companyJobTitles = companyJobs.map(j => j.title);
+
+        if (companyJobTitles.length === 0) return [];
+
+        // Get all notifications for this user
+        const allNotifications = await prisma.notification.findMany({
+            where: { userId: session.user.id },
+            orderBy: { createdAt: "desc" },
+            take: 100,
+        });
+
+        // Filter to only include notifications related to company's jobs
+        const filteredNotifications = allNotifications.filter(notif => {
+            // Include system notifications
+            if (notif.type === "SYSTEM") return true;
+
+            // For NEW_APPLICATION, check if message contains company's job title
+            if (notif.type === "NEW_APPLICATION") {
+                return companyJobTitles.some(title => notif.message.includes(title));
+            }
+
+            // For job status notifications (employer's own jobs)
+            if (notif.type === "JOB_APPROVED" || notif.type === "JOB_REJECTED") {
+                return true;
+            }
+
+            return false;
+        });
+
+        return filteredNotifications.slice(0, limit);
+    }
+
     return prisma.notification.findMany({
         where: { userId: session.user.id },
         orderBy: { createdAt: "desc" },
@@ -95,6 +142,43 @@ export async function getNotifications(limit = 50) {
 export async function getUnreadNotificationCount() {
     const session = await auth();
     if (!session?.user) return 0;
+
+    // For EMPLOYER role, only count notifications related to their company
+    if (session.user.role === "EMPLOYER") {
+        const employer = await prisma.employerProfile.findUnique({
+            where: { userId: session.user.id },
+            select: { companyId: true }
+        });
+
+        if (!employer?.companyId) return 0;
+
+        // Get job titles belonging to this company
+        const companyJobs = await prisma.job.findMany({
+            where: { companyId: employer.companyId },
+            select: { title: true }
+        });
+
+        const companyJobTitles = companyJobs.map(j => j.title);
+
+        if (companyJobTitles.length === 0) return 0;
+
+        // Get all unread notifications
+        const allUnread = await prisma.notification.findMany({
+            where: { userId: session.user.id, isRead: false },
+        });
+
+        // Filter to only include notifications related to company's jobs
+        return allUnread.filter(notif => {
+            if (notif.type === "SYSTEM") return true;
+            if (notif.type === "NEW_APPLICATION") {
+                return companyJobTitles.some(title => notif.message.includes(title));
+            }
+            if (notif.type === "JOB_APPROVED" || notif.type === "JOB_REJECTED") {
+                return true;
+            }
+            return false;
+        }).length;
+    }
 
     return prisma.notification.count({
         where: { userId: session.user.id, isRead: false },

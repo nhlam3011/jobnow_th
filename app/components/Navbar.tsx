@@ -115,6 +115,9 @@ export default function Navbar({ industries }: NavbarProps) {
         }
     };
 
+    // Check if user is CANDIDATE
+    const isCandidate = session?.user?.role === "CANDIDATE";
+
     const handleMouseEnter = (dropdown: string) => {
         if (closeTimeoutRef.current) {
             clearTimeout(closeTimeoutRef.current);
@@ -216,30 +219,34 @@ export default function Navbar({ industries }: NavbarProps) {
                                                     <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)" }}>Tìm kiếm việc làm mới</div>
                                                 </div>
                                             </Link>
-                                            <Link href="/candidate/saved" style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.6rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", marginBottom: "0.25rem" }}
-                                            >
-                                                <HeartIcon className="w-5 h-5" style={{ color: "var(--primary)" }} />
-                                                <div>
-                                                    <div style={{ fontWeight: 600 }}>Việc đã lưu</div>
-                                                    <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)" }}>Việc đã lưu theo dõi</div>
-                                                </div>
-                                            </Link>
-                                            <Link href="/candidate/applications" style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.6rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", marginBottom: "0.25rem" }}
-                                            >
-                                                <DocumentTextIcon className="w-5 h-5" style={{ color: "var(--primary)" }} />
-                                                <div>
-                                                    <div style={{ fontWeight: 600 }}>Việc đã ứng tuyển</div>
-                                                    <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)" }}>Theo dõi đơn ứng tuyển</div>
-                                                </div>
-                                            </Link>
-                                            <Link href="/candidate/recommended" style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.6rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", marginBottom: "0.25rem" }}
-                                            >
-                                                <SparklesIcon className="w-5 h-5" style={{ color: "var(--primary)" }} />
-                                                <div>
-                                                    <div style={{ fontWeight: 600 }}>Việc làm phù hợp</div>
-                                                    <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)" }}>Gợi ý việc cho bạn</div>
-                                                </div>
-                                            </Link>
+                                            {isCandidate && (
+                                                <>
+                                                    <Link href="/candidate/saved" style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.6rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", marginBottom: "0.25rem" }}
+                                                    >
+                                                        <HeartIcon className="w-5 h-5" style={{ color: "var(--primary)" }} />
+                                                        <div>
+                                                            <div style={{ fontWeight: 600 }}>Việc đã lưu</div>
+                                                            <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)" }}>Việc đã lưu theo dõi</div>
+                                                        </div>
+                                                    </Link>
+                                                    <Link href="/candidate/applications" style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.6rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", marginBottom: "0.25rem" }}
+                                                    >
+                                                        <DocumentTextIcon className="w-5 h-5" style={{ color: "var(--primary)" }} />
+                                                        <div>
+                                                            <div style={{ fontWeight: 600 }}>Việc đã ứng tuyển</div>
+                                                            <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)" }}>Theo dõi đơn ứng tuyển</div>
+                                                        </div>
+                                                    </Link>
+                                                    <Link href="/candidate/recommended" style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.6rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", marginBottom: "0.25rem" }}
+                                                    >
+                                                        <SparklesIcon className="w-5 h-5" style={{ color: "var(--primary)" }} />
+                                                        <div>
+                                                            <div style={{ fontWeight: 600 }}>Việc làm phù hợp</div>
+                                                            <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)" }}>Gợi ý việc cho bạn</div>
+                                                        </div>
+                                                    </Link>
+                                                </>
+                                            )}
                                             <Link href="/companies" style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.6rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)" }}
                                             >
                                                 <BuildingOfficeIcon className="w-5 h-5" style={{ color: "var(--primary)" }} />
@@ -340,18 +347,24 @@ export default function Navbar({ industries }: NavbarProps) {
                                         minWidth: "260px",
                                     }}
                                 >
-                                    <Link href="/candidate/resume" style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", marginBottom: "0.25rem" }}>
-                                        <DocumentTextIcon className="w-5 h-5" style={{ color: "var(--primary)" }} />
-                                        <div><div style={{ fontWeight: 600 }}>Quản lý CV</div><div style={{ fontSize: "0.8125rem", color: "var(--text-muted)" }}>Xem và tải CV của bạn</div></div>
-                                    </Link>
-                                    <Link href="/candidate/cv-builder" style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", marginBottom: "0.25rem" }}>
-                                        <SparklesIcon className="w-5 h-5" style={{ color: "var(--primary)" }} />
-                                        <div><div style={{ fontWeight: 600 }}>Tạo CV mới</div><div style={{ fontSize: "0.8125rem", color: "var(--text-muted)" }}>Tạo CV chuyên nghiệp</div></div>
-                                    </Link>
-                                    <Link href="/blogs/cv-guide" style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)" }}>
-                                        <BookOpenIcon className="w-5 h-5" style={{ color: "var(--primary)" }} />
-                                        <div><div style={{ fontWeight: 600 }}>Hướng dẫn viết CV</div><div style={{ fontSize: "0.8125rem", color: "var(--text-muted)" }}>Mẹo viết CV ấn tượng</div></div>
-                                    </Link>
+                                    <>
+                                        {isCandidate && (
+                                            <>
+                                                <Link href="/candidate/resume" style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", marginBottom: "0.25rem" }}>
+                                                    <DocumentTextIcon className="w-5 h-5" style={{ color: "var(--primary)" }} />
+                                                    <div><div style={{ fontWeight: 600 }}>Quản lý CV</div><div style={{ fontSize: "0.8125rem", color: "var(--text-muted)" }}>Xem và tải CV của bạn</div></div>
+                                                </Link>
+                                                <Link href="/candidate/cv-builder" style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", marginBottom: "0.25rem" }}>
+                                                    <SparklesIcon className="w-5 h-5" style={{ color: "var(--primary)" }} />
+                                                    <div><div style={{ fontWeight: 600 }}>Tạo CV mới</div><div style={{ fontSize: "0.8125rem", color: "var(--text-muted)" }}>Tạo CV chuyên nghiệp</div></div>
+                                                </Link>
+                                            </>
+                                        )}
+                                        <Link href="/blogs/cv-guide" style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)" }}>
+                                            <BookOpenIcon className="w-5 h-5" style={{ color: "var(--primary)" }} />
+                                            <div><div style={{ fontWeight: 600 }}>Hướng dẫn viết CV</div><div style={{ fontSize: "0.8125rem", color: "var(--text-muted)" }}>Mẹo viết CV ấn tượng</div></div>
+                                        </Link>
+                                    </>
                                 </div>
                             </div>
                         )}
@@ -603,18 +616,22 @@ export default function Navbar({ industries }: NavbarProps) {
                                     <BriefcaseIcon className="w-4 h-4" style={{ color: "var(--primary)", flexShrink: 0 }} />
                                     Tìm việc làm
                                 </Link>
-                                <Link href="/candidate/saved" onClick={() => setOpen(false)} style={{ display: "flex", alignItems: "center", gap: "0.625rem", padding: "0.5rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", fontSize: "0.875rem" }}>
-                                    <HeartIcon className="w-4 h-4" style={{ color: "var(--primary)", flexShrink: 0 }} />
-                                    Việc đã lưu
-                                </Link>
-                                <Link href="/candidate/applications" onClick={() => setOpen(false)} style={{ display: "flex", alignItems: "center", gap: "0.625rem", padding: "0.5rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", fontSize: "0.875rem" }}>
-                                    <DocumentTextIcon className="w-4 h-4" style={{ color: "var(--primary)", flexShrink: 0 }} />
-                                    Việc đã ứng tuyển
-                                </Link>
-                                <Link href="/candidate/recommended" onClick={() => setOpen(false)} style={{ display: "flex", alignItems: "center", gap: "0.625rem", padding: "0.5rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", fontSize: "0.875rem" }}>
-                                    <SparklesIcon className="w-4 h-4" style={{ color: "var(--primary)", flexShrink: 0 }} />
-                                    Việc làm phù hợp
-                                </Link>
+                                {isCandidate && (
+                                    <>
+                                        <Link href="/candidate/saved" onClick={() => setOpen(false)} style={{ display: "flex", alignItems: "center", gap: "0.625rem", padding: "0.5rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", fontSize: "0.875rem" }}>
+                                            <HeartIcon className="w-4 h-4" style={{ color: "var(--primary)", flexShrink: 0 }} />
+                                            Việc đã lưu
+                                        </Link>
+                                        <Link href="/candidate/applications" onClick={() => setOpen(false)} style={{ display: "flex", alignItems: "center", gap: "0.625rem", padding: "0.5rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", fontSize: "0.875rem" }}>
+                                            <DocumentTextIcon className="w-4 h-4" style={{ color: "var(--primary)", flexShrink: 0 }} />
+                                            Việc đã ứng tuyển
+                                        </Link>
+                                        <Link href="/candidate/recommended" onClick={() => setOpen(false)} style={{ display: "flex", alignItems: "center", gap: "0.625rem", padding: "0.5rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", fontSize: "0.875rem" }}>
+                                            <SparklesIcon className="w-4 h-4" style={{ color: "var(--primary)", flexShrink: 0 }} />
+                                            Việc làm phù hợp
+                                        </Link>
+                                    </>
+                                )}
                                 <Link href="/companies" onClick={() => setOpen(false)} style={{ display: "flex", alignItems: "center", gap: "0.625rem", padding: "0.5rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", fontSize: "0.875rem" }}>
                                     <BuildingOfficeIcon className="w-4 h-4" style={{ color: "var(--primary)", flexShrink: 0 }} />
                                     Danh sách công ty
@@ -651,14 +668,18 @@ export default function Navbar({ industries }: NavbarProps) {
                         </button>
                         {activeDropdown === "m-cv" && (
                             <div style={{ paddingBottom: "0.5rem" }}>
-                                <Link href="/candidate/resume" onClick={() => setOpen(false)} style={{ display: "flex", alignItems: "center", gap: "0.625rem", padding: "0.5rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", fontSize: "0.875rem" }}>
-                                    <DocumentTextIcon className="w-4 h-4" style={{ color: "var(--primary)", flexShrink: 0 }} />
-                                    Quản lý CV
-                                </Link>
-                                <Link href="/candidate/cv-builder" onClick={() => setOpen(false)} style={{ display: "flex", alignItems: "center", gap: "0.625rem", padding: "0.5rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", fontSize: "0.875rem" }}>
-                                    <SparklesIcon className="w-4 h-4" style={{ color: "var(--primary)", flexShrink: 0 }} />
-                                    Tạo CV mới
-                                </Link>
+                                {isCandidate && (
+                                    <>
+                                        <Link href="/candidate/resume" onClick={() => setOpen(false)} style={{ display: "flex", alignItems: "center", gap: "0.625rem", padding: "0.5rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", fontSize: "0.875rem" }}>
+                                            <DocumentTextIcon className="w-4 h-4" style={{ color: "var(--primary)", flexShrink: 0 }} />
+                                            Quản lý CV
+                                        </Link>
+                                        <Link href="/candidate/cv-builder" onClick={() => setOpen(false)} style={{ display: "flex", alignItems: "center", gap: "0.625rem", padding: "0.5rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", fontSize: "0.875rem" }}>
+                                            <SparklesIcon className="w-4 h-4" style={{ color: "var(--primary)", flexShrink: 0 }} />
+                                            Tạo CV mới
+                                        </Link>
+                                    </>
+                                )}
                                 <Link href="/blogs/cv-guide" onClick={() => setOpen(false)} style={{ display: "flex", alignItems: "center", gap: "0.625rem", padding: "0.5rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", fontSize: "0.875rem" }}>
                                     <BookOpenIcon className="w-4 h-4" style={{ color: "var(--primary)", flexShrink: 0 }} />
                                     Hướng dẫn viết CV

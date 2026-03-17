@@ -679,7 +679,7 @@ export default function MockInterviewClient({ jobs }: { jobs: Job[] }) {
                                     color: "var(--text)",
                                     lineHeight: 1.6,
                                 }}>
-                                    <strong style={{ color: "var(--primary)", fontWeight: 600 }}>💡 Gợi ý cải thiện:</strong><br />
+                                    <strong style={{ color: "var(--primary)", fontWeight: 600 }}>Gợi ý cải thiện:</strong><br />
                                     {fb.suggestion}
                                 </div>
                             </div>

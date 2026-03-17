@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import ThemeToggle from "./ThemeToggle";
 import Avatar from "./Avatar";
@@ -79,8 +80,15 @@ const DEFAULT_INDUSTRIES = [
 
 export default function Navbar({ industries }: NavbarProps) {
     const { data: session, status } = useSession();
+    const pathname = usePathname();
     const [open, setOpen] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+
+    const isJobsActive = pathname?.startsWith('/jobs') || pathname?.startsWith('/companies') || pathname?.startsWith('/candidate/saved') || pathname?.startsWith('/candidate/applications') || pathname?.startsWith('/candidate/recommended');
+    const isCvActive = pathname?.startsWith('/candidate/resume') || pathname?.startsWith('/candidate/cv-builder') || pathname?.startsWith('/blogs/cv-guide');
+    const isToolsActive = pathname?.startsWith('/tools');
+    const isBlogActive = pathname?.startsWith('/blogs') && !pathname?.startsWith('/blogs/cv-guide');
+    const isMarketInsightsActive = pathname?.startsWith('/market-insights');
     const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const [companyLogo, setCompanyLogo] = useState<string | null>(null);
     const [companyName, setCompanyName] = useState<string | null>(null);
@@ -171,7 +179,7 @@ export default function Navbar({ industries }: NavbarProps) {
                                 borderRadius: "6px",
                                 fontSize: "0.9375rem",
                                 fontWeight: 500,
-                                color: activeDropdown === "jobs" ? "var(--primary)" : "var(--text-muted)",
+                                color: (activeDropdown === "jobs" || isJobsActive) ? "var(--primary)" : "var(--text-muted)",
                                 textDecoration: "none",
                                 transition: "color 180ms, background 180ms",
                                 display: "flex",
@@ -311,7 +319,7 @@ export default function Navbar({ industries }: NavbarProps) {
                                 borderRadius: "6px",
                                 fontSize: "0.9375rem",
                                 fontWeight: 500,
-                                color: activeDropdown === "cv" ? "var(--primary)" : "var(--text-muted)",
+                                color: (activeDropdown === "cv" || isCvActive) ? "var(--primary)" : "var(--text-muted)",
                                 textDecoration: "none",
                                 display: "flex",
                                 alignItems: "center",
@@ -384,7 +392,7 @@ export default function Navbar({ industries }: NavbarProps) {
                                 borderRadius: "6px",
                                 fontSize: "0.9375rem",
                                 fontWeight: 500,
-                                color: activeDropdown === "tools" ? "var(--primary)" : "var(--text-muted)",
+                                color: (activeDropdown === "tools" || isToolsActive) ? "var(--primary)" : "var(--text-muted)",
                                 textDecoration: "none",
                                 display: "flex",
                                 alignItems: "center",
@@ -451,7 +459,7 @@ export default function Navbar({ industries }: NavbarProps) {
                                 borderRadius: "6px",
                                 fontSize: "0.9375rem",
                                 fontWeight: 500,
-                                color: activeDropdown === "blog" ? "var(--primary)" : "var(--text-muted)",
+                                color: (activeDropdown === "blog" || isBlogActive) ? "var(--primary)" : "var(--text-muted)",
                                 textDecoration: "none",
                                 display: "flex",
                                 alignItems: "center",
@@ -516,7 +524,7 @@ export default function Navbar({ industries }: NavbarProps) {
                             borderRadius: "6px",
                             fontSize: "0.9375rem",
                             fontWeight: 500,
-                            color: "var(--text-muted)",
+                            color: isMarketInsightsActive ? "var(--primary)" : "var(--text-muted)",
                             textDecoration: "none",
                             display: "flex",
                             alignItems: "center",
@@ -603,7 +611,7 @@ export default function Navbar({ industries }: NavbarProps) {
                     <div style={{ borderBottom: "1px solid var(--border)" }}>
                         <button
                             onClick={() => setActiveDropdown(activeDropdown === "m-jobs" ? null : "m-jobs")}
-                            style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", padding: "0.875rem 0.5rem", background: "none", border: "none", cursor: "pointer", color: "var(--text)", fontWeight: 600, fontSize: "0.9375rem" }}
+                            style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", padding: "0.875rem 0.5rem", background: "none", border: "none", cursor: "pointer", color: isJobsActive ? "var(--primary)" : "var(--text)", fontWeight: 600, fontSize: "0.9375rem" }}
                         >
                             Việc làm
                             <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ transition: "transform 200ms", transform: activeDropdown === "m-jobs" ? "rotate(180deg)" : "rotate(0)" }}>
@@ -659,7 +667,7 @@ export default function Navbar({ industries }: NavbarProps) {
                     <div style={{ borderBottom: "1px solid var(--border)" }}>
                         <button
                             onClick={() => setActiveDropdown(activeDropdown === "m-cv" ? null : "m-cv")}
-                            style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", padding: "0.875rem 0.5rem", background: "none", border: "none", cursor: "pointer", color: "var(--text)", fontWeight: 600, fontSize: "0.9375rem" }}
+                            style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", padding: "0.875rem 0.5rem", background: "none", border: "none", cursor: "pointer", color: isCvActive ? "var(--primary)" : "var(--text)", fontWeight: 600, fontSize: "0.9375rem" }}
                         >
                             Tạo CV
                             <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ transition: "transform 200ms", transform: activeDropdown === "m-cv" ? "rotate(180deg)" : "rotate(0)" }}>
@@ -692,7 +700,7 @@ export default function Navbar({ industries }: NavbarProps) {
                     <div style={{ borderBottom: "1px solid var(--border)" }}>
                         <button
                             onClick={() => setActiveDropdown(activeDropdown === "m-tools" ? null : "m-tools")}
-                            style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", padding: "0.875rem 0.5rem", background: "none", border: "none", cursor: "pointer", color: "var(--text)", fontWeight: 600, fontSize: "0.9375rem" }}
+                            style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", padding: "0.875rem 0.5rem", background: "none", border: "none", cursor: "pointer", color: isToolsActive ? "var(--primary)" : "var(--text)", fontWeight: 600, fontSize: "0.9375rem" }}
                         >
                             Công cụ
                             <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ transition: "transform 200ms", transform: activeDropdown === "m-tools" ? "rotate(180deg)" : "rotate(0)" }}>
@@ -721,7 +729,7 @@ export default function Navbar({ industries }: NavbarProps) {
                     <div style={{ borderBottom: "1px solid var(--border)" }}>
                         <button
                             onClick={() => setActiveDropdown(activeDropdown === "m-blog" ? null : "m-blog")}
-                            style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", padding: "0.875rem 0.5rem", background: "none", border: "none", cursor: "pointer", color: "var(--text)", fontWeight: 600, fontSize: "0.9375rem" }}
+                            style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", padding: "0.875rem 0.5rem", background: "none", border: "none", cursor: "pointer", color: isBlogActive ? "var(--primary)" : "var(--text)", fontWeight: 600, fontSize: "0.9375rem" }}
                         >
                             Cẩm nang
                             <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ transition: "transform 200ms", transform: activeDropdown === "m-blog" ? "rotate(180deg)" : "rotate(0)" }}>
@@ -761,7 +769,7 @@ export default function Navbar({ industries }: NavbarProps) {
                             padding: "0.875rem 0.5rem",
                             borderBottom: "1px solid var(--border)",
                             textDecoration: "none",
-                            color: "var(--text)",
+                            color: isMarketInsightsActive ? "var(--primary)" : "var(--text)",
                             fontWeight: 600,
                             fontSize: "0.9375rem",
                         }}

@@ -3,6 +3,8 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
+import fs from "fs/promises";
+import path from "path";
 
 /**
  * Lấy danh sách các mẫu CV có sẵn
@@ -249,6 +251,62 @@ export async function deleteTemplate(id: string) {
     } catch (error) {
         console.error("Error deleting template:", error);
         return { error: "Lỗi khi xoá mẫu CV" };
+    }
+}
+
+/**
+ * Xóa Resume (file tải lên) của người dùng
+ */
+export async function deleteResume(resumeId: string) {
+    const session = await auth();
+    if (!session?.user) {
+        return { error: "Vui lòng đăng nhập" };
+    }
+
+    try {
+        const resume = await prisma.resume.findUnique({
+            where: { id: resumeId, userId: session.user.id },
+        });
+
+        if (!resume) {
+            return { error: "Không tìm thấy hồ sơ" };
+        }
+
+        // Delete from database
+        await prisma.resume.delete({
+            where: { id: resumeId },
+        });
+
+        // Check and clear CandidateProfile.resumeUrl if it matches the deleted resume
+        const profile = await prisma.candidateProfile.findUnique({
+            where: { userId: session.user.id },
+        });
+
+        if (profile?.resumeUrl === resume.fileUrl) {
+            await prisma.candidateProfile.update({
+                where: { userId: session.user.id },
+                data: { resumeUrl: null },
+            });
+        }
+
+        // Delete from filesystem
+        if (resume.fileUrl.startsWith("/uploads/resumes/")) {
+            const filePath = path.join(process.cwd(), "public", resume.fileUrl);
+            try {
+                await fs.unlink(filePath);
+            } catch (err) {
+                console.error("Error deleting file from disk:", err);
+                // Even if file deletion fails, we've already deleted the DB record
+            }
+        }
+
+        // If this was the active resume, we might want to clear CandidateProfile.resumeUrl
+        // But for now, let's just revalidate
+        revalidatePath("/candidate/resume");
+        return { success: true };
+    } catch (error) {
+        console.error("Error deleting resume:", error);
+        return { error: "Xóa hồ sơ thất bại" };
     }
 }
 

@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import DashboardLayout from "@/app/components/DashboardLayout";
 import ResumeUploadBtn from "@/app/components/ResumeUploadBtn";
 import Link from "next/link";
-import { getUserResumesAndCVs, deleteUserCV } from "@/app/actions/cv";
+import { getUserResumesAndCVs, deleteUserCV, deleteResume } from "@/app/actions/cv";
+import PDFViewer from "@/app/components/PDFViewer";
 
 interface CV {
     id: string;
@@ -32,6 +33,7 @@ export default function CandidateResumePage() {
     const [resumes, setResumes] = useState<Resume[]>([]);
     const [loading, setLoading] = useState(true);
     const [deleting, setDeleting] = useState<string | null>(null);
+    const [viewingPdf, setViewingPdf] = useState<{ url: string; name: string } | null>(null);
 
     useEffect(() => {
         if (status === "unauthenticated") {
@@ -62,6 +64,19 @@ export default function CandidateResumePage() {
         const result = await deleteUserCV(cvId);
         if (result.success) {
             setUserCVs(userCVs.filter(cv => cv.id !== cvId));
+        }
+        setDeleting(null);
+    };
+
+    const handleDeleteResume = async (resumeId: string) => {
+        if (!confirm("Bạn có chắc chắn muốn xóa hồ sơ này?")) return;
+
+        setDeleting(resumeId);
+        const result = await deleteResume(resumeId);
+        if (result.success) {
+            setResumes(resumes.filter(r => r.id !== resumeId));
+        } else {
+            alert(result.error || "Xóa thất bại");
         }
         setDeleting(null);
     };
@@ -162,7 +177,21 @@ export default function CandidateResumePage() {
                                 </div>
                                 <div>
                                     <div style={{ fontWeight: 600, color: "var(--text)", fontSize: "0.9375rem" }}>
-                                        <Link href={resume.fileUrl} target="_blank" style={{ color: "var(--primary)", textDecoration: "none" }}>{resume.fileName}</Link>
+                                        <button
+                                            onClick={() => setViewingPdf({ url: resume.fileUrl, name: resume.fileName })}
+                                            style={{
+                                                color: "var(--primary)",
+                                                textDecoration: "none",
+                                                background: "none",
+                                                border: "none",
+                                                padding: 0,
+                                                font: "inherit",
+                                                cursor: "pointer",
+                                                textAlign: "left"
+                                            }}
+                                        >
+                                            {resume.fileName}
+                                        </button>
                                     </div>
                                     <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)", marginTop: "0.125rem" }}>
                                         Tải lên lúc {new Date(resume.createdAt).toLocaleDateString("vi-VN")}
@@ -175,14 +204,33 @@ export default function CandidateResumePage() {
                                         CV Chính
                                     </span>
                                 )}
-                                <button className="dash-btn dash-btn-danger" style={{ fontSize: "0.8125rem" }}>
-                                    Xóa
+                                <button
+                                    className="dash-btn"
+                                    style={{ fontSize: "0.8125rem" }}
+                                    onClick={() => setViewingPdf({ url: resume.fileUrl, name: resume.fileName })}
+                                >
+                                    Xem
+                                </button>
+                                <button
+                                    className="dash-btn dash-btn-danger"
+                                    style={{ fontSize: "0.8125rem" }}
+                                    onClick={() => handleDeleteResume(resume.id)}
+                                    disabled={deleting === resume.id}
+                                >
+                                    {deleting === resume.id ? "..." : "Xóa"}
                                 </button>
                             </div>
                         </div>
                     ))}
                 </div>
             )}
+
+            <PDFViewer
+                isOpen={!!viewingPdf}
+                onClose={() => setViewingPdf(null)}
+                fileUrl={viewingPdf?.url || ""}
+                fileName={viewingPdf?.name || ""}
+            />
         </DashboardLayout>
     );
 }

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import fs from "fs/promises";
+import path from "path";
 
 export async function POST(req: Request) {
     const session = await auth();
@@ -18,8 +20,16 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "No file provided" }, { status: 400 });
         }
 
-        // For now, we'll store the file URL as a placeholder
-        // In production, you'd upload to Supabase Storage or S3
+        // Save file to public directory
+        const uploadDir = path.join(process.cwd(), "public", "uploads", "resumes", session.user.id);
+
+        // Ensure directory exists
+        await fs.mkdir(uploadDir, { recursive: true });
+
+        const filePath = path.join(uploadDir, fileName);
+        const buffer = Buffer.from(await file.arrayBuffer());
+        await fs.writeFile(filePath, buffer);
+
         const fileUrl = `/uploads/resumes/${session.user.id}/${fileName}`;
 
         // Create resume record
@@ -30,6 +40,12 @@ export async function POST(req: Request) {
                 fileUrl: fileUrl,
                 isActive: true,
             },
+        });
+
+        // Update CandidateProfile with the new resumeUrl
+        await prisma.candidateProfile.update({
+            where: { userId: session.user.id },
+            data: { resumeUrl: fileUrl },
         });
 
         return NextResponse.json({ success: true, resume });

@@ -85,7 +85,7 @@ export default function EmployerJobsTable({ jobs }: { jobs: Job[] }) {
                                             <Link href={`/jobs/${job.slug}`} style={{ color: "var(--text)", textDecoration: "none", fontWeight: 600, fontSize: "0.9375rem" }} target="_blank">
                                                 {job.title}
                                             </Link>
-                                            <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>{job.location} · {job.jobType}</div>
+                                            <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>{job.location || "N/A"} · {job.jobType}</div>
                                         </td>
                                         <td style={{ textAlign: "center" }}><span className="dash-badge" style={{ background: `${st.color}15`, color: st.color }}>{st.label}</span></td>
                                         <td>

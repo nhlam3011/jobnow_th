@@ -1791,7 +1791,7 @@ async function main() {
                     description: companyData.description,
                     industry: companyData.industry,
                     size: companyData.size,
-                    location: companyData.location,
+                    locations: [companyData.location],
                     verified: Math.random() > 0.3, // 70% verified
                 }
             });

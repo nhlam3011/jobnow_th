@@ -40,6 +40,7 @@ export default function NewJobPage() {
     const [skills, setSkills] = useState<string[]>([]);
     const [hasCompany, setHasCompany] = useState(true);
     const [loading, setLoading] = useState(true);
+    const [companyLocations, setCompanyLocations] = useState<string[]>([]);
     const router = useRouter();
 
     useEffect(() => {
@@ -57,6 +58,8 @@ export default function NewJobPage() {
                 const data = await res.json();
                 if (!data) {
                     setHasCompany(false);
+                } else {
+                    setCompanyLocations(data.locations || []);
                 }
             }
         } catch (e) {
@@ -152,8 +155,13 @@ export default function NewJobPage() {
 
                         <div className="dash-grid-2">
                             <div>
-                                <label className="dash-form-label">Địa điểm *</label>
-                                <input name="location" required placeholder="VD: Hà Nội, TP.HCM, Remote" className="dash-input" />
+                                <label className="dash-form-label">Tỉnh thành (Chi nhánh) *</label>
+                                <select name="province" required className="dash-input">
+                                    <option value="">Chọn khu vực</option>
+                                    {companyLocations.map((loc) => (
+                                        <option key={loc} value={loc}>{loc}</option>
+                                    ))}
+                                </select>
                             </div>
                             <div>
                                 <label className="dash-form-label">Loại hình *</label>
@@ -170,6 +178,22 @@ export default function NewJobPage() {
                             <div>
                                 <label className="dash-form-label">Lương tối đa (VNĐ)</label>
                                 <input name="salaryMax" type="number" placeholder="VD: 15000000" className="dash-input" />
+                            </div>
+                        </div>
+                        <div className="dash-grid-2">
+                            <div>
+                                <label className="dash-form-label">Kinh nghiệm yêu cầu (Số năm)</label>
+                                <input name="experienceYears" type="number" placeholder="VD: 2" className="dash-input" />
+                            </div>
+                            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem" }}>
+                                <div>
+                                    <label className="dash-form-label">Tuổi từ</label>
+                                    <input name="ageMin" type="number" placeholder="18" className="dash-input" />
+                                </div>
+                                <div>
+                                    <label className="dash-form-label">Đến</label>
+                                    <input name="ageMax" type="number" placeholder="40" className="dash-input" />
+                                </div>
                             </div>
                         </div>
                     </div>

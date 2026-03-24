@@ -106,7 +106,7 @@ export async function upsertCompany(formData: FormData) {
                 description: formData.get("description") as string,
                 industry: formData.get("industry") as string,
                 size: formData.get("size") as string,
-                location: formData.get("location") as string,
+                locations: (formData.get("locations") as string)?.split(",").map(s => s.trim()).filter(Boolean) || [],
             },
         });
         // Update position
@@ -123,7 +123,7 @@ export async function upsertCompany(formData: FormData) {
                 description: formData.get("description") as string,
                 industry: formData.get("industry") as string,
                 size: formData.get("size") as string,
-                location: formData.get("location") as string,
+                locations: (formData.get("locations") as string)?.split(",").map(s => s.trim()).filter(Boolean) || [],
             },
         });
         companyId = company.id;

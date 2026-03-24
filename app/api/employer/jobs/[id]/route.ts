@@ -50,5 +50,8 @@ export async function GET(
         skills: job.skills,
         industryId: job.industryId,
         industry: job.industry,
+        experienceYears: (job as any).experienceYears,
+        ageMin: (job as any).ageMin,
+        ageMax: (job as any).ageMax,
     });
 }

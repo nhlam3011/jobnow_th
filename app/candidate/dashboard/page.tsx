@@ -164,7 +164,7 @@ export default async function CandidateDashboard() {
                                             <div className="dash-card-item-title" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                                                 {job.title}
                                             </div>
-                                            <div className="dash-card-item-subtitle">{job.companyName} · {job.location}</div>
+                                            <div className="dash-card-item-subtitle">{job.companyName} · {job.location || "N/A"}</div>
                                         </div>
                                     </div>
                                     <div className="dash-card-item-footer" style={{ borderTop: "1px solid var(--border)", paddingTop: "0.625rem", margin: 0, justifyContent: "space-between" }}>

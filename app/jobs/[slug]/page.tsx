@@ -103,6 +103,12 @@ export default async function JobDetailPage({ params }: { params: Promise<{ slug
                                         { label: "Địa điểm", value: job.location, icon: "M17.657 16.657L13.414 20.9a1.998 1.998 0 0 1-2.827 0l-4.244-4.243a8 8 0 1 1 11.314 0z M15 11a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" },
                                         { label: "Mức lương", value: salaryText, icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" },
                                         { label: "Loại hình", value: JOB_TYPE_LABEL[job.jobType] || job.jobType, icon: "M21 13.255A23.931 23.931 0 0 1 12 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2m4 6h.01M5 20h14a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z" },
+                                        ...((job as any).experienceYears != null ? [{ label: "Kinh nghiệm", value: `${(job as any).experienceYears} năm`, icon: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" }] : []),
+                                        ...((job as any).ageMin || (job as any).ageMax ? [{
+                                            label: "Độ tuổi",
+                                            value: (job as any).ageMin && (job as any).ageMax ? `${(job as any).ageMin} - ${(job as any).ageMax} tuổi` : (job as any).ageMin ? `Từ ${(job as any).ageMin} tuổi` : `Đến ${(job as any).ageMax} tuổi`,
+                                            icon: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                                        }] : []),
                                     ].map((item) => (
                                         <div key={item.label} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
                                             <svg width="16" height="16" fill="none" stroke="var(--primary)" strokeWidth="1.75" viewBox="0 0 24 24">

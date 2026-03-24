@@ -48,13 +48,10 @@ const STATUS_COLORS: Record<string, { bg: string; text: string; label: string }>
 
 function formatDate(date: Date | string) {
     const d = new Date(date);
-    return d.toLocaleDateString("vi-VN", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
-    });
+    const time = d.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
+    const longDate = d.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" });
+    const shortDate = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+    return `${time} ${longDate} (${shortDate})`;
 }
 
 function formatRelativeTime(date: Date | string) {

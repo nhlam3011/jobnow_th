@@ -28,6 +28,9 @@ interface Job {
     salaryMax?: number;
     jobType: string;
     skills: string[];
+    experienceYears?: number;
+    ageMin?: number;
+    ageMax?: number;
     createdAt: string;
     company: {
         name: string;
@@ -43,7 +46,7 @@ interface JobsPageContentProps {
     salaryRanges: SalaryRange[];
     initialJobs: Job[];
     initialIndustry?: string;
-    searchParams: { q?: string; loc?: string; type?: string; industry?: string; salary?: string };
+    searchParams: { q?: string; loc?: string; type?: string; industry?: string; salary?: string; exp?: string; age?: string };
     savedJobIds?: string[];
     totalJobs?: number;
     currentPage?: number;
@@ -93,10 +96,9 @@ export default function JobsPageContent({
     const handleFilterChange = (key: string, value: string) => {
         const params = new URLSearchParams();
         if (searchParams.q) params.set("q", searchParams.q);
+        params.set("ai", "true");
         if (searchParams.loc) params.set("loc", searchParams.loc);
-        if (value) {
-            params.set(key, value);
-        }
+        if (value) params.set(key, value);
         router.push(`/jobs?${params.toString()}`);
     };
 
@@ -181,7 +183,7 @@ export default function JobsPageContent({
                                 </div>
 
                                 {/* Salary */}
-                                <div>
+                                <div style={{ marginBottom: "1rem" }}>
                                     <h3 style={{ fontSize: "0.875rem", fontWeight: 700, marginBottom: "0.5rem" }}>Mức lương</h3>
                                     <select
                                         value={searchParams.salary || ""}
@@ -192,6 +194,40 @@ export default function JobsPageContent({
                                         {salaryRanges.map((range) => (
                                             <option key={range.value} value={range.value}>{range.label}</option>
                                         ))}
+                                    </select>
+                                </div>
+
+                                {/* Experience */}
+                                <div style={{ marginBottom: "1rem" }}>
+                                    <h3 style={{ fontSize: "0.875rem", fontWeight: 700, marginBottom: "0.5rem" }}>Kinh nghiệm</h3>
+                                    <select
+                                        value={searchParams.exp || ""}
+                                        onChange={(e) => handleFilterChange("exp", e.target.value)}
+                                        style={{ width: "100%", padding: "0.5rem", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg-card)", color: "var(--text)" }}
+                                    >
+                                        <option value="">Tất cả kinh nghiệm</option>
+                                        <option value="0-1">Dưới 1 năm</option>
+                                        <option value="1-3">1 - 3 năm</option>
+                                        <option value="3-5">3 - 5 năm</option>
+                                        <option value="5-10">5 - 10 năm</option>
+                                        <option value="10-99">Trên 10 năm</option>
+                                    </select>
+                                </div>
+
+                                {/* Age */}
+                                <div>
+                                    <h3 style={{ fontSize: "0.875rem", fontWeight: 700, marginBottom: "0.5rem" }}>Độ tuổi</h3>
+                                    <select
+                                        value={searchParams.age || ""}
+                                        onChange={(e) => handleFilterChange("age", e.target.value)}
+                                        style={{ width: "100%", padding: "0.5rem", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg-card)", color: "var(--text)" }}
+                                    >
+                                        <option value="">Tất cả độ tuổi</option>
+                                        <option value="18-25">18 - 25 tuổi</option>
+                                        <option value="25-30">25 - 30 tuổi</option>
+                                        <option value="30-35">30 - 35 tuổi</option>
+                                        <option value="35-45">35 - 45 tuổi</option>
+                                        <option value="45-60">45 - 60 tuổi</option>
                                     </select>
                                 </div>
                             </div>
@@ -277,6 +313,9 @@ export default function JobsPageContent({
                                             featured={false}
                                             layout={viewMode}
                                             saved={savedJobIds.includes(job.id)}
+                                            experienceYears={job.experienceYears}
+                                            ageMin={job.ageMin}
+                                            ageMax={job.ageMax}
                                         />
                                     ))}
                                 </div>

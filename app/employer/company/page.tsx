@@ -3,6 +3,12 @@ import { useState, useTransition, useEffect } from "react";
 import { upsertCompany } from "@/app/actions/profile";
 import DashboardLayout from "@/app/components/DashboardLayout";
 import { useSession } from "next-auth/react";
+import SearchableSelect from "@/app/components/SearchableSelect";
+
+interface Province {
+    name: string;
+    code: number;
+}
 
 const INDUSTRIES = ["Công nghệ thông tin", "Tài chính - Ngân hàng", "Thương mại điện tử", "Y tế", "Giáo dục", "Sản xuất", "Bán lẻ", "Du lịch", "Khác"];
 const SIZES = ["1-10", "11-50", "51-200", "201-500", "501-1000", "1000+"];
@@ -25,6 +31,14 @@ export default function EmployerCompanyPage() {
     const [error, setError] = useState("");
     const [companyData, setCompanyData] = useState<CompanyData | null>(null);
     const [loading, setLoading] = useState(true);
+    const [provinces, setProvinces] = useState<Province[]>([]);
+
+    useEffect(() => {
+        fetch("https://provinces.open-api.vn/api/v1/p/")
+            .then((res) => res.json())
+            .then((data: Province[]) => setProvinces(data))
+            .catch(() => setProvinces([]));
+    }, []);
 
     useEffect(() => {
         if (status === "authenticated") {
@@ -93,34 +107,80 @@ export default function EmployerCompanyPage() {
                 <div className="dash-form-card">
                     <h3>Thông tin cơ bản</h3>
                     <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                        {[
-                            { name: "name", label: "Tên công ty *", required: true, placeholder: "VD: FPT Software" },
-                            { name: "website", label: "Website", placeholder: "https://example.com" },
-                            { name: "location", label: "Địa điểm", placeholder: "VD: Hà Nội, TP.HCM" },
-                            { name: "position", label: "Chức vụ của bạn", placeholder: "VD: HR Manager" },
-                        ].map((f) => (
-                            <div key={f.name}>
-                                <label className="dash-form-label">{f.label}</label>
+                        <div>
+                            <label className="dash-form-label">Tên công ty <span style={{ color: "var(--error, #ef4444)" }}>*</span></label>
+                            <input
+                                name="name"
+                                required
+                                placeholder="VD: FPT Software"
+                                defaultValue={(companyData as any)?.name || ""}
+                                className="dash-input"
+                            />
+                        </div>
+                        <div className="dash-grid-2">
+                            <div>
+                                <label className="dash-form-label">Website</label>
                                 <input
-                                    name={f.name}
-                                    required={f.required}
-                                    placeholder={f.placeholder}
-                                    defaultValue={companyData?.[f.name as keyof CompanyData] || ""}
+                                    name="website"
+                                    placeholder="https://example.com"
+                                    defaultValue={(companyData as any)?.website || ""}
                                     className="dash-input"
                                 />
                             </div>
-                        ))}
+                            <div>
+                                <label className="dash-form-label">Chức vụ của bạn</label>
+                                <input
+                                    name="position"
+                                    placeholder="VD: HR Manager"
+                                    defaultValue={(companyData as any)?.position || ""}
+                                    className="dash-input"
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="dash-form-label">Khu vực hoạt động (Đa chi nhánh)</label>
+                            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "0.5rem" }}>
+                                {((companyData as any)?.locations || []).map((loc: string) => (
+                                    <div key={loc} className="dash-tag" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                                        {loc}
+                                        <button 
+                                            type="button" 
+                                            onClick={() => setCompanyData(prev => ({ ...prev!, locations: (prev as any).locations.filter((l: string) => l !== loc) }))}
+                                            style={{ color: "var(--text-muted)", border: "none", background: "none", cursor: "pointer", padding: "0 4px" }}
+                                        >✕</button>
+                                    </div>
+                                ))}
+                            </div>
+                            <div style={{ maxWidth: "400px" }}>
+                                <SearchableSelect 
+                                    value=""
+                                    placeholder="+ Thêm tỉnh thành"
+                                    searchPlaceholder="Tìm tỉnh/thành phố..."
+                                    options={provinces.map(p => ({ 
+                                        value: p.name.replace(/^(Thành phố |Tỉnh )/, ""), 
+                                        label: p.name 
+                                    }))}
+                                    onChange={(val) => {
+                                        if (val && !((companyData as any)?.locations || []).includes(val)) {
+                                            setCompanyData(prev => ({ ...prev!, locations: [...((prev as any)?.locations || []), val] }));
+                                        }
+                                    }}
+                                />
+                            </div>
+                            <input type="hidden" name="locations" value={((companyData as any)?.locations || []).join(",")} />
+                        </div>
                         <div className="dash-grid-2">
                             <div>
-                                <label className="dash-form-label">Ngành nghề</label>
-                                <select name="industry" defaultValue={companyData?.industry || ""} className="dash-input">
+                                <label className="dash-form-label">Ngành nghề <span style={{ color: "var(--error, #ef4444)" }}>*</span></label>
+                                <select name="industry" required defaultValue={companyData?.industry || ""} className="dash-input">
                                     <option value="">Chọn ngành</option>
                                     {INDUSTRIES.map((i) => <option key={i} value={i}>{i}</option>)}
                                 </select>
                             </div>
                             <div>
-                                <label className="dash-form-label">Quy mô</label>
-                                <select name="size" defaultValue={companyData?.size || ""} className="dash-input">
+                                <label className="dash-form-label">Quy mô <span style={{ color: "var(--error, #ef4444)" }}>*</span></label>
+                                <select name="size" required defaultValue={companyData?.size || ""} className="dash-input">
                                     <option value="">Chọn quy mô</option>
                                     {SIZES.map((s) => <option key={s} value={s}>{s} nhân viên</option>)}
                                 </select>

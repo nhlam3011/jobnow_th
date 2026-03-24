@@ -20,7 +20,7 @@ const MAX_RECENT_SEARCHES = 5;
 export default function SearchBar({ size = "lg", defaultAI = false }: SearchBarProps) {
     const [keyword, setKeyword] = useState("");
     const [location, setLocation] = useState("");
-    const [useAI, setUseAI] = useState(defaultAI);
+    const [useAI, setUseAI] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
@@ -311,18 +311,6 @@ export default function SearchBar({ size = "lg", defaultAI = false }: SearchBarP
                         disabled={isLoading}
                     />
                 </div>
-
-                <label className="search-ai-toggle" title="Tìm kiếm AI thông minh">
-                    <input type="checkbox" checked={useAI} onChange={(e) => setUseAI(e.target.checked)} />
-                    <div className="toggle-track">
-                        <div className="toggle-thumb" />
-                    </div>
-                    <svg width="16" height="16" fill="none" stroke={useAI ? "var(--primary)" : "var(--text-muted)"} strokeWidth="2" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
-                        <path d="M12 6v6l4 2" />
-                    </svg>
-                    <span>AI</span>
-                </label>
 
                 <button type="submit" className="btn-primary search-submit" disabled={isLoading}>
                     {isLoading ? (

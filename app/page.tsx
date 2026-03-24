@@ -24,7 +24,7 @@ async function getLandingData() {
   // Get top companies (with most active jobs)
   const companies = await prisma.company.findMany({
     include: { _count: { select: { jobs: { where: { status: "ACTIVE" } } } } },
-    orderBy: { jobs: { _count: "desc" } },
+    orderBy: { name: "asc" },
     take: 10,
   });
 
@@ -36,7 +36,7 @@ async function getLandingData() {
       company: j.company.name,
       companyLogo: j.company.logo,
       companySlug: j.company.slug,
-      location: j.location,
+      location: j.location || "N/A",
       salary: j.salaryMin || j.salaryMax
         ? (j.salaryMin && j.salaryMax
           ? `${j.salaryMin.toLocaleString('vi-VN')}–${j.salaryMax.toLocaleString('vi-VN')} đ`

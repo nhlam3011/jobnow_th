@@ -9,7 +9,7 @@ interface JobCardProps {
     slug?: string;
     title: string;
     company: string;
-    location: string;
+    location: string | null;
     salary: string;
     type: string;
     skills: string[];
@@ -20,6 +20,9 @@ interface JobCardProps {
     saved?: boolean;
     savedDate?: string;
     layout?: "grid" | "list";
+    experienceYears?: number;
+    ageMin?: number;
+    ageMax?: number;
 }
 
 export default function JobCard({
@@ -38,6 +41,9 @@ export default function JobCard({
     saved = false,
     savedDate,
     layout = "grid",
+    experienceYears,
+    ageMin,
+    ageMax,
 }: JobCardProps) {
     const typeColors: Record<string, string> = {
         Remote: "#22C55E",
@@ -89,7 +95,7 @@ export default function JobCard({
                         <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 0 1-2.827 0l-4.244-4.243a8 8 0 1 1 11.314 0z" />
                         </svg>
-                        {location}
+                        {location || "N/A"}
                     </span>
                     <span className="meta-tag salary">
                         <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -97,6 +103,22 @@ export default function JobCard({
                         </svg>
                         {salary}
                     </span>
+                    {experienceYears != null && (
+                        <span className="meta-tag">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            {experienceYears} năm kinh nghiệm
+                        </span>
+                    )}
+                    {(ageMin || ageMax) && (
+                        <span className="meta-tag">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                            {ageMin && ageMax ? `${ageMin}-${ageMax} tuổi` : ageMin ? `Từ ${ageMin} tuổi` : `Đến ${ageMax} tuổi`}
+                        </span>
+                    )}
                 </div>
                 <div className="job-card-skills-row">
                     {skills.length > 0 && (
@@ -258,7 +280,8 @@ export default function JobCard({
                     justify-content: space-between;
                     align-items: center;
                     margin-top: auto;
-                    padding-top: 1.25rem;
+                    padding-top: 0.75rem;
+                    border-top: 1px solid var(--border-light, var(--border));
                 }
 
                 .posted-time {
@@ -267,14 +290,19 @@ export default function JobCard({
                     white-space: nowrap;
                 }
                 
-                .job-card-action :global(.save-btn) {
-                    border: 1px solid var(--border-light, var(--border));
-                    background: transparent;
+                .job-card-action {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                 }
-                .job-card-action :global(.save-btn:hover) {
-                    border-color: var(--border);
-                    background: var(--bg);
+                .job-card-action :global(.save-job-btn) {
+                    color: var(--text-muted);
                 }
+                .job-card-action :global(.save-job-btn:hover) {
+                    color: #EF4444;
+                    transform: scale(1.1);
+                }
+
 
                 /* Tablet */
                 @media (max-width: 768px) and (min-width: 641px) {

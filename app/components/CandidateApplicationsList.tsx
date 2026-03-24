@@ -4,10 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 
 const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
-    PENDING: { label: "Đang chờ", color: "#F59E0B" },
+    PENDING: { label: "Đã nộp đơn", color: "#F59E0B" },
     REVIEWING: { label: "Đang xem xét", color: "#0369A1" },
     INTERVIEW: { label: "Phỏng vấn", color: "#A855F7" },
-    ACCEPTED: { label: "Chấp nhận ✓", color: "#22C55E" },
     REJECTED: { label: "Từ chối", color: "#EF4444" },
 };
 
@@ -37,7 +36,6 @@ export default function CandidateApplicationsList({ applications }: { applicatio
         PENDING: applications.filter(a => a.status === "PENDING").length,
         REVIEWING: applications.filter(a => a.status === "REVIEWING").length,
         INTERVIEW: applications.filter(a => a.status === "INTERVIEW").length,
-        ACCEPTED: applications.filter(a => a.status === "ACCEPTED").length,
         REJECTED: applications.filter(a => a.status === "REJECTED").length,
     };
 
@@ -51,7 +49,6 @@ export default function CandidateApplicationsList({ applications }: { applicatio
                         { key: "PENDING", label: "Chờ" },
                         { key: "REVIEWING", label: "Xem xét" },
                         { key: "INTERVIEW", label: "Phỏng vấn" },
-                        { key: "ACCEPTED", label: "Nhận" },
                         { key: "REJECTED", label: "Từ chối" },
                     ].map((tab) => (
                         <button key={tab.key} className={`dash-filter-tab ${statusFilter === tab.key ? "active" : ""}`} onClick={() => setStatusFilter(tab.key)}>
@@ -82,12 +79,18 @@ export default function CandidateApplicationsList({ applications }: { applicatio
                         return (
                             <div key={app.id} className="dash-card-item">
                                 <div className="dash-card-item-header">
-                                    <div className="dash-card-item-avatar" style={{ background: `${st.color}12`, color: st.color }}>
-                                        {app.job.company.name.charAt(0).toUpperCase()}
+                                    <div className="dash-card-item-avatar">
+                                        <div style={{ width: "40px", height: "40px", borderRadius: "8px", overflow: "hidden", border: "1px solid var(--border)", background: "var(--bg-card)", display: "flex", alignItems: "center", justifyContent: "center", color: st.color, fontWeight: 700 }}>
+                                            {app.job.company.logo ? (
+                                                <img src={app.job.company.logo} alt={app.job.company.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                                            ) : (
+                                                app.job.company.name.charAt(0).toUpperCase()
+                                            )}
+                                        </div>
                                     </div>
                                     <div className="dash-card-item-content">
                                         <div className="dash-card-item-title">{app.job.title}</div>
-                                        <div className="dash-card-item-subtitle">{app.job.company.name} · {app.job.location}</div>
+                                        <div className="dash-card-item-subtitle">{app.job.company.name} · {app.job.location || "N/A"}</div>
                                     </div>
                                 </div>
                                 <div className="dash-card-item-footer">

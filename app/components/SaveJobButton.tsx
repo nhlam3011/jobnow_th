@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { saveJob, unsaveJob, isJobSaved } from "@/app/actions/jobs";
+import { saveJob, unsaveJob } from "@/app/actions/jobs";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 interface SaveJobButtonProps {
     jobId: string;
@@ -10,9 +11,12 @@ interface SaveJobButtonProps {
 }
 
 export default function SaveJobButton({ jobId, initialSaved = false }: SaveJobButtonProps) {
+    const { data: session } = useSession();
     const [saved, setSaved] = useState(initialSaved);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+
+    if (session?.user?.role === "ADMIN" || session?.user?.role === "EMPLOYER") return null;
 
     const handleToggle = async (e: React.MouseEvent) => {
         e.preventDefault();
@@ -46,16 +50,18 @@ export default function SaveJobButton({ jobId, initialSaved = false }: SaveJobBu
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                width: "40px",
-                height: "40px",
+                width: "32px",
+                height: "32px",
                 borderRadius: "50%",
-                border: saved ? "2px solid var(--primary)" : "1.5px solid var(--border)",
-                background: saved ? "var(--primary)" : "transparent",
-                color: saved ? "#fff" : "var(--text-muted)",
+                border: "none",
+                background: "transparent",
+                color: saved ? "#EF4444" : "var(--text-muted)",
                 cursor: loading ? "not-allowed" : "pointer",
                 transition: "all 0.2s ease",
                 opacity: loading ? 0.7 : 1,
+                padding: 0,
             }}
+            className="save-job-btn"
             title={saved ? "Bỏ lưu việc làm" : "Lưu việc làm"}
         >
             <svg

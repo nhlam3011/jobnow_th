@@ -3,10 +3,9 @@ import { useState, useTransition } from "react";
 import { updateApplicationStatus } from "@/app/actions/applications";
 
 const STATUSES = [
-    { value: "PENDING", label: "Đang chờ", color: "#F59E0B" },
+    { value: "PENDING", label: "Đã nộp đơn", color: "#F59E0B" },
     { value: "REVIEWING", label: "Đang xem xét", color: "#0369A1" },
-    { value: "INTERVIEW", label: "Mời phỏng vấn", color: "#A855F7" },
-    { value: "ACCEPTED", label: "Chấp nhận", color: "#22C55E" },
+    { value: "INTERVIEW", label: "Phỏng vấn", color: "#A855F7" },
     { value: "REJECTED", label: "Từ chối", color: "#EF4444" },
 ];
 

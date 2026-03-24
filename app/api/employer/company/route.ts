@@ -24,9 +24,9 @@ export async function GET() {
         logo: company.logo,
         website: company.website,
         description: company.description,
-        industry: company.industry,
-        size: company.size,
-        location: company.location,
+        industry: (company as any).industry,
+        size: (company as any).size,
+        locations: (company as any).locations,
         position: employerProfile.position
     });
 }

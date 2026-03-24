@@ -22,6 +22,8 @@ export async function getJobs(params?: {
     status?: string;
     industryId?: string;
     salary?: string;
+    exp?: string;
+    age?: string;
     useAI?: boolean;
     page?: number;
     limit?: number;
@@ -70,7 +72,7 @@ export async function getJobs(params?: {
 
     if (params?.q && !params.useAI) {
         where.OR = [
-            { title: { contains: params.q, mode: "insensitive" } },
+            { title: { startsWith: params.q, mode: "insensitive" } },
             { description: { contains: params.q, mode: "insensitive" } },
             { skills: { hasSome: [params.q] } },
         ];
@@ -82,12 +84,34 @@ export async function getJobs(params?: {
     if (params?.industryId) where.industryId = params.industryId;
 
     // Salary range filter
+    const andConditions: Record<string, unknown>[] = [];
     if (params?.salary) {
         const [minSalary, maxSalary] = params.salary.split("-").map(Number);
-        where.AND = [
+        andConditions.push(
             { salaryMin: { gte: minSalary } },
             { OR: [{ salaryMax: { lte: maxSalary } }, { salaryMax: { gte: minSalary } }] }
-        ];
+        );
+    }
+
+    // Experience filter
+    if (params?.exp) {
+        const [minExp, maxExp] = params.exp.split("-").map(Number);
+        andConditions.push(
+            { OR: [{ experienceYears: { gte: minExp, lte: maxExp } }, { experienceYears: null }] }
+        );
+    }
+
+    // Age filter
+    if (params?.age) {
+        const [minAge, maxAge] = params.age.split("-").map(Number);
+        andConditions.push(
+            { OR: [{ ageMin: { lte: maxAge } }, { ageMin: null }] },
+            { OR: [{ ageMax: { gte: minAge } }, { ageMax: null }] }
+        );
+    }
+
+    if (andConditions.length > 0) {
+        where.AND = andConditions;
     }
 
     const limit = params?.limit || 12;
@@ -140,13 +164,17 @@ export async function createJob(formData: FormData) {
     const description = formData.get("description") as string;
     const requirements = formData.get("requirements") as string;
     const benefits = formData.get("benefits") as string;
-    const location = formData.get("location") as string;
+    const province = formData.get("province") as string;
+    const location = province; // Backwards compatibility if needed, or just use province
     const jobType = formData.get("jobType") as string;
     const salaryMin = parseInt(formData.get("salaryMin") as string) || null;
     const salaryMax = parseInt(formData.get("salaryMax") as string) || null;
     const skillsRaw = formData.get("skills") as string;
     const skills = skillsRaw ? skillsRaw.split(",").map((s) => s.trim()).filter(Boolean) : [];
-    const industrySlug = formData.get("industryId") as string;
+    const industryId = formData.get("industry") as string; // Already using slug in industries list
+    const ageMin = parseInt(formData.get("ageMin") as string) || null;
+    const ageMax = parseInt(formData.get("ageMax") as string) || null;
+    const experienceYears = parseInt(formData.get("experienceYears") as string) || null;
 
     // Get employer's company
     const employer = await prisma.employerProfile.findUnique({
@@ -157,36 +185,32 @@ export async function createJob(formData: FormData) {
         return { error: "Bạn chưa có thông tin công ty. Vui lòng cập nhật trang Công ty trước." };
     }
 
-    // Get industry by slug if provided
-    let industryId: string | null = null;
-    if (industrySlug) {
-        const industry = await prisma.industry.findUnique({
-            where: { slug: industrySlug }
-        });
-        if (industry) {
-            industryId = industry.id;
-        }
+    // Industry check if string
+    if (industryId && industryId.length > 0 && !industryId.includes("-")) {
+        // already an ID? or slug? Let's check
     }
 
-    const job = await prisma.job.create({
+    const job = await (prisma.job as any).create({
         data: {
             companyId: employer.companyId,
             postedById: session.user.id,
             title,
-            slug: slugify(title),
+            slug: slugify(title) + "-" + Date.now(),
             description,
             requirements,
             benefits,
             location,
+            province,
             jobType: jobType as "FULL_TIME" | "PART_TIME" | "REMOTE" | "INTERNSHIP" | "CONTRACT",
             salaryMin,
             salaryMax,
             skills,
-            status: "PENDING",
-            industryId,
+            ageMin,
+            ageMax,
+            experienceYears,
+            industryId: industryId || null,
         },
     });
-
     try {
         const { generateJobEmbedding } = await import("@/lib/ai");
         await generateJobEmbedding(job.id);
@@ -195,6 +219,7 @@ export async function createJob(formData: FormData) {
     }
 
     revalidatePath("/employer/jobs");
+    revalidatePath("/jobs");
     redirect("/employer/jobs");
     return { success: true, id: job.id };
 }
@@ -289,26 +314,19 @@ export async function updateJob(jobId: string, formData: FormData) {
     const description = formData.get("description") as string;
     const requirements = formData.get("requirements") as string;
     const benefits = formData.get("benefits") as string;
-    const location = formData.get("location") as string;
+    const province = formData.get("province") as string;
+    const location = province; 
     const jobType = formData.get("jobType") as string;
     const salaryMin = parseInt(formData.get("salaryMin") as string) || null;
     const salaryMax = parseInt(formData.get("salaryMax") as string) || null;
     const skillsRaw = formData.get("skills") as string;
     const skills = skillsRaw ? skillsRaw.split(",").map((s) => s.trim()).filter(Boolean) : [];
-    const industrySlug = formData.get("industryId") as string;
+    const industryId = formData.get("industry") as string;
+    const ageMin = parseInt(formData.get("ageMin") as string) || null;
+    const ageMax = parseInt(formData.get("ageMax") as string) || null;
+    const experienceYears = parseInt(formData.get("experienceYears") as string) || null;
 
-    // Get industry by slug if provided
-    let industryId: string | null = null;
-    if (industrySlug) {
-        const industry = await prisma.industry.findUnique({
-            where: { slug: industrySlug }
-        });
-        if (industry) {
-            industryId = industry.id;
-        }
-    }
-
-    await prisma.job.update({
+    await (prisma.job as any).update({
         where: { id: jobId },
         data: {
             title,
@@ -316,11 +334,15 @@ export async function updateJob(jobId: string, formData: FormData) {
             requirements,
             benefits,
             location,
+            province,
             jobType: jobType as "FULL_TIME" | "PART_TIME" | "REMOTE" | "INTERNSHIP" | "CONTRACT",
             salaryMin,
             salaryMax,
             skills,
             industryId,
+            ageMin,
+            ageMax,
+            experienceYears,
         },
     });
 

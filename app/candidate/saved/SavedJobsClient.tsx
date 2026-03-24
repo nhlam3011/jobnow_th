@@ -10,7 +10,7 @@ interface SavedJobData {
         slug: string;
         title: string;
         company: { name: string; slug: string; logo: string | null; verified: boolean };
-        location: string;
+        location: string | null;
         salaryMin: number | null;
         salaryMax: number | null;
         jobType: string;

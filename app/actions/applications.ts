@@ -5,7 +5,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
-export async function applyToJob(jobId: string, coverLetter?: string) {
+export async function applyToJob(jobId: string, cvId?: string, resumeId?: string, coverLetter?: string) {
     const session = await auth();
     if (!session?.user || session.user.role !== "CANDIDATE") {
         return { error: "Bạn cần đăng nhập với tư cách Ứng viên" };
@@ -16,10 +16,12 @@ export async function applyToJob(jobId: string, coverLetter?: string) {
     });
     if (existing) return { error: "Bạn đã ứng tuyển vị trí này rồi" };
 
-    const application = await prisma.application.create({
+    const application = await (prisma.application as any).create({
         data: {
             jobId,
             candidateId: session.user.id,
+            cvId: cvId || null,
+            resumeId: resumeId || null,
             coverLetter,
             status: "PENDING",
         },
@@ -30,10 +32,10 @@ export async function applyToJob(jobId: string, coverLetter?: string) {
     try {
         await prisma.notification.create({
             data: {
-                userId: application.job.postedById!,
+                userId: (application as any).job.postedById!,
                 type: "NEW_APPLICATION",
                 title: "Có ứng viên mới",
-                message: `${session.user.name} vừa ứng tuyển vào "${application.job.title}"`,
+                message: `${session.user.name} vừa ứng tuyển vào "${(application as any).job.title}"`,
                 link: `/employer/jobs`,
             },
         });

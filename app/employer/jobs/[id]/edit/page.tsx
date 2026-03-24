@@ -50,6 +50,9 @@ interface JobData {
     salaryMax: number | null;
     skills: string[];
     industryId: string | null;
+    experienceYears: number | null;
+    ageMin: number | null;
+    ageMax: number | null;
     industry: { slug: string } | null;
 }
 
@@ -165,7 +168,7 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
                         <div className="dash-grid-2">
                             <div>
                                 <label className="dash-form-label">Địa điểm *</label>
-                                <input name="location" required defaultValue={job.location} placeholder="VD: Hà Nội, TP.HCM, Remote" className="dash-input" />
+                                <input name="location" required defaultValue={job.location || ""} placeholder="VD: Hà Nội, TP.HCM, Remote" className="dash-input" />
                             </div>
                             <div>
                                 <label className="dash-form-label">Loại hình *</label>
@@ -182,6 +185,22 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
                             <div>
                                 <label className="dash-form-label">Lương tối đa (VNĐ)</label>
                                 <input name="salaryMax" type="number" defaultValue={job.salaryMax || ""} placeholder="VD: 15000000" className="dash-input" />
+                            </div>
+                        </div>
+                        <div className="dash-grid-2">
+                            <div>
+                                <label className="dash-form-label">Kinh nghiệm yêu cầu (Số năm)</label>
+                                <input name="experienceYears" type="number" defaultValue={job.experienceYears || ""} placeholder="VD: 2" className="dash-input" />
+                            </div>
+                            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem" }}>
+                                <div>
+                                    <label className="dash-form-label">Tuổi từ</label>
+                                    <input name="ageMin" type="number" defaultValue={job.ageMin || ""} placeholder="18" className="dash-input" />
+                                </div>
+                                <div>
+                                    <label className="dash-form-label">Đến</label>
+                                    <input name="ageMax" type="number" defaultValue={job.ageMax || ""} placeholder="40" className="dash-input" />
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -46,7 +46,7 @@ Bạn là một chuyên gia viết thư xin việc. Hãy viết một thư xin v
 - Công ty: ${job.company.name}
 - Mô tả: ${job.description}
 - Yêu cầu: ${job.requirements || "Không có"}
-- Địa điểm: ${job.location}
+- Địa điểm: ${job.location || "N/A"}
 
 **Yêu cầu:**
 1. Viết thư xin việc chuyên nghiệp, ngắn gọn (300-400 từ)

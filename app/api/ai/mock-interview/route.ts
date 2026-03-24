@@ -56,7 +56,7 @@ Mô tả: ${job.description}
 ${job.requirements ? `Yêu cầu: ${job.requirements}` : ""}
 Kỹ năng: ${job.skills.join(", ")}
 Loại hình: ${job.jobType}
-Địa điểm: ${job.location}
+Địa điểm: ${job.location || "N/A"}
 
 === HỒ SƠ ỨNG VIÊN ===
 ${candidateInfo}

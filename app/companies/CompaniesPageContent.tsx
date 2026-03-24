@@ -12,7 +12,7 @@ interface Company {
     slug: string;
     logo: string | null;
     industry: string | null;
-    location: string | null;
+    locations: string[];
     description: string | null;
     website: string | null;
     verified: boolean;
@@ -295,13 +295,13 @@ export default function CompaniesPageContent({
                                             borderTop: "1px solid var(--border)",
                                         }}
                                     >
-                                        {company.location && (
+                                        {company.locations && company.locations.length > 0 && (
                                             <div style={{ display: "flex", alignItems: "center", gap: "0.375rem", color: "var(--text-muted)", fontSize: "0.875rem" }}>
                                                 <svg style={{ width: "14px", height: "14px" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 </svg>
-                                                {company.location}
+                                                {company.locations?.[0] || "N/A"}
                                             </div>
                                         )}
                                         <div style={{ display: "flex", alignItems: "center", gap: "0.375rem", color: "var(--text-muted)", fontSize: "0.875rem" }}>

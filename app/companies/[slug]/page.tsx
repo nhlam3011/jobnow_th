@@ -72,10 +72,10 @@ export default async function CompanyDetailPage({
                                     {company.industry}
                                 </div>
                             )}
-                            {company.location && (
+                            {(company as any).locations && (company as any).locations.length > 0 && (
                                 <div style={{ display: "flex", alignItems: "center", gap: "0.375rem" }}>
                                     <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                                    {company.location}
+                                    {(company as any).locations.join(", ")}
                                 </div>
                             )}
                             {company.size && (
@@ -161,7 +161,7 @@ export default async function CompanyDetailPage({
                     <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                         <div>
                             <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)", marginBottom: "0.25rem" }}>Trụ sở chính</div>
-                            <div style={{ fontWeight: 600, color: "var(--text)", fontSize: "0.9375rem" }}>{company.location || "Đang cập nhật"}</div>
+                            <div style={{ fontWeight: 600, color: "var(--text)", fontSize: "0.9375rem" }}>{(company as any).locations && (company as any).locations.length > 0 ? (company as any).locations.join(", ") : "Đang cập nhật"}</div>
                         </div>
                         {company.website && (
                             <div>

@@ -87,7 +87,7 @@ export default function AdminJobsTable({ jobs }: { jobs: Job[] }) {
                                             <Link href={`/jobs/${job.slug}`} target="_blank" style={{ color: "var(--text)", textDecoration: "none", fontWeight: 600, fontSize: "0.9375rem" }}>
                                                 {job.title}
                                             </Link>
-                                            <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>{job.location} · {job.jobType}</div>
+                                            <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>{(job as any).location || "N/A"} · {job.jobType}</div>
                                         </td>
                                         <td className="muted hide-mobile">{job.company.name}</td>
                                         <td style={{ textAlign: "center" }} className="muted hide-mobile">{new Date(job.createdAt).toLocaleDateString("vi-VN")}</td>

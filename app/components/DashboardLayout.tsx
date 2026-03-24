@@ -140,7 +140,22 @@ export default function DashboardLayout({
 
     // Use session data if available, fallback to props
     const displayName = sessionData?.user?.name || userName;
-    const displayImage = sessionData?.user?.image || userImage;
+    const [displayImage, setDisplayImage] = useState(sessionData?.user?.image || userImage);
+
+    useEffect(() => {
+        if (role === "EMPLOYER") {
+            fetch("/api/employer/company")
+                .then(res => res.json())
+                .then(data => {
+                    if (data?.logo) {
+                        setDisplayImage(data.logo);
+                    }
+                })
+                .catch(err => console.error("Error fetching company logo:", err));
+        } else {
+            setDisplayImage(sessionData?.user?.image || userImage);
+        }
+    }, [role, sessionData?.user?.image, userImage]);
 
     // Close sidebar on route change
     useEffect(() => {
@@ -211,15 +226,32 @@ export default function DashboardLayout({
             <aside className={`dash-sidebar ${sidebarOpen ? "open" : ""}`}>
                 {/* Header */}
                 <div className="dash-sidebar-header">
-                    <Link href="/" className="dash-logo">
-                        <div className="dash-logo-icon">
-                            <svg width="18" height="18" viewBox="0 0 32 32" fill="none">
-                                <path d="M8 22V14l8-6 8 6v8" stroke="#fff" strokeWidth="2.5" strokeLinejoin="round" />
-                                <rect x="12" y="18" width="8" height="8" rx="1" fill="#fff" />
-                            </svg>
-                        </div>
-                        <span className="dash-logo-text">Job<span>Now</span></span>
-                    </Link>
+                    <div className="dash-sidebar-top">
+                        <Link href="/" className="dash-logo">
+                            <div className="dash-logo-icon">
+                                <svg width="18" height="18" viewBox="0 0 32 32" fill="none">
+                                    <path d="M8 22V14l8-6 8 6v8" stroke="#fff" strokeWidth="2.5" strokeLinejoin="round" />
+                                    <rect x="12" y="18" width="8" height="8" rx="1" fill="#fff" />
+                                </svg>
+                            </div>
+                            <span className="dash-logo-text">Job<span>Now</span></span>
+                        </Link>
+                        <button
+                            className="dash-theme-toggle"
+                            onClick={toggleTheme}
+                            title={theme === "dark" ? "Chế độ sáng" : "Chế độ tối"}
+                        >
+                            {theme === "dark" ? (
+                                <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="5" /><path strokeLinecap="round" d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                                </svg>
+                            ) : (
+                                <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                                </svg>
+                            )}
+                        </button>
+                    </div>
                     <div className="dash-user-info">
                         <Avatar
                             src={displayImage}
@@ -278,18 +310,7 @@ export default function DashboardLayout({
 
                 {/* Footer */}
                 <div className="dash-sidebar-footer">
-                    <button className="dash-theme-toggle" onClick={toggleTheme}>
-                        {theme === "dark" ? (
-                            <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.75" viewBox="0 0 24 24">
-                                <circle cx="12" cy="12" r="5" /><path strokeLinecap="round" d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-                            </svg>
-                        ) : (
-                            <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.75" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                            </svg>
-                        )}
-                        {theme === "dark" ? "Chế độ sáng" : "Chế độ tối"}
-                    </button>
+
                     <form action={logoutUser}>
                         <button type="submit" className="dash-logout-btn">
                             <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.75" viewBox="0 0 24 24">

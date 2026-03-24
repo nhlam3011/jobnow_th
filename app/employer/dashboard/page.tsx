@@ -87,7 +87,7 @@ export default async function EmployerDashboard() {
                                 return (
                                     <tr key={job.id}>
                                         <td className="bold">{job.title}</td>
-                                        <td className="muted hide-mobile">{job.location}</td>
+                                        <td className="muted hide-mobile">{job.location || "N/A"}</td>
                                         <td className="text-center">
                                             <span className="dash-badge" style={{ background: `${st.color}15`, color: st.color }}>{st.label}</span>
                                         </td>

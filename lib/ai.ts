@@ -24,7 +24,7 @@ export async function generateJobEmbedding(jobId: string) {
         requirements: job.requirements,
         benefits: job.benefits,
         skills: job.skills,
-        location: job.location,
+        location: job.location || "N/A",
         jobType: job.jobType,
     });
 

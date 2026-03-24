@@ -117,7 +117,7 @@ export function createEmbeddingTextForJob(job: {
         parts.push(`Skills: ${job.skills.join(", ")}`);
     }
 
-    parts.push(`Location: ${job.location}`);
+    parts.push(`Location: ${job.location || "N/A"}`);
     parts.push(`Job Type: ${job.jobType}`);
 
     return parts.join(". ");

@@ -3,7 +3,7 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["postgresqlExtensions"]
+  previewFeatures = ["postgresqlExtensions", "fullTextSearchPostgres"]
   engineType      = "library"
 }
 
@@ -102,7 +102,7 @@ model Company {
   description String?
   industry    String?
   size        String?  // "1-10", "11-50", "51-200", "201-500", "500+"
-  location    String?
+  locations   String[] @default([])
   verified    Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -139,10 +139,14 @@ model Job {
   benefits     String?
   salaryMin    Int?
   salaryMax    Int?
-  location     String
+  location     String?
+  province     String?
   jobType      JobType   @default(FULL_TIME)
   status       JobStatus @default(PENDING)
   skills       String[]
+  ageMin       Int?
+  ageMax       Int?
+  experienceYears Int?
   viewCount    Int       @default(0)
   expiresAt    DateTime?
   createdAt    DateTime  @default(now())
@@ -168,6 +172,10 @@ model Application {
   job         Job               @relation(fields: [jobId], references: [id])
   candidateId String
   candidate   User              @relation(fields: [candidateId], references: [id])
+  cvId        String?
+  cv          CV?               @relation(fields: [cvId], references: [id])
+  resumeId    String?
+  resume      Resume?           @relation(fields: [resumeId], references: [id])
   status      ApplicationStatus @default(PENDING)
   coverLetter String?
   matchScore  Float?
@@ -178,6 +186,8 @@ model Application {
   @@unique([jobId, candidateId])
   @@index([candidateId])
   @@index([jobId])
+  @@index([cvId])
+  @@index([resumeId])
 }
 
 model Resume {
@@ -189,6 +199,8 @@ model Resume {
   parsedText String?
   isActive   Boolean  @default(true)
   createdAt  DateTime @default(now())
+
+  applications Application[]
 
   @@index([userId])
 }
@@ -278,6 +290,8 @@ model CV {
   isPublic     Boolean  @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+
+  applications Application[]
 
   @@index([userId])
   @@index([templateId])

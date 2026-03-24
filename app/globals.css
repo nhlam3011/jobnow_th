@@ -37,7 +37,14 @@
   --navbar-bg: rgba(248, 250, 252, 0.92);
 
   /* Page header gradient */
-  --page-header-bg: linear-gradient(135deg, #F0F9FF, #E0F2FE);
+  /* Sidebar Light Mode - Refined white/gray */
+  --sidebar-bg: #FFFFFF;
+  --sidebar-border: #E2E8F0;
+  --sidebar-text: #0F172A;
+  --sidebar-text-muted: #64748B;
+  --sidebar-item-hover: #F1F5F9;
+  --sidebar-item-active-bg: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(3, 105, 161, 0.05));
+  --sidebar-item-active-text: #0369A1;
 }
 
 /* Dark Mode - Toggle based */
@@ -58,6 +65,15 @@
   --navbar-bg: rgba(15, 23, 42, 0.92);
 
   --page-header-bg: linear-gradient(135deg, #0C4A6E, #164E63);
+
+  /* Sidebar Dark Mode - Original deep navy */
+  --sidebar-bg: linear-gradient(180deg, #0F172A 0%, #1E293B 100%);
+  --sidebar-border: rgba(255, 255, 255, 0.06);
+  --sidebar-text: #F1F5F9;
+  --sidebar-text-muted: #94A3B8;
+  --sidebar-item-hover: rgba(255, 255, 255, 0.06);
+  --sidebar-item-active-bg: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(3, 105, 161, 0.1));
+  --sidebar-item-active-text: #38BDF8;
 }
 
 /* System Dark Mode (fallback) */
@@ -79,6 +95,15 @@
     --navbar-bg: rgba(15, 23, 42, 0.92);
 
     --page-header-bg: linear-gradient(135deg, #0C4A6E, #164E63);
+
+    /* Sidebar Dark Mode - Original deep navy */
+    --sidebar-bg: linear-gradient(180deg, #0F172A 0%, #1E293B 100%);
+    --sidebar-border: rgba(255, 255, 255, 0.06);
+    --sidebar-text: #F1F5F9;
+    --sidebar-text-muted: #94A3B8;
+    --sidebar-item-hover: rgba(255, 255, 255, 0.06);
+    --sidebar-item-active-bg: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(3, 105, 161, 0.1));
+    --sidebar-item-active-text: #38BDF8;
   }
 }
 

@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
         const matchingJobs = await prisma.job.findMany({
             where: {
                 status: "ACTIVE",
-                title: { contains: query, mode: "insensitive" },
+                title: { startsWith: query, mode: "insensitive" },
             },
             select: { title: true, company: { select: { name: true } }, location: true },
             distinct: ["title"],
@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
         // 2. Search company names
         const matchingCompanies = await prisma.company.findMany({
             where: {
-                name: { contains: query, mode: "insensitive" },
+                name: { startsWith: query, mode: "insensitive" },
             },
             select: { name: true, industry: true },
             take: 3,
@@ -125,7 +125,7 @@ export async function GET(request: NextRequest) {
             const textMatchedKeywords = await prisma.searchKeyword.findMany({
                 where: {
                     isActive: true,
-                    keywordSuggestion: { contains: query, mode: "insensitive" },
+                    keywordSuggestion: { startsWith: query, mode: "insensitive" },
                 },
                 take: 10,
             });
@@ -156,15 +156,14 @@ export async function GET(request: NextRequest) {
             }
         }
 
-        // 7. Search skills & industries
         const [skills, industries] = await Promise.all([
             prisma.skill.findMany({
-                where: { name: { contains: query, mode: "insensitive" } },
+                where: { name: { startsWith: query, mode: "insensitive" } },
                 select: { name: true, category: true },
                 take: 3,
             }),
             prisma.industry.findMany({
-                where: { name: { contains: query, mode: "insensitive" } },
+                where: { name: { startsWith: query, mode: "insensitive" } },
                 select: { name: true },
                 take: 2,
             }),

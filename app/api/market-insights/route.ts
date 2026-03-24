@@ -75,7 +75,7 @@ async function getTopLocations(): Promise<Array<{ location: string; count: numbe
             orderBy: { _count: { id: "desc" } },
             take: 10,
         });
-        return result.map(r => ({ location: r.location, count: r._count.id }));
+        return result.map(r => ({ location: r.location || "N/A", count: r._count.id }));
     } catch {
         return [];
     }

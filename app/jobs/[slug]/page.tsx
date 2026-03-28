@@ -6,6 +6,7 @@ import ApplyButton from "@/app/components/ApplyButton";
 import CoverLetterButton from "@/app/components/CoverLetterButton";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import CompanyStories from "@/app/components/CompanyStories";
 
 const JOB_TYPE_LABEL: Record<string, string> = {
     FULL_TIME: "Toàn thời gian",
@@ -171,6 +172,11 @@ export default async function JobDetailPage({ params }: { params: Promise<{ slug
                                         </div>
                                     )}
                                 </div>
+                            </div>
+
+                            {/* Company Stories Segment */}
+                            <div style={{ marginTop: "1.5rem" }}>
+                                <CompanyStories companyName={job.company.name} />
                             </div>
                         </div>
                     </div>

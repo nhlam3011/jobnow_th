@@ -322,7 +322,7 @@ export default function AdminTemplateDesigner({ mode, initialData, templateId }:
                             </div>
 
                             {/* Corner Radius & Spacing Tools */}
-                            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
+                            <div className="dash-grid-2" style={{ gap: "1.5rem" }}>
                                 <div>
                                     <label style={labelStyle}>BO GÓC ẢNH</label>
                                     <input
@@ -442,7 +442,7 @@ export default function AdminTemplateDesigner({ mode, initialData, templateId }:
                         <div ref={layoutRef} style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
                             <div>
                                 <label style={labelStyle}>BỐ CỤC TỔNG THỂ</label>
-                                <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "0.75rem" }}>
+                                <div className="dash-grid-2" style={{ gap: "0.75rem" }}>
                                     {LAYOUT_PRESETS.map(lp => (
                                         <button
                                             key={lp.id}

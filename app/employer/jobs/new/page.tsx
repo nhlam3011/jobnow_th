@@ -153,14 +153,14 @@ export default function NewJobPage() {
                             </select>
                         </div>
 
-                        <div className="dash-grid-2">
+                        <div className="dash-form-grid">
                             <div>
                                 <label className="dash-form-label">Tỉnh thành (Chi nhánh) *</label>
                                 <select name="province" required className="dash-input">
                                     <option value="">Chọn khu vực</option>
                                     {companyLocations.map((loc) => (
-                                        <option key={loc} value={loc}>{loc}</option>
-                                    ))}
+                                         <option key={loc} value={loc}>{loc}</option>
+                                     ))}
                                 </select>
                             </div>
                             <div>
@@ -170,7 +170,7 @@ export default function NewJobPage() {
                                 </select>
                             </div>
                         </div>
-                        <div className="dash-grid-2">
+                        <div className="dash-form-grid">
                             <div>
                                 <label className="dash-form-label">Lương tối thiểu (VNĐ)</label>
                                 <input name="salaryMin" type="number" placeholder="VD: 7000000" className="dash-input" />
@@ -180,12 +180,12 @@ export default function NewJobPage() {
                                 <input name="salaryMax" type="number" placeholder="VD: 15000000" className="dash-input" />
                             </div>
                         </div>
-                        <div className="dash-grid-2">
+                        <div className="dash-form-grid">
                             <div>
                                 <label className="dash-form-label">Kinh nghiệm yêu cầu (Số năm)</label>
                                 <input name="experienceYears" type="number" placeholder="VD: 2" className="dash-input" />
                             </div>
-                            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem" }}>
+                            <div className="dash-form-grid" style={{ gap: "0.5rem" }}>
                                 <div>
                                     <label className="dash-form-label">Tuổi từ</label>
                                     <input name="ageMin" type="number" placeholder="18" className="dash-input" />

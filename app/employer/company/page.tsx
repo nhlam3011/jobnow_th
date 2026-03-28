@@ -117,7 +117,7 @@ export default function EmployerCompanyPage() {
                                 className="dash-input"
                             />
                         </div>
-                        <div className="dash-grid-2">
+                        <div className="dash-form-grid">
                             <div>
                                 <label className="dash-form-label">Website</label>
                                 <input
@@ -170,7 +170,7 @@ export default function EmployerCompanyPage() {
                             </div>
                             <input type="hidden" name="locations" value={((companyData as any)?.locations || []).join(",")} />
                         </div>
-                        <div className="dash-grid-2">
+                        <div className="dash-form-grid">
                             <div>
                                 <label className="dash-form-label">Ngành nghề <span style={{ color: "var(--error, #ef4444)" }}>*</span></label>
                                 <select name="industry" required defaultValue={companyData?.industry || ""} className="dash-input">

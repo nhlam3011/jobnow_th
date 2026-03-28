@@ -102,10 +102,10 @@ export default function CandidateResumePage() {
                     <h1 className="dash-page-title">Quản lý CV & Hồ sơ</h1>
                     <p className="dash-page-subtitle">Quản lý CV tải lên và CV từ trình tạo CV.</p>
                 </div>
-                <div style={{ display: "flex", gap: "0.5rem" }}>
+                <div className="dash-topbar-actions">
                     <ResumeUploadBtn />
                     <Link href="/candidate/cv-builder" className="dash-btn dash-btn-primary">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: "0.5rem" }}>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M12 5v14M5 12h14" />
                         </svg>
                         Tạo CV mới
@@ -116,24 +116,26 @@ export default function CandidateResumePage() {
             {/* CVs from Builder */}
             {userCVs.length > 0 && (
                 <>
-                    <h2 style={{ fontSize: "1.125rem", fontWeight: 700, marginBottom: "1rem", marginTop: "1.5rem" }}>CV đã tạo</h2>
+                    <h2 className="dash-section-title" style={{ marginBottom: "1rem", marginTop: "1.5rem" }}>CV đã tạo</h2>
                     <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginBottom: "2rem" }}>
                         {userCVs.map((cv) => (
-                            <div key={cv.id} className="dash-card-item" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                                <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                                    <div className="dash-stat-icon" style={{ background: "rgba(34,197,94,0.08)", color: "#22C55E" }}>
-                                        <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                            <div key={cv.id} className="dash-list-item">
+                                <div style={{ display: "flex", alignItems: "center", gap: "1.25rem", flex: 1, minWidth: 0 }}>
+                                    <div className="dash-stat-icon" style={{ background: "rgba(34,197,94,0.08)", color: "#22C55E", flexShrink: 0 }}>
+                                        <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                                     </div>
-                                    <div>
-                                        <div style={{ fontWeight: 600, color: "var(--text)", fontSize: "0.9375rem" }}>
-                                            <Link href={`/candidate/cv-builder?edit=${cv.id}`} style={{ color: "var(--primary)", textDecoration: "none" }}>{cv.title}</Link>
-                                        </div>
-                                        <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)", marginTop: "0.125rem" }}>
-                                            Mẫu: {cv.template?.name || "Custom"} • Cập nhật {new Date(cv.updatedAt).toLocaleDateString("vi-VN")}
+                                    <div style={{ minWidth: 0, flex: 1 }}>
+                                        <Link href={`/candidate/cv-builder?edit=${cv.id}`} style={{ fontWeight: 700, color: "var(--text)", fontSize: "1rem", textDecoration: "none", display: "block", marginBottom: "0.25rem" }}>
+                                            {cv.title}
+                                        </Link>
+                                        <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)", display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
+                                            <span>Mẫu: <strong style={{ color: "var(--text)" }}>{cv.template?.name || "Custom"}</strong></span>
+                                            <span style={{ opacity: 0.3 }}>•</span>
+                                            <span>{new Date(cv.updatedAt).toLocaleDateString("vi-VN")}</span>
                                         </div>
                                     </div>
                                 </div>
-                                <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+                                <div className="dash-mobile-actions">
                                     <Link href={`/candidate/cv-builder?edit=${cv.id}`} className="dash-btn" style={{ fontSize: "0.8125rem" }}>
                                         Chỉnh sửa
                                     </Link>
@@ -153,7 +155,7 @@ export default function CandidateResumePage() {
             )}
 
             {/* Uploaded Resumes */}
-            <h2 style={{ fontSize: "1.125rem", fontWeight: 700, marginBottom: "1rem" }}>Hồ sơ đính kèm (PDF)</h2>
+            <h2 className="dash-section-title" style={{ marginBottom: "1rem" }}>Hồ sơ đính kèm (PDF)</h2>
 
             {resumes.length === 0 ? (
                 <div className="dash-list-card">
@@ -170,37 +172,39 @@ export default function CandidateResumePage() {
             ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                     {resumes.map((resume) => (
-                        <div key={resume.id} className="dash-card-item" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                            <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                                <div className="dash-stat-icon" style={{ background: "rgba(3,105,161,0.08)", color: "var(--primary)" }}>
-                                    <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                        <div key={resume.id} className="dash-list-item">
+                            <div style={{ display: "flex", alignItems: "center", gap: "1.25rem", flex: 1, minWidth: 0 }}>
+                                <div className="dash-stat-icon" style={{ background: "rgba(3,105,161,0.08)", color: "var(--primary)", flexShrink: 0 }}>
+                                    <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
                                 </div>
-                                <div>
-                                    <div style={{ fontWeight: 600, color: "var(--text)", fontSize: "0.9375rem" }}>
-                                        <button
-                                            onClick={() => setViewingPdf({ url: resume.fileUrl, name: resume.fileName })}
-                                            style={{
-                                                color: "var(--primary)",
-                                                textDecoration: "none",
-                                                background: "none",
-                                                border: "none",
-                                                padding: 0,
-                                                font: "inherit",
-                                                cursor: "pointer",
-                                                textAlign: "left"
-                                            }}
-                                        >
-                                            {resume.fileName}
-                                        </button>
-                                    </div>
-                                    <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)", marginTop: "0.125rem" }}>
-                                        Tải lên lúc {new Date(resume.createdAt).toLocaleDateString("vi-VN")}
+                                <div style={{ minWidth: 0, flex: 1 }}>
+                                    <button
+                                        onClick={() => setViewingPdf({ url: resume.fileUrl, name: resume.fileName })}
+                                        style={{
+                                            fontWeight: 700,
+                                            color: "var(--primary)",
+                                            fontSize: "1rem",
+                                            textDecoration: "none",
+                                            background: "none",
+                                            border: "none",
+                                            padding: 0,
+                                            font: "inherit",
+                                            cursor: "pointer",
+                                            textAlign: "left",
+                                            display: "block",
+                                            marginBottom: "0.25rem"
+                                        }}
+                                    >
+                                        {resume.fileName}
+                                    </button>
+                                    <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)" }}>
+                                        Tải lên: {new Date(resume.createdAt).toLocaleDateString("vi-VN")}
                                     </div>
                                 </div>
                             </div>
-                            <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
+                            <div className="dash-mobile-actions">
                                 {resume.isActive && (
-                                    <span className="dash-badge" style={{ background: "#DCFCE7", color: "#16A34A" }}>
+                                    <span className="dash-badge" style={{ background: "rgba(34,197,94,0.1)", color: "#16A34A", fontWeight: 700 }}>
                                         CV Chính
                                     </span>
                                 )}

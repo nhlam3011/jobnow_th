@@ -330,7 +330,7 @@ export default function CVBuilder() {
                             <label style={labelStyle}>Vị trí ứng tuyển</label>
                             <input type="text" value={formData.jobTitle} onChange={e => setFormData(p => ({ ...p, jobTitle: e.target.value }))} placeholder="Frontend Developer" style={inputStyle} />
                         </div>
-                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem" }}>
+                        <div className="dash-grid-2" style={{ gap: "1.25rem" }}>
                             <div>
                                 <label style={labelStyle}>Ngày sinh</label>
                                 <input type="text" value={formData.dob} onChange={e => setFormData(p => ({ ...p, dob: e.target.value }))} placeholder="18/12/1997" style={inputStyle} />

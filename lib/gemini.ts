@@ -1,198 +1,107 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const globalForGemini = globalThis as unknown as {
-    genAI: GoogleGenerativeAI | undefined;
-};
+// Ensure we are reading the environment variable directly on each call if needed, 
+// though global initialization is standard.
+const getApiKey = () => process.env.GEMINI_API_KEY || "";
 
-export const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string);
-
-if (process.env.NODE_ENV !== "production") globalForGemini.genAI = genAI;
+export const genAI = new GoogleGenerativeAI(getApiKey());
 
 export const AI_CONFIG = {
-    chatModel: process.env.GEMINI_CHAT_MODEL || "gemini-2.0-flash",
+    chatModel: process.env.GEMINI_CHAT_MODEL || "gemini-1.5-flash",
     embeddingModel: process.env.GEMINI_EMBEDDING_MODEL || "text-embedding-004",
 } as const;
 
 export type ChatModel =
-    | "gemini-2.0-flash"
-    | "gemini-2.0-flash-lite"
-    | "gemini-1.5-pro"
     | "gemini-1.5-flash"
-    | "gemini-1.5-flash-8b"
-    | "gemini-pro-vision";
-
-export type EmbeddingModel =
-    | "text-embedding-004"
-    | "gemini-embedding-001";
-
-export function setChatModel(model: ChatModel) {
-    (AI_CONFIG as any).chatModel = model;
-}
-
-export function setEmbeddingModel(model: EmbeddingModel) {
-    (AI_CONFIG as any).embeddingModel = model;
-}
-
-export async function getEmbedding(text: string, model?: EmbeddingModel): Promise<number[]> {
-    if (!process.env.GEMINI_API_KEY) {
-        throw new Error("GEMINI_API_KEY is not set");
-    }
-
-    const modelName = model || AI_CONFIG.embeddingModel;
-
-    try {
-        const geminiModel = genAI.getGenerativeModel({ model: modelName });
-        const result = await geminiModel.embedContent(text);
-
-        const embedding = result.embedding;
-        if (!embedding.values || embedding.values.length === 0) {
-            throw new Error("Failed to generate embedding: empty result");
-        }
-
-        return embedding.values;
-    } catch (error: any) {
-        console.error("Embedding error:", error);
-        if (error.status === 403 || error.message?.includes("403")) {
-            throw new Error("API key không có quyền truy cập embedding API. Vui lòng kiểm tra API key trong Google AI Studio.");
-        }
-        throw error;
-    }
-}
+    | "gemini-1.5-pro"
+    | "gemini-2.0-flash"
+    | "gemini-pro";
 
 export async function generateText(prompt: string, model?: ChatModel): Promise<string> {
-    if (!process.env.GEMINI_API_KEY) {
-        throw new Error("GEMINI_API_KEY is not set");
+    const key = getApiKey();
+    if (!key) throw new Error("GEMINI_API_KEY is not set in environment");
+
+    const modelName = model || AI_CONFIG.chatModel || "gemini-1.5-flash";
+    try {
+        const client = new GoogleGenerativeAI(key);
+        const geminiModel = client.getGenerativeModel({ model: modelName });
+        const result = await geminiModel.generateContent(prompt);
+        return result.response.text();
+    } catch (error: any) {
+        console.error(`Gemini [${modelName}] Error:`, error.status, error.message);
+        
+        // If 404, try a generic "gemini-pro" as a last resort
+        if (error.status === 404 && modelName !== "gemini-pro") {
+            return generateText(prompt, "gemini-pro");
+        }
+        
+        if (error.status === 403 || error.status === 401) {
+            throw new Error("Lỗi xác thực: API Key của bạn không có quyền truy cập hoặc đã hết hạn.");
+        }
+        
+        throw new Error(`AI tạm thời không phản hồi (Mã lỗi: ${error.status || 'Unknown'}). Hãy kiểm tra lại API Key.`);
     }
-
-    const modelName = model || AI_CONFIG.chatModel;
-    const geminiModel = genAI.getGenerativeModel({ model: modelName });
-    const result = await geminiModel.generateContent(prompt);
-    const response = result.response;
-
-    return response.text();
 }
 
 export async function generateStructuredText(
     prompt: string,
     systemInstruction?: string,
-    model?: ChatModel
+    model?: ChatModel,
+    fileData?: { data: string; mimeType: string }
 ): Promise<string> {
-    if (!process.env.GEMINI_API_KEY) {
-        throw new Error("GEMINI_API_KEY is not set");
-    }
+    const key = getApiKey();
+    if (!key) throw new Error("GEMINI_API_KEY is not set in environment");
 
-    const modelName = model || AI_CONFIG.chatModel;
-    const geminiModel = genAI.getGenerativeModel({
-        model: modelName,
-        systemInstruction: systemInstruction || "Bạn là một trợ lý AI hỗ trợ tìm việc làm. Hãy trả lời bằng tiếng Việt.",
-    });
-
-    const result = await geminiModel.generateContent(prompt);
-    return result.response.text();
-}
-
-export function createEmbeddingTextForJob(job: {
-    title: string;
-    description: string;
-    requirements?: string | null;
-    benefits?: string | null;
-    skills: string[];
-    location: string;
-    jobType: string;
-}): string {
-    const parts = [
-        `Job Title: ${job.title}`,
-        `Description: ${job.description}`,
-    ];
-
-    if (job.requirements) {
-        parts.push(`Requirements: ${job.requirements}`);
-    }
-
-    if (job.benefits) {
-        parts.push(`Benefits: ${job.benefits}`);
-    }
-
-    if (job.skills && job.skills.length > 0) {
-        parts.push(`Skills: ${job.skills.join(", ")}`);
-    }
-
-    parts.push(`Location: ${job.location || "N/A"}`);
-    parts.push(`Job Type: ${job.jobType}`);
-
-    return parts.join(". ");
-}
-
-export function createEmbeddingTextForProfile(profile: {
-    bio?: string | null;
-    skills: string[];
-    desiredJobType?: string | null;
-    desiredSalary?: number | null;
-    yearsExp?: number | null;
-    experience?: unknown;
-    education?: unknown;
-}): string {
-    const parts: string[] = [];
-
-    if (profile.bio) {
-        parts.push(`Bio: ${profile.bio}`);
-    }
-
-    if (profile.skills && profile.skills.length > 0) {
-        parts.push(`Skills: ${profile.skills.join(", ")}`);
-    }
-
-    if (profile.desiredJobType) {
-        parts.push(`Desired Job Type: ${profile.desiredJobType}`);
-    }
-
-    if (profile.desiredSalary) {
-        parts.push(`Desired Salary: ${profile.desiredSalary} VND`);
-    }
-
-    if (profile.yearsExp !== undefined && profile.yearsExp !== null) {
-        parts.push(`Years of Experience: ${profile.yearsExp}`);
-    }
-
-    if (profile.experience && Array.isArray(profile.experience)) {
-        const expStr = (profile.experience as Array<{ company?: string; position?: string; description?: string }>)
-            .map(e => `${e.position} at ${e.company}: ${e.description}`)
-            .join(". ");
-        if (expStr) {
-            parts.push(`Experience: ${expStr}`);
+    const modelName = model || AI_CONFIG.chatModel || "gemini-1.5-flash";
+    try {
+        const client = new GoogleGenerativeAI(key);
+        const geminiModel = client.getGenerativeModel({ model: modelName });
+        
+        const contents: any[] = [];
+        if (fileData) {
+            contents.push({
+                inlineData: {
+                    data: fileData.data,
+                    mimeType: fileData.mimeType
+                }
+            });
         }
-    }
+        contents.push({ text: systemInstruction ? `CONG VIEC: ${systemInstruction}\n\nYEU CAU: ${prompt}` : prompt });
 
-    if (profile.education && Array.isArray(profile.education)) {
-        const eduStr = (profile.education as Array<{ school?: string; degree?: string; field?: string }>)
-            .map(e => `${e.degree} in ${e.field} at ${e.school}`)
-            .join(". ");
-        if (eduStr) {
-            parts.push(`Education: ${eduStr}`);
+        const result = await geminiModel.generateContent(contents);
+        return result.response.text();
+    } catch (error: any) {
+        console.error(`Gemini Structured [${modelName}] Error:`, error.status, error.message);
+        
+        if (error.status === 404 && modelName !== "gemini-pro") {
+            return generateStructuredText(prompt, systemInstruction, "gemini-pro", fileData);
         }
+        
+        throw error;
     }
-
-    return parts.join(". ");
 }
 
-export const MODEL_INFO = {
-    chat: {
-        "gemini-2.5-flash": {
-            name: "Gemini 2.5 Flash",
-            description: "Nhanh và hiệu quả, phù hợp cho hầu hết tác vụ",
-            bestFor: "Tìm kiếm, gợi ý, tạo nội dung",
-        },
-    },
-    embedding: {
-        "text-embedding-004": {
-            name: "Text Embedding 004",
-            description: "Embedding tiêu chuẩn mạnh mẽ nhất hiện nay",
-            dimensions: 1536,
-        },
-        "gemini-embedding-001": {
-            name: "Gemini Embedding 001",
-            description: "Embedding từ Gemini (Cũ hơn)",
-            dimensions: 768,
-        },
-    },
-} as const;
+export async function getEmbedding(text: string, model?: string): Promise<number[]> {
+    const key = getApiKey();
+    if (!key) throw new Error("GEMINI_API_KEY is not set");
+
+    const modelName = model || AI_CONFIG.embeddingModel || "text-embedding-004";
+    try {
+        const client = new GoogleGenerativeAI(key);
+        const geminiModel = client.getGenerativeModel({ model: modelName });
+        const result = await geminiModel.embedContent(text);
+        return result.embedding.values || [];
+    } catch (error) {
+        console.error("Embedding Error:", error);
+        throw error;
+    }
+}
+
+// Helper formatting
+export function createEmbeddingTextForJob(job: any): string {
+    return `${job.title} - ${job.description}`.substring(0, 1000);
+}
+
+export function createEmbeddingTextForProfile(profile: any): string {
+    return `${profile.bio} - Skills: ${profile.skills?.join(", ")}`.substring(0, 1000);
+}

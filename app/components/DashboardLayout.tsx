@@ -134,6 +134,11 @@ export default function DashboardLayout({
     const pathname = usePathname();
     const { theme, toggleTheme } = useTheme();
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const navSections = roleNavs[role] || [];
     const color = roleColor[role] || "#0369A1";
@@ -204,14 +209,14 @@ export default function DashboardLayout({
                         )}
                     </button>
                     <Link href="/" style={{ display: "flex", alignItems: "center", gap: "0.375rem", textDecoration: "none" }}>
-                        <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
-                            <rect width="32" height="32" rx="8" fill="var(--primary)" />
-                            <path d="M8 22V14l8-6 8 6v8" stroke="#fff" strokeWidth="2" strokeLinejoin="round" />
-                            <rect x="12" y="18" width="8" height="8" rx="1" fill="#fff" />
-                        </svg>
-                        <span style={{ fontWeight: 800, fontSize: "1rem", color: "var(--primary)" }}>
-                            Job<span style={{ color: "var(--cta)" }}>Now</span>
-                        </span>
+                        {mounted && (
+                            <img
+                                src={theme === "dark" ? "/assets/logo_dark.png" : "/assets/logo_light.png"}
+                                alt="JobNow Logo"
+                                style={{ height: "25px", width: "auto" }}
+                            />
+                        )}
+                        {!mounted && <div style={{ height: "32px", width: "80px" }} />}
                     </Link>
                 </div>
             </header>
@@ -228,13 +233,14 @@ export default function DashboardLayout({
                 <div className="dash-sidebar-header">
                     <div className="dash-sidebar-top">
                         <Link href="/" className="dash-logo">
-                            <div className="dash-logo-icon">
-                                <svg width="18" height="18" viewBox="0 0 32 32" fill="none">
-                                    <path d="M8 22V14l8-6 8 6v8" stroke="#fff" strokeWidth="2.5" strokeLinejoin="round" />
-                                    <rect x="12" y="18" width="8" height="8" rx="1" fill="#fff" />
-                                </svg>
-                            </div>
-                            <span className="dash-logo-text">Job<span>Now</span></span>
+                            {mounted && (
+                                <img
+                                    src={theme === "dark" ? "/assets/logo_dark.png" : "/assets/logo_light.png"}
+                                    alt="JobNow Logo"
+                                    style={{ height: "25px", width: "auto" }}
+                                />
+                            )}
+                            {!mounted && <div style={{ height: "32px", width: "80px" }} />}
                         </Link>
                         <button
                             className="dash-theme-toggle"

@@ -105,13 +105,7 @@ export default function CandidateApplicationsList({ applications }: { applicatio
                 </div>
             )}
 
-            <style jsx>{`
-                @media (max-width: 768px) {
-                    .dash-card-grid {
-                        grid-template-columns: 1fr;
-                    }
-                }
-            `}</style>
+
         </>
     );
 }

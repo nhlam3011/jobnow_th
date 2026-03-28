@@ -165,7 +165,7 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
                             </select>
                         </div>
 
-                        <div className="dash-grid-2">
+                        <div className="dash-form-grid">
                             <div>
                                 <label className="dash-form-label">Địa điểm *</label>
                                 <input name="location" required defaultValue={job.location || ""} placeholder="VD: Hà Nội, TP.HCM, Remote" className="dash-input" />
@@ -177,7 +177,7 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
                                 </select>
                             </div>
                         </div>
-                        <div className="dash-grid-2">
+                        <div className="dash-form-grid">
                             <div>
                                 <label className="dash-form-label">Lương tối thiểu (VNĐ)</label>
                                 <input name="salaryMin" type="number" defaultValue={job.salaryMin || ""} placeholder="VD: 7000000" className="dash-input" />
@@ -187,7 +187,7 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
                                 <input name="salaryMax" type="number" defaultValue={job.salaryMax || ""} placeholder="VD: 15000000" className="dash-input" />
                             </div>
                         </div>
-                        <div className="dash-grid-2">
+                        <div className="dash-form-grid">
                             <div>
                                 <label className="dash-form-label">Kinh nghiệm yêu cầu (Số năm)</label>
                                 <input name="experienceYears" type="number" defaultValue={job.experienceYears || ""} placeholder="VD: 2" className="dash-input" />

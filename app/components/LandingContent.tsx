@@ -161,14 +161,18 @@ export default function LandingContent({ featuredJobs, industries, companies, st
                         </div>
 
                         {/* Popular searches */}
-                        <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
+                        <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 10 }}>
                             <span style={{ fontSize: "0.8125rem", color: "rgba(255,255,255,0.7)" }}>Phổ biến:</span>
                             {["Frontend", "Kế toán", "Marketing", "Kinh doanh", "Du lịch"].map((t) => (
                                 <Link key={t} href={`/jobs?q=${encodeURIComponent(t)}`} style={{
                                     textDecoration: "none", fontSize: "0.8125rem", padding: "0.3rem 0.875rem",
                                     background: "rgba(255,255,255,0.1)", color: "#fff", borderRadius: "100px",
-                                    border: "1px solid rgba(255,255,255,0.18)", transition: "background 200ms",
-                                }}>
+                                    border: "1px solid rgba(255,255,255,0.18)", transition: "all 200ms",
+                                    position: "relative", zIndex: 11
+                                }}
+                                    onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.2)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)"; }}
+                                    onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.1)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.18)"; }}
+                                >
                                     {t}
                                 </Link>
                             ))}
@@ -177,7 +181,7 @@ export default function LandingContent({ featuredJobs, industries, companies, st
                 </section>
 
                 {/* ===== STATS BAR ===== */}
-                <section style={{ background: "var(--bg)", position: "relative", zIndex: 3, padding: "0" }}>
+                <section style={{ background: "transparent", position: "relative", zIndex: 3, padding: "0" }}>
                     <div className="container-xl" style={{ maxWidth: "960px", margin: "0 auto", marginTop: "-2.5rem" }}>
                         <div style={{
                             display: "grid", gridTemplateColumns: "repeat(4, 1fr)",
@@ -186,27 +190,33 @@ export default function LandingContent({ featuredJobs, industries, companies, st
                             overflow: "hidden", position: "relative", zIndex: 1
                         }} className="stats-grid">
                             {[
-                                { n: formatNumber(stats.jobs), l: "Việc làm", icon: BriefcaseIcon },
-                                { n: formatNumber(stats.companies), l: "Công ty", icon: BuildingOfficeIcon },
-                                { n: formatNumber(stats.candidates), l: "Ứng viên", icon: UserGroupIcon },
-                                { n: `${stats.industries}+`, l: "Ngành nghề", icon: SparklesIcon },
+                                { n: formatNumber(stats.jobs), l: "Việc làm", icon: BriefcaseIcon, link: "/jobs" },
+                                { n: formatNumber(stats.companies), l: "Công ty", icon: BuildingOfficeIcon, link: "/companies" },
+                                { n: formatNumber(stats.candidates), l: "Ứng viên", icon: UserGroupIcon, link: "/register" },
+                                { n: `${stats.industries}+`, l: "Ngành nghề", icon: SparklesIcon, link: "#industries" },
                             ].map((s, i) => (
-                                <div key={s.l} style={{
-                                    padding: "1.5rem 1rem", textAlign: "center",
-                                    borderRight: i < 3 ? "1px solid var(--border)" : "none",
-                                    display: "flex", flexDirection: "column", alignItems: "center", gap: "0.375rem",
-                                }}>
-                                    <s.icon style={{ width: "22px", height: "22px", color: "var(--primary)", marginBottom: "0.25rem" }} />
-                                    <div style={{ fontSize: "1.5rem", fontWeight: 800, color: "var(--primary)", lineHeight: 1 }}>{s.n}</div>
-                                    <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)", fontWeight: 500 }}>{s.l}</div>
-                                </div>
+                                <Link key={s.l} href={s.link} style={{ textDecoration: "none", color: "inherit", display: "block" }}>
+                                    <div style={{
+                                        padding: "1.5rem 1rem", textAlign: "center",
+                                        borderRight: i < 3 ? "1px solid var(--border)" : "none",
+                                        display: "flex", flexDirection: "column", alignItems: "center", gap: "0.375rem",
+                                        transition: "background 200ms", cursor: "pointer", height: "100%"
+                                    }}
+                                        onMouseEnter={(e) => e.currentTarget.style.background = "var(--bg)"}
+                                        onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
+                                    >
+                                        <s.icon style={{ width: "22px", height: "22px", color: "var(--primary)", marginBottom: "0.25rem" }} />
+                                        <div style={{ fontSize: "1.5rem", fontWeight: 800, color: "var(--primary)", lineHeight: 1 }}>{s.n}</div>
+                                        <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)", fontWeight: 500 }}>{s.l}</div>
+                                    </div>
+                                </Link>
                             ))}
                         </div>
                     </div>
                 </section>
 
                 {/* ===== INDUSTRIES ===== */}
-                <section style={{ background: "var(--bg)", padding: "4rem 1rem 3.5rem" }}>
+                <section id="industries" style={{ background: "var(--bg)", padding: "4rem 1rem 3.5rem" }}>
                     <div className="container-xl" style={{ textAlign: "center" }}>
                         <div style={{
                             display: "inline-flex", alignItems: "center", gap: "0.375rem",
@@ -231,7 +241,7 @@ export default function LandingContent({ featuredJobs, industries, companies, st
                             {industries.slice(0, 6).map((industry) => {
                                 const Icon = INDUSTRY_ICONS[industry.slug] || BriefcaseIcon;
                                 return (
-                                    <Link key={industry.slug} href={`/jobs?industry=${industry.slug}`} style={{ textDecoration: "none" }}>
+                                    <Link key={industry.slug} href={`/jobs?industry=${industry.slug}`} style={{ textDecoration: "none", display: "block" }}>
                                         <div style={{
                                             padding: "1.25rem 0.875rem", textAlign: "center", background: "var(--bg-card)",
                                             border: "1.5px solid var(--border)", borderRadius: "14px",
@@ -421,22 +431,25 @@ export default function LandingContent({ featuredJobs, industries, companies, st
                             display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
                             gap: "1.25rem", maxWidth: "960px", margin: "0 auto",
                         }}>
-                            {FEATURES.map((f) => (
-                                <div key={f.title} style={{
-                                    padding: "1.5rem", background: "var(--bg)", border: "1.5px solid var(--border)",
-                                    borderRadius: "14px", textAlign: "left", transition: "all 200ms",
-                                }}
-                                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = "var(--primary-light)"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(3,105,161,0.08)"; }}
-                                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.boxShadow = "none"; }}
+                            {FEATURES.map((f, idx) => (
+                                <div key={f.title}
+                                    className="animate-fade-in-up feature-card-hover"
+                                    style={{
+                                        padding: "2rem 1.5rem", background: "var(--bg)", border: "1.5px solid var(--border)",
+                                        borderRadius: "16px", textAlign: "left",
+                                        animationDelay: `${idx * 0.1}s`,
+                                        position: "relative", overflow: "hidden"
+                                    }}
                                 >
                                     <div style={{
-                                        width: "44px", height: "44px", borderRadius: "10px", background: "var(--tag-bg)",
-                                        display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1rem",
-                                    }}>
-                                        <f.icon style={{ width: "22px", height: "22px", color: "var(--primary)" }} />
+                                        width: "48px", height: "48px", borderRadius: "12px", background: "var(--tag-bg)",
+                                        display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1.25rem",
+                                        transition: "all 0.3s ease"
+                                    }} className="icon-box">
+                                        <f.icon style={{ width: "24px", height: "24px", color: "var(--primary)" }} />
                                     </div>
-                                    <h3 style={{ fontSize: "1rem", fontWeight: 700, color: "var(--text)", marginBottom: "0.5rem" }}>{f.title}</h3>
-                                    <p style={{ fontSize: "0.875rem", color: "var(--text-muted)", lineHeight: 1.7, margin: 0 }}>{f.desc}</p>
+                                    <h3 style={{ fontSize: "1.125rem", fontWeight: 700, color: "var(--text)", marginBottom: "0.75rem" }}>{f.title}</h3>
+                                    <p style={{ fontSize: "0.9375rem", color: "var(--text-muted)", lineHeight: 1.7, margin: 0 }}>{f.desc}</p>
                                 </div>
                             ))}
                         </div>

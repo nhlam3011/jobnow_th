@@ -396,12 +396,11 @@ export default function RegisterPage() {
             <div className="auth-left">
                 <div className="auth-left-content">
                     <Link href="/" className="auth-logo">
-                        <svg width="40" height="40" viewBox="0 0 32 32" fill="none">
-                            <rect width="32" height="32" rx="8" fill="#fff" />
-                            <path d="M8 22V14l8-6 8 6v8" stroke="#0E7490" strokeWidth="2" strokeLinejoin="round" />
-                            <rect x="12" y="18" width="8" height="8" rx="1" fill="#0E7490" />
-                        </svg>
-                        <span className="auth-logo-text">Job<span style={{ color: "#F97316" }}>Now</span></span>
+                        <img
+                            src="/assets/logo_dark.png"
+                            alt="JobNow Logo"
+                            style={{ height: "48px", width: "auto" }}
+                        />
                     </Link>
                     <h1 className="auth-hero-title">Bắt đầu hành trình sự nghiệp</h1>
                     <p className="auth-hero-subtitle">Tham gia cùng hàng nghìn ứng viên và nhà tuyển dụng hàng đầu</p>

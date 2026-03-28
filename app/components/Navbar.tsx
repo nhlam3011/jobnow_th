@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import ThemeToggle from "./ThemeToggle";
 import Avatar from "./Avatar";
+import { useTheme } from "./ThemeProvider";
 import {
     ComputerDesktopIcon,
     BuildingLibraryIcon,
@@ -80,9 +81,15 @@ const DEFAULT_INDUSTRIES = [
 
 export default function Navbar({ industries }: NavbarProps) {
     const { data: session, status } = useSession();
+    const { theme } = useTheme();
+    const [mounted, setMounted] = useState(false);
     const pathname = usePathname();
     const [open, setOpen] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const isJobsActive = pathname?.startsWith('/jobs') || pathname?.startsWith('/companies') || pathname?.startsWith('/candidate/saved') || pathname?.startsWith('/candidate/applications') || pathname?.startsWith('/candidate/recommended');
     const isCvActive = pathname?.startsWith('/candidate/resume') || pathname?.startsWith('/candidate/cv-builder') || pathname?.startsWith('/blogs/cv-guide');
@@ -154,14 +161,16 @@ export default function Navbar({ industries }: NavbarProps) {
             <div className="container-xl" style={{ display: "flex", alignItems: "center", height: "68px", gap: "2rem" }}>
                 {/* Logo */}
                 <Link href="/" style={{ display: "flex", alignItems: "center", gap: "0.5rem", textDecoration: "none" }}>
-                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                        <rect width="32" height="32" rx="8" fill="var(--primary)" />
-                        <path d="M8 22V14l8-6 8 6v8" stroke="#fff" strokeWidth="2" strokeLinejoin="round" />
-                        <rect x="12" y="18" width="8" height="8" rx="1" fill="#fff" />
-                    </svg>
-                    <span style={{ fontWeight: 800, fontSize: "1.25rem", color: "var(--primary)" }}>
-                        Job<span style={{ color: "var(--cta)" }}>Now</span>
-                    </span>
+                    {mounted && (
+                        <img
+                            src={theme === "dark" ? "/assets/logo_dark.png" : "/assets/logo_light.png"}
+                            alt="JobNow Logo"
+                            style={{ height: "25px", width: "auto" }}
+                        />
+                    )}
+                    {!mounted && (
+                        <div style={{ width: "120px", height: "40px" }} /> // Placeholder
+                    )}
                 </Link>
 
                 {/* Nav links – desktop */}
@@ -428,6 +437,10 @@ export default function Navbar({ industries }: NavbarProps) {
                                         minWidth: "260px",
                                     }}
                                 >
+                                    <Link href="/tools/career-path" style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", marginBottom: "0.25rem" }}>
+                                        <ChartBarIcon className="w-5 h-5" style={{ color: "var(--primary)" }} />
+                                        <div><div style={{ fontWeight: 600 }}>Lộ trình sự nghiệp</div><div style={{ fontSize: "0.8125rem", color: "var(--text-muted)" }}>Định hướng nghề nghiệp AI</div></div>
+                                    </Link>
                                     <Link href="/tools/salary-calculator" style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", marginBottom: "0.25rem" }}>
                                         <CalculatorIcon className="w-5 h-5" style={{ color: "var(--primary)" }} />
                                         <div><div style={{ fontWeight: 600 }}>Tính lương</div><div style={{ fontSize: "0.8125rem", color: "var(--text-muted)" }}>Tính lương Net/Gross</div></div>
@@ -709,6 +722,10 @@ export default function Navbar({ industries }: NavbarProps) {
                         </button>
                         {activeDropdown === "m-tools" && (
                             <div style={{ paddingBottom: "0.5rem" }}>
+                                <Link href="/tools/career-path" onClick={() => setOpen(false)} style={{ display: "flex", alignItems: "center", gap: "0.625rem", padding: "0.5rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", fontSize: "0.875rem" }}>
+                                    <ChartBarIcon className="w-4 h-4" style={{ color: "var(--primary)", flexShrink: 0 }} />
+                                    Lộ trình sự nghiệp
+                                </Link>
                                 <Link href="/tools/salary-calculator" onClick={() => setOpen(false)} style={{ display: "flex", alignItems: "center", gap: "0.625rem", padding: "0.5rem 0.75rem", borderRadius: "8px", textDecoration: "none", color: "var(--text)", fontSize: "0.875rem" }}>
                                     <CalculatorIcon className="w-4 h-4" style={{ color: "var(--primary)", flexShrink: 0 }} />
                                     Tính lương

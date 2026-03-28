@@ -640,14 +640,11 @@ function LoginContent() {
             <div className="login-left">
                 <div className="login-left-content">
                     <Link href="/" className="login-logo">
-                        <div className="login-logo-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <rect x="4" y="8" width="16" height="12" rx="2" stroke="white" strokeWidth="2" />
-                                <path d="M8 8V6a4 4 0 018 0v2" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                                <circle cx="12" cy="14" r="2" fill="white" />
-                            </svg>
-                        </div>
-                        <span className="login-logo-text">Job<span style={{ color: "#38BDF8" }}>Now</span></span>
+                        <img
+                            src="/assets/logo_dark.png"
+                            alt="JobNow Logo"
+                            style={{ height: "48px", width: "auto" }}
+                        />
                     </Link>
                     <h1 className="login-hero-title">
                         Chào mừng <span>trở lại!</span>

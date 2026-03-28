@@ -52,7 +52,7 @@ export default function ResumeUploadBtn() {
     }
 
     return (
-        <div>
+        <div style={{ display: "flex", flex: 1, minWidth: 0 }}>
             <input
                 type="file"
                 id="resume-upload"
@@ -63,23 +63,19 @@ export default function ResumeUploadBtn() {
             />
             <label
                 htmlFor="resume-upload"
-                className="btn-primary"
+                className="dash-btn dash-btn-primary"
                 style={{
-                    cursor: isPending || uploading ? "not-allowed" : "pointer",
-                    opacity: isPending || uploading ? 0.7 : 1,
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "0.5rem",
+                    cursor: uploading ? "not-allowed" : "pointer",
+                    opacity: uploading ? 0.7 : 1,
+                    flex: 1,
+                    width: "100%",
                 }}
             >
-                <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                 </svg>
-                {uploading ? "Đang tải lên..." : "Tải CV lên"}
+                {uploading ? "..." : "Tải CV lên"}
             </label>
-            {error && (
-                <p style={{ color: "#DC2626", fontSize: "0.875rem", marginTop: "0.5rem" }}>{error}</p>
-            )}
         </div>
     );
 }

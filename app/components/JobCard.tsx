@@ -3,6 +3,9 @@
 import Link from "next/link";
 import SaveJobButton from "./SaveJobButton";
 import Avatar from "./Avatar";
+import MatchHeatmap from "./MatchHeatmap";
+import { useState, useEffect } from "react";
+import { calculateMatchData } from "@/app/actions/match";
 
 interface JobCardProps {
     id: string;
@@ -45,6 +48,23 @@ export default function JobCard({
     ageMin,
     ageMax,
 }: JobCardProps) {
+    const [matchData, setMatchData] = useState<any>(null);
+    const [loadingMatch, setLoadingMatch] = useState(false);
+
+    const handleHover = async () => {
+        if (!matchData && !loadingMatch) {
+            setLoadingMatch(true);
+            try {
+                const data = await calculateMatchData(id);
+                setMatchData(data);
+            } catch (e) {
+                console.error("Match error:", e);
+            } finally {
+                setLoadingMatch(false);
+            }
+        }
+    };
+
     const typeColors: Record<string, string> = {
         Remote: "#22C55E",
         "Full-time": "#0369A1",
@@ -57,8 +77,9 @@ export default function JobCard({
         <Link
             href={`/jobs/${slug || id}`}
             style={{ textDecoration: "none", display: "block", height: "100%" }}
+            onMouseEnter={handleHover}
         >
-            <article className={`job-card ${featured ? 'featured' : ''} ${layout === 'list' ? 'layout-list' : ''}`}>
+            <article className={`job-card ${featured ? "featured" : ""} ${layout === "list" ? "layout-list" : ""}`}>
                 <div className="job-card-row">
                     <div className="job-card-logo">
                         <Avatar
@@ -129,6 +150,27 @@ export default function JobCard({
                         </div>
                     )}
                 </div>
+
+                {/* Match Heatmap Overlay (Premium Feature) */}
+                <div className="match-overlay">
+                    {loadingMatch ? (
+                        <div className="loading-match">Đang phân tích độ tương thích...</div>
+                    ) : matchData?.status === "SUCCESS" ? (
+                        <MatchHeatmap 
+                            score={matchData.score} 
+                            factors={matchData.factors} 
+                            size={120}
+                        />
+                    ) : matchData?.status === "PROFILE_INCOMPLETE" ? (
+                        <div className="no-match-data">Hoàn thiện Hồ sơ để xem độ tương thích</div>
+                    ) : matchData?.status === "MISSING_EMBEDDING" ? (
+                        <div className="no-match-data">Hồ sơ đang được AI phân tích, quay lại sau nhé!</div>
+                    ) : matchData?.status === "SERVER_ERROR" ? (
+                        <div className="no-match-data">Lỗi phân tích, hãy thử lại sau</div>
+                    ) : (
+                        <div className="no-match-data">Đăng nhập để xem độ tương thích</div>
+                    )}
+                </div>
                 <div className="job-card-footer">
                     <span className="posted-time">{posted}</span>
                     <div className="job-card-action">
@@ -161,6 +203,33 @@ export default function JobCard({
                     background-size: 100% 3px;
                     background-repeat: no-repeat;
                     background-position: top;
+                }
+
+                .match-overlay {
+                    position: absolute;
+                    inset: 0;
+                    background: rgba(var(--bg-card-rgb, 255, 255, 255), 0.98);
+                    backdrop-filter: blur(12px);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: flex-start;
+                    opacity: 0;
+                    visibility: hidden;
+                    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                    z-index: 10;
+                    padding: 1.25rem 0.75rem;
+                    transform: translateY(10px);
+                    box-sizing: border-box;
+                    overflow-y: auto;
+                    scrollbar-width: none;
+                }
+                .match-overlay::-webkit-scrollbar { display: none; }
+
+                .job-card:hover .match-overlay {
+                    opacity: 1;
+                    visibility: visible;
+                    transform: translateY(0);
                 }
 
                 .job-card-row {

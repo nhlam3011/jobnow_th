@@ -47,7 +47,7 @@ export default function ProfileForm({ profile, userName }: ProfileFormProps) {
             {/* Basic */}
             <div className="card" style={{ padding: "1.75rem" }}>
                 <h3 style={{ fontWeight: 700, fontSize: "1rem", color: "var(--text)", marginBottom: "1.25rem" }}>Thông tin cơ bản</h3>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.125rem" }}>
+                <div className="dash-form-grid">
                     {[
                         { name: "name", label: "Họ và tên", defaultValue: userName, type: "text" },
                         { name: "phone", label: "Số điện thoại", defaultValue: profile?.phone, type: "tel" },
@@ -69,7 +69,7 @@ export default function ProfileForm({ profile, userName }: ProfileFormProps) {
             {/* Job Preferences */}
             <div className="card" style={{ padding: "1.75rem" }}>
                 <h3 style={{ fontWeight: 700, fontSize: "1rem", color: "var(--text)", marginBottom: "1.25rem" }}>Mong muốn việc làm</h3>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.125rem" }}>
+                <div className="dash-form-grid">
                     <div>
                         <label style={labelStyle}>Mức lương mong muốn (triệu/tháng)</label>
                         <input name="desiredSalary" type="number" defaultValue={profile?.desiredSalary ? profile.desiredSalary / 1000000 : ""} style={inputStyle} placeholder="VD: 20" />

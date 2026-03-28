@@ -213,7 +213,7 @@ export default function DashboardLayout({
                             <img
                                 src={theme === "dark" ? "/assets/logo_dark.png" : "/assets/logo_light.png"}
                                 alt="JobNow Logo"
-                                style={{ height: "25px", width: "auto" }}
+                                style={{ height: "20px", width: "auto" }}
                             />
                         )}
                         {!mounted && <div style={{ height: "32px", width: "80px" }} />}
@@ -237,7 +237,7 @@ export default function DashboardLayout({
                                 <img
                                     src={theme === "dark" ? "/assets/logo_dark.png" : "/assets/logo_light.png"}
                                     alt="JobNow Logo"
-                                    style={{ height: "25px", width: "auto" }}
+                                    style={{ height: "20px", width: "auto" }}
                                 />
                             )}
                             {!mounted && <div style={{ height: "32px", width: "80px" }} />}

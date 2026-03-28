@@ -165,7 +165,7 @@ export default function Navbar({ industries }: NavbarProps) {
                         <img
                             src={theme === "dark" ? "/assets/logo_dark.png" : "/assets/logo_light.png"}
                             alt="JobNow Logo"
-                            style={{ height: "25px", width: "auto" }}
+                            style={{ height: "20px", width: "auto" }}
                         />
                     )}
                     {!mounted && (

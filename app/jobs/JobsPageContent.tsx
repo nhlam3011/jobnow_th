@@ -141,100 +141,13 @@ export default function JobsPageContent({
                     {/* Collapsible filters on mobile */}
                     {showFilters && (
                         <div className="filter-mobile">
-                            <div className="card" style={{ padding: "1rem" }}>
-                                {/* Industries */}
-                                <div style={{ marginBottom: "1rem" }}>
-                                    <h3 style={{ fontSize: "0.875rem", fontWeight: 700, marginBottom: "0.5rem" }}>Ngành nghề</h3>
-                                    <select
-                                        value={searchParams.industry || ""}
-                                        onChange={(e) => handleFilterChange("industry", e.target.value)}
-                                        style={{ width: "100%", padding: "0.5rem", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg-card)", color: "var(--text)" }}
-                                    >
-                                        <option value="">Tất cả ngành</option>
-                                        {industries.map((cat) => (
-                                            <option key={cat.id} value={cat.slug}>{cat.name}</option>
-                                        ))}
-                                    </select>
-                                </div>
-
-                                {/* Locations */}
-                                <div style={{ marginBottom: "1rem" }}>
-                                    <h3 style={{ fontSize: "0.875rem", fontWeight: 700, marginBottom: "0.5rem" }}>Địa điểm</h3>
-                                    <select
-                                        value={searchParams.loc || ""}
-                                        onChange={(e) => handleFilterChange("loc", e.target.value)}
-                                        style={{ width: "100%", padding: "0.5rem", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg-card)", color: "var(--text)" }}
-                                    >
-                                        <option value="">Tất cả địa điểm</option>
-                                        {locations.map((location) => (
-                                            <option key={location} value={location}>{location}</option>
-                                        ))}
-                                    </select>
-                                </div>
-
-                                {/* Job Types */}
-                                <div style={{ marginBottom: "1rem" }}>
-                                    <h3 style={{ fontSize: "0.875rem", fontWeight: 700, marginBottom: "0.5rem" }}>Loại hình</h3>
-                                    <select
-                                        value={searchParams.type || ""}
-                                        onChange={(e) => handleFilterChange("type", e.target.value)}
-                                        style={{ width: "100%", padding: "0.5rem", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg-card)", color: "var(--text)" }}
-                                    >
-                                        <option value="">Tất cả loại hình</option>
-                                        {jobTypes.map((t) => (
-                                            <option key={t} value={t}>{JOB_TYPE_LABELS[t] || t}</option>
-                                        ))}
-                                    </select>
-                                </div>
-
-                                {/* Salary */}
-                                <div style={{ marginBottom: "1rem" }}>
-                                    <h3 style={{ fontSize: "0.875rem", fontWeight: 700, marginBottom: "0.5rem" }}>Mức lương</h3>
-                                    <select
-                                        value={searchParams.salary || ""}
-                                        onChange={(e) => handleFilterChange("salary", e.target.value)}
-                                        style={{ width: "100%", padding: "0.5rem", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg-card)", color: "var(--text)" }}
-                                    >
-                                        <option value="">Tất cả mức lương</option>
-                                        {salaryRanges.map((range) => (
-                                            <option key={range.value} value={range.value}>{range.label}</option>
-                                        ))}
-                                    </select>
-                                </div>
-
-                                {/* Experience */}
-                                <div style={{ marginBottom: "1rem" }}>
-                                    <h3 style={{ fontSize: "0.875rem", fontWeight: 700, marginBottom: "0.5rem" }}>Kinh nghiệm</h3>
-                                    <select
-                                        value={searchParams.exp || ""}
-                                        onChange={(e) => handleFilterChange("exp", e.target.value)}
-                                        style={{ width: "100%", padding: "0.5rem", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg-card)", color: "var(--text)" }}
-                                    >
-                                        <option value="">Tất cả kinh nghiệm</option>
-                                        <option value="0-1">Dưới 1 năm</option>
-                                        <option value="1-3">1 - 3 năm</option>
-                                        <option value="3-5">3 - 5 năm</option>
-                                        <option value="5-10">5 - 10 năm</option>
-                                        <option value="10-99">Trên 10 năm</option>
-                                    </select>
-                                </div>
-
-                                {/* Age */}
-                                <div>
-                                    <h3 style={{ fontSize: "0.875rem", fontWeight: 700, marginBottom: "0.5rem" }}>Độ tuổi</h3>
-                                    <select
-                                        value={searchParams.age || ""}
-                                        onChange={(e) => handleFilterChange("age", e.target.value)}
-                                        style={{ width: "100%", padding: "0.5rem", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg-card)", color: "var(--text)" }}
-                                    >
-                                        <option value="">Tất cả độ tuổi</option>
-                                        <option value="18-25">18 - 25 tuổi</option>
-                                        <option value="25-30">25 - 30 tuổi</option>
-                                        <option value="30-35">30 - 35 tuổi</option>
-                                        <option value="35-45">35 - 45 tuổi</option>
-                                        <option value="45-60">45 - 60 tuổi</option>
-                                    </select>
-                                </div>
+                            <div className="card" style={{ padding: "1.25rem" }}>
+                                <JobFilters
+                                    industries={industries}
+                                    locations={locations}
+                                    jobTypes={jobTypes}
+                                    salaryRanges={salaryRanges}
+                                />
                             </div>
                         </div>
                     )}

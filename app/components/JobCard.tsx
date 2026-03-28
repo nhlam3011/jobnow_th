@@ -368,6 +368,12 @@ export default function JobCard({
                     margin-bottom: 0.25rem;
                 }
 
+                .meta-row-tags {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.4rem;
+                }
+
                 .type-badge-inline {
                     padding: 0.25rem 0.625rem;
                     border-radius: 6px;
@@ -399,11 +405,14 @@ export default function JobCard({
                     display: flex;
                     align-items: center;
                     gap: 0.375rem;
-                    font-size: 0.8125rem;
+                    font-size: 0.9rem;
                     color: var(--text-muted);
                     font-weight: 500;
                 }
                 .meta-tag.salary { color: var(--primary); font-weight: 700; }
+                :global([data-theme="dark"]) .meta-tag.salary {
+                    color: var(--primary-light);
+                }
 
                 .job-card-skills-row { margin-top: 1.25rem; min-width: 0; width: 100%; }
                 .job-card-skills {
@@ -438,7 +447,7 @@ export default function JobCard({
                     .company-name { white-space: nowrap; padding-right: 0; }
                     .job-card-meta { flex-direction: column; gap: 0.5rem; }
                     .meta-row-first { flex-wrap: wrap; }
-                    .meta-tag { font-size: 0.8125rem; }
+                    .meta-tag { font-size: 0.9rem; }
                     .job-card-footer { margin-top: 0.75rem; }
                 }
 

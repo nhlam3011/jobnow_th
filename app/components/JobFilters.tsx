@@ -80,6 +80,8 @@ export default function JobFilters({ industries, locations, jobTypes, salaryRang
         } else {
             params.delete(key);
         }
+        // Always reset to page 1 on filter change
+        params.delete("page");
         router.push(`/jobs?${params.toString()}`);
     };
 

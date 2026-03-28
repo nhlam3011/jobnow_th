@@ -13,7 +13,7 @@ export function getTimeAgo(date: Date | string): string {
 
 export function formatSalary(min: number | null | undefined, max: number | null | undefined): string {
   if (!min && !max) return "Thỏa thuận";
-  if (min && max) return `${min.toLocaleString('vi-VN')}–${max.toLocaleString('vi-VN')} đ`;
+  if (min && max) return `${min.toLocaleString('vi-VN')} - ${max.toLocaleString('vi-VN')} đ`;
   if (min) return `Từ ${min.toLocaleString('vi-VN')} đ`;
   if (max) return `Đến ${max.toLocaleString('vi-VN')} đ`;
   return "Thỏa thuận";

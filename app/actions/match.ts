@@ -38,10 +38,9 @@ export async function calculateMatchData(jobId: string) {
 
         const similarity = similarityResult[0]?.similarity || null;
         
-        // If no embedding was found, similarity will be null
-        if (similarity === null) return { status: "MISSING_EMBEDDING" };
-
-        const aiScore = Math.round(similarity * 100);
+        // If no embedding was found, we still want to show a match based on other factors
+        const aiScore = similarity !== null ? Math.round(similarity * 100) : 0;
+        const hasAI = similarity !== null;
 
         // 4. Calculate other factors manually in JS to avoid raw SQL complexities
         const jSkills = (job.skills || []) as string[];
@@ -62,9 +61,14 @@ export async function calculateMatchData(jobId: string) {
 
         const locationScore = (job.location?.toLowerCase() === profile.location?.toLowerCase()) ? 100 : 40;
 
+        // Re-weight if no AI embedding
+        const compositeScore = hasAI 
+            ? Math.round((aiScore * 0.4) + (skillScore * 0.2) + (salaryScore * 0.2) + (expScore * 0.1) + (locationScore * 0.1))
+            : Math.round((skillScore * 0.4) + (salaryScore * 0.3) + (expScore * 0.15) + (locationScore * 0.15));
+
         return {
             status: "SUCCESS",
-            score: Math.round((aiScore * 0.4) + (skillScore * 0.2) + (salaryScore * 0.2) + (expScore * 0.1) + (locationScore * 0.1)),
+            score: compositeScore,
             factors: [
                 { label: "AI Match", value: aiScore },
                 { label: "Kỹ năng", value: Math.round(skillScore) },

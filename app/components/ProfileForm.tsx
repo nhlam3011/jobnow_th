@@ -19,6 +19,19 @@ export default function ProfileForm({ profile, userName }: ProfileFormProps) {
     const [success, setSuccess] = useState(false);
     const [skillInput, setSkillInput] = useState("");
     const [skills, setSkills] = useState<string[]>(profile?.skills || []);
+    const [salaryInput, setSalaryInput] = useState<string>(
+        profile?.desiredSalary ? profile.desiredSalary.toLocaleString("vi-VN") : ""
+    );
+
+    function formatNumber(val: string) {
+        const num = val.replace(/\D/g, "");
+        if (!num) return "";
+        return Number(num).toLocaleString("vi-VN");
+    }
+
+    const handleSalaryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSalaryInput(formatNumber(e.target.value));
+    };
 
     function addSkill() {
         const s = skillInput.trim();
@@ -71,8 +84,15 @@ export default function ProfileForm({ profile, userName }: ProfileFormProps) {
                 <h3 style={{ fontWeight: 700, fontSize: "1rem", color: "var(--text)", marginBottom: "1.25rem" }}>Mong muốn việc làm</h3>
                 <div className="dash-form-grid">
                     <div>
-                        <label style={labelStyle}>Mức lương mong muốn (triệu/tháng)</label>
-                        <input name="desiredSalary" type="number" defaultValue={profile?.desiredSalary ? profile.desiredSalary / 1000000 : ""} style={inputStyle} placeholder="VD: 20" />
+                        <label style={labelStyle}>Mức lương mong muốn (VND)</label>
+                        <input
+                            name="desiredSalary"
+                            type="text"
+                            value={salaryInput}
+                            onChange={handleSalaryChange}
+                            style={inputStyle}
+                            placeholder="VD: 20.000.000"
+                        />
                     </div>
                     <div>
                         <label style={labelStyle}>Loại hình công việc</label>

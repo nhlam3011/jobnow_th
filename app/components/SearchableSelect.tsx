@@ -110,7 +110,7 @@ export default function SearchableSelect({
                         flexDirection: "column",
                         overflow: "hidden",
                     }}>
-                        <div style={{ padding: "0.625rem", borderBottom: "1px solid var(--border)", background: "var(--bg-subtle, #f9fafb)" }}>
+                        <div style={{ padding: "0.625rem", borderBottom: "1px solid var(--border)", background: "var(--bg-card)" }}>
                             <input
                                 ref={inputRef}
                                 type="text"
@@ -122,7 +122,7 @@ export default function SearchableSelect({
                                     padding: "0.5rem 0.75rem",
                                     border: "1px solid var(--border)",
                                     borderRadius: "0.375rem",
-                                    backgroundColor: "var(--bg, #fff)",
+                                    backgroundColor: "var(--bg)",
                                     color: "var(--text)",
                                     fontSize: "0.875rem",
                                     outline: "none",
@@ -139,16 +139,16 @@ export default function SearchableSelect({
                                         fontSize: "0.875rem",
                                         borderRadius: "0.375rem",
                                         cursor: "pointer",
-                                        color: value === opt.value ? "var(--primary, #2563eb)" : "var(--text, #1f2937)",
+                                        color: value === opt.value ? "var(--primary)" : "var(--text)",
                                         fontWeight: value === opt.value ? 600 : 400,
-                                        background: value === opt.value ? "var(--primary-light, rgba(37,99,235,0.08))" : "transparent",
+                                        background: value === opt.value ? "var(--primary-light)15" : "transparent",
                                         display: "flex",
                                         alignItems: "center",
                                         justifyContent: "space-between",
                                         margin: "0.125rem",
                                     }}
-                                    onMouseEnter={(e) => (e.currentTarget.style.background = value === opt.value ? "var(--primary-light, rgba(37,99,235,0.08))" : "var(--bg-subtle, #f3f4f6)")}
-                                    onMouseLeave={(e) => (e.currentTarget.style.background = value === opt.value ? "var(--primary-light, rgba(37,99,235,0.08))" : "transparent")}
+                                    onMouseEnter={(e) => (e.currentTarget.style.background = value === opt.value ? "var(--primary-light)25" : "var(--border-light)")}
+                                    onMouseLeave={(e) => (e.currentTarget.style.background = value === opt.value ? "var(--primary-light)15" : "transparent")}
                                 >
                                     {opt.label}
                                     {value === opt.value && (

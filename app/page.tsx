@@ -1,11 +1,16 @@
 import { prisma } from "@/lib/prisma";
 import LandingContent from "./components/LandingContent";
+import { getTimeAgo, formatSalary } from "@/lib/utils";
 
 async function getLandingData() {
   const [featuredJobs, industries, stats] = await Promise.all([
     prisma.job.findMany({
       where: { status: "ACTIVE" },
-      include: { company: { select: { name: true, logo: true, slug: true } } },
+      include: {
+        company: {
+          select: { name: true, logo: true, slug: true, verified: true }
+        }
+      },
       orderBy: { createdAt: "desc" },
       take: 9,
     }),
@@ -37,16 +42,15 @@ async function getLandingData() {
       companyLogo: j.company.logo,
       companySlug: j.company.slug,
       location: j.location || "N/A",
-      salary: j.salaryMin || j.salaryMax
-        ? (j.salaryMin && j.salaryMax
-          ? `${j.salaryMin.toLocaleString('vi-VN')}–${j.salaryMax.toLocaleString('vi-VN')} đ`
-          : j.salaryMin
-            ? `Từ ${j.salaryMin.toLocaleString('vi-VN')} đ`
-            : `Đến ${j.salaryMax?.toLocaleString('vi-VN')} đ`)
-        : "Thỏa thuận",
-      type: j.jobType === "FULL_TIME" ? "Full-time" : j.jobType === "PART_TIME" ? "Part-time" : j.jobType === "REMOTE" ? "Remote" : j.jobType === "INTERNSHIP" ? "Intern" : "Contract",
-      skills: j.skills.slice(0, 3),
+      salary: formatSalary(j.salaryMin, j.salaryMax),
+      type: j.jobType,
+      skills: j.skills,
       posted: getTimeAgo(j.createdAt),
+      deadlineDate: j.expiresAt ? j.expiresAt.toISOString() : undefined,
+      experienceYears: j.experienceYears ?? undefined,
+      ageMin: j.ageMin ?? undefined,
+      ageMax: j.ageMax ?? undefined,
+      verified: j.company.verified,
       featured: false,
     })),
     industries: industries.map((i) => ({
@@ -69,17 +73,6 @@ async function getLandingData() {
     },
     savedJobIds: await import("@/app/actions/jobs").then(m => m.getSavedJobIds()),
   };
-}
-
-function getTimeAgo(date: Date): string {
-  const now = new Date();
-  const diff = now.getTime() - date.getTime();
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  if (days === 0) return "Hôm nay";
-  if (days === 1) return "Hôm qua";
-  if (days < 7) return `${days} ngày trước`;
-  if (days < 30) return `${Math.floor(days / 7)} tuần trước`;
-  return `${Math.floor(days / 30)} tháng trước`;
 }
 
 export default async function Home() {

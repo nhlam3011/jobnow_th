@@ -24,6 +24,7 @@ export async function getJobs(params?: {
     salary?: string;
     exp?: string;
     age?: string;
+    sort?: string;
     useAI?: boolean;
     page?: number;
     limit?: number;
@@ -54,6 +55,7 @@ export async function getJobs(params?: {
                         jobType: job.jobType,
                         skills: job.skills,
                         createdAt: job.createdAt,
+                        expiresAt: job.expiresAt,
                         company: {
                             name: job.companyName,
                             logo: job.companyLogo,
@@ -72,7 +74,7 @@ export async function getJobs(params?: {
 
     if (params?.q && !params.useAI) {
         where.OR = [
-            { title: { startsWith: params.q, mode: "insensitive" } },
+            { title: { contains: params.q, mode: "insensitive" } },
             { description: { contains: params.q, mode: "insensitive" } },
             { skills: { hasSome: [params.q] } },
         ];
@@ -81,33 +83,49 @@ export async function getJobs(params?: {
         where.location = { contains: params.loc, mode: "insensitive" };
     }
     if (params?.type) where.jobType = params.type;
-    if (params?.industryId) where.industryId = params.industryId;
+    if (params?.industryId) {
+        // Handle slug or ID
+        if (params.industryId.length > 15) {
+            where.industryId = params.industryId;
+        } else {
+            where.industry = { slug: params.industryId };
+        }
+    }
 
-    // Salary range filter
+    // Advanced search conditions
     const andConditions: Record<string, unknown>[] = [];
+    
+    // Salary range filter: Overlap logic
     if (params?.salary) {
         const [minSalary, maxSalary] = params.salary.split("-").map(Number);
-        andConditions.push(
-            { salaryMin: { gte: minSalary } },
-            { OR: [{ salaryMax: { lte: maxSalary } }, { salaryMax: { gte: minSalary } }] }
-        );
+        andConditions.push({
+            AND: [
+                { OR: [{ salaryMin: { lte: maxSalary } }, { salaryMin: null }] },
+                { OR: [{ salaryMax: { gte: minSalary } }, { salaryMax: null }] }
+            ]
+        });
     }
 
     // Experience filter
     if (params?.exp) {
         const [minExp, maxExp] = params.exp.split("-").map(Number);
-        andConditions.push(
-            { OR: [{ experienceYears: { gte: minExp, lte: maxExp } }, { experienceYears: null }] }
-        );
+        andConditions.push({
+            OR: [
+                { experienceYears: { gte: minExp, lte: maxExp } },
+                { experienceYears: null }
+            ]
+        });
     }
 
     // Age filter
     if (params?.age) {
         const [minAge, maxAge] = params.age.split("-").map(Number);
-        andConditions.push(
-            { OR: [{ ageMin: { lte: maxAge } }, { ageMin: null }] },
-            { OR: [{ ageMax: { gte: minAge } }, { ageMax: null }] }
-        );
+        andConditions.push({
+            AND: [
+                { OR: [{ ageMin: { lte: maxAge } }, { ageMin: null }] },
+                { OR: [{ ageMax: { gte: minAge } }, { ageMax: null }] }
+            ]
+        });
     }
 
     if (andConditions.length > 0) {
@@ -118,11 +136,16 @@ export async function getJobs(params?: {
     const page = params?.page || 1;
     const skip = (page - 1) * limit;
 
+    // Sorting logic
+    let orderBy: any = { createdAt: "desc" };
+    if (params?.sort === "salary_high") orderBy = { salaryMax: "desc" };
+    if (params?.sort === "salary_low") orderBy = { salaryMin: "asc" };
+
     const [jobs, total] = await Promise.all([
         prisma.job.findMany({
             where,
             include: { company: { select: { name: true, logo: true, slug: true, verified: true } } },
-            orderBy: params?.q ? undefined : { createdAt: "desc" },
+            orderBy: params?.q ? undefined : orderBy,
             take: limit,
             skip,
         }),

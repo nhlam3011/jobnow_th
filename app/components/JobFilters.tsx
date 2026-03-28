@@ -188,6 +188,41 @@ export default function JobFilters({ industries, locations, jobTypes, salaryRang
                 placeholder="Tất cả độ tuổi"
                 searchPlaceholder="Tìm độ tuổi..."
             />
+
+            {(industry || loc || type || salary || exp || age) && (
+                <button
+                    onClick={() => router.push("/jobs")}
+                    style={{
+                        padding: "0.5rem",
+                        background: "var(--bg-card)",
+                        border: "1px solid var(--border)",
+                        borderRadius: "8px",
+                        color: "var(--text-muted)",
+                        fontSize: "0.8125rem",
+                        fontWeight: 600,
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "0.5rem",
+                        marginTop: "0.5rem",
+                        transition: "all 0.2s"
+                    }}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.color = "var(--primary)";
+                        e.currentTarget.style.borderColor = "var(--primary)";
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.color = "var(--text-muted)";
+                        e.currentTarget.style.borderColor = "var(--border)";
+                    }}
+                >
+                    <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    Xoá tất cả bộ lọc
+                </button>
+            )}
         </div>
     );
 }

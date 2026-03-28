@@ -78,6 +78,11 @@ interface LandingContentProps {
         companyLogo: string | null; companySlug: string | null;
         location: string; salary: string; type: string;
         skills: string[]; posted: string; featured: boolean;
+        deadlineDate?: string | Date;
+        verified?: boolean;
+        experienceYears?: number;
+        ageMin?: number;
+        ageMax?: number;
     }[];
     industries: { id: string; name: string; slug: string; count: number }[];
     companies: { name: string; slug: string; logo: string | null; jobCount: number }[];
@@ -315,7 +320,7 @@ export default function LandingContent({ featuredJobs, industries, companies, st
                             <div style={{
                                 display: "grid",
                                 gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-                                gap: "1rem",
+                                gap: "1.125rem",
                                 width: "100%",
                                 maxWidth: "960px",
                                 margin: "0 auto",
@@ -334,6 +339,11 @@ export default function LandingContent({ featuredJobs, industries, companies, st
                                         type={job.type}
                                         skills={job.skills}
                                         posted={job.posted}
+                                        deadlineDate={job.deadlineDate}
+                                        experienceYears={job.experienceYears}
+                                        ageMin={job.ageMin}
+                                        ageMax={job.ageMax}
+                                        verified={job.verified}
                                         featured={job.featured}
                                         saved={savedJobIds.includes(job.id)}
                                     />

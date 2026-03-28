@@ -7,6 +7,7 @@ import Footer from "@/app/components/Footer";
 import SearchBar from "@/app/components/SearchBar";
 import JobCard from "@/app/components/JobCard";
 import JobFilters from "@/app/components/JobFilters";
+import { getTimeAgo, formatSalary } from "@/lib/utils";
 
 interface Industry {
     id: string;
@@ -31,6 +32,7 @@ interface Job {
     experienceYears?: number;
     ageMin?: number;
     ageMax?: number;
+    deadlineDate?: string;
     createdAt: string;
     company: {
         name: string;
@@ -46,7 +48,7 @@ interface JobsPageContentProps {
     salaryRanges: SalaryRange[];
     initialJobs: Job[];
     initialIndustry?: string;
-    searchParams: { q?: string; loc?: string; type?: string; industry?: string; salary?: string; exp?: string; age?: string };
+    searchParams: { q?: string; loc?: string; type?: string; industry?: string; salary?: string; exp?: string; age?: string; sort?: string; page?: string };
     savedJobIds?: string[];
     totalJobs?: number;
     currentPage?: number;
@@ -94,11 +96,14 @@ export default function JobsPageContent({
         : null;
 
     const handleFilterChange = (key: string, value: string) => {
-        const params = new URLSearchParams();
-        if (searchParams.q) params.set("q", searchParams.q);
-        params.set("ai", "true");
-        if (searchParams.loc) params.set("loc", searchParams.loc);
-        if (value) params.set(key, value);
+        const params = new URLSearchParams(window.location.search);
+        if (value) {
+            params.set(key, value);
+        } else {
+            params.delete(key);
+        }
+        // Always reset to page 1 on filter/sort change
+        params.delete("page");
         router.push(`/jobs?${params.toString()}`);
     };
 
@@ -251,7 +256,7 @@ export default function JobsPageContent({
                         <div className="jobs-list">
                             <div className="jobs-header-row">
                                 <p style={{ fontSize: "0.9375rem", color: "var(--text-muted)" }}>
-                                    Tìm thấy <strong style={{ color: "var(--primary)" }}>{initialJobs.length}</strong> việc làm
+                                    Tìm thấy <strong style={{ color: "var(--primary)" }}>{totalJobs}</strong> việc làm
                                     {currentIndustry && <span> trong ngành <strong>{currentIndustry}</strong></span>}
                                 </p>
                                 <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
@@ -272,10 +277,14 @@ export default function JobsPageContent({
                                             <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
                                         </button>
                                     </div>
-                                    <select className="jobs-sort-select">
-                                        <option>Mới nhất</option>
-                                        <option>Lương cao nhất</option>
-                                        <option>Lương thấp nhất</option>
+                                    <select 
+                                        className="jobs-sort-select"
+                                        value={searchParams.sort || "newest"}
+                                        onChange={(e) => handleFilterChange("sort", e.target.value)}
+                                    >
+                                        <option value="newest">Mới nhất</option>
+                                        <option value="salary_high">Lương cao nhất</option>
+                                        <option value="salary_low">Lương thấp nhất</option>
                                     </select>
                                 </div>
                             </div>
@@ -298,24 +307,19 @@ export default function JobsPageContent({
                                             title={job.title}
                                             company={job.company.name}
                                             location={job.location}
-                                            salary={job.salaryMin || job.salaryMax ?
-                                                (job.salaryMin && job.salaryMax ?
-                                                    `${job.salaryMin.toLocaleString('vi-VN')}–${job.salaryMax.toLocaleString('vi-VN')} đ` :
-                                                    job.salaryMin ?
-                                                        `Từ ${job.salaryMin.toLocaleString('vi-VN')} đ` :
-                                                        `Đến ${job.salaryMax?.toLocaleString('vi-VN')} đ`) :
-                                                "Thỏa thuận"}
+                                            salary={formatSalary(job.salaryMin, job.salaryMax)}
                                             type={job.jobType}
                                             skills={job.skills}
                                             logo={job.company.logo}
                                             verified={job.company.verified}
-                                            posted={new Date(job.createdAt).toLocaleDateString("vi-VN")}
+                                            posted={getTimeAgo(job.createdAt)}
                                             featured={false}
                                             layout={viewMode}
                                             saved={savedJobIds.includes(job.id)}
                                             experienceYears={job.experienceYears}
                                             ageMin={job.ageMin}
                                             ageMax={job.ageMax}
+                                            deadlineDate={job.deadlineDate}
                                         />
                                     ))}
                                 </div>

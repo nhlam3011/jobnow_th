@@ -45,56 +45,57 @@ export default function MatchHeatmap({ score, factors, size = 130 }: MatchHeatma
                 </div>
             </div>
 
-            <div className="radar-wrapper" style={{ width: size, height: size }}>
-                <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-                    {gridPoints.map((gp, i) => (
-                        <polygon
-                            key={i}
-                            points={gp}
-                            fill="none"
-                            stroke="var(--border)"
-                            strokeWidth="0.5"
-                            strokeDasharray="2,2"
-                        />
-                    ))}
-                    
-                    {factors.map((_, i) => {
-                        const angle = i * angleStep - Math.PI / 2;
-                        const x = center + Math.cos(angle) * radius;
-                        const y = center + Math.sin(angle) * radius;
-                        return (
-                            <line key={i} x1={center} y1={center} x2={x} y2={y} stroke="var(--border)" strokeWidth="0.5" />
-                        );
-                    })}
+            <div className="heatmap-content">
+                <div className="radar-wrapper" style={{ width: size, height: size }}>
+                    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+                        {gridPoints.map((gp, i) => (
+                            <polygon
+                                key={i}
+                                points={gp}
+                                fill="none"
+                                stroke="var(--border)"
+                                strokeWidth="0.5"
+                                strokeDasharray="2,2"
+                            />
+                        ))}
 
-                    <polygon
-                        points={points}
-                        className="match-shape"
-                        fill="var(--primary)"
-                        fillOpacity="0.25"
-                        stroke="var(--primary)"
-                        strokeWidth="2.5"
-                    />
-                </svg>
-            </div>
-            
-            <div className="factors-legend">
-                {factors.map((f, i) => (
-                    <div key={i} className="factor-item">
-                        <div className="factor-info">
-                            <span className="factor-label">{f.label}</span>
-                            <span className="factor-val">{f.value}%</span>
+                        {factors.map((_, i) => {
+                            const angle = i * angleStep - Math.PI / 2;
+                            const x = center + Math.cos(angle) * radius;
+                            const y = center + Math.sin(angle) * radius;
+                            return (
+                                <line key={i} x1={center} y1={center} x2={x} y2={y} stroke="var(--border)" strokeWidth="0.5" />
+                            );
+                        })}
+
+                        <polygon
+                            points={points}
+                            className="match-shape"
+                            fill="var(--primary)"
+                            fillOpacity="0.25"
+                            stroke="var(--primary)"
+                            strokeWidth="2.5"
+                        />
+                    </svg>
+                </div>
+
+                <div className="factors-legend">
+                    {factors.map((f, i) => (
+                        <div key={i} className="factor-item">
+                            <div className="factor-info">
+                                <span className="factor-label">{f.label}</span>
+                                <span className="factor-val">{f.value}%</span>
+                            </div>
+                            <div className="factor-bar-bg">
+                                <div className="factor-bar-fill" style={{ width: `${f.value}%`, background: f.value > 80 ? 'var(--cta)' : 'var(--primary)' }} />
+                            </div>
                         </div>
-                        <div className="factor-bar-bg">
-                            <div className="factor-bar-fill" style={{ width: `${f.value}%`, background: f.value > 80 ? 'var(--cta)' : 'var(--primary)' }} />
-                        </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
 
             <div className="criteria-info">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 16V12m0-4h.01M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0z"/></svg>
-                Phân tích dựa trên kỹ năng, AI matching, kinh nghiệm, vị trí và lương.
+                Thông số dựa trên phân tích kỹ năng, kinh nghiệm, vị trí và lương so với yêu cầu công việc.
             </div>
 
             <style jsx>{`
@@ -102,69 +103,81 @@ export default function MatchHeatmap({ score, factors, size = 130 }: MatchHeatma
                     display: flex;
                     flex-direction: column;
                     align-items: center;
-                    padding: 1rem;
-                    background: var(--bg-card);
-                    border-radius: 16px;
-                    border: 1.5px solid var(--border);
-                    box-shadow: var(--shadow-lg);
+                    padding: 1.5rem;
+                    background: transparent;
                     font-family: 'Plus Jakarta Sans', sans-serif;
                     width: 100%;
-                    max-width: 240px;
                 }
                 .heatmap-header {
                     text-align: center;
-                    margin-bottom: 0.5rem;
+                    margin-bottom: 2rem;
                     width: 100%;
                 }
                 .analysis-tag {
-                    font-size: 0.55rem;
+                    font-size: 0.65rem;
                     font-weight: 800;
                     color: var(--primary);
-                    letter-spacing: 0.1em;
+                    letter-spacing: 0.12em;
                     background: rgba(var(--primary-rgb), 0.1);
-                    padding: 0.2rem 0.5rem;
-                    border-radius: 4px;
+                    padding: 0.35rem 0.75rem;
+                    border-radius: 6px;
                 }
-                .overall-score { margin-top: 0.5rem; }
-                .score-num { font-size: 1.5rem; font-weight: 800; color: var(--text); display: block; line-height: 1; }
-                .score-label { font-size: 0.65rem; color: var(--text-muted); font-weight: 600; }
+                .overall-score { margin-top: 1rem; }
+                .score-num { font-size: 2.5rem; font-weight: 800; color: var(--text); display: block; line-height: 1; }
+                .score-label { font-size: 0.875rem; color: var(--text-muted); font-weight: 600; margin-top: 0.25rem; }
 
-                .radar-wrapper { position: relative; margin: 0.5rem 0; }
+                .heatmap-content {
+                    display: grid;
+                    grid-template-columns: 1.2fr 1fr;
+                    gap: 3rem;
+                    align-items: center;
+                    width: 100%;
+                    max-width: 800px;
+                }
+
+                @media (max-width: 640px) {
+                    .heatmap-content {
+                        grid-template-columns: 1fr;
+                        gap: 1.5rem;
+                    }
+                    .score-num { font-size: 2rem; }
+                    .heatmap-header { margin-bottom: 1rem; }
+                }
+
+                .radar-wrapper { position: relative; margin: 0 auto; }
                 .match-shape {
                     animation: pulse 4s infinite ease-in-out;
-                    filter: drop-shadow(0 0 4px rgba(var(--primary-rgb), 0.3));
+                    filter: drop-shadow(0 0 6px rgba(var(--primary-rgb), 0.3));
                 }
                 @keyframes pulse { 0% { fill-opacity: 0.2; } 50% { fill-opacity: 0.4; } 100% { fill-opacity: 0.2; } }
 
-                .factors-legend { width: 100%; display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem; }
-                .factor-item { display: flex; flex-direction: column; gap: 0.25rem; }
+                .factors-legend { width: 100%; display: flex; flex-direction: column; gap: 1rem; }
+                .factor-item { display: flex; flex-direction: column; gap: 0.5rem; }
                 .factor-info { display: flex; justify-content: space-between; align-items: center; }
-                .factor-label { font-size: 0.6rem; font-weight: 700; color: var(--text-muted); }
-                .factor-val { font-size: 0.6rem; font-weight: 800; color: var(--text); }
-                .factor-bar-bg { width: 100%; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
-                .factor-bar-fill { height: 100%; border-radius: 2px; transition: width 1s cubic-bezier(0.23, 1, 0.32, 1); }
+                .factor-label { font-size: 0.8125rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.025em; }
+                .factor-val { font-size: 0.875rem; font-weight: 800; color: var(--text); }
+                .factor-bar-bg { width: 100%; height: 6px; background: var(--border); border-radius: 100px; overflow: hidden; }
+                .factor-bar-fill { height: 100%; border-radius: 100px; transition: width 1s cubic-bezier(0.23, 1, 0.32, 1); }
 
                 .criteria-info {
-                    margin-top: 1rem;
-                    padding-top: 0.75rem;
+                    margin-top: 2rem;
+                    padding-top: 1rem;
                     border-top: 1px solid var(--border);
-                    font-size: 0.55rem;
+                    font-size: 0.75rem;
                     color: var(--text-muted);
-                    line-height: 1.3;
+                    line-height: 1.5;
                     text-align: center;
-                    display: flex;
-                    align-items: flex-start;
-                    gap: 0.35rem;
+                    width: 100%;
                 }
                 
                 :global([data-theme="dark"]) .match-shape {
                     stroke-width: 3;
-                    filter: drop-shadow(0 0 6px rgba(var(--primary-rgb), 0.5));
+                    filter: drop-shadow(0 0 10px rgba(var(--primary-rgb), 0.5));
                 }
                 
                 :global([data-theme="dark"]) .radar-wrapper svg line,
                 :global([data-theme="dark"]) .radar-wrapper svg polygon:not(.match-shape) {
-                    stroke: rgba(255, 255, 255, 0.15);
+                    stroke: rgba(255, 255, 255, 0.1);
                 }
             `}</style>
         </div>

@@ -75,24 +75,13 @@ export default function CompaniesPageContent({
 
                     {/* Search Bar - Matching Jobs page style */}
                     <div style={{ marginTop: "1rem" }}>
-                        <form method="GET" style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-                            <div style={{ flex: "1 1 300px", minWidth: "200px" }}>
+                        <form method="GET" className="companies-search-form">
+                            <div className="companies-search-input">
                                 <input
                                     type="text"
                                     name="q"
                                     defaultValue={currentQ || ""}
                                     placeholder="Tìm kiếm công ty..."
-                                    style={{
-                                        width: "100%",
-                                        padding: "0.75rem 1rem",
-                                        borderRadius: "8px",
-                                        border: "1px solid var(--border)",
-                                        background: "var(--bg)",
-                                        color: "var(--text)",
-                                        fontSize: "0.95rem",
-                                        height: "48px",
-                                        boxSizing: "border-box",
-                                    }}
                                 />
                             </div>
 
@@ -100,17 +89,7 @@ export default function CompaniesPageContent({
                                 name="industry"
                                 defaultValue={currentIndustry || ""}
                                 onChange={(e) => handleFilterChange("industry", e.target.value)}
-                                style={{
-                                    padding: "0.75rem 1rem",
-                                    borderRadius: "8px",
-                                    border: "1px solid var(--border)",
-                                    background: "var(--bg)",
-                                    color: "var(--text)",
-                                    fontSize: "0.95rem",
-                                    height: "48px",
-                                    minWidth: "180px",
-                                    cursor: "pointer",
-                                }}
+                                className="companies-search-select"
                             >
                                 <option value="">Tất cả ngành nghề</option>
                                 {industryList.map((ind) => (
@@ -122,14 +101,7 @@ export default function CompaniesPageContent({
 
                             <button
                                 type="submit"
-                                className="btn-primary"
-                                style={{
-                                    padding: "0.75rem 1.5rem",
-                                    borderRadius: "8px",
-                                    fontWeight: 600,
-                                    height: "48px",
-                                    whiteSpace: "nowrap",
-                                }}
+                                className="btn-primary companies-search-btn"
                             >
                                 Tìm kiếm
                             </button>
@@ -198,47 +170,18 @@ export default function CompaniesPageContent({
                             )}
                         </div>
                     ) : (
-                        <div
-                            style={{
-                                display: "grid",
-                                gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
-                                gap: "1.5rem",
-                                marginBottom: "2rem",
-                            }}
-                        >
+                        <div className="companies-grid">
                             {companies.map((company) => (
                                 <Link
                                     key={company.id}
                                     href={`/companies/${company.slug}`}
-                                    style={{
-                                        display: "block",
-                                        background: "var(--card-bg)",
-                                        borderRadius: "12px",
-                                        border: "1px solid var(--border)",
-                                        padding: "1.5rem",
-                                        textDecoration: "none",
-                                        transition: "all 0.2s ease",
-                                    }}
-                                    className="company-card"
+                                    className="company-card company-card-inner"
                                 >
-                                    <div style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}>
+                                    <div className="company-card-header">
                                         {/* Logo */}
                                         <div
-                                            style={{
-                                                width: "56px",
-                                                height: "56px",
-                                                borderRadius: "10px",
-                                                background: company.logo ? "transparent" : "var(--tag-bg)",
-                                                border: "1.5px solid var(--border)",
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                fontWeight: 800,
-                                                fontSize: "1.25rem",
-                                                color: "var(--primary)",
-                                                flexShrink: 0,
-                                                overflow: "hidden",
-                                            }}
+                                            className="company-card-logo"
+                                            style={{ background: company.logo ? "transparent" : "var(--tag-bg)" }}
                                         >
                                             {company.logo ? (
                                                 <img
@@ -287,14 +230,7 @@ export default function CompaniesPageContent({
                                     </div>
 
                                     {/* Stats */}
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            gap: "1rem",
-                                            paddingTop: "1rem",
-                                            borderTop: "1px solid var(--border)",
-                                        }}
-                                    >
+                                    <div className="company-card-stats">
                                         {company.locations && company.locations.length > 0 && (
                                             <div style={{ display: "flex", alignItems: "center", gap: "0.375rem", color: "var(--text-muted)", fontSize: "0.875rem" }}>
                                                 <svg style={{ width: "14px", height: "14px" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -398,6 +334,152 @@ export default function CompaniesPageContent({
                     border-color: var(--primary);
                     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
                     transform: translateY(-2px);
+                }
+
+                /* Companies search form */
+                .companies-search-form {
+                    display: flex;
+                    gap: 0.5rem;
+                    flex-wrap: wrap;
+                }
+
+                .companies-search-input {
+                    flex: 1 1 300px;
+                    min-width: 200px;
+                }
+
+                .companies-search-input input {
+                    width: 100%;
+                    padding: 0.75rem 1rem;
+                    border-radius: 8px;
+                    border: 1px solid var(--border);
+                    background: var(--bg);
+                    color: var(--text);
+                    font-size: 0.95rem;
+                    height: 48px;
+                    box-sizing: border-box;
+                }
+
+                .companies-search-select {
+                    padding: 0.75rem 1rem;
+                    border-radius: 8px;
+                    border: 1px solid var(--border);
+                    background: var(--bg);
+                    color: var(--text);
+                    font-size: 0.95rem;
+                    height: 48px;
+                    min-width: 180px;
+                    cursor: pointer;
+                }
+
+                .companies-search-btn {
+                    padding: 0.75rem 1.5rem;
+                    border-radius: 8px;
+                    font-weight: 600;
+                    height: 48px;
+                    white-space: nowrap;
+                }
+
+                /* Companies grid */
+                .companies-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                    gap: 1.5rem;
+                    margin-bottom: 2rem;
+                }
+
+                /* Company card */
+                .company-card-inner {
+                    display: block;
+                    background: var(--card-bg);
+                    border-radius: 12px;
+                    border: 1px solid var(--border);
+                    padding: 1.5rem;
+                    text-decoration: none;
+                    transition: all 0.2s ease;
+                }
+
+                .company-card-header {
+                    display: flex;
+                    gap: 1rem;
+                    margin-bottom: 1rem;
+                }
+
+                .company-card-logo {
+                    width: 56px;
+                    height: 56px;
+                    border-radius: 10px;
+                    border: 1.5px solid var(--border);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: 800;
+                    font-size: 1.25rem;
+                    color: var(--primary);
+                    flex-shrink: 0;
+                    overflow: hidden;
+                }
+
+                .company-card-stats {
+                    display: flex;
+                    gap: 1rem;
+                    padding-top: 1rem;
+                    border-top: 1px solid var(--border);
+                }
+
+                /* Tablet: 641px - 768px */
+                @media (max-width: 768px) {
+                    .companies-grid {
+                        grid-template-columns: repeat(2, 1fr);
+                        gap: 1rem;
+                    }
+
+                    .companies-search-form {
+                        flex-direction: column;
+                    }
+
+                    .companies-search-input {
+                        flex: none;
+                        min-width: 0;
+                        width: 100%;
+                    }
+
+                    .companies-search-select {
+                        width: 100%;
+                        min-width: 0;
+                    }
+
+                    .companies-search-btn {
+                        width: 100%;
+                    }
+                }
+
+                /* Mobile: <= 640px */
+                @media (max-width: 640px) {
+                    .companies-grid {
+                        grid-template-columns: 1fr;
+                        gap: 0.875rem;
+                    }
+
+                    .company-card-inner {
+                        padding: 1rem;
+                    }
+
+                    .company-card-logo {
+                        width: 48px;
+                        height: 48px;
+                        font-size: 1.1rem;
+                        border-radius: 8px;
+                    }
+
+                    .company-card-header h3 {
+                        font-size: 0.95rem !important;
+                    }
+
+                    .company-card-stats {
+                        flex-wrap: wrap;
+                        gap: 0.75rem;
+                    }
                 }
             `}</style>
         </div>

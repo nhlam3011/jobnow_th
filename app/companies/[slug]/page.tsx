@@ -48,24 +48,24 @@ export default async function CompanyDetailPage({
             <Navbar />
 
             {/* Cover & Header */}
-            <div style={{ background: "linear-gradient(135deg, #0369A1, #0284C7)", height: "200px" }}></div>
-            <div className="container-xl" style={{ marginTop: "-64px", marginBottom: "3rem", position: "relative", zIndex: 10 }}>
-                <div className="card" style={{ padding: "2rem", display: "flex", gap: "2rem", alignItems: "flex-end", flexWrap: "wrap" }}>
-                    <div style={{ width: "64px", height: "64px", borderRadius: "12px", background: company.logo ? "transparent" : "var(--tag-bg)", border: "1.5px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: "1.25rem", color: "var(--primary)", flexShrink: 0, overflow: "hidden" }}>
+            <div className="company-detail-cover" style={{ background: "linear-gradient(135deg, #0369A1, #0284C7)" }}></div>
+            <div className="container-xl company-header-wrapper" style={{ marginBottom: "3rem", position: "relative", zIndex: 10 }}>
+                <div className="card company-detail-header">
+                    <div className="company-detail-logo" style={{ background: company.logo ? "transparent" : "var(--tag-bg)" }}>
                         {company.logo ? (
                             <img src={company.logo} alt={company.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                         ) : (
                             company.name.charAt(0)
                         )}
                     </div>
-                    <div style={{ flex: 1, minWidth: "280px" }}>
-                        <h1 style={{ fontSize: "2rem", fontWeight: 800, color: "var(--text)", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <div className="company-detail-info">
+                        <h1 className="company-detail-name">
                             {company.name}
                             {company.verified && (
                                 <svg width="24" height="24" fill="#16A34A" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg>
                             )}
                         </h1>
-                        <div style={{ display: "flex", gap: "1.5rem", color: "var(--text-muted)", fontSize: "0.9375rem", flexWrap: "wrap" }}>
+                        <div className="company-detail-meta">
                             {company.industry && (
                                 <div style={{ display: "flex", alignItems: "center", gap: "0.375rem" }}>
                                     <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
@@ -101,7 +101,7 @@ export default async function CompanyDetailPage({
                 </div>
             </div>
 
-            <main className="container-xl" style={{ flex: 1, display: "grid", gridTemplateColumns: "1fr 340px", gap: "2rem", alignItems: "flex-start", paddingBottom: "4rem" }}>
+            <main className="container-xl company-detail-layout" style={{ flex: 1, paddingBottom: "4rem" }}>
 
                 {/* Left: Giới thiệu & Jobs */}
                 <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
@@ -156,7 +156,7 @@ export default async function CompanyDetailPage({
                 </div>
 
                 {/* Right: Trụ sở */}
-                <div className="card" style={{ padding: "1.5rem" }}>
+                <div className="card company-detail-sidebar">
                     <h3 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: "1rem" }}>Thông tin liên hệ</h3>
                     <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                         <div>

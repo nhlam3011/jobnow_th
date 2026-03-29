@@ -41,6 +41,8 @@ export async function generateAIPath(customProfession?: string) {
         - "level": một trong ["junior", "mid", "senior", "lead"]
         - "salary": ví dụ "30M - 45M VND"
         - "demand": một trong ["Low", "Medium", "High"]
+        - "description": "Mô tả ngắn về vai trò chính (2 câu)"
+        - "promotion_time": thời gian thăng tiến dự kiến lên nốt này (ví dụ "6 tháng - 1 năm")
         - "skills": mảng các kỹ năng cần học (ví dụ: ["React", "System Design"])
         - "children": mảng các node tiếp theo (tối đa 2 con mỗi node)
 

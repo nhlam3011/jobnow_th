@@ -623,67 +623,72 @@ export default function MockInterviewClient({ jobs }: { jobs: Job[] }) {
                     </h3>
 
                     <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginBottom: "2rem" }}>
-                        {evaluation.feedback.map((fb, idx) => (
-                            <div key={idx} style={{
-                                background: "var(--bg-card)",
-                                border: "1px solid var(--border)",
-                                borderRadius: "12px",
-                                padding: "1.5rem",
-                            }}>
-                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.75rem", gap: "1rem", flexWrap: "wrap" }}>
-                                    <div style={{ flex: 1, minWidth: 0 }}>
-                                        <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "var(--primary)", background: "rgba(3,105,161,0.1)", padding: "0.2rem 0.5rem", borderRadius: "100px" }}>
-                                            Câu {idx + 1}
-                                        </span>
-                                        <p style={{ fontSize: "0.9375rem", fontWeight: 600, color: "var(--text)", marginTop: "0.5rem", lineHeight: 1.5 }}>
-                                            {questions[fb.questionIndex ?? idx]}
-                                        </p>
-                                    </div>
-                                    <div style={{
-                                        fontWeight: 800,
-                                        fontSize: "1.25rem",
-                                        color: getScoreColor(fb.score),
-                                        flexShrink: 0,
+                        {[...evaluation.feedback]
+                            .sort((a, b) => (a.questionIndex ?? 0) - (b.questionIndex ?? 0))
+                            .map((fb, idx) => {
+                                const qIdx = fb.questionIndex ?? idx;
+                                return (
+                                    <div key={idx} style={{
+                                        background: "var(--bg-card)",
+                                        border: "1px solid var(--border)",
+                                        borderRadius: "12px",
+                                        padding: "1.5rem",
                                     }}>
-                                        {fb.score}<span style={{ fontSize: "0.75rem", fontWeight: 500, color: "var(--text-muted)" }}>/100</span>
+                                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.75rem", gap: "1rem", flexWrap: "wrap" }}>
+                                            <div style={{ flex: 1, minWidth: 0 }}>
+                                                <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "var(--primary)", background: "rgba(3,105,161,0.1)", padding: "0.2rem 0.5rem", borderRadius: "100px" }}>
+                                                    Câu {qIdx + 1}
+                                                </span>
+                                                <p style={{ fontSize: "0.9375rem", fontWeight: 600, color: "var(--text)", marginTop: "0.5rem", lineHeight: 1.5 }}>
+                                                    {questions[qIdx]}
+                                                </p>
+                                            </div>
+                                            <div style={{
+                                                fontWeight: 800,
+                                                fontSize: "1.25rem",
+                                                color: getScoreColor(fb.score),
+                                                flexShrink: 0,
+                                            }}>
+                                                {fb.score}<span style={{ fontSize: "0.75rem", fontWeight: 500, color: "var(--text-muted)" }}>/100</span>
+                                            </div>
+                                        </div>
+
+                                        {/* Answer */}
+                                        <div style={{
+                                            background: "var(--bg)",
+                                            border: "1px solid var(--border)",
+                                            borderRadius: "8px",
+                                            padding: "0.875rem 1rem",
+                                            marginBottom: "0.75rem",
+                                            fontSize: "0.875rem",
+                                            color: "var(--text-muted)",
+                                            lineHeight: 1.6,
+                                        }}>
+                                            <strong style={{ color: "var(--text)", fontWeight: 600 }}>Câu trả lời của bạn:</strong><br />
+                                            {answers[qIdx] || "(Không trả lời)"}
+                                        </div>
+
+                                        {/* Comment */}
+                                        <div style={{ fontSize: "0.875rem", color: "var(--text)", marginBottom: "0.5rem", lineHeight: 1.6 }}>
+                                            <strong style={{ fontWeight: 600 }}>Nhận xét:</strong> {fb.comment}
+                                        </div>
+
+                                        {/* Suggestion */}
+                                        <div style={{
+                                            background: "rgba(3,105,161,0.06)",
+                                            border: "1px solid rgba(3,105,161,0.15)",
+                                            borderRadius: "8px",
+                                            padding: "0.875rem 1rem",
+                                            fontSize: "0.875rem",
+                                            color: "var(--text)",
+                                            lineHeight: 1.6,
+                                        }}>
+                                            <strong style={{ color: "var(--primary)", fontWeight: 600 }}>Gợi ý cải thiện:</strong><br />
+                                            {fb.suggestion}
+                                        </div>
                                     </div>
-                                </div>
-
-                                {/* Answer */}
-                                <div style={{
-                                    background: "var(--bg)",
-                                    border: "1px solid var(--border)",
-                                    borderRadius: "8px",
-                                    padding: "0.875rem 1rem",
-                                    marginBottom: "0.75rem",
-                                    fontSize: "0.875rem",
-                                    color: "var(--text-muted)",
-                                    lineHeight: 1.6,
-                                }}>
-                                    <strong style={{ color: "var(--text)", fontWeight: 600 }}>Câu trả lời của bạn:</strong><br />
-                                    {answers[fb.questionIndex ?? idx] || "(Không trả lời)"}
-                                </div>
-
-                                {/* Comment */}
-                                <div style={{ fontSize: "0.875rem", color: "var(--text)", marginBottom: "0.5rem", lineHeight: 1.6 }}>
-                                    <strong style={{ fontWeight: 600 }}>Nhận xét:</strong> {fb.comment}
-                                </div>
-
-                                {/* Suggestion */}
-                                <div style={{
-                                    background: "rgba(3,105,161,0.06)",
-                                    border: "1px solid rgba(3,105,161,0.15)",
-                                    borderRadius: "8px",
-                                    padding: "0.875rem 1rem",
-                                    fontSize: "0.875rem",
-                                    color: "var(--text)",
-                                    lineHeight: 1.6,
-                                }}>
-                                    <strong style={{ color: "var(--primary)", fontWeight: 600 }}>Gợi ý cải thiện:</strong><br />
-                                    {fb.suggestion}
-                                </div>
-                            </div>
-                        ))}
+                                );
+                            })}
                     </div>
 
                     {/* Retry button */}

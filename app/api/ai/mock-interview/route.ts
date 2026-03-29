@@ -141,25 +141,32 @@ Hãy đánh giá bài phỏng vấn và trả về JSON với format sau:
 {
   "overallScore": 75,
   "overallComment": "Nhận xét tổng quan về buổi phỏng vấn",
-  "strengths": ["Điểm mạnh 1", "Điểm mạnh 2"],
-  "weaknesses": ["Điểm yếu 1", "Điểm yếu 2"],
+  "strengths": ["Điểm mạnh 1", "Điểm mạnh 2"...],
+  "weaknesses": ["Điểm yếu 1", "Điểm yếu 2"...],
   "feedback": [
     {
       "questionIndex": 0,
       "score": 80,
-      "comment": "Nhận xét cho câu trả lời",
-      "suggestion": "Gợi ý cách trả lời tốt hơn"
+      "comment": "Nhận xét cho câu trả lời, thẳng thắn thái độ trả lời mà đánh giá luôn buổi phỏng vấn",
+      "suggestion": "Gợi ý cách trả lời tốt hơn, kiến thức chi tiết, có thể ví dụ cụ thể"
     }
   ]
 }
 
-- overallScore: điểm tổng 0-100
-- Mỗi câu hỏi có score riêng (0-100), comment và suggestion
-- strengths/weaknesses: mảng string, mỗi phần tử là 1 điểm mạnh/yếu
+- overallScore: điểm tổng 0-100.
+- feedback: PHẢI CÓ ĐỦ 5 phần tử cho 5 câu hỏi. 
+- questionIndex: là chỉ số của câu hỏi trong mảng (bắt đầu từ 0). Ví dụ "Câu hỏi 1" có "questionIndex": 0.
+- Các phần tử trong mảng "feedback" PHẢI theo đúng thứ tự từ câu 1 đến câu 5 (questionIndex từ 0 đến 4).
+- score: điểm cho từng câu (0-100). 
+  * QUY TẮC CHẤM ĐIỂM NGHIÊM NGẶT:
+    - Nếu câu trả lời là nhập bừa, vô nghĩa, quá ngắn (dưới 5 từ), hoặc không liên quan đến câu hỏi: TRỪ NẶNG, điểm chỉ được từ 0-10.
+    - Nếu câu trả lời chung chung, thiếu dẫn chứng: 40-50 điểm.
+    - Nếu câu trả lời tốt, có ví dụ cụ thể và liên hệ được với JD: 80-100 điểm.
+- comment/suggestion: nhận xét thẳng thắn, không ngại chỉ ra lỗi sai. Nếu ứng viên trả lời quá tệ, hãy nhận xét đúng thực tế.
 
 CHỈ TRẢ VỀ JSON, KHÔNG GIẢI THÍCH.`;
 
-    const systemInstruction = "Bạn là chuyên gia tuyển dụng tại Việt Nam. Đánh giá trung thực, chi tiết, mang tính xây dựng. Trả lời bằng tiếng Việt.";
+    const systemInstruction = "Bạn là một nhà tuyển dụng chuyên nghiệp tại Việt Nam. Bạn đánh giá câu trả lời dựa trên tính thực tế, thái độ, độ sâu kiến thức và sự phù hợp với JD. Đừng ngại cho điểm thấp (thậm chí 0 điểm) nếu câu trả lời không nghiêm túc hoặc nhập bừa. Hãy nhận xét thẳng thắn và sắc sảo. Trả lời bằng tiếng Việt.";
 
     const result = await generateStructuredText(prompt, systemInstruction);
 

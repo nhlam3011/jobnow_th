@@ -1,92 +1,123 @@
 "use client";
 
-import React, { forwardRef } from "react";
+import React, { forwardRef, useState, useEffect, useRef } from "react";
 import InlineEdit from "./InlineEdit";
+import { 
+    PhoneIcon, 
+    EnvelopeIcon, 
+    MapPinIcon, 
+    GlobeAltIcon,
+    DevicePhoneMobileIcon,
+    AtSymbolIcon
+} from "@heroicons/react/24/outline";
 
 interface CVRendererProps {
     data: any;
     template: any;
     onDataChange?: (field: string, value: string, index?: number, subfield?: string) => void;
     onConfigChange?: (type: "style" | "layout", field: string, value: any) => void;
+    onSectionSelect?: (sectionId: string) => void;
+    selectedSectionId?: string | null;
     readOnly?: boolean;
 }
 
-/**
- * CVRenderer: Render CV từ data + template config.
- * Hỗ trợ 4 layout: sidebar-left, sidebar-right, top-header, two-column
- * Hỗ trợ Inline Editing khi truyền onDataChange và readOnly=false
- */
-const CVRenderer = forwardRef<HTMLDivElement, CVRendererProps>(({ data, template, onDataChange, onConfigChange, readOnly = true }, ref) => {
+const CVRenderer = forwardRef<HTMLDivElement, CVRendererProps>(({
+    data, template, onDataChange, onConfigChange, onSectionSelect, selectedSectionId, readOnly = true
+}, ref) => {
     const { styleConfig, layoutConfig } = template;
     const layout = layoutConfig?.layout || "sidebar-left";
-    const baseFontSize = (styleConfig?.fontSize || 10) * 1.2;
-    const primaryColor = styleConfig?.primaryColor || "#0056b3";
-    const secondaryColor = styleConfig?.secondaryColor || "#FFFFFF";
-    const fontFamily = styleConfig?.fontFamily || "'Inter', 'Roboto', sans-serif";
-    const lineHeightVal = styleConfig?.lineHeight || 1.6;
-    const bgImage = styleConfig?.bgImage || "none";
-    const customCss = styleConfig?.customCss || "";
 
-    // New style configs
-    const avatarRadius = styleConfig?.avatarRadius ?? "50%";
-    const sectionSpacing = styleConfig?.sectionSpacing ?? "20px";
-    const tagRadius = styleConfig?.tagRadius ?? "4px";
-    const sidebarWidthPerc = styleConfig?.sidebarWidth || "35%";
-    const bgOpacity = styleConfig?.bgOpacity ?? 1;
+    const [isResizing, setIsResizing] = useState(false);
+    const [isDragging, setIsDragging] = useState<string | null>(null);
+    const pageRef = useRef<HTMLDivElement>(null);
 
-    const isVisible = (sectionId: string) => {
-        if (!layoutConfig?.sections) return true;
-        return layoutConfig.sections.includes(sectionId);
+    const {
+        primaryColor = "#0056b3",
+        secondaryColor = "#FFFFFF",
+        fontFamily = "'Inter', 'Roboto', sans-serif",
+        fontSize = 10,
+        lineHeight: lineHeightVal = 1.6,
+        bgImage = "none",
+        avatarRadius = "50%",
+        sectionSpacing = "20px",
+        tagRadius = "4px",
+        sidebarWidth: sidebarWidthPerc = "35%",
+        bgOpacity = 1,
+        customCss = "",
+        headingLineColor,
+        headingLineHeight = 2,
+        headingLineWidth = "100%",
+        pagePadding = "40px",
+        textAlign = "left",
+        letterSpacing = "0px",
+        itemSpacing = "12px",
+        headingStyle = "solid"
+    } = styleConfig || {};
+
+    const activeHeadingColor = headingLineColor || primaryColor;
+    const baseFontSize = fontSize * 1.2;
+
+    const getSectionTitle = (id: string) => {
+        const defaults: Record<string, string> = {
+            objective: "Mục tiêu nghề nghiệp",
+            experience: "Kinh nghiệm làm việc",
+            education: "Học vấn",
+            skills: "Kỹ năng",
+            hobbies: "Sở thích",
+            contact: "Thông tin liên hệ"
+        };
+        return layoutConfig?.labels?.[id] || defaults[id] || id.toUpperCase();
     };
 
-    const getLabel = (id: string, defaultLabel: string) => {
-        return layoutConfig?.labels?.[id] || defaultLabel;
-    };
-
-    const isSidebar = layout === "sidebar-left" || layout === "sidebar-right";
+    const isSidebar = layout === "sidebar-left" || layout === "sidebar-right" || layout === "split-pro";
     const isDarkSidebar = isSidebar;
 
-    const sidebarBg = isDarkSidebar ? primaryColor : "#f8f9fa";
-    const sidebarText = isDarkSidebar ? "#ffffff" : "#333333";
+    const sidebarWidth = layout === "split-pro" ? "50%" : (layout === "minimal-center" ? "0%" : sidebarWidthPerc);
+    const mainWidth = layout === "split-pro" ? "50%" : (layout === "minimal-center" ? "100%" : `calc(100% - ${sidebarWidth})`);
+
+    const sidebarBg = isDarkSidebar ? (styleConfig?.sidebarBg || primaryColor) : "#f8f9fa";
+    const sidebarText = isDarkSidebar ? (styleConfig?.sidebarText || "#ffffff") : "#333333";
     const sidebarMuted = isDarkSidebar ? "rgba(255,255,255,0.8)" : "#666";
     const sidebarBorder = isDarkSidebar ? "rgba(255,255,255,0.3)" : primaryColor;
 
-    const handleFieldChange = (field: string, value: string) => {
-        if (onDataChange) onDataChange(field, value);
-    };
-
-    const handleArrayChange = (field: string, index: number, subfield: string, value: string) => {
-        if (onDataChange) onDataChange(field, value, index, subfield);
-    };
-
-    const handleTagChange = (field: "skills" | "hobbies", oldTags: string[], index: number, newValue: string) => {
-        if (!onDataChange) return;
-        const newTags = [...oldTags];
-        newTags[index] = newValue;
-        onDataChange(field, newTags.join(", "));
-    };
-
-    const handleLabelChange = (labelId: string, value: string) => {
-        if (onConfigChange) {
-            onConfigChange("layout", "labels", {
-                ...(layoutConfig?.labels || {}),
-                [labelId]: value
-            });
+    // Resize logic
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (!isResizing || !pageRef.current || !onConfigChange) return;
+            const rect = pageRef.current.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            let newWidthPerc = (mouseX / rect.width) * 100;
+            if (layout === "sidebar-right") newWidthPerc = 100 - newWidthPerc;
+            if (newWidthPerc < 15) newWidthPerc = 15;
+            if (newWidthPerc > 70) newWidthPerc = 70;
+            onConfigChange("style", "sidebarWidth", `${Math.round(newWidthPerc)}%`);
+        };
+        const handleMouseUp = () => setIsResizing(false);
+        if (isResizing) {
+            window.addEventListener("mousemove", handleMouseMove);
+            window.addEventListener("mouseup", handleMouseUp);
         }
-    };
+        return () => {
+            window.removeEventListener("mousemove", handleMouseMove);
+            window.removeEventListener("mouseup", handleMouseUp);
+        };
+    }, [isResizing, onConfigChange, layout]);
 
-    const handleDragStart = (e: React.DragEvent, sectionId: string) => {
+    // Drag and drop logic
+    const handleDragStart = (e: React.DragEvent, id: string) => {
         if (readOnly) return;
-        e.dataTransfer.setData("sectionId", sectionId);
+        setIsDragging(id);
+        e.dataTransfer.setData("sectionId", id);
     };
 
     const handleDrop = (e: React.DragEvent, targetId: string) => {
         if (readOnly || !onConfigChange) return;
         e.preventDefault();
+        setIsDragging(null);
         const draggedId = e.dataTransfer.getData("sectionId");
         if (!draggedId || draggedId === targetId) return;
 
-        const sections = [...(layoutConfig?.sections || [])];
+        const sections = [...(layoutConfig?.sections || ["contact", "objective", "experience", "education", "skills", "hobbies"])];
         const dragIndex = sections.indexOf(draggedId);
         const dropIndex = sections.indexOf(targetId);
 
@@ -97,296 +128,412 @@ const CVRenderer = forwardRef<HTMLDivElement, CVRendererProps>(({ data, template
         }
     };
 
+    const getMergedStyle = (id: string, baseStyle: any) => {
+        const overrides = styleConfig.sectionStyles?.[id] || {};
+        return {
+            ...baseStyle,
+            ...(overrides.marginTop !== undefined ? { marginTop: `${overrides.marginTop}px` } : {}),
+            ...(overrides.marginBottom !== undefined ? { marginBottom: `${overrides.marginBottom}px` } : {}),
+            ...(overrides.padding ? { padding: overrides.padding } : {}),
+            ...(overrides.backgroundColor ? { backgroundColor: overrides.backgroundColor } : {}),
+            ...(overrides.textAlign ? { textAlign: overrides.textAlign } : {}),
+        };
+    };
+
+    const getMergedTitleStyle = (id: string, baseStyle: any) => {
+        const overrides = styleConfig.sectionStyles?.[id]?.title || {};
+        return {
+            ...baseStyle,
+            ...(overrides.fontSize ? { fontSize: `${overrides.fontSize}px` } : {}),
+            ...(overrides.color ? { color: overrides.color } : {}),
+            ...(overrides.fontWeight ? { fontWeight: overrides.fontWeight } : {}),
+            ...(overrides.textTransform ? { textTransform: overrides.textTransform } : {}),
+        };
+    };
+
+    const getMergedBodyStyle = (id: string, baseStyle: any) => {
+        const overrides = styleConfig.sectionStyles?.[id]?.body || {};
+        return {
+            ...baseStyle,
+            ...(overrides.fontSize ? { fontSize: `${overrides.fontSize}px` } : {}),
+            ...(overrides.color ? { color: overrides.color } : {}),
+            ...(overrides.lineHeight ? { lineHeight: overrides.lineHeight } : {}),
+            ...(overrides.letterSpacing !== undefined ? { letterSpacing: `${overrides.letterSpacing}px` } : {}),
+        };
+    };
+
+    const getSectionLineStyle = (id: string) => {
+        const customColor = styleConfig.sectionStyles?.[id]?.lineColor || activeHeadingColor;
+        return {
+            ...s.sectionLine,
+            background: headingStyle === "solid" ? customColor : "transparent",
+            borderBottom: headingStyle !== "solid" ? `${headingLineHeight}px ${headingStyle} ${customColor}` : "none",
+        };
+    };
+
     const handleDragOver = (e: React.DragEvent) => {
         if (readOnly) return;
         e.preventDefault();
     };
 
-    // ===== STYLES =====
+    // Styles
     const s = {
         page: {
-            display: "flex",
-            flexDirection: (layout === "top-header" ? "column" : "row") as "row" | "column",
-            backgroundColor: secondaryColor,
-            minHeight: "1123px", width: "794px",
-            padding: 0, fontFamily, color: "#333",
-            margin: "0 auto", boxSizing: "border-box" as const,
-            overflow: "hidden",
+            width: "794px", minHeight: "1123px",
+            background: "none",
+            backgroundColor: styleConfig.pageBgColor || "#ffffff",
+            backgroundImage: bgImage && bgImage !== "none" ? (bgImage.startsWith("url") ? bgImage : `url(${bgImage})`) : "none",
+            backgroundSize: (bgImage.includes("pattern") || bgImage.includes("data:")) ? "contain" : "cover",
+            backgroundRepeat: "repeat",
+            display: "flex", flexDirection: (layout === "top-header" ? "column" : "row") as any,
             position: "relative" as const,
+            fontFamily: fontFamily, color: "#333",
+            boxShadow: "0 0 20px rgba(0,0,0,0.15)",
+            padding: layout === "minimal-center" ? pagePadding : "0",
+            marginBottom: "40px",
         },
         bgOverlay: {
-            position: "absolute" as const,
-            top: 0, left: 0, right: 0, bottom: 0,
-            backgroundImage: bgImage !== "none" ? bgImage : "none",
-            backgroundSize: "cover",
-            opacity: bgOpacity,
-            zIndex: 0,
-            pointerEvents: "none" as const,
+            position: "absolute" as const, inset: 0,
+            backgroundColor: `rgba(255, 255, 255, ${1 - bgOpacity})`,
+            zIndex: 0, pointerEvents: "none" as const,
         },
         sidebar: {
-            width: layout === "top-header" ? "100%" : layout === "two-column" ? "50%" : sidebarWidthPerc,
-            backgroundColor: layout === "two-column" ? secondaryColor : sidebarBg,
-            color: layout === "two-column" ? "#333" : sidebarText,
-            padding: layout === "top-header" ? "36px 40px" : "40px 28px",
-            boxSizing: "border-box" as const,
-            display: "flex", flexDirection: "column" as const, gap: sectionSpacing,
-            order: layout === "sidebar-right" ? 2 : 1,
-            borderRight: layout === "two-column" ? `2px solid ${primaryColor}` : "none",
-            position: "relative" as const, zIndex: 1,
+            width: isSidebar ? sidebarWidth : "0%",
+            background: isSidebar ? (sidebarBg || (isDarkSidebar ? primaryColor : "#f8fafc")) : "transparent",
+            color: isSidebar ? (sidebarText || (isDarkSidebar ? "#FFFFFF" : "var(--text)")) : "inherit",
+            flexDirection: "column" as const,
+            display: isSidebar ? "flex" : "none",
+            gap: sectionSpacing,
+            padding: isSidebar ? "40px 20px" : "0",
+            zIndex: 1,
+            position: "relative" as const,
+            transition: "width 0.1s ease",
+            overflow: "hidden"
         },
         main: {
-            width: layout === "top-header" ? "100%" : layout === "two-column" ? "50%" : `calc(100% - ${sidebarWidthPerc})`,
-            backgroundColor: "#FFFFFF",
-            padding: layout === "top-header" ? "32px 40px" : "40px 32px",
-            boxSizing: "border-box" as const,
+            flex: 1,
             display: "flex", flexDirection: "column" as const, gap: sectionSpacing,
-            order: layout === "sidebar-right" ? 1 : 2,
-            position: "relative" as const, zIndex: 1,
+            padding: `${pagePadding} 40px`,
+            background: "transparent",
+            minHeight: "100%",
+            zIndex: 1,
+            textAlign: (textAlign) as any
         },
         avatar: {
-            width: layout === "top-header" ? "100px" : "110px",
-            height: layout === "top-header" ? "100px" : "110px",
+            width: layout === "top-header" ? "120px" : "130px",
+            height: layout === "top-header" ? "120px" : "130px",
             borderRadius: avatarRadius, objectFit: "cover" as const,
-            border: `3px solid ${isDarkSidebar && layout !== "two-column" ? "rgba(255,255,255,0.25)" : primaryColor}`,
+            border: `${styleConfig.avatarBorderWidth || 4}px solid ${sidebarText || "#FFFFFF"}`,
+            boxShadow: styleConfig.avatarShadow || "0 4px 12px rgba(0,0,0,0.1)",
+            marginBottom: "20px"
         },
         nameTitle: {
-            fontSize: `${baseFontSize + 14}px`, fontWeight: 800,
-            color: layout === "two-column" ? primaryColor : (isDarkSidebar ? "#FFF" : primaryColor),
-            textTransform: "uppercase" as const, letterSpacing: "1px", lineHeight: 1.2,
-            marginBottom: "2px",
+            fontSize: `${baseFontSize + 20}px`, fontWeight: 800,
+            color: layout === "two-column" ? primaryColor : (isDarkSidebar && layout !== "top-header" ? "#FFF" : primaryColor),
+            textTransform: "uppercase" as const, letterSpacing: "2px", lineHeight: 1.1,
+            marginBottom: "4px",
         },
         jobTitle: {
-            fontSize: `${baseFontSize + 3}px`, fontWeight: 500,
-            color: layout === "two-column" ? "#666" : sidebarMuted,
-            textTransform: "uppercase" as const, letterSpacing: "2px",
-            marginBottom: "12px",
-        },
-        contactList: {
-            display: "flex", flexDirection: (layout === "top-header" ? "row" : "column") as "row" | "column",
-            gap: layout === "top-header" ? "16px" : "7px",
-            flexWrap: "wrap" as const,
-            fontSize: `${baseFontSize}px`,
-            color: layout === "two-column" ? "#444" : (isDarkSidebar ? "rgba(255,255,255,0.9)" : "#444"),
+            fontSize: `${baseFontSize + 6}px`, fontWeight: 500,
+            color: layout === "two-column" ? "#555" : (isDarkSidebar && layout !== "top-header" ? "rgba(255,255,255,0.85)" : "#555"),
+            textTransform: "uppercase" as const, letterSpacing: "3px",
+            marginBottom: "16px",
         },
         sectionTitle: {
-            fontSize: `${baseFontSize + 3}px`, fontWeight: 700,
-            color: layout === "two-column" ? primaryColor : (isDarkSidebar ? "#FFF" : primaryColor),
+            fontSize: `${baseFontSize + 4}px`, fontWeight: 700,
+            color: isDarkSidebar ? "inherit" : primaryColor,
             textTransform: "uppercase" as const, letterSpacing: "1px",
-            borderBottom: `2px solid ${layout === "two-column" ? primaryColor : sidebarBorder}`,
-            paddingBottom: "5px", marginBottom: "12px",
+            width: headingLineWidth || "100%",
+            paddingBottom: "4px", marginBottom: "4px",
+            textAlign: textAlign as any,
         },
         mainSectionTitle: {
-            fontSize: `${baseFontSize + 5}px`, fontWeight: 800,
+            fontSize: `${baseFontSize + 6}px`, fontWeight: 800,
             color: primaryColor, textTransform: "uppercase" as const,
-            letterSpacing: "1px",
-            borderBottom: `2px solid ${primaryColor}`,
-            paddingBottom: "6px", marginBottom: "14px",
+            letterSpacing: "1.5px",
+            width: headingLineWidth || "100%",
+            paddingBottom: "4px", marginBottom: "4px",
+            textAlign: textAlign as any,
         },
-        text: { fontSize: `${baseFontSize}px`, lineHeight: lineHeightVal, color: "#444" },
-        tagContainer: { display: "flex", flexWrap: "wrap" as const, gap: "6px" },
+        sectionLine: {
+            height: `${headingLineHeight}px`,
+            width: headingLineWidth || "100%",
+            background: headingStyle === "solid" ? activeHeadingColor : "transparent",
+            borderBottom: headingStyle !== "solid" ? `${headingLineHeight}px ${headingStyle} ${activeHeadingColor}` : "none",
+            marginBottom: "14px",
+            marginLeft: textAlign === "center" ? "auto" : (textAlign === "right" ? "auto" : "0"),
+            marginRight: textAlign === "center" ? "auto" : "0",
+        },
+        bodyText: {
+            fontSize: `${baseFontSize}px`, lineHeight: lineHeightVal, color: "inherit",
+            textAlign: textAlign as any, letterSpacing: letterSpacing,
+        },
         tag: {
-            background: layout === "two-column" ? "rgba(0,0,0,0.06)" : (isDarkSidebar ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.05)"),
-            color: layout === "two-column" ? "#333" : (isDarkSidebar ? "#FFF" : "#333"),
-            padding: "3px 10px", borderRadius: tagRadius,
-            fontSize: `${baseFontSize - 1}px`, fontWeight: 500,
+            background: isDarkSidebar ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.06)",
+            color: isDarkSidebar ? "#FFF" : "#333",
+            padding: "4px 12px", borderRadius: tagRadius,
+            fontSize: `${baseFontSize - 1}px`, fontWeight: 600,
         },
-        expItem: { marginBottom: sectionSpacing },
-        company: { fontWeight: 700, fontSize: `${baseFontSize + 1}px`, color: "#111" },
-        position: { fontWeight: 600, fontSize: `${baseFontSize}px`, color: primaryColor, marginBottom: "3px" },
-        date: { fontSize: `${baseFontSize - 1}px`, color: "#777", fontStyle: "italic", marginBottom: "6px", display: "block" },
+        sectionWrapper: {
+            position: "relative" as const, cursor: readOnly ? "default" : "pointer",
+            padding: !readOnly ? "8px" : "0", margin: !readOnly ? "-8px" : "0",
+            borderRadius: "8px", 
+            borderWidth: "2px",
+            borderStyle: "solid",
+            borderColor: "transparent",
+            transition: "all 0.25s", zIndex: 2,
+        },
+        sectionSelected: { borderColor: primaryColor, backgroundColor: "rgba(var(--primary-rgb), 0.05)" },
+        headerArea: {
+            width: "100%", display: "flex",
+            flexDirection: (layout === "top-header" ? "row" : "column") as any,
+            gap: "24px", alignItems: layout === "top-header" ? "center" : "stretch",
+            padding: layout === "top-header" ? pagePadding : "0",
+            borderBottom: layout === "top-header" ? `1px solid ${sidebarBorder}` : "none",
+            marginBottom: layout === "top-header" ? "20px" : "0",
+        },
     };
 
-    // Map sections to their render logic
+    const contactIconMap: Record<string, any> = {
+        phone: <PhoneIcon className="w-3.5 h-3.5" />,
+        email: <EnvelopeIcon className="w-3.5 h-3.5" />,
+        location: <MapPinIcon className="w-3.5 h-3.5" />,
+        linkedin: <GlobeAltIcon className="w-3.5 h-3.5" />,
+    };
+
+    const renderMarker = (index?: number) => {
+        const style = styleConfig.numberingStyle || "bullet";
+        if (style === "none") return null;
+        
+        let content = "•";
+        if (style === "dash") content = "-";
+        if (style === "numeric" && index !== undefined) content = `${index + 1}.`;
+
+        return (
+            <span style={{ 
+                fontWeight: 700, 
+                minWidth: style === "numeric" ? "24px" : "15px", 
+                color: isDarkSidebar ? "rgba(255,255,255,0.7)" : primaryColor,
+                display: "inline-block"
+            }}>
+                {content}
+            </span>
+        );
+    };
+
     const sectionMap: Record<string, () => React.ReactNode> = {
-        contact: () => (
-            <div style={s.contactList}>
-                {(() => {
-                    const ContactItem = ({ label, field, placeholder, onLabelChange }: { label: string, field: string, placeholder: string, onLabelChange?: (val: string) => void }) => {
-                        if (!data[field] && readOnly) return null;
-                        return (
-                            <div style={{ display: "flex", gap: "6px", width: "100%", alignItems: "flex-start" }}>
-                                <span style={{ fontWeight: 600, minWidth: layout === "top-header" ? "auto" : "90px" }}>
-                                    <InlineEdit value={label} onChange={onLabelChange} readOnly={readOnly} />:
-                                </span>
-                                <div style={{ flex: 1, wordBreak: "break-word" }}>
-                                    <InlineEdit value={data[field] || ""} onChange={(val) => handleFieldChange(field, val)} readOnly={readOnly} placeholder={placeholder} />
+        contact: () => {
+            const titleStyle = getMergedTitleStyle("contact", s.sectionTitle);
+            const bodyStyle = getMergedBodyStyle("contact", s.bodyText);
+            const contactLabels = layoutConfig?.contactLabels || {
+                phone: "SĐT:",
+                email: "Email:",
+                location: "Địa chỉ:",
+                linkedin: "LinkedIn:"
+            };
+
+            return (
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                    <h2 style={titleStyle}>
+                        <InlineEdit
+                            value={getSectionTitle("contact")}
+                            onChange={(v) => onConfigChange?.("layout", "labels", { ...layoutConfig?.labels, contact: v })}
+                            readOnly={readOnly} style={titleStyle}
+                        />
+                    </h2>
+                    {headingLineHeight > 0 && <div style={getSectionLineStyle("contact")} />}
+                    {["phone", "email", "location", "linkedin"].map(f => data[f] && (
+                        <div key={f} style={{ ...bodyStyle, display: "flex", gap: "8px", alignItems: "center" }}>
+                            <span style={{ 
+                                display: "flex", alignItems: "center", 
+                                color: isDarkSidebar ? "rgba(255,255,255,0.7)" : primaryColor 
+                            }}>
+                                {contactIconMap[f]}
+                            </span>
+                            {contactLabels[f] !== undefined && (
+                                <InlineEdit 
+                                    value={contactLabels[f]} 
+                                    onChange={(v) => onConfigChange?.("layout", "contactLabels", { ...contactLabels, [f]: v })}
+                                    readOnly={readOnly}
+                                    style={{ fontWeight: 600, color: "inherit", fontSize: "0.95em" }}
+                                />
+                            )}
+                            <InlineEdit value={data[f]} onChange={(v) => onDataChange?.(f, v)} readOnly={readOnly} style={bodyStyle} />
+                        </div>
+                    ))}
+                </div>
+            );
+        },
+        objective: () => {
+            const titleStyle = getMergedTitleStyle("objective", isSidebar ? s.sectionTitle : s.mainSectionTitle);
+            const bodyStyle = getMergedBodyStyle("objective", s.bodyText);
+            return (
+                <div>
+                    <h2 style={titleStyle}>
+                        <InlineEdit
+                            value={getSectionTitle("objective")}
+                            onChange={(v) => onConfigChange?.("layout", "labels", { ...layoutConfig?.labels, objective: v })}
+                            readOnly={readOnly} style={titleStyle}
+                        />
+                    </h2>
+                    {headingLineHeight > 0 && <div style={getSectionLineStyle("objective")} />}
+                    <div style={bodyStyle}>
+                        <InlineEdit value={data.objective || data.summary} onChange={(v) => onDataChange?.("summary", v)} readOnly={readOnly} multiline style={bodyStyle} />
+                    </div>
+                </div>
+            );
+        },
+        experience: () => {
+            const titleStyle = getMergedTitleStyle("experience", s.mainSectionTitle);
+            const bodyStyle = getMergedBodyStyle("experience", s.bodyText);
+            return (
+                <div>
+                    <h2 style={titleStyle}>
+                        <InlineEdit
+                            value={getSectionTitle("experience")}
+                            onChange={(v) => onConfigChange?.("layout", "labels", { ...layoutConfig?.labels, experience: v })}
+                            readOnly={readOnly} style={titleStyle}
+                        />
+                    </h2>
+                    {headingLineHeight > 0 && <div style={getSectionLineStyle("experience")} />}
+                    <div style={{ display: "flex", flexDirection: "column", gap: itemSpacing }}>
+                        {data.experience?.map((exp: any, i: number) => (
+                            <div key={i} style={{ borderLeft: styleConfig.numberingStyle === "numeric" ? "none" : `2px solid ${primaryColor}20`, paddingLeft: styleConfig.numberingStyle === "numeric" ? "0" : "15px", position: "relative" }}>
+                                {styleConfig.numberingStyle !== "numeric" && (
+                                    <div style={{ position: "absolute", left: "-6px", top: "4px", width: "10px", height: "10px", borderRadius: "50%", background: primaryColor }} />
+                                )}
+                                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
+                                    {styleConfig.numberingStyle === "numeric" && renderMarker(i)}
+                                    <div style={{ flex: 1 }}>
+                                        <div style={{ fontWeight: 800, fontSize: `${baseFontSize + 2}px`, color: titleStyle.color }}>
+                                            <InlineEdit value={exp.position} onChange={(v) => onDataChange?.("experience", v, i, "position")} readOnly={readOnly} style={{ color: titleStyle.color }} />
+                                        </div>
+                                        <div style={{ color: primaryColor, fontWeight: 600 }}>
+                                            <InlineEdit value={exp.company} onChange={(v) => onDataChange?.("experience", v, i, "company")} readOnly={readOnly} />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style={{ fontSize: `${baseFontSize - 1}px`, color: "#666", marginBottom: "8px" }}>
+                                    <InlineEdit value={exp.startDate} onChange={(v) => onDataChange?.("experience", v, i, "startDate")} readOnly={readOnly} /> -
+                                    <InlineEdit value={exp.endDate} onChange={(v) => onDataChange?.("experience", v, i, "endDate")} readOnly={readOnly} />
+                                </div>
+                                <InlineEdit value={exp.description} onChange={(v) => onDataChange?.("experience", v, i, "description")} readOnly={readOnly} multiline style={bodyStyle} />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        },
+        education: () => {
+            const titleStyle = getMergedTitleStyle("education", s.mainSectionTitle);
+            const bodyStyle = getMergedBodyStyle("education", s.bodyText);
+            return (
+                <div>
+                    <h2 style={titleStyle}>
+                        <InlineEdit
+                            value={getSectionTitle("education")}
+                            onChange={(v) => onConfigChange?.("layout", "labels", { ...layoutConfig?.labels, education: v })}
+                            readOnly={readOnly} style={titleStyle}
+                        />
+                    </h2>
+                    {headingLineHeight > 0 && <div style={getSectionLineStyle("education")} />}
+                    <div style={{ display: "flex", flexDirection: "column", gap: itemSpacing }}>
+                        {data.education?.map((edu: any, i: number) => (
+                            <div key={i} style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
+                                {renderMarker(i)}
+                                <div style={{ flex: 1 }}>
+                                    <div style={{ ...bodyStyle, fontWeight: 700, fontSize: `${baseFontSize + 1}px` }}>
+                                        <InlineEdit value={edu.degree} onChange={(v) => onDataChange?.("education", v, i, "degree")} readOnly={readOnly} style={{ ...bodyStyle, fontWeight: 700 }} />
+                                    </div>
+                                    <div style={{ ...bodyStyle }}>
+                                        <InlineEdit value={edu.school} onChange={(v) => onDataChange?.("education", v, i, "school")} readOnly={readOnly} style={bodyStyle} />
+                                    </div>
+                                    <div style={{ fontSize: `${baseFontSize - 1}px`, color: "#777" }}>
+                                        <InlineEdit value={edu.startYear} onChange={(v) => onDataChange?.("education", v, i, "startYear")} readOnly={readOnly} /> -
+                                        <InlineEdit value={edu.endYear} onChange={(v) => onDataChange?.("education", v, i, "endYear")} readOnly={readOnly} />
+                                    </div>
                                 </div>
                             </div>
-                        );
-                    };
-                    return (
-                        <>
-                            <ContactItem label={getLabel("dob", "Ngày sinh")} field="dob" placeholder="18/12/1997" onLabelChange={(val) => handleLabelChange("dob", val)} />
-                            <ContactItem label={getLabel("gender", "Giới tính")} field="gender" placeholder="Nam / Nữ" onLabelChange={(val) => handleLabelChange("gender", val)} />
-                            <ContactItem label={getLabel("phone", "Điện thoại")} field="phone" placeholder="0123 456 789" onLabelChange={(val) => handleLabelChange("phone", val)} />
-                            <ContactItem label={getLabel("email", "Email")} field="email" placeholder="email@..." onLabelChange={(val) => handleLabelChange("email", val)} />
-                            <ContactItem label={getLabel("location", "Địa chỉ")} field="location" placeholder="Quận 1, TP. HCM" onLabelChange={(val) => handleLabelChange("location", val)} />
-                            <ContactItem label={getLabel("linkedin", "LinkedIn")} field="linkedin" placeholder="linkedin.com/in/..." onLabelChange={(val) => handleLabelChange("linkedin", val)} />
-                            <ContactItem label={getLabel("portfolio", "Website")} field="portfolio" placeholder="your-portfolio.com" onLabelChange={(val) => handleLabelChange("portfolio", val)} />
-                        </>
-                    );
-                })()}
-            </div>
-        ),
-        skills: () => data.skills && data.skills.length > 0 && (
-            <div>
-                <div style={s.sectionTitle}>
-                    <InlineEdit
-                        value={getLabel("skills", "Kỹ năng")}
-                        onChange={(val) => handleLabelChange("skills", val)}
-                        readOnly={readOnly}
-                        style={s.sectionTitle}
-                    />
-                </div>
-                <div style={s.tagContainer}>
-                    {data.skills.map((skill: string, i: number) => (
-                        <InlineEdit
-                            key={`skill-${i}`}
-                            value={skill}
-                            onChange={(val) => handleTagChange("skills", data.skills, i, val)}
-                            readOnly={readOnly}
-                            style={s.tag}
-                        />
-                    ))}
-                </div>
-            </div>
-        ),
-        hobbies: () => data.hobbies && data.hobbies.length > 0 && (
-            <div>
-                <div style={s.sectionTitle}>
-                    <InlineEdit
-                        value={getLabel("hobbies", "Sở thích")}
-                        onChange={(val) => handleLabelChange("hobbies", val)}
-                        readOnly={readOnly}
-                        style={s.sectionTitle}
-                    />
-                </div>
-                <div style={s.tagContainer}>
-                    {data.hobbies.map((hobby: string, i: number) => (
-                        <InlineEdit
-                            key={`hobby-${i}`}
-                            value={hobby}
-                            onChange={(val) => handleTagChange("hobbies", data.hobbies, i, val)}
-                            readOnly={readOnly}
-                            style={s.tag}
-                        />
-                    ))}
-                </div>
-            </div>
-        ),
-        objective: () => (data.objective || data.summary) && (
-            <div>
-                <div style={layout === "two-column" ? s.sectionTitle : s.mainSectionTitle}>
-                    <InlineEdit
-                        value={getLabel("objective", layout === "two-column" ? "Mục tiêu" : "Mục tiêu nghề nghiệp")}
-                        onChange={(val) => handleLabelChange("objective", val)}
-                        readOnly={readOnly}
-                        style={layout === "two-column" ? s.sectionTitle : s.mainSectionTitle}
-                    />
-                </div>
-                <InlineEdit
-                    value={data.objective || data.summary}
-                    onChange={(val) => handleFieldChange("summary", val)}
-                    readOnly={readOnly}
-                    placeholder="Thêm mục tiêu nghề nghiệp"
-                    style={{ ...s.text, color: "#444" }}
-                    multiline
-                />
-            </div>
-        ),
-        experience: () => data.experience && data.experience.length > 0 && (
-            <div>
-                <div style={s.mainSectionTitle}>
-                    <InlineEdit
-                        value={getLabel("experience", "Kinh nghiệm làm việc")}
-                        onChange={(val) => handleLabelChange("experience", val)}
-                        readOnly={readOnly}
-                        style={s.mainSectionTitle}
-                    />
-                </div>
-                {data.experience.map((exp: any, i: number) => (
-                    <div key={i} style={s.expItem}>
-                        <div style={s.position}>
-                            <InlineEdit value={exp.position} onChange={(val) => handleArrayChange("experience", i, "position", val)} readOnly={readOnly} placeholder="Vị trí" style={s.position} />
-                        </div>
-                        <div style={s.company}>
-                            <InlineEdit value={exp.company} onChange={(val) => handleArrayChange("experience", i, "company", val)} readOnly={readOnly} placeholder="Tên công ty" style={s.company} />
-                        </div>
-                        <span style={s.date}>
-                            <InlineEdit value={exp.startDate} onChange={(val) => handleArrayChange("experience", i, "startDate", val)} readOnly={readOnly} placeholder="Bắt đầu" /> -
-                            <InlineEdit value={exp.endDate} onChange={(val) => handleArrayChange("experience", i, "endDate", val)} readOnly={readOnly} placeholder="Kết thúc" />
-                        </span>
-                        <InlineEdit
-                            value={exp.description}
-                            onChange={(val) => handleArrayChange("experience", i, "description", val)}
-                            readOnly={readOnly}
-                            placeholder="Mô tả công việc"
-                            style={s.text}
-                            multiline
-                        />
+                        ))}
                     </div>
-                ))}
-            </div>
-        ),
-        education: () => data.education && data.education.length > 0 && (
-            <div>
-                <div style={s.mainSectionTitle}>
-                    <InlineEdit
-                        value={getLabel("education", "Học vấn")}
-                        onChange={(val) => handleLabelChange("education", val)}
-                        readOnly={readOnly}
-                        style={s.mainSectionTitle}
-                    />
                 </div>
-                {data.education.map((edu: any, i: number) => (
-                    <div key={i} style={s.expItem}>
-                        <div style={s.position}>
-                            <InlineEdit value={edu.degree} onChange={(val) => handleArrayChange("education", i, "degree", val)} readOnly={readOnly} placeholder="Bằng cấp" /> -
-                            <InlineEdit value={edu.field} onChange={(val) => handleArrayChange("education", i, "field", val)} readOnly={readOnly} placeholder="Ngành học" />
-                        </div>
-                        <div style={s.company}>
-                            <InlineEdit value={edu.school} onChange={(val) => handleArrayChange("education", i, "school", val)} readOnly={readOnly} placeholder="Trường / Cơ sở" style={s.company} />
-                        </div>
-                        <span style={s.date}>
-                            <InlineEdit value={edu.startYear} onChange={(val) => handleArrayChange("education", i, "startYear", val)} readOnly={readOnly} placeholder="Năm bắt đầu" /> -
-                            <InlineEdit value={edu.endYear} onChange={(val) => handleArrayChange("education", i, "endYear", val)} readOnly={readOnly} placeholder="Năm kết thúc" />
-                        </span>
+            );
+        },
+        skills: () => {
+            const isContactInSidebar = isSidebar; 
+            const baseStyle = isContactInSidebar ? s.sectionTitle : s.mainSectionTitle;
+            const titleStyle = getMergedTitleStyle("skills", baseStyle);
+            return (
+                <div>
+                    <h2 style={titleStyle}>
+                        <InlineEdit
+                            value={getSectionTitle("skills")}
+                            onChange={(v) => onConfigChange?.("layout", "labels", { ...layoutConfig?.labels, skills: v })}
+                            readOnly={readOnly} style={titleStyle}
+                        />
+                    </h2>
+                    {headingLineHeight > 0 && <div style={getSectionLineStyle("skills")} />}
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                        {data.skills?.map((sk: string, i: number) => (
+                            <InlineEdit key={i} value={sk} onChange={(v) => { /* logic tag change */ }} readOnly={readOnly} style={s.tag} />
+                        ))}
                     </div>
-                ))}
-            </div>
-        ),
+                </div>
+            );
+        },
+        hobbies: () => {
+            const isContactInSidebar = isSidebar;
+            const baseStyle = isContactInSidebar ? s.sectionTitle : s.mainSectionTitle;
+            const titleStyle = getMergedTitleStyle("hobbies", baseStyle);
+            return (
+                <div>
+                    <h2 style={titleStyle}>
+                        <InlineEdit
+                            value={getSectionTitle("hobbies")}
+                            onChange={(v) => onConfigChange?.("layout", "labels", { ...layoutConfig?.labels, hobbies: v })}
+                            readOnly={readOnly} style={titleStyle}
+                        />
+                    </h2>
+                    {headingLineHeight > 0 && <div style={getSectionLineStyle("hobbies")} />}
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                        {data.hobbies?.map((hb: string, i: number) => (
+                            <InlineEdit key={i} value={hb} onChange={(v) => { /* logic tag change */ }} readOnly={readOnly} style={s.tag} />
+                        ))}
+                    </div>
+                </div>
+            );
+        },
+        divider: () => (
+            <div style={{ 
+                height: `${headingLineHeight || 2}px`, 
+                width: headingLineWidth || "100%", 
+                background: headingStyle === "solid" ? (headingLineColor || primaryColor) : "transparent",
+                borderBottom: headingStyle !== "solid" ? `${headingLineHeight || 2}px ${headingStyle} ${headingLineColor || primaryColor}` : "none",
+                margin: `${sectionSpacing} 0`,
+                opacity: 0.6
+            }} />
+        )
     };
 
-    const sidebarSections = ["contact", "skills", "hobbies"];
-    if (layout === "two-column") sidebarSections.push("objective");
-
-    const renderSections = (availableIds: string[]) => {
-        const currentSections = layoutConfig?.sections || ["objective", "experience", "education", "skills", "hobbies", "contact"];
-        const sectionsToRender = currentSections.filter((id: string) => availableIds.includes(id));
-
-        return sectionsToRender.map((id: string) => {
-            const renderer = sectionMap[id];
-            if (!renderer) return null;
-            const content = renderer();
+    const renderSections = (ids: string[]) => {
+        return ids.filter(id => !layoutConfig?.sections || layoutConfig.sections.includes(id)).map(id => {
+            const content = sectionMap[id]?.();
             if (!content) return null;
+            const isSelected = selectedSectionId === id;
+            const mergedStyle = getMergedStyle(id, s.sectionWrapper);
+
             return (
                 <div
-                    key={id}
-                    draggable={!readOnly}
+                    key={id} draggable={!readOnly}
                     onDragStart={(e) => handleDragStart(e, id)}
                     onDrop={(e) => handleDrop(e, id)}
                     onDragOver={handleDragOver}
+                    onClick={(e) => { e.stopPropagation(); onSectionSelect?.(id); }}
                     style={{
-                        position: "relative",
-                        cursor: readOnly ? "default" : "grab",
-                        padding: !readOnly ? "4px" : "0",
-                        margin: !readOnly ? "-4px" : "0",
-                        borderRadius: "4px",
-                        border: "1px solid transparent",
-                        transition: "all 0.2s"
+                        ...mergedStyle,
+                        ...(isSelected ? s.sectionSelected : {}),
+                        opacity: isDragging === id ? 0.3 : 1
                     }}
-                    onMouseEnter={e => !readOnly && (e.currentTarget.style.border = "1px dashed rgba(0,0,0,0.15)")}
-                    onMouseLeave={e => !readOnly && (e.currentTarget.style.border = "1px solid transparent")}
                 >
                     {content}
                 </div>
@@ -394,32 +541,75 @@ const CVRenderer = forwardRef<HTMLDivElement, CVRendererProps>(({ data, template
         });
     };
 
-    // Final layout parts
+    const Header = () => (
+        <div style={s.headerArea}>
+            {data.avatar && (
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                    <img
+                        src={data.avatar}
+                        alt="Avatar"
+                        style={s.avatar}
+                        onError={e => {
+                            e.currentTarget.style.opacity = '0';
+                            console.warn("Avatar load error");
+                        }}
+                    />
+                </div>
+            )}
+            <div style={{ flex: 1 }}>
+                <h1 style={s.nameTitle}><InlineEdit value={data.name || data.fullName} onChange={v => onDataChange?.("fullName", v)} readOnly={readOnly} placeholder="Nguyễn Văn A" /></h1>
+                <div style={s.jobTitle}><InlineEdit value={data.jobTitle} onChange={v => onDataChange?.("jobTitle", v)} readOnly={readOnly} placeholder="Vị trí công việc" /></div>
+            </div>
+        </div>
+    );
+
+    const sidebarSections = ["contact", "skills", "hobbies"];
+    if (layout === "two-column") sidebarSections.push("objective");
+
     return (
-        <div ref={ref} style={s.page} className="cv-page">
+        <div ref={(node) => { if (typeof ref === "function") ref(node); else if (ref) (ref as any).current = node; (pageRef as any).current = node; }} style={s.page} className="cv-page">
             {customCss && <style dangerouslySetInnerHTML={{ __html: customCss }} />}
             <div style={s.bgOverlay} />
+            {layout === "top-header" && <Header />}
 
-            <div style={s.sidebar} data-section="sidebar">
-                {data.avatar && (
-                    <div style={{ display: "flex", justifyContent: layout === "top-header" ? "flex-start" : "center", marginBottom: "4px" }}>
-                        <img src={data.avatar} alt="Avatar" style={s.avatar} />
-                    </div>
-                )}
-                <div>
-                    <h1 style={s.nameTitle}>
-                        <InlineEdit value={data.name || data.fullName} onChange={(val) => handleFieldChange("fullName", val)} readOnly={readOnly} placeholder="Nguyễn Văn A" style={s.nameTitle} />
-                    </h1>
-                    <div style={s.jobTitle}>
-                        <InlineEdit value={data.jobTitle} onChange={(val) => handleFieldChange("jobTitle", val)} readOnly={readOnly} placeholder="Vị trí ứng tuyển" style={s.jobTitle} />
-                    </div>
+            <div style={{ display: "flex", flex: 1, flexDirection: layout === "sidebar-right" ? "row-reverse" : (layout === "top-header" ? "row" : "inherit") }}>
+                <div style={s.sidebar}>
+                    {layout !== "top-header" && <Header />}
+                    {renderSections(sidebarSections)}
                 </div>
-                {renderSections(sidebarSections)}
+
+                {!readOnly && isSidebar && (
+                    <div
+                        onMouseDown={() => setIsResizing(true)}
+                        style={{
+                            position: "absolute", zIndex: 100, top: 0, bottom: 0, width: "10px", cursor: "col-resize",
+                            left: layout === "sidebar-right" ? "auto" : sidebarWidth,
+                            right: layout === "sidebar-right" ? sidebarWidth : "auto",
+                            background: isResizing ? primaryColor : "transparent", opacity: 0.2
+                        }}
+                    />
+                )}
+
+                <div style={s.main}>
+                    {layout === "minimal-center" && <Header />}
+                    {renderSections(layout === "minimal-center"
+                        ? ["contact", "objective", "experience", "education", "skills", "hobbies"]
+                        : (layout === "two-column" ? ["experience", "education"] : ["objective", "experience", "education"]))
+                    }
+                </div>
             </div>
 
-            <div style={s.main} data-section="main">
-                {renderSections(layout === "two-column" ? ["experience", "education"] : ["objective", "experience", "education"])}
+            {/* Page indicators (Multi-page look) */}
+            <div style={{ position: "absolute", bottom: "-30px", right: 0, fontSize: "12px", color: "#999", fontWeight: 600 }}>
+                Trang 1 / 1
             </div>
+
+
+            {/* Google Fonts Loader */}
+            <link
+                href={`https://fonts.googleapis.com/css2?family=${fontFamily.replace(/'/g, "").replace(/ /g, "+")}:wght@300;400;500;600;700;800&display=swap`}
+                rel="stylesheet"
+            />
         </div>
     );
 });

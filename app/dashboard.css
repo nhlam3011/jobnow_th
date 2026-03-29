@@ -1052,6 +1052,36 @@ button.dash-btn {
     color: var(--text-muted);
 }
 
+.dash-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.dash-password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    cursor: pointer;
+    border: none;
+    background: none;
+    border-radius: 8px;
+    transition: all 200ms ease;
+    z-index: 10;
+}
+
+.dash-password-toggle:hover {
+    color: var(--primary);
+    background: rgba(3, 105, 161, 0.08);
+}
+
+
 /* ============================================
    FORM CARD — Modern glassmorphism-lite
    ============================================ */

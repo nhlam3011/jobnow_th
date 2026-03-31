@@ -10,6 +10,10 @@ export async function GET() {
             salaryByTitle,
             monthlyTrend,
             totalStats,
+            topIndustries,
+            topCompanies,
+            experienceDistribution,
+            latestInsights,
         ] = await Promise.all([
             getTopSkills(),
             getJobTypeDistribution(),
@@ -17,6 +21,10 @@ export async function GET() {
             getSalaryByTitle(),
             getMonthlyTrend(),
             getTotalStats(),
+            getTopIndustries(),
+            getTopCompanies(),
+            getExperienceDistribution(),
+            getLatestInsights(),
         ]);
 
         return NextResponse.json({
@@ -26,6 +34,10 @@ export async function GET() {
             salaryByTitle,
             monthlyTrend,
             totalStats,
+            topIndustries,
+            topCompanies,
+            experienceDistribution,
+            latestInsights,
         });
     } catch (error) {
         console.error("Market insights API error:", error);
@@ -33,7 +45,6 @@ export async function GET() {
     }
 }
 
-// Top 10 kỹ năng được yêu cầu nhiều nhất
 async function getTopSkills(): Promise<Array<{ skill: string; count: number }>> {
     try {
         const result = await prisma.$queryRaw<Array<{ skill: string; count: bigint }>>`
@@ -50,7 +61,6 @@ async function getTopSkills(): Promise<Array<{ skill: string; count: number }>> 
     }
 }
 
-// Phân bố loại hình công việc
 async function getJobTypeDistribution(): Promise<Array<{ jobType: string; count: number }>> {
     try {
         const result = await prisma.job.groupBy({
@@ -65,7 +75,6 @@ async function getJobTypeDistribution(): Promise<Array<{ jobType: string; count:
     }
 }
 
-// Top 10 địa điểm tuyển dụng
 async function getTopLocations(): Promise<Array<{ location: string; count: number }>> {
     try {
         const result = await prisma.job.groupBy({
@@ -81,7 +90,6 @@ async function getTopLocations(): Promise<Array<{ location: string; count: numbe
     }
 }
 
-// Mức lương trung bình theo vị trí phổ biến
 async function getSalaryByTitle(): Promise<Array<{ title: string; avgSalary: number; count: number }>> {
     try {
         const result = await prisma.$queryRaw<Array<{ title: string; avg_salary: number; count: bigint }>>`
@@ -90,9 +98,7 @@ async function getSalaryByTitle(): Promise<Array<{ title: string; avgSalary: num
                 ROUND(AVG(("salaryMin" + COALESCE("salaryMax", "salaryMin")) / 2)) as avg_salary,
                 COUNT(*) as count
             FROM "Job"
-            WHERE status = 'ACTIVE'
-                AND "salaryMin" IS NOT NULL
-                AND "salaryMin" > 0
+            WHERE status = 'ACTIVE' AND "salaryMin" IS NOT NULL AND "salaryMin" > 0
             GROUP BY title
             HAVING COUNT(*) >= 1
             ORDER BY count DESC
@@ -103,30 +109,22 @@ async function getSalaryByTitle(): Promise<Array<{ title: string; avgSalary: num
             avgSalary: Number(r.avg_salary),
             count: Number(r.count),
         }));
-    } catch {
-        return [];
-    }
+    } catch { return []; }
 }
 
-// Trend tuyển dụng theo tháng (6 tháng gần nhất)
 async function getMonthlyTrend(): Promise<Array<{ month: string; count: number }>> {
     try {
         const result = await prisma.$queryRaw<Array<{ month: string; count: bigint }>>`
-            SELECT 
-                TO_CHAR("createdAt", 'YYYY-MM') as month,
-                COUNT(*) as count
+            SELECT TO_CHAR("createdAt", 'YYYY-MM') as month, COUNT(*) as count
             FROM "Job"
             WHERE "createdAt" >= NOW() - INTERVAL '6 months'
             GROUP BY TO_CHAR("createdAt", 'YYYY-MM')
             ORDER BY month ASC
         `;
         return result.map(r => ({ month: r.month, count: Number(r.count) }));
-    } catch {
-        return [];
-    }
+    } catch { return []; }
 }
 
-// Thống kê tổng
 async function getTotalStats() {
     try {
         const [totalJobs, totalCompanies, totalCandidates, totalApplications] = await Promise.all([
@@ -136,7 +134,76 @@ async function getTotalStats() {
             prisma.application.count(),
         ]);
         return { totalJobs, totalCompanies, totalCandidates, totalApplications };
-    } catch {
-        return { totalJobs: 0, totalCompanies: 0, totalCandidates: 0, totalApplications: 0 };
-    }
+    } catch { return { totalJobs: 0, totalCompanies: 0, totalCandidates: 0, totalApplications: 0 }; }
+}
+
+// BỔ SUNG MỚI: Top Ngành nghề
+async function getTopIndustries() {
+    try {
+        const result = await prisma.industry.findMany({
+            include: {
+                _count: {
+                    select: { jobs: { where: { status: "ACTIVE" } } }
+                }
+            },
+            take: 6,
+            orderBy: { jobs: { _count: "desc" } }
+        });
+        return result.map(i => ({ name: i.name, count: i._count.jobs }));
+    } catch { return []; }
+}
+
+// BỔ SUNG MỚI: Top Công ty đang tuyển
+async function getTopCompanies() {
+    try {
+        const result = await prisma.company.findMany({
+            include: {
+                _count: {
+                    select: { jobs: { where: { status: "ACTIVE" } } }
+                }
+            },
+            take: 5,
+            orderBy: { jobs: { _count: "desc" } }
+        });
+        return result.map(c => ({ 
+            name: c.name, 
+            logo: c.logo, 
+            slug: c.slug,
+            industry: c.industry,
+            count: c._count.jobs 
+        }));
+    } catch { return []; }
+}
+
+// BỔ SUNG MỚI: Phân bổ kinh nghiệm
+async function getExperienceDistribution() {
+    try {
+        const result = await prisma.$queryRaw<Array<{ exp: string; count: bigint }>>`
+            SELECT 
+                CASE 
+                    WHEN "experienceYears" <= 1 THEN '0-1 năm'
+                    WHEN "experienceYears" <= 3 THEN '2-3 năm'
+                    WHEN "experienceYears" <= 5 THEN '3-5 năm'
+                    ELSE 'Trên 5 năm'
+                END as exp,
+                COUNT(*) as count
+            FROM "Job"
+            WHERE status = 'ACTIVE' AND "experienceYears" IS NOT NULL
+            GROUP BY exp
+            ORDER BY count DESC
+        `;
+        return result.map(r => ({ label: r.exp, count: Number(r.count) }));
+    } catch { return []; }
+}
+
+// BỔ SUNG MỚI: 3 bài Blog thị trường mới nhất
+async function getLatestInsights() {
+    try {
+        return await prisma.blog.findMany({
+            where: { isPublished: true, category: { contains: "Thị trường" } },
+            take: 3,
+            orderBy: { createdAt: "desc" },
+            select: { title: true, slug: true, coverImage: true, excerpt: true, createdAt: true }
+        });
+    } catch { return []; }
 }

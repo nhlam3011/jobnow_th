@@ -183,7 +183,7 @@ export default function SalaryCalculatorPage() {
                                             type="text"
                                             value={salaryInput}
                                             onChange={(e) => {
-                                                const v = e.target.value.replace(/[^0-9]/g, "");
+                                                const v = e.target.value.replace(/[^0-9]/g, "").slice(0, 15);
                                                 setSalaryInput(v ? parseInt(v).toLocaleString("vi-VN") : "");
                                             }}
                                             placeholder="Nhập số tiền..."
@@ -290,7 +290,7 @@ export default function SalaryCalculatorPage() {
                                                 <table className="tax-table">
                                                     <thead>
                                                         <tr>
-                                                            <th>Mức chịu thuế</th>
+                                                            <th className="text-left">Mức chịu thuế</th>
                                                             <th className="text-center">Thuế suất</th>
                                                             <th className="text-right">Lương chịu thuế</th>
                                                             <th className="text-right">Tiền nộp</th>
@@ -338,7 +338,7 @@ export default function SalaryCalculatorPage() {
             <Footer />
 
             <style jsx>{`
-                .salary-calc-wrapper { max-width: 1200px; margin: 0 auto; position: relative; }
+                .salary-calc-wrapper { max-width: 1200px; margin: 0 auto; position: relative; overflow: hidden; }
                 .calc-header { text-align: center; margin-bottom: 3.5rem; }
                 .calc-icon-box { 
                     width: 70px; height: 70px; border-radius: 20px; 
@@ -349,10 +349,10 @@ export default function SalaryCalculatorPage() {
                 .calc-header h1 { font-size: 2.25rem; font-weight: 800; color: var(--text); margin: 0.5rem 0; }
                 .calc-header p { color: var(--text-muted); font-size: 1.1rem; }
 
-                .calc-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: flex-start; }
+                .calc-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; align-items: flex-start; }
                 @media (min-width: 1024px) { .calc-grid { grid-template-columns: 380px 1fr; } }
 
-                .calc-card { background: var(--bg-card); border: 1.5px solid var(--border); border-radius: 28px; padding: 2rem; box-shadow: var(--shadow-sm); }
+                .calc-card { background: var(--bg-card); border: 1.5px solid var(--border); border-radius: 28px; padding: 2rem; box-shadow: var(--shadow-sm); overflow: hidden; }
                 .pane-title { font-size: 0.95rem; font-weight: 800; color: var(--text); padding-bottom: 1.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.625rem; }
 
                 .type-toggle { display: flex; background: var(--tag-bg); padding: 0.35rem; border-radius: 14px; gap: 0.25rem; margin-bottom: 2rem; }
@@ -370,9 +370,9 @@ export default function SalaryCalculatorPage() {
                 .input-group { margin-bottom: 1.75rem; }
                 .input-group label { display: block; font-size: 0.75rem; font-weight: 800; color: var(--text-muted); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.02em; }
                 
-                .input-with-icon { position: relative; display: flex; align-items: center; }
+                .input-with-icon { position: relative; display: flex; align-items: center; min-width: 0; }
                 .input-with-icon :global(svg) { position: absolute; left: 1.125rem; color: var(--primary); }
-                .input-with-icon input { width: 100%; padding: 1rem 3.5rem 1rem 3rem; background: var(--bg); border: 1.5px solid var(--border); border-radius: 14px; font-size: 1.125rem; font-weight: 700; color: var(--text); transition: border-color 0.2s; }
+                .input-with-icon input { width: 100%; max-width: 100%; min-width: 0; padding: 1rem 3.5rem 1rem 3rem; background: var(--bg); border: 1.5px solid var(--border); border-radius: 14px; font-size: 1.125rem; font-weight: 700; color: var(--text); transition: border-color 0.2s; }
                 .input-with-icon input:focus { outline: none; border-color: var(--primary); }
                 .input-with-icon span { position: absolute; right: 1.125rem; font-weight: 800; font-size: 0.75rem; color: var(--text-muted); }
 
@@ -386,13 +386,14 @@ export default function SalaryCalculatorPage() {
                 .reset-btn:hover { color: var(--primary); }
 
                 .result-layout { display: flex; flex-direction: column; gap: 1.5rem; }
-                .result-hero-card { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); border-radius: 32px; padding: 2.5rem; color: white; box-shadow: 0 20px 40px -10px rgba(var(--primary-rgb), 0.3); }
+                .result-hero-card { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); border-radius: 32px; padding: 2.5rem; color: white; box-shadow: 0 20px 40px -10px rgba(var(--primary-rgb), 0.3); overflow: hidden; }
                 .hero-main label { font-size: 0.65rem; font-weight: 800; letter-spacing: 0.1em; opacity: 0.8; }
-                .net-salary-display { font-size: 3rem; font-weight: 900; margin: 0.5rem 0 1.5rem; line-height: 1; letter-spacing: -0.02em; }
+                .net-salary-display { font-size: clamp(1.5rem, 5vw, 3rem); font-weight: 900; margin: 0.5rem 0 1.5rem; line-height: 1; letter-spacing: -0.02em; word-break: break-all; overflow-wrap: anywhere; }
                 .hero-divider { height: 1.5px; background: rgba(255,255,255,0.15); margin-bottom: 1.5rem; }
-                .hero-sub { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+                .hero-sub { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; min-width: 0; }
+                .sub-item { min-width: 0; overflow: hidden; }
                 .sub-item span { display: block; font-size: 0.65rem; font-weight: 700; opacity: 0.7; margin-bottom: 0.25rem; }
-                .sub-item strong { font-size: 0.95rem; font-weight: 800; }
+                .sub-item strong { font-size: 0.95rem; font-weight: 800; word-break: break-all; overflow-wrap: anywhere; }
                 
                 @media (max-width: 640px) { 
                     .hero-sub { grid-template-columns: repeat(2, 1fr); gap: 1rem 0.75rem; } 
@@ -401,18 +402,55 @@ export default function SalaryCalculatorPage() {
                 }
                 @media (max-width: 380px) { .hero-sub { grid-template-columns: 1fr; } }
 
+                @media (max-width: 320px) {
+                    main { padding: 2rem 0.5rem !important; }
+                    .calc-header { margin-bottom: 2rem; }
+                    .calc-icon-box { width: 56px; height: 56px; border-radius: 16px; }
+                    .calc-header h1 { font-size: 1.5rem; }
+                    .calc-header p { font-size: 0.85rem; }
+                    .calc-card { padding: 1.25rem 0.875rem; border-radius: 20px; }
+                    .pane-title { font-size: 0.85rem; padding-bottom: 1rem; margin-bottom: 1rem; }
+                    .type-toggle { padding: 0.25rem; }
+                    .type-toggle button { padding: 0.625rem 0.25rem; font-size: 0.7rem; }
+                    .region-selector { gap: 0.375rem; }
+                    .region-btn { padding: 0.5rem; }
+                    .r-label { font-size: 0.6rem; }
+                    .r-min { font-size: 0.75rem; }
+                    .input-with-icon input { padding: 0.875rem 3rem 0.875rem 2.5rem; font-size: 1rem; }
+                    .input-with-icon :global(svg) { left: 0.75rem; }
+                    .input-with-icon span { right: 0.75rem; font-size: 0.65rem; }
+                    .dependent-stepper button { width: 38px; height: 38px; font-size: 1rem; }
+                    .dep-val { font-size: 0.85rem; }
+                    .result-hero-card { padding: 1.5rem 1rem; border-radius: 20px; }
+                    .net-salary-display { font-size: 1.5rem; margin-bottom: 1rem; }
+                    .hero-main label { font-size: 0.55rem; }
+                    .sub-item span { font-size: 0.6rem; }
+                    .sub-item strong { font-size: 0.8rem; }
+                    .detail-table { padding: 1rem 0.875rem; }
+                    .table-row { font-size: 0.85rem; padding: 0.5rem 0; }
+                    .table-row.group { font-size: 0.75rem; padding-left: 1rem; }
+                    .final-net-row .net-val { font-size: 1.25rem; }
+                    .tax-table { font-size: 0.75rem; }
+                    .tax-table th, .tax-table td { padding: 0.625rem 0.5rem; }
+                    .result-placeholder { padding: 2.5rem 1rem; }
+                    .result-placeholder h3 { font-size: 1.1rem; }
+                    .calc-footer-info { padding: 1rem; font-size: 0.75rem; flex-direction: column; }
+                    .footer-text strong { font-size: 0.7rem; }
+                    .footer-text p { font-size: 0.7rem; }
+                }
+
                 .detail-table { padding: 2.5rem; }
                 @media (max-width: 640px) { .detail-table { padding: 1.5rem 1rem; } .calc-card { padding: 1.5rem 1rem; } }
-                .table-row { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; font-size: 0.95rem; color: var(--text); }
-                .table-row.group { font-size: 0.85rem; color: var(--text-muted); padding: 0.4rem 0 0.4rem 1.25rem; position: relative; }
+                .table-row { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; font-size: 0.95rem; color: var(--text); gap: 0.5rem; min-width: 0; }
+                .table-row.group { font-size: 0.85rem; color: var(--text-muted); padding: 0.4rem 0 0.4rem 1.25rem; position: relative; min-width: 0; }
                 .table-row.group:before { content: ''; position: absolute; left: 0; top: 50%; width: 0.75rem; height: 1.5px; background: var(--border); }
-                .table-row strong { font-weight: 800; }
-                .minus { color: #ef4444; font-weight: 700; }
+                .table-row strong { font-weight: 800; word-break: break-all; overflow-wrap: anywhere; text-align: right; }
+                .minus { color: #ef4444; font-weight: 700; word-break: break-all; overflow-wrap: anywhere; text-align: right; }
                 .table-divider { height: 1.5px; background: var(--border); margin: 1rem 0; }
                 .danger { color: #ef4444 !important; }
-                .final-net-row { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 2px solid var(--primary); display: flex; justify-content: space-between; align-items: center; }
+                .final-net-row { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 2px solid var(--primary); display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
                 .final-net-row span { font-weight: 900; }
-                .final-net-row .net-val { font-size: 1.5rem; color: var(--primary); }
+                .final-net-row .net-val { font-size: 1.5rem; color: var(--primary); word-break: break-all; overflow-wrap: anywhere; text-align: right; }
 
                 .bracket-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; }
                 .bracket-item { background: var(--bg); padding: 1rem; border-radius: 16px; border: 1px solid var(--border); }
@@ -425,10 +463,11 @@ export default function SalaryCalculatorPage() {
                 .tax-table th { background: #f8fafc; padding: 1rem; text-align: left; font-weight: 800; color: var(--text-muted); border-bottom: 1.5px solid var(--border); }
                 .tax-table td { padding: 1rem; border-bottom: 1px solid var(--border); color: var(--text); }
                 .tax-table tr:last-child td { border-bottom: none; }
-                .text-center { text-align: center; }
-                .text-right { text-align: right; }
+                .text-center { text-align: center !important; }
+                .text-right { text-align: right !important; }
                 .tax-table tr:hover { background: #f1f5f9; }
                 
+                .text-left { text-align: left !important; }
                 .no-tax-state { text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 2rem; width: 100%; }
 
                 .result-placeholder { padding: 5rem; text-align: center; background: var(--bg-card); border-radius: 28px; border: 1.5px dashed var(--border); color: var(--text-muted); height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; }

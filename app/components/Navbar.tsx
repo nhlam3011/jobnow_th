@@ -546,7 +546,6 @@ export default function Navbar({ industries }: NavbarProps) {
                             whiteSpace: "nowrap",
                         }}
                     >
-                        <ChartBarIcon className="w-4 h-4" />
                         Thị trường
                     </Link>
                 </div>
@@ -791,7 +790,6 @@ export default function Navbar({ industries }: NavbarProps) {
                             fontSize: "0.9375rem",
                         }}
                     >
-                        <ChartBarIcon className="w-4 h-4" style={{ color: "var(--primary)" }} />
                         Thị trường
                     </Link>
 

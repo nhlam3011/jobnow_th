@@ -779,3 +779,35 @@ h6 {
     padding: 1rem;
   }
 }
+
+/* Career Path CTA Button */
+.panel-cta-btn { 
+    display: flex !important; 
+    flex-direction: row !important;
+    align-items: center !important; 
+    justify-content: center !important; 
+    gap: 0.75rem !important; 
+    padding: 1rem 1.5rem !important; 
+    background: #006699 !important; 
+    color: white !important; 
+    border: none !important; 
+    border-radius: 24px !important; 
+    font-size: 1.05rem !important; 
+    font-weight: 800 !important; 
+    cursor: pointer !important; 
+    transition: all 180ms ease !important;
+    box-shadow: 0 4px 12px rgba(0, 102, 153, 0.25) !important;
+    text-decoration: none !important;
+    width: 100% !important;
+    margin-top: 0.5rem !important;
+}
+
+.panel-cta-btn:hover { 
+    background: #005580 !important; 
+    transform: translateY(-1px) !important; 
+    box-shadow: 0 6px 16px rgba(0, 102, 153, 0.35) !important; 
+}
+
+.panel-cta-btn:active { 
+    transform: translateY(1px) !important; 
+}

@@ -3,12 +3,12 @@
 import { useState, useRef } from "react";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
-import { 
-    DocumentTextIcon, 
-    ArrowUpTrayIcon, 
-    CheckCircleIcon, 
-    ExclamationCircleIcon, 
-    XCircleIcon, 
+import {
+    DocumentTextIcon,
+    ArrowUpTrayIcon,
+    CheckCircleIcon,
+    ExclamationCircleIcon,
+    XCircleIcon,
     ArrowPathIcon,
     SparklesIcon,
     ShieldCheckIcon,
@@ -35,23 +35,23 @@ interface CvAnalysis {
 export default function CvCheckerPage() {
     const [cvText, setCvText] = useState<string>("");
     const [fileName, setFileName] = useState<string>("");
-    const [stagedFile, setStagedFile] = useState<{data: string, mimeType: string} | null>(null);
+    const [stagedFile, setStagedFile] = useState<{ data: string, mimeType: string } | null>(null);
     const [analysis, setAnalysis] = useState<CvAnalysis | null>(null);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    const performAnalysis = async (text: string | null, file: {data: string, mimeType: string} | null) => {
+    const performAnalysis = async (text: string | null, file: { data: string, mimeType: string } | null) => {
         if (!text?.trim() && !file) return;
-        
+
         setIsAnalyzing(true);
         setAnalysis(null);
         try {
             const response = await fetch("/api/ai/cv-check", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ 
+                body: JSON.stringify({
                     cvText: text,
-                    fileData: file 
+                    fileData: file
                 }),
             });
 
@@ -76,14 +76,14 @@ export default function CvCheckerPage() {
         const file = e.target.files?.[0];
         if (!file) return;
         setFileName(file.name);
-        
+
         if (file.type === "text/plain" || file.name.endsWith(".txt")) {
-            try { 
-                const text = await file.text(); 
-                setCvText(text); 
+            try {
+                const text = await file.text();
+                setCvText(text);
                 setStagedFile(null);
                 performAnalysis(text, null);
-            } catch { 
+            } catch {
                 alert("Lỗi khi đọc file text.");
             }
         } else {
@@ -104,16 +104,16 @@ export default function CvCheckerPage() {
 
     const handleAnalyze = () => performAnalysis(cvText, stagedFile);
 
-    const handleReset = () => { 
-        setCvText(""); 
-        setFileName(""); 
+    const handleReset = () => {
+        setCvText("");
+        setFileName("");
         setStagedFile(null);
-        setAnalysis(null); 
-        if (fileInputRef.current) fileInputRef.current.value = ""; 
+        setAnalysis(null);
+        if (fileInputRef.current) fileInputRef.current.value = "";
     };
 
     const StatusIcon = ({ status }: { status: 'pass' | 'warning' | 'fail' }) => {
-        switch(status) {
+        switch (status) {
             case 'pass': return <CheckCircleIcon className="w-5 h-5 text-green-500" />;
             case 'warning': return <ExclamationCircleIcon className="w-5 h-5 text-amber-500" />;
             case 'fail': return <XCircleIcon className="w-5 h-5 text-red-500" />;
@@ -123,10 +123,9 @@ export default function CvCheckerPage() {
     return (
         <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: "var(--bg)" }}>
             <Navbar />
-            
+
             <main style={{ flex: 1, padding: "4rem 1rem", position: "relative" }}>
-                <div className="bg-blur-blob" />
-                
+
                 <div className="container-xl" style={{ position: "relative", zIndex: 1 }}>
                     <div className="checker-header">
                         <div className="checker-icon-box">
@@ -144,14 +143,14 @@ export default function CvCheckerPage() {
                                 <h3>Nội dung CV</h3>
                             </div>
 
-                            <div 
+                            <div
                                 className={`upload-zone ${fileName ? 'active' : ''}`}
                                 onClick={() => fileInputRef.current?.click()}
                             >
                                 <input ref={fileInputRef} type="file" accept=".txt,.pdf,.doc,.docx" style={{ display: "none" }} onChange={handleFileUpload} />
                                 <ArrowUpTrayIcon className="w-10 h-10 icon-upload" />
-                                <div>
-                                    <strong>{fileName || "Tải lên tài liệu của bạn"}</strong>
+                                <div className="upload-info">
+                                    <strong className="file-name-display">{fileName || "Tải lên tài liệu của bạn"}</strong>
                                     <p>Kéo thả hoặc nhấp để chọn file (.pdf, .docx, .txt)</p>
                                 </div>
                             </div>
@@ -159,7 +158,7 @@ export default function CvCheckerPage() {
                             <div className="divider"><span>HOẶC DÁN NỘI DUNG</span></div>
 
                             <div className="textarea-wrapper">
-                                <textarea 
+                                <textarea
                                     value={cvText}
                                     onChange={(e) => setCvText(e.target.value)}
                                     placeholder="Dán toàn bộ nội dung CV của bạn tại đây để AI bắt đầu phân tích..."
@@ -169,7 +168,7 @@ export default function CvCheckerPage() {
                             </div>
 
                             <div className="action-buttons">
-                                <button 
+                                <button
                                     className={`btn-analyze ${isAnalyzing ? 'loading' : ''}`}
                                     onClick={handleAnalyze}
                                     disabled={!cvText.trim() || isAnalyzing}
@@ -177,7 +176,7 @@ export default function CvCheckerPage() {
                                     {isAnalyzing ? (
                                         <><ArrowPathIcon className="w-5 h-5 animate-spin" /> Đang phân tích...</>
                                     ) : (
-                                        <><SparklesIcon className="w-5 h-5" /> Bắt đầu kiểm tra</>
+                                        <><SparklesIcon className="w-6 h-6 flex-shrink-0" /> <span>Bắt đầu kiểm tra</span></>
                                     )}
                                 </button>
                                 <button className="btn-secondary" onClick={handleReset}>
@@ -206,8 +205,8 @@ export default function CvCheckerPage() {
                                                 <path className="circle" style={{ strokeDasharray: `${analysis.score}, 100` }} d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                                             </svg>
                                             <div className="score-num">
-                                                <span>{analysis.score}</span>
-                                                <small>/100</small>
+                                                <span className="current-score">{analysis.score}</span>
+                                                <span className="total-score">/100</span>
                                             </div>
                                         </div>
                                         <div className="score-text">
@@ -221,11 +220,11 @@ export default function CvCheckerPage() {
                                         <div className="overview-grid">
                                             <div className="info-card glass-card success">
                                                 <div className="card-header"><CheckCircleIcon className="w-5 h-5" /> Thế mạnh</div>
-                                                <ul>{analysis.strengths.map((s,i) => <li key={i}>{s}</li>)}</ul>
+                                                <ul>{analysis.strengths.map((s, i) => <li key={i}>{s}</li>)}</ul>
                                             </div>
                                             <div className="info-card glass-card warning">
                                                 <div className="card-header"><ExclamationCircleIcon className="w-5 h-5" /> Điểm yếu</div>
-                                                <ul>{analysis.weaknesses.map((w,i) => <li key={i}>{w}</li>)}</ul>
+                                                <ul>{analysis.weaknesses.map((w, i) => <li key={i}>{w}</li>)}</ul>
                                             </div>
                                         </div>
                                     </div>
@@ -283,8 +282,8 @@ export default function CvCheckerPage() {
                     display: flex; align-items: center; justify-content: center; 
                     margin: 0 auto 1.5rem; box-shadow: 0 10px 20px rgba(var(--primary-rgb), 0.3);
                 }
-                .checker-header h1 { font-size: 2.25rem; font-weight: 800; color: var(--text); margin: 0.5rem 0; letter-spacing: -0.02em; }
-                .checker-header p { color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; line-height: 1.5; }
+                .checker-header h1 { font-size: 2.25rem; font-weight: 800; color: var(--text); margin: 0.5rem 0; letter-spacing: -0.027em; line-height: 1.2; }
+                .checker-header p { color: var(--text-muted); font-size: 1.05rem; max-width: 580px; margin: 0 auto; line-height: 1.6; opacity: 0.85; }
 
                 .checker-layout { display: grid; grid-template-columns: 340px 1fr; gap: 2.5rem; align-items: flex-start; max-width: 1200px; margin: 0 auto; }
                 @media (max-width: 1024px) { .checker-layout { grid-template-columns: 1fr; } }
@@ -293,18 +292,10 @@ export default function CvCheckerPage() {
                     background: var(--bg-card); 
                     border: 1.5px solid var(--border); 
                     border-radius: 28px; 
-                    padding: 2.5rem; 
-                    box-shadow: var(--shadow-sm); 
+                    padding: 2rem; 
+                    box-shadow: 0 12px 30px rgba(0,0,0,0.04); 
                 }
                 
-                :global([data-theme="dark"]) .glass-card { 
-                    background: rgba(30, 41, 59, 0.7); 
-                    backdrop-filter: blur(12px); 
-                    border-color: rgba(255,255,255,0.08); 
-                }
-
-                .bg-blur-blob { position: absolute; top: -100px; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(14,165,233, 0.08) 0%, transparent 70%); pointer-events: none; z-index: 0; }
-
                 .section-title-group { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; }
                 .section-title-group h3 { font-size: 1.25rem; font-weight: 700; margin: 0; }
 
@@ -314,7 +305,13 @@ export default function CvCheckerPage() {
                 .icon-upload { color: var(--primary); transition: transform 0.3s; }
                 .upload-zone:hover .icon-upload { transform: translateY(-5px); }
                 .upload-zone p { font-size: 0.85rem; color: var(--text-muted); margin: 0; }
-                .upload-zone strong { font-size: 0.95rem; color: var(--text); display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+                .upload-info { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 0.25rem; overflow: hidden; }
+                .file-name-display { 
+                    font-size: 1rem; color: var(--text); font-weight: 700; 
+                    display: block; width: 100%; max-width: 280px; 
+                    overflow: hidden; text-overflow: ellipsis; white-space: nowrap; 
+                    text-align: center;
+                }
 
                 .divider { text-align: center; margin: 1.5rem 0; position: relative; }
                 .divider:after { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1.5px; background: var(--border); z-index: 1; }
@@ -325,33 +322,51 @@ export default function CvCheckerPage() {
                 .cv-textarea:focus { outline: none; border-color: var(--primary); }
                 .text-count { position: absolute; bottom: 1rem; right: 1rem; font-size: 0.7rem; color: var(--text-muted); }
 
-                .action-buttons { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-top: 1.5rem; }
-                .btn-analyze { background: var(--primary); color: white; border: none; padding: 1rem; border-radius: 14px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 0.75rem; cursor: pointer; transition: all 0.3s; box-shadow: 0 8px 20px -5px rgba(var(--primary-rgb), 0.3); }
+                .action-buttons { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
+                .btn-analyze { 
+                    background: var(--primary); color: white; border: none; 
+                    height: 64px; border-radius: 14px; font-weight: 800; 
+                    display: flex; align-items: center; justify-content: center; gap: 0.75rem; 
+                    cursor: pointer; transition: all 0.3s; box-shadow: 0 8px 20px -5px rgba(var(--primary-rgb), 0.3);
+                    font-size: 0.95rem; line-height: 1.25; padding: 0 1.25rem;
+                    text-align: center;
+                }
                 .btn-analyze:hover { transform: translateY(-3px); box-shadow: 0 12px 25px -5px rgba(var(--primary-rgb), 0.4); }
                 .btn-analyze:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
-                .btn-secondary { background: var(--tag-bg); color: var(--text); border: none; padding: 1rem; border-radius: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 0.5rem; cursor: pointer; transition: background 0.2s; }
+                .btn-secondary { 
+                    background: var(--tag-bg); color: var(--text); border: none; 
+                    height: 64px; border-radius: 14px; font-weight: 700; 
+                    display: flex; align-items: center; justify-content: center; gap: 0.75rem; 
+                    cursor: pointer; transition: background 0.2s; 
+                    font-size: 0.95rem; line-height: 1.25; padding: 0 1.25rem;
+                    text-align: center;
+                }
                 .btn-secondary:hover { background: var(--border); }
 
                 .analysis-canvas { display: flex; flex-direction: column; gap: 1.5rem; }
                 
-                .score-hero { display: flex; align-items: center; gap: 2rem; }
-                .score-circle { position: relative; width: 110px; height: 110px; display: flex; align-items: center; justify-content: center; }
+                .score-hero { display: flex; align-items: center; gap: 2.5rem; background: rgba(var(--primary-rgb), 0.02); padding: 2.5rem; border-radius: 24px; }
+                .score-circle { position: relative; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
                 .circular-chart { width: 100%; height: 100%; transform: rotate(-90deg); }
-                .circle-bg { fill: none; stroke: var(--border); stroke-width: 2.2; opacity: 0.3; }
-                .circle { fill: none; stroke: var(--primary); stroke-width: 2.8; stroke-linecap: round; transition: stroke-dasharray 1s ease-in-out; }
-                .score-num { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; transform: translateY(2px); }
-                .score-num span { font-size: 2.25rem; font-weight: 900; color: var(--text); line-height: 0.8; margin-top: 5px; }
-                .score-num small { font-size: 0.75rem; color: var(--text-muted); font-weight: 700; opacity: 0.8; }
-                .score-text h3 { font-size: 1.5rem; margin-bottom: 0.5rem; font-weight: 800; letter-spacing: -0.01em; }
-                .score-text p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.4; }
+                .circle-bg { fill: none; stroke: var(--border); stroke-width: 1.5; opacity: 0.3; }
+                .circle { fill: none; stroke: var(--primary); stroke-width: 2.2; stroke-linecap: round; transition: stroke-dasharray 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
+                .score-num { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; transform: translateY(4px); pointer-events: none; }
+                .score-num .current-score { font-size: 3rem; font-weight: 900; color: var(--text); line-height: 0.8; }
+                .score-num .total-score { font-size: 0.9rem; color: var(--text-muted); font-weight: 700; margin-top: 4px; opacity: 0.7; }
+                .score-text h3 { font-size: 1.65rem; margin-bottom: 0.5rem; font-weight: 900; letter-spacing: -0.02em; color: var(--text); }
+                .score-text p { color: var(--text-muted); font-size: 1rem; line-height: 1.5; opacity: 0.9; }
 
-                .overview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-                .info-card { padding: 1.5rem; }
-                .info-card.success { border-left: 6px solid #22c55e; }
-                .info-card.warning { border-left: 6px solid #f59e0b; }
-                .card-header { font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
-                .info-card ul { padding: 0.5rem 0 0 1.25rem; margin: 0; }
-                .info-card li { font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text); }
+                .overview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-top: 1rem; }
+                .info-card { padding: 1.5rem; border-radius: 20px; transition: all 0.3s; border: 1px solid transparent !important; }
+                .info-card.success { background: #f0fdf4; border-color: #dcfce7 !important; }
+                .info-card.warning { background: #fffcf0; border-color: #fef3c7 !important; }
+                :global([data-theme="dark"]) .info-card.success { background: rgba(34, 197, 94, 0.05); color: #4ade80; border-color: rgba(34, 197, 94, 0.1) !important; }
+                :global([data-theme="dark"]) .info-card.warning { background: rgba(245, 158, 11, 0.05); color: #fbbf24; border-color: rgba(245, 158, 11, 0.1) !important; }
+                
+                .card-header { font-size: 0.9rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; display: flex; align-items: center; gap: 0.625rem; margin-bottom: 1.25rem; color: inherit; }
+                .info-card ul { padding: 0; margin: 0; list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+                .info-card li { font-size: 0.925rem; color: var(--text); display: flex; align-items: flex-start; gap: 0.5rem; line-height: 1.5; }
+                .info-card li::before { content: '•'; opacity: 0.5; font-weight: 900; }
 
                 .checklist-grid { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
                 .checklist-item { border: 1.5px solid var(--border); padding: 1.25rem; border-radius: 16px; background: var(--bg); }
@@ -406,10 +421,37 @@ export default function CvCheckerPage() {
                 }
 
                 @media (max-width: 320px) {
-                    .checker-header h1 { font-size: 1.4rem; }
-                    .glass-card { padding: 0.75rem; }
-                    .score-circle { width: 80px; height: 80px; }
-                    .score-num span { font-size: 1.75rem; }
+                    main { padding: 1.5rem 0.55rem !important; }
+                    .checker-header { margin-bottom: 2rem; padding: 0 0.25rem; }
+                    .checker-icon-box { width: 56px; height: 56px; border-radius: 16px; margin-bottom: 0.75rem; }
+                    .checker-header h1 { font-size: 1.45rem !important; line-height: 1.2; }
+                    .checker-header p { font-size: 0.875rem !important; line-height: 1.5; }
+                    .checker-layout { gap: 1.5rem; }
+                    .glass-card { padding: 1.25rem 1rem !important; border-radius: 20px; }
+                    .section-title-group h3 { font-size: 1.1rem; }
+                    .upload-zone { padding: 1.5rem 0.75rem !important; gap: 0.75rem; }
+                    .upload-zone strong { font-size: 0.85rem; line-height: 1.4; display: block; overflow-wrap: break-word; white-space: normal; }
+                    .upload-zone p { font-size: 0.75rem; }
+                    .icon-upload { width: 32px; height: 32px; }
+                    .cv-textarea { min-height: 220px; padding: 1rem; font-size: 0.875rem; }
+                    .action-buttons { grid-template-columns: 1fr; gap: 0.75rem; }
+                    .score-hero { padding: 1.5rem 0.75rem !important; gap: 1.5rem; }
+                    .score-circle { width: 96px; height: 96px; flex-shrink: 0; }
+                    .score-num .current-score { font-size: 2rem !important; }
+                    .score-num .total-score { font-size: 0.75rem; }
+                    .score-text h3 { font-size: 1.15rem !important; text-align: center; }
+                    .score-text p { font-size: 0.85rem !important; text-align: center; }
+                    .pane-title-blue { font-size: 0.7rem; padding: 0.85rem 1rem !important; }
+                    .info-card { padding: 1.25rem 1rem !important; }
+                    .info-card li { font-size: 0.825rem; gap: 0.35rem; }
+                    .checklist-item { padding: 1rem !important; }
+                    .item-main strong { font-size: 0.875rem; }
+                    .item-main p { font-size: 0.8rem; }
+                    .suggestion-box { font-size: 0.75rem; padding-top: 0.75rem; margin-top: 0.75rem; }
+                    .placeholder-canvas { padding: 2.5rem 1rem !important; min-height: 300px; }
+                    .placeholder-canvas h3 { font-size: 1.1rem; }
+                    .divider span { font-size: 0.65rem; }
+                    .spinner-large { width: 40px; height: 40px; }
                 }
             `}</style>
         </div>

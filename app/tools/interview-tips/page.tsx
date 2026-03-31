@@ -3,10 +3,10 @@
 import { useState } from "react";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
-import { 
-    LightBulbIcon, 
-    AcademicCapIcon, 
-    ChatBubbleBottomCenterTextIcon, 
+import {
+    LightBulbIcon,
+    AcademicCapIcon,
+    ChatBubbleBottomCenterTextIcon,
     ShieldCheckIcon,
     ArrowRightIcon,
     CheckIcon,
@@ -18,7 +18,7 @@ const INTERVIEW_STAGES = [
     {
         id: "preparation",
         label: "CHUẨN BỊ",
-        title: "Xây dựng nền tảng vững chắc",
+        title: "Xây dựng nền tảng",
         icon: <AcademicCapIcon className="w-6 h-6" />,
         tasks: [
             { t: "Nghiên cứu sâu về sản phẩm & đối thủ", d: "Hiểu rõ giá trị cốt lõi công ty mang lại." },
@@ -60,7 +60,7 @@ export default function InterviewTipsPage() {
     return (
         <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: "var(--bg)" }}>
             <Navbar />
-            
+
             <main style={{ flex: 1, padding: "4rem 1rem" }}>
                 <div className="container-xl">
                     <div className="tips-container">
@@ -77,7 +77,7 @@ export default function InterviewTipsPage() {
                             {/* Navigation Sidebar */}
                             <div className="tips-nav">
                                 {INTERVIEW_STAGES.map(stage => (
-                                    <button 
+                                    <button
                                         key={stage.id}
                                         className={`nav-item ${activeStage === stage.id ? 'active' : ''}`}
                                         onClick={() => setActiveStage(stage.id)}
@@ -206,10 +206,38 @@ export default function InterviewTipsPage() {
                 .content-card { background: var(--bg-card); border: 1.5px solid var(--border); border-radius: 32px; padding: 3rem; box-shadow: var(--shadow-sm); margin-bottom: 2rem; }
                 .header-meta { font-size: 0.75rem; font-weight: 800; color: var(--primary); letter-spacing: 0.1em; margin-bottom: 0.75rem; }
                 .content-card h2 { font-size: 2rem; font-weight: 800; color: var(--text); margin-bottom: 2.5rem; letter-spacing: -0.02em; }
-                @media (max-width: 640px) { 
+                @media (max-width: 640px) {
                     .content-card { padding: 1.75rem 1.5rem; border-radius: 24px; } 
                     .content-card h2 { font-size: 1.5rem; margin-bottom: 1.5rem; }
                     .tips-hero h1 { font-size: 1.75rem; }
+                }
+
+                @media (max-width: 320px) {
+                    main { padding: 2rem 0.5rem !important; }
+                    .tips-hero { margin-bottom: 2rem; padding: 0 0.25rem; }
+                    .hero-icon { width: 50px; height: 50px; border-radius: 16px; }
+                    .tips-hero h1 { font-size: 1.35rem; }
+                    .tips-hero p { font-size: 0.8rem; }
+                    .tips-nav { gap: 0.5rem; padding: 0.5rem; margin: 0 -0.5rem 1rem; }
+                    .nav-item { min-width: 130px; padding: 0.75rem; gap: 0.75rem; border-radius: 14px; }
+                    .nav-icon { width: 28px; height: 28px; border-radius: 10px; }
+                    .nav-text label { font-size: 0.5rem; }
+                    .nav-text span { font-size: 0.7rem; }
+                    .content-card { padding: 1.25rem 1rem; border-radius: 20px; }
+                    .content-card h2 { font-size: 1.2rem; margin-bottom: 1.25rem; }
+                    .header-meta { font-size: 0.65rem; margin-bottom: 0.5rem; }
+                    .task-list { gap: 1rem; }
+                    .task-item { gap: 0.75rem; }
+                    .task-check { width: 24px; height: 24px; }
+                    .task-title { font-size: 0.9rem; }
+                    .task-desc { font-size: 0.8rem; }
+                    .pro-tip-box { padding: 1rem; margin-top: 2rem; flex-direction: column; gap: 0.5rem; }
+                    .pro-tip-box strong { font-size: 0.6rem; }
+                    .pro-tip-box p { font-size: 0.8rem; }
+                    .quick-checklist { padding: 1.25rem; border-radius: 20px; }
+                    .quick-checklist h3 { font-size: 0.95rem; margin-bottom: 1rem; }
+                    .check-grid { grid-template-columns: 1fr; gap: 0.5rem; }
+                    .check-node { padding: 0.75rem; font-size: 0.8rem; }
                 }
 
                 .task-list { display: flex; flex-direction: column; gap: 1.5rem; }

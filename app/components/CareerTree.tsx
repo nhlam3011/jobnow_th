@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { generateAIPath } from "@/app/actions/career";
 import {
     MagnifyingGlassPlusIcon,
@@ -279,7 +280,7 @@ export default function CareerTree() {
                 <p>Khám phá con đường tối ưu để vươn tới các vị trí cao cấp hơn dựa trên dữ liệu thật.</p>
             </div>
 
-            <div className="advanced-workspace">
+            <div className={`advanced-workspace ${selectedNode ? 'panel-open' : ''}`}>
                 <div
                     className={`viz-main-frame ${isDragging ? 'grabbing' : ''}`}
                     onMouseDown={onMouseDown}
@@ -296,7 +297,7 @@ export default function CareerTree() {
                             <MagnifyingGlassIcon className="w-5 h-5 search-icon" />
                             <input
                                 type="text"
-                                placeholder="Khám phá lộ trình khác (VD: Product Manager...)"
+                                placeholder="Khám phá lộ trình khác"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && fetchRoadmap(searchQuery)}
@@ -399,10 +400,14 @@ export default function CareerTree() {
                                         <strong>{selectedNode.demand === 'High' ? 'Rất cao' : selectedNode.demand === 'Medium' ? 'Trung bình' : 'Ổn định'}</strong>
                                     </div>
                                 </div>
-                                <button className="panel-cta-btn">
-                                    <BriefcaseIcon className="w-5 h-5" />
+                                <Link
+                                    href={`/jobs?q=${encodeURIComponent(selectedNode.label)}&ai=true`}
+                                    className="panel-cta-btn"
+                                    style={{ textDecoration: 'none' }}
+                                >
+                                    <BriefcaseIcon className="w-6 h-6 text-white" />
                                     <span>Xem việc làm ngay</span>
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     )}
@@ -516,7 +521,18 @@ export default function CareerTree() {
                 .viz-floating-controls { 
                     position: absolute; bottom: 1.5rem; left: 1.5rem; display: flex; align-items: center; gap: 0.75rem; 
                     background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); padding: 0.5rem; border-radius: 20px; 
-                    border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 50;
+                    border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 40; transition: all 0.4s cubic-bezier(0.2, 0, 0, 1);
+                }
+                @media (max-width: 1199px) {
+                    .viz-floating-controls {
+                        bottom: 1.5rem; top: auto; left: 50%; transform: translateX(-50%);
+                        padding: 0.35rem; gap: 0.5rem; border-radius: 12px;
+                        z-index: 40; 
+                    }
+                    .panel-open .viz-floating-controls { 
+                        opacity: 0.2;
+                        pointer-events: none;
+                    }
                 }
                 :global([data-theme="dark"] .viz-floating-controls) { background: rgba(30, 41, 59, 0.85); }
                 .control-group { display: flex; align-items: center; gap: 0.25rem; }
@@ -532,11 +548,28 @@ export default function CareerTree() {
                 .download-spinner { width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: #10b981; border-radius: 50%; animation: spin 0.8s linear infinite; }
                 @keyframes spin { to { transform: rotate(360deg); } }
                 .zoom-text { font-size: 0.75rem; font-weight: 800; color: var(--text); padding: 0 0.5rem; min-width: 45px; text-align: center; }
+                @media (max-width: 1199px) {
+                    .control-group button { width: 32px; height: 32px; border-radius: 10px; }
+                    .zoom-text { font-size: 0.65rem; min-width: 35px; }
+                }
 
                 .viz-side-panel { background: var(--bg-card); border-radius: 32px; border: 2.5px solid var(--border); height: 100%; overflow: hidden; box-shadow: var(--shadow-xl); position: relative; }
                 @media (max-width: 1199px) {
-                    .viz-side-panel { position: fixed; bottom: 0; left: 0; right: 0; height: auto; max-height: 80vh; transform: translateY(100%); z-index: 100; border-radius: 32px 32px 0 0; border: none; transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1); background: var(--bg-card); }
-                    .viz-side-panel.visible { transform: translateY(0); box-shadow: 0 -10px 40px rgba(0,0,0,0.1); }
+                    .viz-side-panel { 
+                        position: fixed; bottom: 0; left: 0; right: 0; 
+                        height: 85vh; height: 85dvh; 
+                        transform: translateY(100%); z-index: 100; 
+                        border-radius: 28px 28px 0 0; border: none; 
+                        transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1); 
+                        background: var(--bg-card);
+                        display: flex;
+                        flex-direction: column;
+                        padding-bottom: 0;
+                    }
+                    .viz-side-panel.visible { transform: translateY(0); box-shadow: 0 -20px 40px rgba(0,0,0,0.15); }
+                    .panel-footer-action { padding: 1.25rem 1.5rem calc(1.5rem + env(safe-area-inset-bottom, 0rem)); }
+                    .panel-scroll-content { padding: 2rem 1.5rem 1rem; }
+                    .panel-title-text { font-size: 1.2rem; margin-bottom: 1.5rem; }
                 }
 
                 .panel-inner { display: flex; flex-direction: column; height: 100%; }
@@ -571,13 +604,6 @@ export default function CareerTree() {
                 .demand-status.high strong { color: #ef4444; }
                 .demand-status.medium strong { color: #d97706; }
                 .demand-status.low strong { color: #4b5563; }
-
-                .panel-cta-btn { 
-                    width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.625rem; 
-                    padding: 1rem; background: var(--primary); color: white; border: none; border-radius: 16px; 
-                    font-size: 1rem; font-weight: 800; cursor: pointer; transition: all 0.3s;
-                }
-                .panel-cta-btn:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(var(--primary-rgb), 0.3); }
 
                 .viz-loading-overlay { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 2.5rem; text-align: center; padding: 2rem; background: rgba(255,255,255,0.7); backdrop-filter: blur(8px); z-index: 100; position: absolute; inset: 0; }
                 .loading-orbit { width: 100px; height: 100px; position: relative; }

@@ -77,7 +77,7 @@ export async function getEmployerCompany() {
 
     const employer = await prisma.employerProfile.findUnique({
         where: { userId: session.user.id },
-        include: { company: { select: { id: true, name: true, logo: true, slug: true, verified: true } } },
+        include: { company: true },
     });
 
     return employer?.company || null;

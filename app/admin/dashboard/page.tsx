@@ -4,6 +4,7 @@ import DashboardLayout from "@/app/components/DashboardLayout";
 import { getAllJobsForAdmin } from "@/app/actions/jobs";
 import AdminJobActions from "@/app/components/AdminJobActions";
 import { getAdminBillingStats } from "@/app/actions/admin-billing";
+import { getDashboardStats } from "@/app/actions/profile";
 
 const JOB_STATUS: Record<string, { label: string; color: string }> = {
     PENDING: { label: "Chờ duyệt", color: "#F59E0B" },

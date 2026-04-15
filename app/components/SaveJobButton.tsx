@@ -1,0 +1,79 @@
+"use client";
+
+import { useState } from "react";
+import { saveJob, unsaveJob } from "@/app/actions/jobs";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+
+interface SaveJobButtonProps {
+    jobId: string;
+    initialSaved?: boolean;
+}
+
+export default function SaveJobButton({ jobId, initialSaved = false }: SaveJobButtonProps) {
+    const { data: session } = useSession();
+    const [saved, setSaved] = useState(initialSaved);
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
+
+    if (session?.user?.role === "ADMIN" || session?.user?.role === "EMPLOYER") return null;
+
+    const handleToggle = async (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setLoading(true);
+        try {
+            if (saved) {
+                await unsaveJob(jobId);
+                setSaved(false);
+            } else {
+                const result = await saveJob(jobId);
+                if (result.success) {
+                    setSaved(true);
+                } else if (result.error?.includes("đăng nhập")) {
+                    router.push("/login");
+                    return;
+                }
+            }
+        } catch (error) {
+            console.error("Error toggling save:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <button
+            onClick={handleToggle}
+            disabled={loading}
+            style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "32px",
+                height: "32px",
+                borderRadius: "50%",
+                border: "none",
+                background: "transparent",
+                color: saved ? "#EF4444" : "var(--text-muted)",
+                cursor: loading ? "not-allowed" : "pointer",
+                transition: "all 0.2s ease",
+                opacity: loading ? 0.7 : 1,
+                padding: 0,
+            }}
+            className="save-job-btn"
+            title={saved ? "Bỏ lưu việc làm" : "Lưu việc làm"}
+        >
+            <svg
+                width="18"
+                height="18"
+                fill={saved ? "currentColor" : "none"}
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+            >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+        </button>
+    );
+}

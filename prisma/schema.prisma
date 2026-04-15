@@ -1,0 +1,350 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions", "fullTextSearchPostgres"]
+  engineType      = "library"
+}
+
+datasource db {
+  provider   = "postgresql"
+  extensions = [pgvector(map: "vector")]
+}
+
+// ============================================================
+// ENUMS
+// ============================================================
+
+enum UserRole {
+  CANDIDATE
+  EMPLOYER
+  ADMIN
+}
+
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  REMOTE
+  INTERNSHIP
+  CONTRACT
+}
+
+enum JobStatus {
+  PENDING
+  ACTIVE
+  CLOSED
+  REJECTED
+}
+
+enum ApplicationStatus {
+  PENDING
+  REVIEWING
+  INTERVIEW
+  ACCEPTED
+  REJECTED
+}
+
+enum TransactionType {
+  DEPOSIT
+  DEDUCTION
+}
+
+// ============================================================
+// MODELS
+// ============================================================
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  password      String?
+  name          String?
+  image         String?
+  role          UserRole @default(CANDIDATE)
+  emailVerified DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  candidateProfile CandidateProfile?
+  employerProfile  EmployerProfile?
+  applications     Application[]
+  resumes          Resume[]
+  notifications    Notification[]
+  savedJobs        SavedJob[]
+  cvBuilders       CV[]
+
+  @@index([email])
+}
+
+model CandidateProfile {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  phone          String?
+  location       String?
+  bio            String?
+  yearsExp       Int      @default(0)
+  desiredSalary  Int?
+  desiredJobType String?
+  skills         String[]
+  education      Json?    // [{ school, degree, field, startYear, endYear }]
+  experience     Json?    // [{ company, position, startDate, endDate, description }]
+  resumeUrl      String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // [THÊM] Embedding cho hồ sơ ứng viên (AI Smart Matching)
+  embedding      Unsupported("vector")?
+}
+
+model Company {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  logo        String?
+  coverImage  String?
+  website     String?
+  description String?
+  industry    String?
+  size        String?  // "1-10", "11-50", "51-200", "201-500", "500+"
+  locations   String[] @default([])
+  verified    Boolean  @default(false)
+  balance     Int      @default(0) // Số dư ví (VND)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  employers    EmployerProfile[]
+  jobs         Job[]
+  transactions Transaction[]
+
+  @@index([slug])
+  @@index([industry])
+}
+
+model EmployerProfile {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyId String?
+  company   Company? @relation(fields: [companyId], references: [id])
+  position  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Job {
+  id           String    @id @default(cuid())
+  companyId    String
+  company      Company   @relation(fields: [companyId], references: [id])
+  postedById   String?
+  industryId   String?
+  industry     Industry? @relation(fields: [industryId], references: [id])
+  title        String
+  slug         String    @unique
+  description  String
+  requirements String?
+  benefits     String?
+  salaryMin    Int?
+  salaryMax    Int?
+  location     String?
+  province     String?
+  jobType      JobType   @default(FULL_TIME)
+  status       JobStatus @default(PENDING)
+  skills       String[]
+  ageMin       Int?
+  ageMax       Int?
+  experienceYears Int?
+  viewCount    Int       @default(0)
+  isVip        Boolean   @default(false)
+  vipUntil     DateTime?
+  expiresAt    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  // [THÊM] Embedding cho mô tả công việc (AI Smart Matching)
+  embedding    Unsupported("vector")?
+
+  applications Application[]
+  savedBy      SavedJob[]
+
+  @@index([status])
+  @@index([location])
+  @@index([jobType])
+  @@index([companyId])
+  @@index([slug])
+  @@index([industryId])
+}
+
+model Application {
+  id          String            @id @default(cuid())
+  jobId       String
+  job         Job               @relation(fields: [jobId], references: [id])
+  candidateId String
+  candidate   User              @relation(fields: [candidateId], references: [id])
+  cvId        String?
+  cv          CV?               @relation(fields: [cvId], references: [id])
+  resumeId    String?
+  resume      Resume?           @relation(fields: [resumeId], references: [id])
+  status      ApplicationStatus @default(PENDING)
+  coverLetter String?
+  matchScore  Float?
+  notes       String?           // Employer's internal notes
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@unique([jobId, candidateId])
+  @@index([candidateId])
+  @@index([jobId])
+  @@index([cvId])
+  @@index([resumeId])
+}
+
+model Resume {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fileName   String
+  fileUrl    String
+  parsedText String?
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+
+  applications Application[]
+
+  @@index([userId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String   // APPLICATION_STATUS, NEW_JOB_MATCH, JOB_APPROVED, etc.
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  link      String?
+  createdAt DateTime @default(now())
+
+  @@index([userId, isRead])
+}
+
+model Skill {
+  id       String @id @default(cuid())
+  name     String @unique
+  category String // Frontend, Backend, AI/ML, Design, DevOps, etc.
+}
+
+model Industry {
+  id   String @id @default(cuid())
+  name String @unique
+  slug String @unique
+  
+  jobs Job[]
+}
+
+model SavedJob {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobId     String
+  job       Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, jobId])
+  @@index([userId])
+  @@index([jobId])
+}
+
+model SearchKeyword {
+  id                String   @id @default(cuid())
+  baseKeyword       String   // Từ khoá gốc (e.g., "marketing")
+  keywordSuggestion String   @db.Text // Từ khoá gợi ý (e.g., "marketing online")
+  keywordType       String   // "keyword_suggestion" hoặc "related_keyword"
+  embedding         Float[]  // Gemini embedding cho từ khoá
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([baseKeyword])
+  @@index([keywordType])
+  @@unique([baseKeyword, keywordSuggestion, keywordType])
+}
+
+// [THÊM MỚI] Model lưu trữ các mẫu CV
+model Template {
+  id           String   @id @default(cuid())
+  name         String   // Tên template (vd: "Modern Minimalist")
+  description  String?
+  category     String   @default("Modern") // Phân loại: Modern, Classic, Creative, Minimal
+  thumbnailUrl String?  // Hình ảnh preview của template
+  previewHtml  String?  @db.Text // HTML preview đã render sẵn
+  layoutConfig Json     // Cấu trúc dàn trang (JSON)
+  styleConfig  Json     // Cấu hình UI (JSON)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  cvs          CV[]
+}
+
+// [THÊM MỚI] Model lưu nội dung CV do user tạo trên hệ thống
+model CV {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  templateId   String
+  template     Template @relation(fields: [templateId], references: [id])
+  title        String
+  content      Json
+  isPublic     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  applications Application[]
+
+  @@index([userId])
+  @@index([templateId])
+}
+
+model Blog {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String?
+  content     String   @db.Text
+  coverImage  String?
+  author      String?
+  category    String
+  tags        String[]
+  isPublished Boolean  @default(true)
+  viewCount   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([slug])
+  @@index([category])
+  @@index([isPublished])
+}
+
+model Transaction {
+  id           String          @id @default(cuid())
+  companyId    String
+  company      Company         @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  amount       Int             // Số tiền giao dịch (VND)
+  type         TransactionType // Nạp tiền hay thanh toán
+  description  String?
+  balanceAfter Int             // Số dư ví sau khi giao dịch
+  createdAt    DateTime        @default(now())
+
+  @@index([companyId])
+}
+
+model VipPackage {
+  id        String   @id @default(cuid())
+  name      String   // VD: "Gói 1 ngày"
+  days      Int      // Thời hạn ngày VIP
+  price     Int      // Số tiền (VND)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

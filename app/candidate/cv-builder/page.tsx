@@ -3,6 +3,7 @@ import Footer from "@/app/components/Footer";
 import CVBuilder from "@/app/components/CVBuilder";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 export default async function CVBuilderPage() {
     const session = await auth();
@@ -25,7 +26,9 @@ export default async function CVBuilderPage() {
                         </p>
                     </div>
 
-                    <CVBuilder />
+                    <Suspense fallback={<div style={{ textAlign: "center", padding: "2rem" }}>Đang tải...</div>}>
+                        <CVBuilder />
+                    </Suspense>
                 </div>
             </main>
 

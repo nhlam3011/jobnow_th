@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
-import { getCVTemplates, saveUserCV } from "@/app/actions/cv";
+import { useRouter, useSearchParams } from "next/navigation";
+import { getCVTemplates, saveUserCV, getCVById } from "@/app/actions/cv";
 import CVRenderer from "./CVRenderer";
 import { useReactToPrint } from "react-to-print";
 
@@ -31,6 +31,8 @@ interface Experience {
  */
 export default function CVBuilder() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const editId = searchParams.get("edit");
     const componentRef = useRef<HTMLDivElement>(null);
     const avatarInputRef = useRef<HTMLInputElement>(null);
     const [isMobile, setIsMobile] = useState(false);
@@ -41,6 +43,7 @@ export default function CVBuilder() {
     const [selectedTemplate, setSelectedTemplate] = useState<string>("");
     const [selectedTemplateData, setSelectedTemplateData] = useState<any>(null);
     const [cvTitle, setCvTitle] = useState("My Professional CV");
+    const [cvId, setCvId] = useState<string | null>(null);
     const [previewScale, setPreviewScale] = useState(0.5);
     const [filterCategory, setFilterCategory] = useState("all");
 
@@ -67,14 +70,43 @@ export default function CVBuilder() {
             const res = await getCVTemplates();
             if (res.success && res.templates) {
                 setTemplates(res.templates);
-                if (res.templates.length > 0) {
+                if (res.templates.length > 0 && !editId) {
                     setSelectedTemplate(res.templates[0].id);
-                    setSelectedTemplateData(res.templates[0]);
                 }
             }
         };
         fetchTemplates();
-    }, []);
+    }, [editId]);
+
+    useEffect(() => {
+        if (selectedTemplate && templates.length > 0) {
+            const t = templates.find(x => x.id === selectedTemplate);
+            if (t) setSelectedTemplateData(t);
+        }
+    }, [selectedTemplate, templates]);
+
+    useEffect(() => {
+        if (editId) {
+            setCvId(editId);
+            getCVById(editId).then(res => {
+                if (res.success && res.cv) {
+                    setCvTitle(res.cv.title || "My Professional CV");
+                    if (res.cv.templateId) {
+                        setSelectedTemplate(res.cv.templateId);
+                    }
+                    if (res.cv.content) {
+                        const content = res.cv.content as any;
+                        setFormData(prev => ({
+                            ...prev,
+                            ...content,
+                            skills: Array.isArray(content.skills) ? content.skills.join(", ") : (content.skills || ""),
+                            hobbies: Array.isArray(content.hobbies) ? content.hobbies.join(", ") : (content.hobbies || ""),
+                        }));
+                    }
+                }
+            });
+        }
+    }, [editId]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -125,9 +157,15 @@ export default function CVBuilder() {
             const res = await saveUserCV({
                 templateId: selectedTemplate,
                 title: cvTitle,
-                content: { ...formData, skills: parsedSkills, hobbies: parsedHobbies }
+                content: { ...formData, skills: parsedSkills, hobbies: parsedHobbies },
+                cvId: cvId || undefined,
             });
             if (res.success) {
+                if (res.cv?.id && !cvId) {
+                    setCvId(res.cv.id);
+                    // Update URL silently without full reload
+                    window.history.replaceState(null, "", `/candidate/cv-builder?edit=${res.cv.id}`);
+                }
                 alert("CV của bạn đã được lưu thành công!");
                 if (isMobile) setActiveTab("preview");
             } else {

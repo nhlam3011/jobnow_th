@@ -2,8 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
-import { useSession } from "next-auth/react";
-import { logoutUser } from "@/app/actions/auth";
+import { useSession, signOut } from "next-auth/react";
 import { useTheme } from "./ThemeProvider";
 import Avatar from "./Avatar";
 import "@/app/dashboard.css";
@@ -17,20 +16,17 @@ interface NavItem {
 const roleNavs: Record<string, { section?: string; items: NavItem[] }[]> = {
     CANDIDATE: [
         {
-            section: "Tổng quan",
             items: [
-                { href: "/candidate/dashboard", label: "Bảng điều khiển", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 0 0 1 1h3m10-11l2 2m-2-2v10a1 1 0 0 1-1 1h-3m-6 0a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1m-6 0h6" },
+                { href: "/candidate/dashboard", label: "Tổng quan", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 0 0 1 1h3m10-11l2 2m-2-2v10a1 1 0 0 1-1 1h-3m-6 0a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1m-6 0h6" },
             ],
         },
         {
-            section: "Hồ sơ & CV",
             items: [
                 { href: "/candidate/profile", label: "Hồ sơ của tôi", icon: "M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM12 14a7 7 0 0 0-7 7h14a7 7 0 0 0-7-7z" },
                 { href: "/candidate/resume", label: "Quản lý CV", icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5.586a1 1 0 0 1 .707.293l5.414 5.414a1 1 0 0 1 .293.707V19a2 2 0 0 1-2 2z" },
             ],
         },
         {
-            section: "Việc làm",
             items: [
                 { href: "/candidate/applications", label: "Đơn ứng tuyển", icon: "M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2" },
                 { href: "/candidate/saved", label: "Việc đã lưu", icon: "M5 5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16l-7-3.5L5 21V5z" },
@@ -48,9 +44,8 @@ const roleNavs: Record<string, { section?: string; items: NavItem[] }[]> = {
     ],
     EMPLOYER: [
         {
-            section: "Tổng quan",
             items: [
-                { href: "/employer/dashboard", label: "Bảng điều khiển", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 0 0 1 1h3m10-11l2 2m-2-2v10a1 1 0 0 1-1 1h-3m-6 0a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1m-6 0h6" },
+                { href: "/employer/dashboard", label: "Tổng quan", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 0 0 1 1h3m10-11l2 2m-2-2v10a1 1 0 0 1-1 1h-3m-6 0a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1m-6 0h6" },
             ],
         },
         {
@@ -77,9 +72,8 @@ const roleNavs: Record<string, { section?: string; items: NavItem[] }[]> = {
     ],
     ADMIN: [
         {
-            section: "Tổng quan",
             items: [
-                { href: "/admin/dashboard", label: "Bảng điều khiển", icon: "M9 19v-6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2zm0 0V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v10m-6 0a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2m0 0V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2z" },
+                { href: "/admin/dashboard", label: "Tổng quan", icon: "M9 19v-6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2zm0 0V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v10m-6 0a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2m0 0V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2z" },
             ],
         },
         {
@@ -324,14 +318,12 @@ export default function DashboardLayout({
                 {/* Footer */}
                 <div className="dash-sidebar-footer">
 
-                    <form action={logoutUser}>
-                        <button type="submit" className="dash-logout-btn">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.75" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v1" />
-                            </svg>
-                            Đăng xuất
-                        </button>
-                    </form>
+                    <button onClick={() => signOut({ callbackUrl: "/login" })} className="dash-logout-btn">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.75" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v1" />
+                        </svg>
+                        Đăng xuất
+                    </button>
                 </div>
             </aside>
 

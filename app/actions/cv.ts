@@ -138,6 +138,29 @@ export async function getUserCVs() {
     }
 }
 
+
+/**
+ * Lấy chi tiết CV theo ID
+ */
+export async function getCVById(id: string) {
+    const session = await auth();
+    if (!session?.user) {
+        return { error: "Vui lòng đăng nhập" };
+    }
+
+    try {
+        const cv = await prisma.cV.findUnique({
+            where: { id, userId: session.user.id },
+            include: { template: true },
+        });
+        if (!cv) return { error: "Không tìm thấy CV" };
+        return { success: true, cv };
+    } catch (error) {
+        console.error("Error fetching CV by ID:", error);
+        return { error: "Không thể lấy thông tin CV" };
+    }
+}
+
 // ============================================================
 // ADMIN: CRUD Template
 // ============================================================

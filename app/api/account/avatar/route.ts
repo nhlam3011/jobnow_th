@@ -1,8 +1,22 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { writeFile, mkdir, unlink } from "fs/promises";
+import { unlink } from "fs/promises";
 import path from "path";
+
+export async function GET() {
+    const session = await auth();
+    if (!session?.user) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const user = await prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: { image: true }
+    });
+
+    return NextResponse.json({ image: user?.image });
+}
 
 export async function POST(request: Request) {
     const session = await auth();
@@ -29,15 +43,7 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "File too large. Maximum size is 5MB." }, { status: 400 });
         }
 
-        // Create uploads directory if it doesn't exist
-        const uploadsDir = path.join(process.cwd(), "public", "uploads", "avatars");
-        try {
-            await mkdir(uploadsDir, { recursive: true });
-        } catch (e) {
-            // Directory might already exist
-        }
-
-        // Delete old avatar file if exists
+        // Delete old avatar file if exists (for backwards compatibility with local uploads)
         const currentUser = await prisma.user.findUnique({
             where: { id: session.user.id },
             select: { image: true }
@@ -51,16 +57,13 @@ export async function POST(request: Request) {
             }
         }
 
-        // Generate unique filename
+        // Convert file to Base64 to support serverless environments (like Vercel)
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
-        const filename = `${session.user.id}-${Date.now()}${path.extname(file.name)}`;
-        const filepath = path.join(uploadsDir, filename);
-
-        await writeFile(filepath, buffer);
+        const base64String = buffer.toString("base64");
+        const avatarUrl = `data:${file.type};base64,${base64String}`;
 
         // Update user record with avatar URL
-        const avatarUrl = `/uploads/avatars/${filename}`;
         await prisma.user.update({
             where: { id: session.user.id },
             data: { image: avatarUrl },

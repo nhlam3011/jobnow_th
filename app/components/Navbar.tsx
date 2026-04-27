@@ -97,8 +97,20 @@ export default function Navbar({ industries }: NavbarProps) {
     const isBlogActive = pathname?.startsWith('/blogs') && !pathname?.startsWith('/blogs/cv-guide');
     const isMarketInsightsActive = pathname?.startsWith('/market-insights');
     const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-    const [companyLogo, setCompanyLogo] = useState<string | null>(null);
-    const [companyName, setCompanyName] = useState<string | null>(null);
+    const [userAvatar, setUserAvatar] = useState<string | null>(null);
+
+    // Fetch user info/avatar for candidates/admins
+    const lastUpdated = (session?.user as any)?.lastUpdated;
+    useEffect(() => {
+        if (session?.user?.role === "CANDIDATE" || session?.user?.role === "ADMIN") {
+            fetch("/api/account/avatar")
+                .then(res => res.ok ? res.json() : null)
+                .then(data => {
+                    if (data?.image) setUserAvatar(data.image);
+                })
+                .catch(() => { });
+        }
+    }, [session, lastUpdated]);
 
     // Fetch company info for employers
     useEffect(() => {
@@ -111,13 +123,13 @@ export default function Navbar({ industries }: NavbarProps) {
                 })
                 .catch(() => { });
         }
-    }, [session]);
+    }, [session, lastUpdated]);
 
     const industryList = industries && industries.length > 0 ? industries : DEFAULT_INDUSTRIES;
     const isLoggedIn = status === "authenticated";
 
     // For employer, show company logo; otherwise show user avatar
-    const displayImage = session?.user?.role === "EMPLOYER" ? (companyLogo || session.user.image) : session?.user?.image;
+    const displayImage = session?.user?.role === "EMPLOYER" ? (companyLogo || session.user.image) : (userAvatar || session?.user?.image);
     const displayName = session?.user?.role === "EMPLOYER" ? (companyName || session.user.name) : session?.user?.name;
 
     const getDashboardLink = () => {

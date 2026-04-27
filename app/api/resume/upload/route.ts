@@ -20,17 +20,9 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "No file provided" }, { status: 400 });
         }
 
-        // Save file to public directory
-        const uploadDir = path.join(process.cwd(), "public", "uploads", "resumes", session.user.id);
-
-        // Ensure directory exists
-        await fs.mkdir(uploadDir, { recursive: true });
-
-        const filePath = path.join(uploadDir, fileName);
         const buffer = Buffer.from(await file.arrayBuffer());
-        await fs.writeFile(filePath, buffer);
-
-        const fileUrl = `/uploads/resumes/${session.user.id}/${fileName}`;
+        const base64String = buffer.toString("base64");
+        const fileUrl = `data:${file.type || "application/pdf"};base64,${base64String}`;
 
         // Create resume record
         const resume = await prisma.resume.create({

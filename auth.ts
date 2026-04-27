@@ -68,14 +68,27 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         async jwt({ token, user, account, trigger, session }) {
             if (trigger === "update" && session) {
                 if (session.name) token.name = session.name;
+                token.lastUpdated = Date.now();
                 if (session.image) {
-                    token.picture = session.image;
-                    token.image = session.image;
+                    // Only store in token if it's not a huge base64 (NextAuth limit)
+                    if (!session.image.startsWith("data:") || session.image.length < 10000) {
+                        token.picture = session.image;
+                        token.image = session.image;
+                    } else {
+                        // If it's a large base64, we don't store it in JWT to avoid header size limits
+                        token.picture = null;
+                        token.image = null;
+                    }
                 }
             }
             if (user) {
                 token.id = user.id;
                 token.role = (user as { role?: string }).role || "CANDIDATE";
+                
+                // Clear picture if it's a large base64 string to prevent JWT bloat
+                if (user.image && user.image.startsWith("data:") && user.image.length > 10000) {
+                    token.picture = null;
+                }
             }
             if (account?.provider === "google" && token.email) {
                 const dbUser = await prisma.user.findUnique({
@@ -92,6 +105,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             if (session.user) {
                 session.user.id = token.id as string;
                 session.user.role = token.role as string;
+                (session.user as any).lastUpdated = token.lastUpdated;
             }
             return session;
         },

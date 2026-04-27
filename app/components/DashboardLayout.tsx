@@ -143,6 +143,7 @@ export default function DashboardLayout({
     const displayName = sessionData?.user?.name || userName;
     const [displayImage, setDisplayImage] = useState(sessionData?.user?.image || userImage);
 
+    const lastUpdated = (sessionData?.user as any)?.lastUpdated;
     useEffect(() => {
         if (role === "EMPLOYER") {
             fetch("/api/employer/company")
@@ -153,10 +154,20 @@ export default function DashboardLayout({
                     }
                 })
                 .catch(err => console.error("Error fetching company logo:", err));
+        } else if (role === "CANDIDATE" || role === "ADMIN") {
+            // Fetch avatar from API if it might be missing from JWT due to size limits
+            fetch("/api/account/avatar")
+                .then(res => res.json())
+                .then(data => {
+                    if (data?.image) {
+                        setDisplayImage(data.image);
+                    }
+                })
+                .catch(err => console.error("Error fetching user avatar:", err));
         } else {
             setDisplayImage(sessionData?.user?.image || userImage);
         }
-    }, [role, sessionData?.user?.image, userImage]);
+    }, [role, sessionData?.user?.image, userImage, lastUpdated]);
 
     // Close sidebar on route change
     useEffect(() => {

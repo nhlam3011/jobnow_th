@@ -20,9 +20,10 @@ export async function POST(request: NextRequest) {
         }
 
         return NextResponse.json({ error: "Invalid action" }, { status: 400 });
-    } catch (error) {
+    } catch (error: any) {
         console.error("Mock interview API error:", error);
-        return NextResponse.json({ error: "Lỗi server" }, { status: 500 });
+        const errorMessage = error instanceof Error ? error.message : "Lỗi server";
+        return NextResponse.json({ error: errorMessage }, { status: 500 });
     }
 }
 
@@ -81,7 +82,8 @@ CHỈ TRẢ VỀ JSON ARRAY, KHÔNG GIẢI THÍCH.`;
     // Parse JSON từ response
     const jsonMatch = result.match(/\[[\s\S]*\]/);
     if (!jsonMatch) {
-        return NextResponse.json({ error: "Không thể tạo câu hỏi" }, { status: 500 });
+        console.error("Gemini response did not contain JSON array:", result);
+        return NextResponse.json({ error: "AI phản hồi không đúng định dạng câu hỏi" }, { status: 500 });
     }
 
     const parsedQuestions = JSON.parse(jsonMatch[0]);
@@ -173,7 +175,8 @@ CHỈ TRẢ VỀ JSON, KHÔNG GIẢI THÍCH.`;
     // Parse JSON
     const jsonMatch = result.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
-        return NextResponse.json({ error: "Không thể đánh giá" }, { status: 500 });
+        console.error("Gemini response did not contain JSON object:", result);
+        return NextResponse.json({ error: "AI phản hồi không đúng định dạng đánh giá" }, { status: 500 });
     }
 
     const evaluation = JSON.parse(jsonMatch[0]);

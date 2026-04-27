@@ -35,11 +35,15 @@ export async function generateText(prompt: string, model?: ChatModel): Promise<s
             return generateText(prompt, "gemini-pro");
         }
         
-        if (error.status === 403 || error.status === 401) {
-            throw new Error("Lỗi xác thực: API Key của bạn không có quyền truy cập hoặc đã hết hạn.");
+        if (error.status === 429) {
+            throw new Error("Hệ thống AI đang bận (Quá nhiều yêu cầu). Vui lòng thử lại sau 1 phút.");
         }
         
-        throw new Error(`AI tạm thời không phản hồi (Mã lỗi: ${error.status || 'Unknown'}). Hãy kiểm tra lại API Key.`);
+        if (error.status === 403 || error.status === 401) {
+            throw new Error("Lỗi xác thực: API Key không hợp lệ hoặc đã hết hạn.");
+        }
+        
+        throw new Error(`AI tạm thời không phản hồi (Mã lỗi: ${error.status || 'Unknown'}).`);
     }
 }
 
@@ -73,8 +77,8 @@ export async function generateStructuredText(
     } catch (error: any) {
         console.error(`Gemini Structured [${modelName}] Error:`, error.status, error.message);
         
-        if (error.status === 404 && modelName !== "gemini-pro") {
-            return generateStructuredText(prompt, systemInstruction, "gemini-pro", fileData);
+        if (error.status === 429) {
+            throw new Error("Hệ thống AI đang bận (Quá nhiều yêu cầu). Vui lòng thử lại sau 1 phút.");
         }
         
         throw error;

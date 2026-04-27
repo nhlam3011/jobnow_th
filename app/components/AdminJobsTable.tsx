@@ -22,8 +22,8 @@ interface Job {
     company: { name: string };
 }
 
-export default function AdminJobsTable({ jobs }: { jobs: Job[] }) {
-    const [statusFilter, setStatusFilter] = useState("ALL");
+export default function AdminJobsTable({ jobs, initialStatus = "ALL" }: { jobs: Job[], initialStatus?: string }) {
+    const [statusFilter, setStatusFilter] = useState(initialStatus);
     const [search, setSearch] = useState("");
 
     const filtered = jobs.filter((job) => {

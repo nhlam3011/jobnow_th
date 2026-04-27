@@ -6,11 +6,12 @@ import { getEmployerCompany } from "@/app/actions/profile";
 import EmployerJobsTable from "@/app/components/EmployerJobsTable";
 import Link from "next/link";
 
-export default async function EmployerJobsPage() {
+export default async function EmployerJobsPage({ searchParams }: { searchParams: { status?: string } }) {
     const session = await auth();
     if (!session?.user || session.user.role !== "EMPLOYER") redirect("/login");
 
     const [jobs, company] = await Promise.all([getEmployerJobs(), getEmployerCompany()]);
+    const initialStatus = searchParams.status || "ALL";
 
     return (
         <DashboardLayout
@@ -25,7 +26,7 @@ export default async function EmployerJobsPage() {
                 </div>
                 <Link href="/employer/jobs/new" className="dash-btn dash-btn-primary">+ Đăng tin mới</Link>
             </div>
-            <EmployerJobsTable jobs={JSON.parse(JSON.stringify(jobs))} />
+            <EmployerJobsTable jobs={JSON.parse(JSON.stringify(jobs))} initialStatus={initialStatus} />
         </DashboardLayout>
     );
 }

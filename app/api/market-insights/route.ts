@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { generateText } from "@/lib/gemini";
+
+let cachedAiAnalysis: { text: string; timestamp: number } | null = null;
+const CACHE_DURATION = 2 * 60 * 60 * 1000; // 2 hours
 
 export async function GET() {
     try {
@@ -27,6 +31,29 @@ export async function GET() {
             getLatestInsights(),
         ]);
 
+        let aiAnalysis = "";
+        const now = Date.now();
+        
+        if (cachedAiAnalysis && (now - cachedAiAnalysis.timestamp < CACHE_DURATION)) {
+            aiAnalysis = cachedAiAnalysis.text;
+        } else {
+            try {
+                const prompt = `Bạn là chuyên gia phân tích thị trường lao động. Dựa vào số liệu sau đây từ hệ thống JobNow, viết một đoạn tóm tắt ngắn (3-4 câu) về xu hướng thị trường hiện tại.
+- Kỹ năng top đầu: ${topSkills.slice(0,3).map(s => s.skill).join(', ')}
+- Ngành nghề tuyển dụng nhiều: ${topIndustries.slice(0,2).map(i => i.name).join(', ')}
+- Tổng số việc làm đang tuyển: ${totalStats.totalJobs}
+- Xu hướng 3 tháng gần nhất: ${monthlyTrend.slice(-3).map(m => m.month + ' ('+m.count+' tin)').join(', ')}
+
+Viết bằng tiếng Việt, giọng điệu chuyên nghiệp, khách quan. Không dùng markdown phức tạp, chỉ được phép in đậm bằng thẻ HTML <strong>. Đi thẳng vào phân tích, không có câu mở đầu chào hỏi.`;
+                
+                aiAnalysis = await generateText(prompt);
+                cachedAiAnalysis = { text: aiAnalysis, timestamp: now };
+            } catch (aiError) {
+                console.error("Failed to generate AI analysis:", aiError);
+                aiAnalysis = `Dữ liệu cho thấy ngành <strong>${topIndustries[0]?.name || 'nổi bật'}</strong> và kỹ năng <strong>${topSkills[0]?.skill || 'chuyên môn'}</strong> đang dẫn đầu thị trường. Tổng cộng có <strong>${totalStats.totalJobs}</strong> cơ hội việc làm đang chờ đón ứng viên.`;
+            }
+        }
+
         return NextResponse.json({
             topSkills,
             jobTypeDistribution,
@@ -38,6 +65,7 @@ export async function GET() {
             topCompanies,
             experienceDistribution,
             latestInsights,
+            aiAnalysis,
         });
     } catch (error) {
         console.error("Market insights API error:", error);

@@ -63,11 +63,11 @@ export default async function CandidateDashboard() {
             {/* Stats */}
             <div className="dash-stats">
                 {[
-                    { label: "Đơn đã nộp", value: s.applications, color: "#0369A1", icon: "M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2" },
-                    { label: "Việc làm phù hợp", value: s.totalJobs, color: "#22C55E", icon: "M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" },
-                    { label: "Hồ sơ", value: s.profileComplete ? "Hoàn chỉnh" : "Chưa đầy đủ", color: s.profileComplete ? "#22C55E" : "#F59E0B", icon: "M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM12 14a7 7 0 0 0-7 7h14a7 7 0 0 0-7-7z" },
+                    { label: "Đơn đã nộp", value: s.applications, color: "#0369A1", icon: "M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2", href: "/candidate/applications" },
+                    { label: "Việc làm phù hợp", value: s.totalJobs, color: "#22C55E", icon: "M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z", href: "/candidate/recommended" },
+                    { label: "Hồ sơ", value: s.profileComplete ? "Hoàn chỉnh" : "Chưa đầy đủ", color: s.profileComplete ? "#22C55E" : "#F59E0B", icon: "M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM12 14a7 7 0 0 0-7 7h14a7 7 0 0 0-7-7z", href: "/candidate/profile" },
                 ].map((stat) => (
-                    <div key={stat.label} className="dash-stat-card">
+                    <Link key={stat.label} href={stat.href} className="dash-stat-card clickable">
                         <div className="dash-stat-header">
                             <div className="dash-stat-icon" style={{ background: `${stat.color}15` }}>
                                 <svg width="18" height="18" fill="none" stroke={stat.color} strokeWidth="1.75" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d={stat.icon} /></svg>
@@ -75,7 +75,7 @@ export default async function CandidateDashboard() {
                             <span className="dash-stat-label">{stat.label}</span>
                         </div>
                         <div className="dash-stat-value" style={{ color: stat.color }}>{stat.value}</div>
-                    </div>
+                    </Link>
                 ))}
             </div>
 

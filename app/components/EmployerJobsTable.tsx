@@ -26,8 +26,8 @@ interface Job {
     _count: { applications: number };
 }
 
-export default function EmployerJobsTable({ jobs }: { jobs: Job[] }) {
-    const [statusFilter, setStatusFilter] = useState("ALL");
+export default function EmployerJobsTable({ jobs, initialStatus = "ALL" }: { jobs: Job[], initialStatus?: string }) {
+    const [statusFilter, setStatusFilter] = useState(initialStatus);
     const [search, setSearch] = useState("");
     const [upgrading, setUpgrading] = useState<string | null>(null);
 

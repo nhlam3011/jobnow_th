@@ -58,6 +58,8 @@ export default function Avatar({
         );
     }
 
+    const objectFit = style?.objectFit || "cover";
+
     return (
         <div
             className={className}
@@ -68,6 +70,7 @@ export default function Avatar({
                 overflow: "hidden",
                 position: "relative",
                 flexShrink: 0,
+                backgroundColor: "#fff", // Add white background for logos
                 ...style,
             }}
         >
@@ -78,7 +81,7 @@ export default function Avatar({
                 style={{
                     width: "100%",
                     height: "100%",
-                    objectFit: "cover",
+                    objectFit: objectFit as any,
                 }}
             />
         </div>

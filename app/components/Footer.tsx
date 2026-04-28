@@ -161,9 +161,6 @@ export default function Footer() {
                         display: "flex", justifyContent: "space-between", alignItems: "center",
                         flexWrap: "wrap", gap: "0.75rem",
                     }}>
-                        <p style={{ fontSize: "0.8125rem", color: "var(--text-muted)" }}>
-                            © {new Date().getFullYear()} JobNow. Nền tảng tuyển dụng đa ngành nghề hàng đầu Việt Nam.
-                        </p>
                         <div style={{ display: "flex", gap: "1.5rem" }}>
                             {[
                                 { label: "Điều khoản", href: "#" },

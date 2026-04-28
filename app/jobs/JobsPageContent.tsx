@@ -127,7 +127,7 @@ export default function JobsPageContent({
             <main className="section-sm jobs-main">
                 <div className="container-xl">
                     {/* Mobile filter toggle */}
-                    <div className="filter-toggle">
+                    <div className="filter-toggle" style={{ position: "sticky", top: "calc(68px + 1rem)", zIndex: 40, background: "var(--bg)", padding: "0.5rem 0", borderBottom: showFilters ? "1px solid var(--border)" : "none", margin: "-0.5rem 0 1rem 0" }}>
                         <button
                             onClick={() => setShowFilters(!showFilters)}
                             className="btn-outline"
@@ -156,7 +156,7 @@ export default function JobsPageContent({
                     <div className="jobs-layout">
                         {/* Sidebar - Desktop only */}
                         <aside className="filter-sidebar">
-                            <div style={{ position: "sticky", top: "1rem" }}>
+                            <div className="sticky-filter-wrapper" style={{ position: "sticky", top: "calc(68px + 1.5rem)", maxHeight: "calc(100vh - 68px - 3rem)", overflowY: "auto", paddingRight: "0.5rem" }}>
                                 <JobFilters
                                     industries={industries}
                                     locations={locations}
@@ -303,7 +303,6 @@ export default function JobsPageContent({
                     display: grid;
                     grid-template-columns: 260px 1fr;
                     gap: 2rem;
-                    align-items: flex-start;
                 }
                 .jobs-header-row {
                     display: flex;
@@ -376,6 +375,14 @@ export default function JobsPageContent({
                     .jobs-list-layout {
                         display: flex !important;
                     }
+                }
+                
+                .sticky-filter-wrapper::-webkit-scrollbar {
+                    width: 4px;
+                }
+                .sticky-filter-wrapper::-webkit-scrollbar-thumb {
+                    background: var(--border);
+                    border-radius: 4px;
                 }
             `}</style>
         </div>

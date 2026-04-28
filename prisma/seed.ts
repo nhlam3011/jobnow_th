@@ -60,7 +60,7 @@ const skillsByCategory: Record<string, string[]> = {
     'Hospitality': ['Hotel Management', 'Customer Service', 'Event Planning', 'Restaurant Management'],
 };
 
-// Company data with realistic logos (using ui-avatars.com for initials-based logos)
+// Company data with realistic logos
 const companiesData = [
     { name: 'FPT Software', industry: 'Công nghệ thông tin', size: '500+', location: 'Hà Nội', description: 'FPT Software là công ty CNTT hàng đầu Việt Nam, chuyên cung cấp các giải pháp outsourcing và sản phẩm công nghệ cho khách hàng toàn cầu.', website: 'https://fpt.com.vn' },
     { name: 'Viettel Group', industry: 'Viễn thông', size: '500+', location: 'Hà Nội', description: 'Tập đoàn Viettel là nhà mạng lớn nhất Việt Nam với hơn 70 triệu thuê bao, hoạt động trong lĩnh vực viễn thông, công nghệ cao.', website: 'https://viettel.com.vn' },
@@ -113,1539 +113,119 @@ const companiesData = [
     { name: 'Misa', industry: 'Công nghệ thông tin', size: '201-500', location: 'Hà Nội', description: 'Misa - công ty phần mềm kế toán và quản lý doanh nghiệp hàng đầu.', website: 'https://misa.com.vn' },
 ];
 
-// Job templates - 50 jobs across all industries
-const jobTemplates = [
-    // IT/Software Development
-    {
-        title: 'Senior Frontend Developer',
-        industry: 'Công nghệ thông tin',
-        description: `Chúng tôi đang tìm kiếm Senior Frontend Developer có kinh nghiệm để tham gia phát triển các sản phẩm web hiện đại.
-
-MÔ TẢ CÔNG VIỆC:
-- Phát triển và duy trì các ứng dụng web sử dụng React/Next.js
-- Tối ưu hóa hiệu suất và trải nghiệm người dùng
-- Viết code sạch, có documentation và maintainable
-- Làm việc với team để thiết kế và triển khai tính năng mới
-- Tham gia code review và hỗ trợ junior developers
-- Phối hợp với UX/UI designers để đảm bảo chất lượng sản phẩm
-
-YÊU CẦU:
-- Tối thiểu 4 năm kinh nghiệm trong phát triển Frontend
-- Thành thạo React, TypeScript, HTML/CSS
-- Có kinh nghiệm với Next.js và SSR
-- Hiểu biết về performance optimization
-- Kinh nghiệm với testing (Jest, React Testing Library)
-- Khả năng làm việc độc lập và theo nhóm
-
-QUYỀN LỢI:
-- Lương tháng 13 + thưởng performance
-- Bảo hiểm xã hội, y tế, thất nghiệp đầy đủ
-- Ngày nghỉ phép có lương: 12 ngày/năm
-- Chế độ làm việc linh hoạt (hybrid)
-- Cơ hội đào tạo và phát triển nghề nghiệp
-- Môi trường làm việc năng động, trẻ trung`,
-        requirements: '- 4+ năm kinh nghiệm Frontend\n- React, TypeScript, Next.js\n- HTML/CSS, Tailwind\n- Git, CI/CD\n- Tiếng Anh giao tiếp',
-        benefits: '- Lương: 30-50 triệu/tháng\n- Thưởng 13\n- Bảo hiểm đầy đủ\n- Hybrid work\n- Đào tạo chuyên sâu',
-        salaryMin: 30000000,
-        salaryMax: 50000000,
-        location: 'Hà Nội',
-        jobType: 'FULL_TIME',
-        skills: ['React', 'TypeScript', 'Next.js', 'HTML/CSS', 'Tailwind']
-    },
-    {
-        title: 'Backend Engineer (Node.js)',
-        industry: 'Công nghệ thông tin',
-        description: `Tuyển dụng Backend Engineer làm viết API và xử lý logic nghiệp vụ cho hệ thống.
-
-MÔ TẢ CÔNG VIỆC:
-- Thiết kế và phát triển RESTful APIs
-- Xây dựng và tối ưu hóa database queries
-- Phát triển microservices architecture
-- Đảm bảo security và performance của hệ thống
-- Viết unit tests và integration tests
-- Tham gia thiết kế hệ thống và code review
-
-YÊU CẦU:
-- 3+ năm kinh nghiệm với Node.js
-- Thành thạo Express hoặc NestJS
-- Kinh nghiệm với PostgreSQL, MongoDB
-- Hiểu biết về Docker, Kubernetes
-- Kỹ năng giải quyết vấn đề tốt
-- Đọc hiểu tài liệu tiếng Anh
-
-QUYỀN LỢI:
-- Lương competitive theo năng lực
-- Thưởng quý và năm
-- Chế độ bảo hiểm premium
-- Team building hàng tháng
-- Đào tạo công nghệ mới`,
-        requirements: '- Node.js, Express/NestJS\n- PostgreSQL, MongoDB\n- Docker\n- RESTful API design\n- Git',
-        benefits: '- Lương: 25-45 triệu/tháng\n- Thưởng quý\n- Bảo hiểm premium\n- Team building',
-        salaryMin: 25000000,
-        salaryMax: 45000000,
-        location: 'TP. Hồ Chí Minh',
-        jobType: 'FULL_TIME',
-        skills: ['Node.js', 'Express', 'PostgreSQL', 'MongoDB', 'Docker']
-    },
-    {
-        title: 'Fullstack Developer (React + Node.js)',
-        industry: 'Công nghệ thông tin',
-        description: `Tuyển dụng Fullstack Developer phát triển ứng dụng web toàn diện.
-
-MÔ TẢ CÔNG VIỆC:
-- Phát triển tính năng mới cho sản phẩm
-- Xây dựng RESTful APIs
-- Phát triển responsive UI
-- Tối ưu hóa performance
-- Viết clean, maintainable code
-- Collaborative development
-
-YÊU CẦU:
-- 2+ năm kinh nghiệm Fullstack
-- JavaScript/TypeScript thành thạo
-- React + Node.js experience
-- SQL và NoSQL databases
-- Git workflow
-
-QUYỀN LỢI:
-- Lương: 20-40 triệu
-- Thưởng dự án
-- 14 ngày phép
-- Đào tạo online`,
-        requirements: '- React, Node.js\n- TypeScript\n- PostgreSQL/MongoDB\n- Git\n- REST API',
-        benefits: '- Lương 20-40 triệu\n- Thưởng dự án\n- 14 ngày phép\n- Đào tạo',
-        salaryMin: 20000000,
-        salaryMax: 40000000,
-        location: 'Hà Nội',
-        jobType: 'FULL_TIME',
-        skills: ['React', 'Node.js', 'TypeScript', 'PostgreSQL', 'MongoDB']
-    },
-    {
-        title: 'Mobile Developer (React Native)',
-        industry: 'Công nghệ thông tin',
-        description: `Tuyển dụng Mobile Developer phát triển ứng dụng di động trên nền tảng React Native.
-
-MÔ TẢ CÔNG VIỆC:
-- Phát triển ứng dụng mobile cho iOS và Android
-- Tích hợp API và third-party libraries
-- Tối ưu performance và UX
-- Fix bugs và maintain code
-- Collaborate với design team
-
-YÊU CẦU:
-- 2+ năm React Native
-- JavaScript/TypeScript
-- iOS/Android deployment
-- Redux/Context API
-- UI/UX sense
-
-QUYỀN LỢI:
-- Lương 22-42 triệu
-- Thưởng release
-- Macbook provided
-- Flexible hours`,
-        requirements: '- React Native\n- JavaScript/TypeScript\n- iOS/Android\n- Redux\n- REST API',
-        benefits: '- Lương 22-42 triệu\n- Thưởng release\n- Macbook\n- Giờ linh hoạt',
-        salaryMin: 22000000,
-        salaryMax: 42000000,
-        location: 'TP. Hồ Chí Minh',
-        jobType: 'FULL_TIME',
-        skills: ['React Native', 'JavaScript', 'TypeScript', 'iOS', 'Android']
-    },
-    {
-        title: 'DevOps Engineer',
-        industry: 'Công nghệ thông tin',
-        description: `Tuyển dụng DevOps Engineer xây dựng và duy trì hệ thống CI/CD.
-
-MÔ TẢ CÔNG VIỆC:
-- Thiết lập và quản lý CI/CD pipelines
-- Quản lý Kubernetes clusters
-- Infrastructure as Code (Terraform)
-- Monitor và optimize system performance
-- Đảm bảo security compliance
-- Automation testing
-
-YÊU CẦU:
-- 3+ năm DevOps experience
-- Kubernetes, Docker expert
-- AWS/GCP/Azure
-- Terraform, Ansible
-- Linux system admin
-- Scripting (Bash, Python)
-
-QUYỀN LỢI:
-- Lương 30-55 triệu
-- Cert support
-- Conference attendance
-- Remote options`,
-        requirements: '- Kubernetes, Docker\n- AWS/GCP\n- Terraform\n- Linux\n- CI/CD',
-        benefits: '- Lương 30-55 triệu\n- Hỗ trợ cert\n- Remote option',
-        salaryMin: 30000000,
-        salaryMax: 55000000,
-        location: 'Hà Nội',
-        jobType: 'FULL_TIME',
-        skills: ['Docker', 'Kubernetes', 'AWS', 'Terraform', 'Linux']
-    },
-    {
-        title: 'Data Engineer',
-        industry: 'Công nghệ thông tin',
-        description: `Tuyển dụng Data Engineer xây dựng data pipelines và data infrastructure.
-
-MÔ TẢ CÔNG VIỆC:
-- Design và build ETL pipelines
-- Quản lý data warehouses
-- Optimize query performance
-- Data modeling
-- Collaborate với Data Scientists
-
-YÊU CẦU:
-- 3+ năm Data Engineering
-- Python, SQL expert
-- Spark, Kafka
-- Snowflake/BigQuery
-- Airflow, Luigi
-
-QUYỀN LỢI:
-- Lương competitive
-- Stock options
-- Learning budget
-- Modern tech stack`,
-        requirements: '- Python, SQL\n- Spark, Kafka\n- Snowflake\n- ETL\n- Data modeling',
-        benefits: '- Lương 28-50 triệu\n- Stock options\n- Learning budget',
-        salaryMin: 28000000,
-        salaryMax: 50000000,
-        location: 'TP. Hồ Chí Minh',
-        jobType: 'FULL_TIME',
-        skills: ['Python', 'SQL', 'Spark', 'Snowflake', 'Airflow']
-    },
-    {
-        title: 'AI/ML Engineer',
-        industry: 'Công nghệ thông tin',
-        description: `Tuyển dụng AI/ML Engineer phát triển các giải pháp Machine Learning.
-
-MÔ TẢ CÔNG VIỆC:
-- Phát triển ML models cho recommendation, NLP
-- Build và deploy ML pipelines
-- Data preprocessing và feature engineering
-- Model optimization và experimentation
-- Research new AI/ML techniques
-
-YÊU CẦU:
-- 3+ năm ML experience
-- Python, TensorFlow/PyTorch
-- Deep Learning, NLP
-- MLOps experience
-- Strong math background
-
-QUYỀN LỢI:
-- Lương 35-60 triệu
-- Research budget
-- Publication support
-- Cutting-edge projects`,
-        requirements: '- Python\n- TensorFlow/PyTorch\n- Deep Learning\n- NLP\n- MLOps',
-        benefits: '- Lương 35-60 triệu\n- Research budget\n- Dự án mới',
-        salaryMin: 35000000,
-        salaryMax: 60000000,
-        location: 'Hà Nội',
-        jobType: 'FULL_TIME',
-        skills: ['Python', 'TensorFlow', 'PyTorch', 'Machine Learning', 'NLP']
-    },
-    // Business/Marketing
-    {
-        title: 'Digital Marketing Manager',
-        industry: 'Kinh doanh / Marketing',
-        description: `Tuyển dụng Digital Marketing Manager quản lý chiến lược marketing online.
-
-MÔ TẢ CÔNG VIỆC:
-- Xây dựng và thực thi chiến lược digital marketing
-- Quản lý các chiến dịch SEO, SEM, Social Media
-- Phân tích data và optimize campaigns
-- Quản lý budget marketing
-- Team coordination
-
-YÊU CẦU:
-- 4+ năm Digital Marketing
-- Google Ads, Facebook Ads expert
-- SEO/SEM experience
-- Analytics tools (GA4)
-- Leadership skills
-- Tiếng Anh tốt
-
-QUYỀN LỢI:
-- Lương 25-45 triệu
-- Performance bonus
-- Marketing budget
-- Training abroad`,
-        requirements: '- Digital Marketing\n- Google Ads, FB Ads\n- SEO\n- GA4\n- Leadership',
-        benefits: '- Lương 25-45 triệu\n- Thưởng performance\n- Training abroad',
-        salaryMin: 25000000,
-        salaryMax: 45000000,
-        location: 'TP. Hồ Chí Minh',
-        jobType: 'FULL_TIME',
-        skills: ['Google Ads', 'Facebook Ads', 'SEO', 'Analytics', 'Marketing Strategy']
-    },
-    {
-        title: 'Content Marketing Specialist',
-        industry: 'Kinh doanh / Marketing',
-        description: `Tuyển dụng Content Marketing Specialist sáng tạo nội dung marketing.
-
-MÔ TẢ CÔNG VIỆC:
-- Sáng tạo nội dung blog, social media, email
-- Xây dựng content strategy
-- SEO content writing
-- Content calendar management
-- Performance tracking
-
-YÊU CẦU:
-- 2+ năm Content Marketing
-- Excellent writing skills
-- SEO knowledge
-- Social media platforms
-- Creative thinking
-
-QUYỀN LỢI:
-- Lương 15-28 triệu
-- Content allowance
-- Creative freedom
-- Career growth`,
-        requirements: '- Content Writing\n- SEO\n- Social Media\n- Marketing\n- Creative',
-        benefits: '- Lương 15-28 triệu\n- Content allowance\n- Sáng tạo tự do',
-        salaryMin: 15000000,
-        salaryMax: 28000000,
-        location: 'Hà Nội',
-        jobType: 'FULL_TIME',
-        skills: ['Content Writing', 'SEO', 'Social Media', 'Copywriting', 'Marketing']
-    },
-    {
-        title: 'SEO Specialist',
-        industry: 'Kinh doanh / Marketing',
-        description: `Tuyển dụng SEO Specialist tối ưu hóa công cụ tìm kiếm.
-
-MÔ TẢ CÔNG VIỆC:
-- SEO audit và analysis
-- On-page và Off-page SEO
-- Keyword research
-- Content optimization
-- Link building
-- SEO reporting
-
-YÊU CẦU:
-- 2+ năm SEO experience
-- Technical SEO knowledge
-- Google Search Console
-- Ahrefs/SEMrush
-- Analytics
-
-QUYỀN LỢI:
-- Lương 18-32 triệu
-- SEO tools access
-- Certificate support
-- Remote option`,
-        requirements: '- SEO\n- Google Search Console\n- Ahrefs\n- Technical SEO\n- Analytics',
-        benefits: '- Lương 18-32 triệu\n- Tools access\n- Remote option',
-        salaryMin: 18000000,
-        salaryMax: 32000000,
-        location: 'TP. Hồ Chí Minh',
-        jobType: 'FULL_TIME',
-        skills: ['SEO', 'Google Analytics', 'Ahrefs', 'SEMrush', 'Technical SEO']
-    },
-    {
-        title: 'Brand Manager',
-        industry: 'Kinh doanh / Marketing',
-        description: `Tuyển dụng Brand Manager quản lý và phát triển thương hiệu.
-
-MÔ TẢ CÔNG VIỆC:
-- Xây dựng chiến lược thương hiệu
-- Quản lý brand identity
-- Marketing campaigns
-- Market research
-- Team leadership
-
-YÊU CẦU:
-- 5+ năm Brand Management
-- Strategic thinking
-- Creative direction
-- Budget management
-- Tiếng Anh lưu loát
-
-QUYỀN LỢI:
-- Lương 35-60 triệu
-- Stock options
-- Leadership role
-- International exposure`,
-        requirements: '- Brand Management\n- Marketing Strategy\n- Creative\n- Leadership\n- English',
-        benefits: '- Lương 35-60 triệu\n- Stock options\n- Leadership',
-        salaryMin: 35000000,
-        salaryMax: 60000000,
-        location: 'TP. Hồ Chí Minh',
-        jobType: 'FULL_TIME',
-        skills: ['Brand Strategy', 'Marketing', 'Creative Direction', 'Leadership', 'Market Research']
-    },
-    // Finance/Banking
-    {
-        title: 'Financial Analyst',
-        industry: 'Tài chính / Ngân hàng',
-        description: `Tuyển dụng Financial Analyst phân tích tài chính doanh nghiệp.
-
-MÔ TẢ CÔNG VIỆC:
-- Phân tích báo cáo tài chính
-- Financial modeling
-- Investment analysis
-- Risk assessment
-- Report preparation
-
-YÊU CẦU:
-- 3+ năm Financial Analysis
-- CFA/CPA is a plus
-- Advanced Excel
-- Financial modeling
-- Analytical skills
-
-QUYỀN LỢI:
-- Lương 25-45 triệu
-- CFA support
-- Performance bonus
-- Career path`,
-        requirements: '- Financial Analysis\n- Excel\n- Financial Modeling\n- CFA\n- Analytics',
-        benefits: '- Lương 25-45 triệu\n- Hỗ trợ CFA\n- Thưởng',
-        salaryMin: 25000000,
-        salaryMax: 45000000,
-        location: 'Hà Nội',
-        jobType: 'FULL_TIME',
-        skills: ['Financial Analysis', 'Excel', 'Financial Modeling', 'CFA', 'Risk Assessment']
-    },
-    {
-        title: 'Credit Officer',
-        industry: 'Tài chính / Ngân hàng',
-        description: `Tuyển dụng Credit Officer đánh giá và quản lý tín dụng.
-
-MÔ TẢ CÔNG VIỆC:
-- Đánh giá hồ sơ tín dụng
-- Risk assessment
-- Loan approval
-- Customer relationship
-- Compliance
-
-YÊU CẦU:
-- 3+ năm Credit experience
-- Banking background
-- Risk analysis
-- Communication skills
-- Detail-oriented
-
-QUYỀN LỢI:
-- Lương 20-40 triệu
-- Commission
-- Allowances
-- Professional training`,
-        requirements: '- Credit Analysis\n- Banking\n- Risk Assessment\n- Communication\n- Detail-oriented',
-        benefits: '- Lương 20-40 triệu\n- Hoa hồng\n- Training',
-        salaryMin: 20000000,
-        salaryMax: 40000000,
-        location: 'TP. Hồ Chí Minh',
-        jobType: 'FULL_TIME',
-        skills: ['Credit Analysis', 'Risk Assessment', 'Banking', 'Loan Processing', 'Compliance']
-    },
-    {
-        title: 'Investment Analyst',
-        industry: 'Tài chính / Ngân hàng',
-        description: `Tuyển dụng Investment Analyst phân tích đầu tư.
-
-MÔ TẢ CÔNG VIỆC:
-- Market research
-- Investment analysis
-- Portfolio management support
-- Due diligence
-- Report writing
-
-YÊU CẦU:
-- 2+ năm Investment
-- CFA candidate
-- Financial modeling
-- Research skills
-- Tiếng Anh tốt
-
-QUYỀN LỢI:
-- Lương competitive
-- Performance bonus
-- Investment exposure
-- Career growth`,
-        requirements: '- Investment Analysis\n- CFA\n- Financial Modeling\n- Research\n- English',
-        benefits: '- Lương competitive\n- Thưởng performance\n- Phát triển',
-        salaryMin: 22000000,
-        salaryMax: 45000000,
-        location: 'Hà Nội',
-        jobType: 'FULL_TIME',
-        skills: ['Investment Analysis', 'Financial Modeling', 'CFA', 'Research', 'Portfolio Management']
-    },
-    // Accounting/Audit
-    {
-        title: 'Senior Accountant',
-        industry: 'Kế toán / Kiểm toán',
-        description: `Tuyển dụng Senior Accountant quản lý kế toán doanh nghiệp.
-
-MÔ TẢ CÔNG VIỆC:
-- General ledger management
-- Financial statements
-- Tax compliance
-- Month-end close
-- Team supervision
-
-YÊU CẦU:
-- 4+ năm Accounting
-- CPA preferred
-- Accounting software
-- Tax knowledge
-- Leadership
-
-QUYỀN LỢI:
-- Lương 22-40 triệu
-- CPA support
-- Professional environment
-- Work-life balance`,
-        requirements: '- Accounting\n- CPA\n- Excel\n- Tax\n- Leadership',
-        benefits: '- Lương 22-40 triệu\n- Hỗ trợ CPA\n- Cân bằng cuộc sống',
-        salaryMin: 22000000,
-        salaryMax: 40000000,
-        location: 'TP. Hồ Chí Minh',
-        jobType: 'FULL_TIME',
-        skills: ['Accounting', 'CPA', 'Excel', 'Tax', 'Financial Statements']
-    },
-    {
-        title: 'Audit Associate',
-        industry: 'Kế toán / Kiểm toán',
-        description: `Tuyển dụng Audit Associate thực hiện kiểm toán.
-
-MÔ TẢ CÔNG VIỆC:
-- Audit fieldwork
-- Financial statement review
-- Compliance testing
-- Working papers
-- Client communication
-
-YÊU CẦU:
-- 1-3 năm Audit
-- CPA/CIA is a plus
-- Audit software
-- Analytical skills
-- Travel willingness
-
-QUYỀN LỢI:
-- Lương 15-28 triệu
-- Overtime pay
-- Training program
-- Certification support`,
-        requirements: '- Audit\n- CPA/CIA\n- Analytical\n- Communication\n- Travel',
-        benefits: '- Lương 15-28 triệu\n- Overtime pay\n- Đào tạo',
-        salaryMin: 15000000,
-        salaryMax: 28000000,
-        location: 'Hà Nội',
-        jobType: 'FULL_TIME',
-        skills: ['Audit', 'CPA', 'Financial Analysis', 'Compliance', 'Communication']
-    },
-    // HR
-    {
-        title: 'HR Manager',
-        industry: 'Nhân sự',
-        description: `Tuyển dụng HR Manager quản lý nhân sự toàn diện.
-
-MÔ TẢ CÔNG VIỆC:
-- HR strategy development
-- Recruitment management
-- Performance management
-- Employee relations
-- HR policies
-
-YÊU CẦU:
-- 5+ năm HR experience
-- HR degree preferred
-- Communication skills
-- Problem-solving
-- Leadership
-
-QUYỀN LỢI:
-- Lương 30-50 triệu
-- Annual bonus
-- HR projects
-- Career growth`,
-        requirements: '- HR Management\n- Recruitment\n- Performance Management\n- Labor Law\n- Leadership',
-        benefits: '- Lương 30-50 triệu\n- Thưởng năm\n- Dự án HR',
-        salaryMin: 30000000,
-        salaryMax: 50000000,
-        location: 'TP. Hồ Chí Minh',
-        jobType: 'FULL_TIME',
-        skills: ['HR Management', 'Recruitment', 'Performance Management', 'Employee Relations', 'Labor Law']
-    },
-    {
-        title: 'Recruiter',
-        industry: 'Nhân sự',
-        description: `Tuyển dụng Recruiter chuyên nghiệp.
-
-MÔ TẢ CÔNG VIỆC:
-- Job posting management
-- Candidate sourcing
-- Interview coordination
-- Offer negotiation
-- HR system management
-
-YÊU CẦU:
-- 2+ năm Recruitment
-- Sourcing skills
-- Communication
-- Time management
-- Tech-savvy
-
-QUYỀN LỢI:
-- Lương 15-30 triệu
-- Recruitment bonus
-- Training program
-- Dynamic environment`,
-        requirements: '- Recruitment\n- Sourcing\n- Interview\n- Communication\n- HRIS',
-        benefits: '- Lương 15-30 triệu\n- Thưởng tuyển dụng\n- Đào tạo',
-        salaryMin: 15000000,
-        salaryMax: 30000000,
-        location: 'Hà Nội',
-        jobType: 'FULL_TIME',
-        skills: ['Recruitment', 'Sourcing', 'Interviewing', 'LinkedIn Recruiter', 'HRIS']
-    },
-    // Engineering
-    {
-        title: 'Mechanical Engineer',
-        industry: 'Kỹ thuật',
-        description: `Tuyển dụng Mechanical Engineer thiết kế và phát triển sản phẩm cơ khí.
-
-MÔ TẢ CÔNG VIỆC:
-- Mechanical design
-- CAD modeling
-- Product development
-- Testing và validation
-- Documentation
-
-YÊU CẦU:
-- 3+ năm Mechanical Engineering
-- SolidWorks/AutoCAD
-- Manufacturing knowledge
-- Problem-solving
-- Teamwork
-
-QUYỀN LỢI:
-- Lương 18-35 triệu
-- Project bonus
-- Training
-- Modern tools`,
-        requirements: '- Mechanical Engineering\n- SolidWorks\n- AutoCAD\n- Manufacturing\n- Problem-solving',
-        benefits: '- Lương 18-35 triệu\n- Thưởng dự án\n- Công cụ hiện đại',
-        salaryMin: 18000000,
-        salaryMax: 35000000,
-        location: 'TP. Hồ Chí Minh',
-        jobType: 'FULL_TIME',
-        skills: ['SolidWorks', 'AutoCAD', 'Mechanical Design', 'Manufacturing', 'GD&T']
-    },
-    {
-        title: 'Electrical Engineer',
-        industry: 'Kỹ thuật',
-        description: `Tuyển dụng Electrical Engineer thiết kế hệ thống điện.
-
-MÔ TẢ CÔNG VIỆC:
-- Electrical system design
-- Circuit design
-- Testing và commissioning
-- Documentation
-- Project support
-
-YÊU CẦU:
-- 3+ năm Electrical Engineering
-- PCB design
-- Microcontrollers
-- Testing equipment
-- Problem-solving
-
-QUYỀN LỢI:
-- Lương 20-38 triệu
-- Equipment allowance
-- Training
-- Career path`,
-        requirements: '- Electrical Engineering\n- PCB Design\n- Microcontrollers\n- Testing\n- Documentation',
-        benefits: '- Lương 20-38 triệu\n- Thiết bị\n- Đào tạo',
-        salaryMin: 20000000,
-        salaryMax: 38000000,
-        location: 'Hà Nội',
-        jobType: 'FULL_TIME',
-        skills: ['Circuit Design', 'PCB Design', 'Microcontrollers', 'Electrical Systems', 'Testing']
-    },
-    // Manufacturing
-    {
-        title: 'Production Manager',
-        industry: 'Sản xuất',
-        description: `Tuyển dụng Production Manager quản lý sản xuất.
-
-MÔ TẢ CÔNG VIỆC:
-- Production planning
-- Team management
-- Quality control
-- Process improvement
-- Safety compliance
-
-YÊU CẦU:
-- 5+ năm Production
-- Manufacturing background
-- Lean/Six Sigma
-- Leadership
-- Problem-solving
-
-QUYỀN LỢI:
-- Lương 30-55 triệu
-- Production bonus
-- Housing allowance
-- Career advancement`,
-        requirements: '- Production Management\n- Lean/Six Sigma\n- Quality Control\n- Leadership\n- Planning',
-        benefits: '- Lương 30-55 triệu\n- Thưởng sản xuất\n- Phụ cấp',
-        salaryMin: 30000000,
-        salaryMax: 55000000,
-        location: 'Bắc Ninh',
-        jobType: 'FULL_TIME',
-        skills: ['Production Planning', 'Lean Manufacturing', 'Six Sigma', 'Quality Control', 'Team Management']
-    },
-    {
-        title: 'Quality Assurance Manager',
-        industry: 'Sản xuất',
-        description: `Tuyển dụng QA Manager đảm bảo chất lượng sản phẩm.
-
-MÔ TẢ CÔNG VIỆC:
-- Quality management system
-- Process auditing
-- Customer complaints
-- Continuous improvement
-- Team leadership
-
-YÊU CẦU:
-- 5+ năm QA experience
-- ISO 9001 knowledge
-- Statistical tools
-- Communication
-- Leadership
-
-QUYỀN LỢI:
-- Lương 25-45 triệu
-- ISO certification
-- Travel opportunities
-- Professional growth`,
-        requirements: '- Quality Assurance\n- ISO 9001\n- Statistical Analysis\n- Auditing\n- Leadership',
-        benefits: '- Lương 25-45 triệu\n- ISO cert\n- Du lịch',
-        salaryMin: 25000000,
-        salaryMax: 45000000,
-        location: 'TP. Hồ Chí Minh',
-        jobType: 'FULL_TIME',
-        skills: ['Quality Management', 'ISO 9001', 'Statistical Process Control', 'Auditing', 'Root Cause Analysis']
-    },
-    // Medical/Pharma
-    {
-        title: 'Medical Representative',
-        industry: 'Y tế / Dược phẩm',
-        description: `Tuyển dụng Medical Representative giới thiệu sản phẩm dược.
-
-MÔ TẢ CÔNG VIỆC:
-- Product promotion
-- Doctor visits
-- Sales targets
-- Market feedback
-- Events coordination
-
-YÊU CẦU:
-- 1+ năm Medical Rep
-- Medical/pharmacy background
-- Communication skills
-- Result-driven
-- Travel willing
-
-QUYỀN LỢI:
-- Lương 15-30 triệu
-- Commission
-- Car allowance
-- Health insurance`,
-        requirements: '- Medical Sales\n- Communication\n- Medical Knowledge\n- Sales\n- Travel',
-        benefits: '- Lương 15-30 triệu\n- Hoa hồng\n- Xe công ty\n- Bảo hiểm',
-        salaryMin: 15000000,
-        salaryMax: 30000000,
-        location: 'TP. Hồ Chí Minh',
-        jobType: 'FULL_TIME',
-        skills: ['Medical Sales', 'Communication', 'Product Knowledge', 'Sales', 'Relationship Building']
-    },
-    {
-        title: 'Pharmacist',
-        industry: 'Y tế / Dược phẩm',
-        description: `Tuyển dụng Pharmacist tại nhà thuốc/phòng khám.
-
-MÔ TẢ CÔNG VIỆC:
-- Prescription processing
-- Drug information
-- Customer counseling
-- Inventory management
-- Compliance
-
-YÊU CẦU:
-- Pharmacist license
-- Pharmacy degree
-- Communication
-- Attention to detail
-- Customer service
-
-QUYỀN LỢI:
-- Lương 12-22 triệu
-- Professional environment
-- Training
-- Healthcare benefits`,
-        requirements: '- Pharmacy License\n- Pharmacology\n- Communication\n- Detail-oriented\n- Customer Service',
-        benefits: '- Lương 12-22 triệu\n- Môi trường chuyên nghiệp\n- Bảo hiểm',
-        salaryMin: 12000000,
-        salaryMax: 22000000,
-        location: 'Hà Nội',
-        jobType: 'FULL_TIME',
-        skills: ['Pharmacology', 'Prescription Processing', 'Drug Information', 'Patient Counseling', 'Inventory Management']
-    },
-    // Education
-    {
-        title: 'English Teacher',
-        industry: 'Giáo dục / Đào tạo',
-        description: `Tuyển dụng English Teacher giảng dạy tiếng Anh.
-
-MÔ TẢ CÔNG VIỆC:
-- English teaching
-- Lesson planning
-- Student assessment
-- Curriculum development
-- Class management
-
-YÊU CẦU:
-- English degree/CELTA
-- Teaching experience
-- Native/fluent English
-- Energetic personality
-- Creative
-
-QUYỀN LỢI:
-- Lương 18-35 triệu
-- Teaching bonus
-- Training abroad
-- Modern facilities`,
-        requirements: '- English Teaching\n- CELTA/TESOL\n- Lesson Planning\n- Classroom Management\n- Creativity',
-        benefits: '- Lương 18-35 triệu\n- Thưởng giảng dạy\n- Training abroad',
-        salaryMin: 18000000,
-        salaryMax: 35000000,
-        location: 'TP. Hồ Chí Minh',
-        jobType: 'FULL_TIME',
-        skills: ['English Teaching', 'CELTA', 'Lesson Planning', 'Classroom Management', 'Curriculum Development']
-    },
-    {
-        title: 'Instructional Designer',
-        industry: 'Giáo dục / Đào tạo',
-        description: `Tuyển dụng Instructional Designer phát triển khóa học.
-
-MÔ TẢ CÔNG VIỆC:
-- Course design
-- Content development
-- E-learning materials
-- Assessment creation
-- Technology integration
-
-YÊU CẦU:
-- 2+ năm Instructional Design
-- E-learning experience
-- Authoring tools
-- Creative skills
-- Project management
-
-QUYỀN LỢI:
-- Lương 20-38 triệu
-- Creative projects
-- Learning opportunities
-- Flexible work`,
-        requirements: '- Instructional Design\n- E-learning\n- Articulate Storyline\n- Content Development\n- Project Management',
-        benefits: '- Lương 20-38 triệu\n- Dự án sáng tạo\n- Học tập',
-        salaryMin: 20000000,
-        salaryMax: 38000000,
-        location: 'Hà Nội',
-        jobType: 'FULL_TIME',
-        skills: ['Instructional Design', 'E-learning', 'Articulate Storyline', 'Content Development', 'ADDIE']
-    },
-    // Tourism/Hospitality
-    {
-        title: 'Hotel Manager',
-        industry: 'Du lịch / Khách sạn',
-        description: `Tuyển dụng Hotel Manager quản lý khách sạn.
-
-MÔ TẢ CÔNG VIỆC:
-- Hotel operations
-- Staff management
-- Guest satisfaction
-- Revenue management
-- Marketing
-
-YÊU CẦU:
-- 5+ năm Hotel management
-- Hospitality degree
-- Leadership
-- Customer service
-- Problem-solving
-
-QUYỀN LỢI:
-- Lương 35-60 triệu
-- Performance bonus
-- Housing
-- Career advancement`,
-        requirements: '- Hotel Management\n- Hospitality\n- Leadership\n- Revenue Management\n- Customer Service',
-        benefits: '- Lương 35-60 triệu\n- Thưởng\n- Nhà ở\n- Thăng tiến',
-        salaryMin: 35000000,
-        salaryMax: 60000000,
-        location: 'TP. Hồ Chí Minh',
-        jobType: 'FULL_TIME',
-        skills: ['Hotel Operations', 'Staff Management', 'Revenue Management', 'Customer Service', 'Marketing']
-    },
-    {
-        title: 'Tour Guide',
-        industry: 'Du lịch / Khách sạn',
-        description: `Tuyển dụng Tour Guide hướng dẫn du lịch.
-
-MÔ TẢ CÔNG VIỆC:
-- Tour guiding
-- Customer service
-- Itinerary management
-- Problem resolution
-- Safety monitoring
-
-YÊU CẦU:
-- Tour guide license
-- Communication skills
-- Cultural knowledge
-- Flexible hours
-- Outgoing personality
-
-QUYỀN LỢI:
-- Lương 10-20 triệu
-- Tour bonus
-- Travel opportunities
-- Dynamic work`,
-        requirements: '- Tour Guide License\n- Communication\n- Cultural Knowledge\n- Customer Service\n- Flexibility',
-        benefits: '- Lương 10-20 triệu\n- Thưởng tour\n- Đi du lịch',
-        salaryMin: 10000000,
-        salaryMax: 20000000,
-        location: 'Đà Nẵng',
-        jobType: 'FULL_TIME',
-        skills: ['Tour Guiding', 'Communication', 'Customer Service', 'Local Knowledge', 'First Aid']
-    },
-    // Real Estate
-    {
-        title: 'Real Estate Sales',
-        industry: 'Bất động sản',
-        description: `Tuyển dụng Real Estate Sales tư vấn bất động sản.
-
-MÔ TẢ CÔNG VIỆC:
-- Property sales
-- Client consultation
-- Market analysis
-- Marketing support
-- Negotiation
-
-YÊU CẦU:
-- 1+ năm Real Estate
-- Communication skills
-- Negotiation
-- Self-motivated
-- Market knowledge
-
-QUYỀN LỢI:
-- Lương 12-25 triệu
-- High commission
-- Training
-- Career growth`,
-        requirements: '- Real Estate Sales\n- Communication\n- Negotiation\n- Marketing\n- Market Analysis',
-        benefits: '- Lương 12-25 triệu\n- Hoa hồng cao\n- Đào tạo\n- Thăng tiến',
-        salaryMin: 12000000,
-        salaryMax: 25000000,
-        location: 'TP. Hồ Chí Minh',
-        jobType: 'FULL_TIME',
-        skills: ['Real Estate Sales', 'Client Consultation', 'Negotiation', 'Market Analysis', 'Property Marketing']
-    },
-    {
-        title: 'Property Manager',
-        industry: 'Bất động sản',
-        description: `Tuyển dụng Property Manager quản lý bất động sản.
-
-MÔ TẢ CÔNG VIỆC:
-- Property operations
-- Tenant management
-- Maintenance oversight
-- Financial reporting
-- Compliance
-
-YÊU CẦU:
-- 3+ năm Property Management
-- Real estate knowledge
-- Communication
-- Problem-solving
-- Organization
-
-QUYỀN LỢI:
-- Lương 20-38 triệu
-- Performance bonus
-- Allowances
-- Professional development`,
-        requirements: '- Property Management\n- Real Estate\n- Tenant Relations\n- Maintenance\n- Financial Reporting',
-        benefits: '- Lương 20-38 triệu\n- Thưởng\n- Phụ cấp\n- Phát triển',
-        salaryMin: 20000000,
-        salaryMax: 38000000,
-        location: 'Hà Nội',
-        jobType: 'FULL_TIME',
-        skills: ['Property Management', 'Tenant Relations', 'Maintenance Management', 'Financial Reporting', 'Compliance']
-    },
-    // Logistics
-    {
-        title: 'Logistics Coordinator',
-        industry: 'Vận tải / Logistics',
-        description: `Tuyển dụng Logistics Coordinator điều phối vận chuyển.
-
-MÔ TẢ CÔNG VIỆC:
-- Shipment coordination
-- Carrier management
-- Documentation
-- Problem resolution
-- Tracking updates
-
-YÊU CẦU:
-- 2+ năm Logistics
-- Shipping knowledge
-- Documentation skills
-- Communication
-- Time management
-
-QUYỀN LỢI:
-- Lương 15-28 triệu
-- Logistics bonus
-- Allowance
-- Training`,
-        requirements: '- Logistics\n- Shipping\n- Documentation\n- Communication\n- Time Management',
-        benefits: '- Lương 15-28 triệu\n- Thưởng logistics\n- Phụ cấp',
-        salaryMin: 15000000,
-        salaryMax: 28000000,
-        location: 'TP. Hồ Chí Minh',
-        jobType: 'FULL_TIME',
-        skills: ['Logistics Coordination', 'Shipping', 'Documentation', 'Carrier Management', 'Tracking']
-    },
-    {
-        title: 'Supply Chain Manager',
-        industry: 'Vận tải / Logistics',
-        description: `Tuyển dụng Supply Chain Manager quản lý chuỗi cung ứng.
-
-MÔ TẢ CÔNG VIỆC:
-- Supply chain strategy
-- Vendor management
-- Inventory control
-- Process optimization
-- Team leadership
-
-YÊU CẦU:
-- 5+ năm Supply Chain
-- Procurement experience
-- Optimization skills
-- Leadership
-- Analytics
-
-QUYỀN LỢI:
-- Lương 35-60 triệu
-- Performance bonus
-- Stock options
-- Career advancement`,
-        requirements: '- Supply Chain\n- Procurement\n- Inventory Management\n- Optimization\n- Leadership',
-        benefits: '- Lương 35-60 triệu\n- Thưởng\n- Stock options\n- Thăng tiến',
-        salaryMin: 35000000,
-        salaryMax: 60000000,
-        location: 'Hà Nội',
-        jobType: 'FULL_TIME',
-        skills: ['Supply Chain Management', 'Procurement', 'Inventory Management', 'Vendor Management', 'Process Optimization']
-    },
-    // Media/Journalism
-    {
-        title: 'Content Writer',
-        industry: 'Báo chí / Truyền thông',
-        description: `Tuyển dụng Content Writer sáng tạo nội dung.
-
-MÔ TẢ CÔNG VIỆC:
-- Article writing
-- Copywriting
-- Research
-- SEO content
-- Social media content
-
-YÊU CẦU:
-- 2+ năm Writing
-- Portfolio required
-- SEO knowledge
-- Creativity
-- Research skills
-
-QUYỀN LỢI:
-- Lương 12-25 triệu
-- Creative allowance
-- Flexible work
-- Publication opportunities`,
-        requirements: '- Content Writing\n- Copywriting\n- SEO\n- Research\n- Creativity',
-        benefits: '- Lương 12-25 triệu\n- Sáng tạo\n- Linh hoạt',
-        salaryMin: 12000000,
-        salaryMax: 25000000,
-        location: 'TP. Hồ Chí Minh',
-        jobType: 'FULL_TIME',
-        skills: ['Content Writing', 'Copywriting', 'SEO', 'Research', 'Social Media']
-    },
-    {
-        title: 'Video Editor',
-        industry: 'Báo chí / Truyền thông',
-        description: `Tuyển dụng Video Editor chỉnh sửa video.
-
-MÔ TẢ CÔNG VIỆC:
-- Video editing
-- Post-production
-- Motion graphics
-- Color grading
-- Sound editing
-
-YÊU CẦU:
-- 2+ năm Video Editing
-- Premiere Pro/Final Cut
-- After Effects
-- Portfolio required
-- Creativity
-
-QUYỀN LỢI:
-- Lương 15-30 triệu
-- Equipment allowance
-- Creative projects
-- Career growth`,
-        requirements: '- Video Editing\n- Premiere Pro\n- After Effects\n- Motion Graphics\n- Creativity',
-        benefits: '- Lương 15-30 triệu\n- Thiết bị\n- Dự án sáng tạo',
-        salaryMin: 15000000,
-        salaryMax: 30000000,
-        location: 'TP. Hồ Chí Minh',
-        jobType: 'FULL_TIME',
-        skills: ['Video Editing', 'Premiere Pro', 'After Effects', 'Motion Graphics', 'Color Grading']
-    },
-    // Legal
-    {
-        title: 'Legal Counsel',
-        industry: 'Luật',
-        description: `Tuyển dụng Legal Counsel tư vấn pháp luật.
-
-MÔ TẢ CÔNG VIỆC:
-- Legal consultation
-- Contract drafting
-- Compliance
-- Risk management
-- Dispute resolution
-
-YÊU CẦU:
-- 3+ năm Legal experience
-- Law degree
-- Bar license
-- Corporate law
-- Communication
-
-QUYỀN LỢI:
-- Lương 30-55 triệu
-- Annual bonus
-- Professional development
-- Career path`,
-        requirements: '- Legal Counsel\n- Corporate Law\n- Contract Drafting\n- Compliance\n- Bar License',
-        benefits: '- Lương 30-55 triệu\n- Thưởng năm\n- Phát triển',
-        salaryMin: 30000000,
-        salaryMax: 55000000,
-        location: 'Hà Nội',
-        jobType: 'FULL_TIME',
-        skills: ['Corporate Law', 'Contract Drafting', 'Compliance', 'Risk Management', 'Dispute Resolution']
-    },
-    // Design
-    {
-        title: 'UI/UX Designer',
-        industry: 'Thiết kế',
-        description: `Tuyển dụng UI/UX Designer thiết kế giao diện.
-
-MÔ TẢ CÔNG VIỆC:
-- UI design
-- UX research
-- Prototyping
-- Design systems
-- User testing
-
-YÊU CẦU:
-- 3+ năm UI/UX
-- Figma expert
-- Portfolio required
-- Design thinking
-- Communication
-
-QUYỀN LỢI:
-- Lương 22-42 triệu
-- Design bonus
-- Latest tools
-- Creative freedom`,
-        requirements: '- UI/UX Design\n- Figma\n- Prototyping\n- Design Thinking\n- Portfolio',
-        benefits: '- Lương 22-42 triệu\n- Thưởng design\n- Công cụ mới',
-        salaryMin: 22000000,
-        salaryMax: 42000000,
-        location: 'TP. Hồ Chí Minh',
-        jobType: 'FULL_TIME',
-        skills: ['UI Design', 'UX Research', 'Figma', 'Prototyping', 'Design Systems']
-    },
-    {
-        title: 'Graphic Designer',
-        industry: 'Thiết kế',
-        description: `Tuyển dụng Graphic Designer thiết kế đồ họa.
-
-MÔ TẢ CÔNG VIỆC:
-- Graphic design
-- Brand identity
-- Print design
-- Social media graphics
-- Illustration
-
-YÊU CẦU:
-- 2+ năm Graphic Design
-- Adobe suite expert
-- Portfolio required
-- Creativity
-- Time management
-
-QUYỀN LỢI:
-- Lương 15-30 triệu
-- Creative allowance
-- Modern tools
-- Dynamic projects`,
-        requirements: '- Graphic Design\n- Adobe Creative Suite\n- Portfolio\n- Creativity\n- Branding',
-        benefits: '- Lương 15-30 triệu\n- Sáng tạo\n- Công cụ',
-        salaryMin: 15000000,
-        salaryMax: 30000000,
-        location: 'Hà Nội',
-        jobType: 'FULL_TIME',
-        skills: ['Graphic Design', 'Adobe Photoshop', 'Adobe Illustrator', 'Branding', 'Illustration']
-    },
-    // F&B
-    {
-        title: 'Restaurant Manager',
-        industry: 'F&B / Nhà hàng',
-        description: `Tuyển dụng Restaurant Manager quản lý nhà hàng.
-
-MÔ TẢ CÔNG VIỆC:
-- Restaurant operations
-- Staff management
-- Customer service
-- Quality control
-- Financial management
-
-YÊU CẦU:
-- 3+ năm Restaurant Management
-- F&B experience
-- Leadership
-- Customer service
-- Problem-solving
-
-QUYỀN LỢI:
-- Lương 20-40 triệu
-- Performance bonus
-- Meals included
-- Career growth`,
-        requirements: '- Restaurant Management\n- F&B Operations\n- Staff Management\n- Customer Service\n- Quality Control',
-        benefits: '- Lương 20-40 triệu\n- Thưởng\n- Ăn trưa\n- Thăng tiến',
-        salaryMin: 20000000,
-        salaryMax: 40000000,
-        location: 'TP. Hồ Chí Minh',
-        jobType: 'FULL_TIME',
-        skills: ['Restaurant Operations', 'Staff Management', 'Customer Service', 'Quality Control', 'Financial Management']
-    },
-    {
-        title: 'Barista',
-        industry: 'F&B / Nhà hàng',
-        description: `Tuyển dụng Barista chuyên pha chế cà phê.
-
-MÔ TẢ CÔNG VIỆC:
-- Coffee preparation
-- Customer service
-- Menu development
-- Inventory management
-- Cleanliness
-
-YÊU CẦU:
-- Barista experience preferred
-- Coffee knowledge
-- Customer service
-- Energetic
-- Morning shift
-
-QUYỀN LỢI:
-- Lương 8-15 triệu
-- Tips
-- Coffee training
-- Uniform provided`,
-        requirements: '- Barista\n- Coffee Preparation\n- Customer Service\n- Latte Art\n- Hygiene',
-        benefits: '- Lương 8-15 triệu\n- Tips\n- Đào tạo coffee\n- Đồng phục',
-        salaryMin: 8000000,
-        salaryMax: 15000000,
-        location: 'TP. Hồ Chí Minh',
-        jobType: 'FULL_TIME',
-        skills: ['Coffee Brewing', 'Latte Art', 'Customer Service', 'Menu Knowledge', 'Hygiene']
-    },
-    // IT - Additional roles
-    {
-        title: 'Python Developer',
-        industry: 'Công nghệ thông tin',
-        description: `Tuyển dụng Python Developer phát triển ứng dụng Python.
-
-MÔ TẢ CÔNG VIỆC:
-- Backend development với Python
-- API development
-- Database design
-- Code review
-- Documentation
-
-YÊU CẦU:
-- 3+ năm Python
-- Django/FastAPI
-- PostgreSQL
-- REST API
-- Git
-
-QUYỀN LỢI:
-- Lương 25-45 triệu
-- Tech conferences
-- Learning budget
-- Remote options`,
-        requirements: '- Python\n- Django/FastAPI\n- PostgreSQL\n- REST API\n- Git',
-        benefits: '- Lương 25-45 triệu\n- Conference\n- Learning budget\n- Remote',
-        salaryMin: 25000000,
-        salaryMax: 45000000,
-        location: 'Hà Nội',
-        jobType: 'FULL_TIME',
-        skills: ['Python', 'Django', 'FastAPI', 'PostgreSQL', 'REST API']
-    },
-    {
-        title: 'Java Developer',
-        industry: 'Công nghệ thông tin',
-        description: `Tuyển dụng Java Developer phát triển ứng dụng Java.
-
-MÔ TẢ CÔNG VIỆC:
-- Java application development
-- Spring framework
-- Microservices
-- Database integration
-- Testing
-
-YÊU CẦU:
-- 3+ năm Java
-- Spring Boot
-- Microservices
-- SQL
-- Agile
-
-QUYỀN LỢI:
-- Lương 28-50 triệu
-- Certification support
-- Training
-- Modern tech`,
-        requirements: '- Java\n- Spring Boot\n- Microservices\n- SQL\n- Agile',
-        benefits: '- Lương 28-50 triệu\n- Cert support\n- Training',
-        salaryMin: 28000000,
-        salaryMax: 50000000,
-        location: 'TP. Hồ Chí Minh',
-        jobType: 'FULL_TIME',
-        skills: ['Java', 'Spring Boot', 'Microservices', 'SQL', 'Maven']
-    },
-    {
-        title: 'QA Engineer',
-        industry: 'Công nghệ thông tin',
-        description: `Tuyển dụng QA Engineer đảm bảo chất lượng phần mềm.
-
-MÔ TẢ CÔNG VIỆC:
-- Test planning
-- Test case creation
-- Manual/Automation testing
-- Bug reporting
-- Quality metrics
-
-YÊU CẦU:
-- 2+ năm QA
-- Testing tools
-- SQL basics
-- Analytical skills
-- Communication
-
-QUYỀN LỢI:
-- Lương 15-30 triệu
-- Testing certifications
-- Training
-- Career growth`,
-        requirements: '- QA Testing\n- Selenium\n- SQL\n- Test Planning\n- Bug Reporting',
-        benefits: '- Lương 15-30 triệu\n- Cert support\n- Training',
-        salaryMin: 15000000,
-        salaryMax: 30000000,
-        location: 'Hà Nội',
-        jobType: 'FULL_TIME',
-        skills: ['QA Testing', 'Selenium', 'SQL', 'Test Planning', 'Bug Reporting']
-    },
-    {
-        title: 'Business Analyst',
-        industry: 'Kinh doanh / Marketing',
-        description: `Tuyển dụng Business Analyst phân tích nghiệp vụ.
-
-MÔ TẢ CÔNG VIỆC:
-- Requirements gathering
-- Process analysis
-- Data analysis
-- Stakeholder management
-- Solution design
-
-YÊU CẦU:
-- 3+ năm BA experience
-- Analytical skills
-- Documentation
-- Communication
-- SQL basics
-
-QUYỀN LỢI:
-- Lương 22-40 triệu
-- Certification support
-- Training
-- Career path`,
-        requirements: '- Business Analysis\n- Requirements\n- Data Analysis\n- SQL\n- Communication',
-        benefits: '- Lương 22-40 triệu\n- Cert support\n- Training\n- Career path',
-        salaryMin: 22000000,
-        salaryMax: 40000000,
-        location: 'TP. Hồ Chí Minh',
-        jobType: 'FULL_TIME',
-        skills: ['Business Analysis', 'Requirements Gathering', 'Data Analysis', 'SQL', 'Process Modeling']
-    },
-    {
-        title: 'Sales Manager',
-        industry: 'Kinh doanh / Marketing',
-        description: `Tuyển dụng Sales Manager quản lý kinh doanh.
-
-MÔ TẢ CÔNG VIỆC:
-- Sales strategy
-- Team leadership
-- Target achievement
-- Client relationships
-- Forecasting
-
-YÊU CẦU:
-- 5+ năm Sales
-- Leadership experience
-- Track record
-- Communication
-- Strategic thinking
-
-QUYỀN LỢI:
-- Lương 30-60 triệu
-- High commission
-- Car allowance
-- Leadership role`,
-        requirements: '- Sales Management\n- Leadership\n- B2B Sales\n- Negotiation\n- Strategy',
-        benefits: '- Lương 30-60 triệu\n- Commission cao\n- Xe\n- Leader',
-        salaryMin: 30000000,
-        salaryMax: 60000000,
-        location: 'Hà Nội',
-        jobType: 'FULL_TIME',
-        skills: ['Sales Management', 'Leadership', 'B2B Sales', 'Negotiation', 'Strategic Planning']
-    },
-    // Part-time/Remote jobs
-    {
-        title: 'Remote React Developer',
-        industry: 'Công nghệ thông tin',
-        description: `Tuyển dụng Remote React Developer làm việc từ xa.
-
-MÔ TẢ CÔNG VIỆC:
-- Frontend development
-- Remote collaboration
-- Code reviews
-- Documentation
-
-YÊU CẦU:
-- 3+ năm React
-- English communication
-- Self-motivated
-- Time management
-
-QUYỀN LỢI:
-- Lương competitive
-- Fully remote
-- Flexible hours
-- Global team`,
-        requirements: '- React\n- Remote Work\n- English\n- Self-motivated',
-        benefits: '- Lương competitive\n- Remote 100%\n- Giờ linh hoạt',
-        salaryMin: 25000000,
-        salaryMax: 50000000,
-        location: 'Remote',
-        jobType: 'REMOTE',
-        skills: ['React', 'TypeScript', 'Remote Work', 'Communication']
-    },
-    {
-        title: 'Freelance Content Writer',
-        industry: 'Báo chí / Truyền thông',
-        description: `Tuyển dụng Freelance Content Writer viết nội dung.
-
-MÔ TẢ CÔNG VIỆC:
-- Article writing
-- Blog posts
-- SEO content
-- Research
-
-YÊU CẦU:
-- 1+ năm writing
-- Portfolio
-- SEO knowledge
-- Deadlines
-
-QUYỀN LỢI:
-- Per-project payment
-- Flexible schedule
-- Home office`,
-        requirements: '- Content Writing\n- SEO\n- Research\n- Deadline',
-        benefits: '- Thanh toán theo dự án\n- Linh hoạt\n- Làm ở nhà',
-        salaryMin: 10000000,
-        salaryMax: 25000000,
-        location: 'Remote',
-        jobType: 'PART_TIME',
-        skills: ['Content Writing', 'SEO', 'Research', 'Copywriting']
-    },
-    {
-        title: 'Intern Frontend Developer',
-        industry: 'Công nghệ thông tin',
-        description: `Tuyển dụng Intern Frontend Developer thực tập.
-
-MÔ TẢ CÔNG VIỆC:
-- Learn và assist
-- Code development
-- Bug fixing
-- Documentation
-
-YÊU CẦU:
-- IT student/graduated
-- HTML/CSS/JS basics
-- Willing to learn
-- Teamwork
-
-QUYỀN LỢI:
-- Stipend 5-8 triệu
-- Mentorship
-- Training
-- Full-time opportunity`,
-        requirements: '- HTML/CSS/JS\n- Basic React\n- Learning attitude\n- Teamwork',
-        benefits: '- Stipend 5-8 triệu\n- Mentorship\n- Đào tạo\n- Cơ hội full-time',
-        salaryMin: 5000000,
-        salaryMax: 8000000,
-        location: 'Hà Nội',
-        jobType: 'INTERNSHIP',
-        skills: ['HTML', 'CSS', 'JavaScript', 'React Basics', 'Git']
-    },
-];
-
-function getLogoUrl(companyName: string): string {
-    // Using UI Avatars for professional looking initials
+// Job templates mapped by industry
+const jobsByIndustry: Record<string, any[]> = {
+    'Công nghệ thông tin': [
+        { title: 'Senior Fullstack Developer', exp: 4, ageMin: 25, ageMax: 35, sMin: 40000000, sMax: 65000000, skills: ['React', 'Node.js', 'TypeScript', 'PostgreSQL'] },
+        { title: 'Frontend Developer (React)', exp: 2, ageMin: 22, ageMax: 30, sMin: 20000000, sMax: 35000000, skills: ['React', 'TypeScript', 'Tailwind CSS'] },
+        { title: 'Backend Engineer (Node.js)', exp: 3, ageMin: 24, ageMax: 35, sMin: 25000000, sMax: 45000000, skills: ['Node.js', 'Express', 'PostgreSQL', 'Docker'] },
+        { title: 'System Analyst', exp: 3, ageMin: 24, ageMax: 40, sMin: 30000000, sMax: 50000000, skills: ['System Design', 'SQL', 'UML', 'Business Analysis'] },
+        { title: 'DevOps Engineer', exp: 3, ageMin: 25, ageMax: 38, sMin: 35000000, sMax: 60000000, skills: ['AWS', 'Kubernetes', 'CI/CD', 'Terraform'] }
+    ],
+    'Viễn thông': [
+        { title: 'Kỹ Sư Mạng Viễn Thông', exp: 2, ageMin: 23, ageMax: 35, sMin: 20000000, sMax: 35000000, skills: ['Networking', 'Cisco', 'Linux', 'Telecommunication'] },
+        { title: 'Chuyên Viên Tối Ưu Mạng', exp: 3, ageMin: 25, ageMax: 45, sMin: 25000000, sMax: 45000000, skills: ['RF Optimization', '4G/5G', 'Data Analysis'] },
+        { title: 'Kỹ Sư Core Network', exp: 4, ageMin: 26, ageMax: 40, sMin: 30000000, sMax: 55000000, skills: ['Core Network', 'SIP', 'IP Networking'] }
+    ],
+    'Tài chính / Ngân hàng': [
+        { title: 'Chuyên Viên Phân Tích Tín Dụng', exp: 2, ageMin: 24, ageMax: 35, sMin: 20000000, sMax: 35000000, skills: ['Credit Analysis', 'Finance', 'Risk Management'] },
+        { title: 'Quản Lý Khách Hàng Doanh Nghiệp (RM)', exp: 3, ageMin: 26, ageMax: 40, sMin: 25000000, sMax: 50000000, skills: ['B2B Sales', 'Banking', 'Relationship Management'] },
+        { title: 'Chuyên Viên Thẩm Định Tài Sản', exp: 2, ageMin: 23, ageMax: 35, sMin: 18000000, sMax: 30000000, skills: ['Asset Valuation', 'Real Estate', 'Banking Law'] }
+    ],
+    'Hàng không': [
+        { title: 'Kỹ Sư Bảo Dưỡng Tàu Bay', exp: 3, ageMin: 25, ageMax: 45, sMin: 30000000, sMax: 60000000, skills: ['Aviation Maintenance', 'Mechanical Engineering', 'Safety Standards'] },
+        { title: 'Chuyên Viên Điều Hành Bay', exp: 2, ageMin: 24, ageMax: 35, sMin: 25000000, sMax: 45000000, skills: ['Flight Operations', 'English', 'Time Management'] },
+        { title: 'Tiếp Viên Hàng Không', exp: 0, ageMin: 20, ageMax: 28, sMin: 15000000, sMax: 30000000, skills: ['Communication', 'Customer Service', 'English'] }
+    ],
+    'Bất động sản': [
+        { title: 'Trưởng Phòng Kinh Doanh BĐS', exp: 5, ageMin: 28, ageMax: 45, sMin: 30000000, sMax: 80000000, skills: ['Real Estate Sales', 'Leadership', 'Negotiation'] },
+        { title: 'Chuyên Viên Tư Vấn Đầu Tư', exp: 2, ageMin: 23, ageMax: 35, sMin: 15000000, sMax: 40000000, skills: ['Investment Consulting', 'Communication', 'Market Analysis'] }
+    ],
+    'Sản xuất': [
+        { title: 'Quản Đốc Phân Xưởng', exp: 5, ageMin: 30, ageMax: 50, sMin: 25000000, sMax: 45000000, skills: ['Production Management', 'Lean Manufacturing', 'Leadership'] },
+        { title: 'Kỹ Sư Quản Lý Chất Lượng (QA/QC)', exp: 2, ageMin: 24, ageMax: 40, sMin: 18000000, sMax: 30000000, skills: ['QA/QC', 'ISO 9001', 'Process Improvement'] }
+    ],
+    'Thương mại điện tử': [
+        { title: 'E-commerce Campaign Manager', exp: 3, ageMin: 25, ageMax: 35, sMin: 25000000, sMax: 45000000, skills: ['E-commerce', 'Campaign Management', 'Digital Marketing'] },
+        { title: 'Chuyên Viên Phân Tích Dữ Liệu', exp: 2, ageMin: 23, ageMax: 35, sMin: 20000000, sMax: 40000000, skills: ['Data Analysis', 'SQL', 'Python', 'PowerBI'] }
+    ],
+    'Kỹ thuật': [
+        { title: 'Kỹ Sư Thiết Kế Cơ Khí', exp: 3, ageMin: 25, ageMax: 40, sMin: 20000000, sMax: 35000000, skills: ['AutoCAD', 'SolidWorks', 'Mechanical Design'] },
+        { title: 'Kỹ Sư Tự Động Hóa', exp: 2, ageMin: 24, ageMax: 35, sMin: 22000000, sMax: 40000000, skills: ['PLC', 'Automation', 'Robotics'] }
+    ],
+    'Marketing': [
+        { title: 'Performance Marketing Manager', exp: 4, ageMin: 26, ageMax: 35, sMin: 30000000, sMax: 55000000, skills: ['Performance Marketing', 'Google Ads', 'Facebook Ads', 'Data Analysis'] },
+        { title: 'Senior Content Creator', exp: 2, ageMin: 23, ageMax: 32, sMin: 18000000, sMax: 30000000, skills: ['Content Writing', 'Copywriting', 'SEO', 'Creativity'] }
+    ],
+    'Kế toán / Kiểm toán': [
+        { title: 'Kiểm Toán Viên Trưởng (Senior Auditor)', exp: 4, ageMin: 26, ageMax: 40, sMin: 25000000, sMax: 45000000, skills: ['Auditing', 'CPA', 'Financial Analysis'] },
+        { title: 'Kế Toán Tổng Hợp', exp: 3, ageMin: 25, ageMax: 45, sMin: 18000000, sMax: 30000000, skills: ['Accounting', 'Tax', 'Excel'] }
+    ],
+    'Bảo hiểm': [
+        { title: 'Trưởng Nhóm Kinh Doanh Bảo Hiểm', exp: 3, ageMin: 25, ageMax: 45, sMin: 20000000, sMax: 50000000, skills: ['Insurance Sales', 'Team Management', 'Consulting'] },
+        { title: 'Chuyên Viên Thẩm Định Bồi Thường', exp: 2, ageMin: 24, ageMax: 40, sMin: 18000000, sMax: 30000000, skills: ['Claims Assessment', 'Insurance Law', 'Attention to Detail'] }
+    ],
+    'F&B / Nhà hàng': [
+        { title: 'Quản Lý Nhà Hàng (Restaurant Manager)', exp: 4, ageMin: 28, ageMax: 45, sMin: 25000000, sMax: 40000000, skills: ['F&B Management', 'Customer Service', 'Leadership'] },
+        { title: 'Bếp Trưởng (Head Chef)', exp: 5, ageMin: 30, ageMax: 50, sMin: 30000000, sMax: 50000000, skills: ['Culinary Arts', 'Kitchen Management', 'Menu Creation'] }
+    ],
+    'Du lịch / Khách sạn': [
+        { title: 'Giám Đốc Tiền Sảnh (Front Office Manager)', exp: 5, ageMin: 28, ageMax: 45, sMin: 25000000, sMax: 45000000, skills: ['Hospitality', 'Customer Service', 'English'] },
+        { title: 'Chuyên Viên Điều Hành Tour', exp: 2, ageMin: 23, ageMax: 35, sMin: 15000000, sMax: 25000000, skills: ['Tour Operations', 'Planning', 'Problem Solving'] }
+    ],
+    'Giáo dục / Đào tạo': [
+        { title: 'Trưởng Phòng Đào Tạo', exp: 5, ageMin: 30, ageMax: 50, sMin: 30000000, sMax: 50000000, skills: ['Education Management', 'Curriculum Design', 'Leadership'] },
+        { title: 'Giảng Viên Tiếng Anh (IELTS)', exp: 3, ageMin: 24, ageMax: 40, sMin: 25000000, sMax: 45000000, skills: ['Teaching', 'IELTS 8.0+', 'Communication'] }
+    ]
+};
+
+function generateJobDescription(title, industry, exp, ageMin, ageMax, skills) {
+    return `Chúng tôi đang tìm kiếm ${title} đầy tài năng để gia nhập đội ngũ của công ty.
+
+MÔ TẢ CÔNG VIỆC CHI TIẾT:
+- Chịu trách nhiệm chính trong việc thực hiện và hoàn thành các mục tiêu công việc liên quan đến vị trí ${title}.
+- Lên kế hoạch, giám sát và báo cáo tiến độ công việc định kỳ cho cấp quản lý.
+- Phối hợp chặt chẽ với các phòng ban liên quan để đảm bảo luồng công việc xuyên suốt và hiệu quả.
+- Chủ động phát hiện các rủi ro, vướng mắc trong quá trình làm việc và đề xuất giải pháp xử lý kịp thời.
+- Cập nhật kiến thức chuyên môn, áp dụng công nghệ và quy trình mới để nâng cao chất lượng công việc.
+
+YÊU CẦU CÔNG VIỆC:
+- Tối thiểu ${exp} năm kinh nghiệm ở vị trí tương đương trong ngành ${industry}.
+- Độ tuổi từ ${ageMin} đến ${ageMax} tuổi, sức khỏe tốt.
+- Tốt nghiệp Đại học trở lên các chuyên ngành liên quan.
+- Có kỹ năng giao tiếp, đàm phán và giải quyết vấn đề tốt.
+- Thành thạo các công cụ, phần mềm chuyên dụng: ${skills.join(', ')}.`;
+}
+
+function generateBenefits(sMin, sMax) {
+    const minFmt = new Intl.NumberFormat('vi-VN').format(sMin);
+    const maxFmt = new Intl.NumberFormat('vi-VN').format(sMax);
+    return `- Mức lương cạnh tranh: ${minFmt} - ${maxFmt} VNĐ/tháng.
+- Lương tháng 13, thưởng Lễ, Tết và thưởng hiệu quả công việc (KPI).
+- Đóng BHXH, BHYT, BHTN đầy đủ theo quy định của pháp luật.
+- Bảo hiểm sức khỏe cao cấp (PVI/Bảo Việt) cho nhân sự và người thân.
+- Môi trường làm việc chuyên nghiệp, năng động, có lộ trình thăng tiến rõ ràng.
+- Khám sức khỏe định kỳ hàng năm và các chuyến du lịch nghỉ mát do công ty tổ chức.
+- Tham gia các khóa đào tạo nâng cao nghiệp vụ trong và ngoài nước.`;
+}
+
+function generateRequirements(exp, ageMin, ageMax, skills) {
+    return `- Kinh nghiệm: ${exp}+ năm
+- Độ tuổi: ${ageMin} - ${ageMax}
+- Kỹ năng: ${skills.join(', ')}`;
+}
+
+function getLogoUrl(companyName: string, website?: string): string {
+    if (website && website.startsWith('http')) {
+        try {
+            const domain = new URL(website).hostname.replace('www.', '');
+            // Clearbit provides a free logo API based on domain
+            return `https://logo.clearbit.com/${domain}`;
+        } catch (e) {
+            // Fallback to initials if URL is invalid
+        }
+    }
+    // Using UI Avatars for professional looking initials as fallback
     const initials = companyName.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(initials)}&background=0D8ABC&color=fff&size=128&font-size=0.4&bold=true`;
 }
@@ -1786,7 +366,7 @@ async function main() {
                 data: {
                     name: companyData.name,
                     slug: `${slug}-${Date.now()}`,
-                    logo: getLogoUrl(companyData.name),
+                    logo: getLogoUrl(companyData.name, companyData.website),
                     website: companyData.website,
                     description: companyData.description,
                     industry: companyData.industry,
@@ -1799,39 +379,50 @@ async function main() {
     );
     console.log(`✅ Created ${createdCompanies.length} companies`);
 
-    // 6. Create Jobs (50 jobs)
+    // 6. Create Jobs (70 jobs)
     console.log('📋 Creating jobs...');
+    
+    let totalJobsCreated = 0;
+    const jobTypes = ['FULL_TIME', 'PART_TIME', 'REMOTE', 'INTERNSHIP', 'CONTRACT'] as const;
+    
+    const jobPromises = Array.from({ length: 70 }).map((_, i) => {
+        const company = createdCompanies[i % createdCompanies.length];
+        const industry = createdIndustries.find(ind => ind.name === company.industry) || createdIndustries[0];
+        const jobsForIndustry = jobsByIndustry[industry.name] || jobsByIndustry['Công nghệ thông tin'];
+        const jobTemplate = jobsForIndustry[i % jobsForIndustry.length];
+        const jobTitle = jobTemplate.title;
+        const location = company.locations && company.locations.length > 0 ? company.locations[0] : 'Hà Nội';
+        const jobType = jobTypes[i % jobTypes.length];
+        
+        return prisma.job.create({
+            data: {
+                title: jobTitle,
+                slug: generateSlug(jobTitle, i),
+                description: generateJobDescription(jobTitle, industry.name, jobTemplate.exp, jobTemplate.ageMin, jobTemplate.ageMax, jobTemplate.skills),
+                requirements: generateRequirements(jobTemplate.exp, jobTemplate.ageMin, jobTemplate.ageMax, jobTemplate.skills),
+                benefits: generateBenefits(jobTemplate.sMin, jobTemplate.sMax),
+                salaryMin: jobTemplate.sMin,
+                salaryMax: jobTemplate.sMax,
+                location: location,
+                jobType: jobType,
+                status: 'ACTIVE',
+                skills: jobTemplate.skills,
+                ageMin: jobTemplate.ageMin,
+                ageMax: jobTemplate.ageMax,
+                experienceYears: jobTemplate.exp,
+                viewCount: Math.floor(Math.random() * 500) + 50,
+                expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
+                companyId: company.id,
+                industryId: industry.id,
+                postedById: employerUser.id,
+            }
+        });
+    });
 
-    const jobsData = jobTemplates.slice(0, 50); // Ensure we have 50 jobs
-
-    await Promise.all(
-        jobsData.map(async (jobData, index) => {
-            const company = createdCompanies[index % createdCompanies.length];
-            const industry = createdIndustries.find(i => i.name === jobData.industry) || createdIndustries[0];
-
-            return prisma.job.create({
-                data: {
-                    title: jobData.title,
-                    slug: generateSlug(jobData.title, index),
-                    description: jobData.description,
-                    requirements: jobData.requirements,
-                    benefits: jobData.benefits,
-                    salaryMin: jobData.salaryMin,
-                    salaryMax: jobData.salaryMax,
-                    location: jobData.location,
-                    jobType: jobData.jobType as any,
-                    status: 'ACTIVE',
-                    skills: jobData.skills,
-                    viewCount: Math.floor(Math.random() * 500) + 50,
-                    expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
-                    companyId: company.id,
-                    industryId: industry.id,
-                    postedById: employerUser.id,
-                }
-            });
-        })
-    );
-    console.log(`✅ Created ${jobsData.length} jobs`);
+    await Promise.all(jobPromises);
+    totalJobsCreated = 70;
+    
+    console.log(`✅ Created ${totalJobsCreated} jobs`);
 
     // 7. Create some sample applications
     console.log('📝 Creating sample applications...');
@@ -1885,13 +476,13 @@ async function main() {
     console.log('   Admin: admin@jobnow.com / 123456');
     console.log('   Employer: employer@jobnow.com / 123456');
     console.log('   Candidate: candidate@jobnow.com / 123456');
-    console.log(`\n📊 Total: ${createdCompanies.length} companies, ${jobsData.length} jobs`);
+    console.log(`\n📊 Total: ${createdCompanies.length} companies, ${totalJobsCreated} jobs`);
 }
 
 main()
     .catch((e) => {
         console.error('❌ Seed error:', e);
-        process.exit(1);
+        process.exit(1)
     })
     .finally(async () => {
         await prisma.$disconnect();

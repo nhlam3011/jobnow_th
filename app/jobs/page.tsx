@@ -6,7 +6,7 @@ import { getJobs, getJobFilters, getSavedJobIds } from "@/app/actions/jobs";
 export default async function JobsPage({
     searchParams,
 }: {
-    searchParams: Promise<{ q?: string; loc?: string; type?: string; industry?: string; salary?: string; exp?: string; age?: string; page?: string; sort?: string }>;
+    searchParams: Promise<{ q?: string; loc?: string; type?: string; industry?: string; salary?: string; exp?: string; age?: string; page?: string; sort?: string; ai?: string }>;
 }) {
     const params = await searchParams;
     const page = params.page ? parseInt(params.page) : 1;
@@ -23,6 +23,7 @@ export default async function JobsPage({
             exp: params.exp,
             age: params.age,
             sort: params.sort,
+            useAI: params.ai === "true",
             status: "ACTIVE",
             page,
             limit: 12

@@ -7,21 +7,22 @@ const getApiKey = () => process.env.GEMINI_API_KEY || "";
 export const genAI = new GoogleGenerativeAI(getApiKey());
 
 export const AI_CONFIG = {
-    chatModel: process.env.GEMINI_CHAT_MODEL || "gemini-1.5-flash",
-    embeddingModel: process.env.GEMINI_EMBEDDING_MODEL || "text-embedding-004",
+    chatModel: process.env.GEMINI_CHAT_MODEL || "gemini-2.5-flash",
+    embeddingModel: process.env.GEMINI_EMBEDDING_MODEL || "gemini-embedding-001",
 } as const;
 
 export type ChatModel =
     | "gemini-1.5-flash"
     | "gemini-1.5-pro"
     | "gemini-2.0-flash"
+    | "gemini-2.5-flash"
     | "gemini-pro";
 
 export async function generateText(prompt: string, model?: ChatModel): Promise<string> {
     const key = getApiKey();
     if (!key) throw new Error("GEMINI_API_KEY is not set in environment");
 
-    const modelName = model || AI_CONFIG.chatModel || "gemini-1.5-flash";
+    const modelName = model || AI_CONFIG.chatModel || "gemini-2.5-flash";
     try {
         const client = new GoogleGenerativeAI(key);
         const geminiModel = client.getGenerativeModel({ model: modelName });
@@ -56,7 +57,7 @@ export async function generateStructuredText(
     const key = getApiKey();
     if (!key) throw new Error("GEMINI_API_KEY is not set in environment");
 
-    const modelName = model || AI_CONFIG.chatModel || "gemini-1.5-flash";
+    const modelName = model || AI_CONFIG.chatModel || "gemini-2.5-flash";
     try {
         const client = new GoogleGenerativeAI(key);
         const geminiModel = client.getGenerativeModel({ model: modelName });
@@ -89,7 +90,7 @@ export async function getEmbedding(text: string, model?: string): Promise<number
     const key = getApiKey();
     if (!key) throw new Error("GEMINI_API_KEY is not set");
 
-    const modelName = model || AI_CONFIG.embeddingModel || "text-embedding-004";
+    const modelName = model || AI_CONFIG.embeddingModel || "gemini-embedding-001";
     try {
         const client = new GoogleGenerativeAI(key);
         const geminiModel = client.getGenerativeModel({ model: modelName });

@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { semanticJobSearch } from "@/lib/ai";
+import { generateText } from "@/lib/gemini";
 
 function slugify(text: string) {
     return text
@@ -13,6 +14,46 @@ function slugify(text: string) {
         .replace(/\s+/g, "-")
         .replace(/-+/g, "-")
         .trim() + "-" + Date.now();
+}
+
+// In-memory cache for AI query expansion (lasts until server restart)
+const queryExpansionCache = new Map<string, string[]>();
+
+/**
+ * Use Gemini AI to expand a search query into related Vietnamese job keywords.
+ * E.g., "IT" → ["Công nghệ thông tin", "CNTT", "developer", "lập trình", "phần mềm"]
+ */
+async function expandQueryWithAI(query: string): Promise<string[]> {
+    const cacheKey = query.toLowerCase().trim();
+    if (queryExpansionCache.has(cacheKey)) {
+        return queryExpansionCache.get(cacheKey)!;
+    }
+
+    try {
+        const prompt = `Bạn là hệ thống tìm kiếm việc làm. Người dùng tìm: "${query}"
+
+Trả về TÊN NGÀNH NGHỀ và TÊN VỊ TRÍ CÔNG VIỆC liên quan. KHÔNG trả về từ chung chung như "phần mềm", "công cụ", "kỹ năng".
+
+Ví dụ:
+- "IT" → ["Công nghệ thông tin", "Developer", "Backend Engineer", "Frontend Developer", "DevOps"]
+- "HR" → ["Nhân sự", "Tuyển dụng", "HR Manager", "Recruitment"]
+- "ngân hàng" → ["Tài chính / Ngân hàng", "Tín dụng", "Giao dịch viên", "Banking"]
+
+CHỈ trả về JSON array. KHÔNG giải thích.`;
+
+        const result = await generateText(prompt);
+        const jsonMatch = result.match(/\[[\s\S]*\]/);
+        if (jsonMatch) {
+            const keywords: string[] = JSON.parse(jsonMatch[0]);
+            const expanded = keywords.filter(k => typeof k === "string" && k.trim().length > 0).slice(0, 8);
+            queryExpansionCache.set(cacheKey, expanded);
+            return expanded;
+        }
+    } catch (e) {
+        console.error("AI query expansion failed:", e);
+    }
+
+    return [query]; // fallback to original query
 }
 
 export async function getJobs(params?: {
@@ -79,13 +120,30 @@ export async function getJobs(params?: {
             console.error("AI search failed, falling back to text search:", e);
         }
     }
+    // Text-based search fallback (runs when AI search fails or is disabled)
+    if (params?.q) {
+        // Use AI to expand the query into related keywords
+        const expandedKeywords = await expandQueryWithAI(params.q);
 
-    if (params?.q && !params.useAI) {
-        where.OR = [
-            { title: { contains: params.q, mode: "insensitive" } },
-            { description: { contains: params.q, mode: "insensitive" } },
-            { skills: { hasSome: [params.q] } },
-        ];
+        // Build OR conditions — only search precise fields (title, skills, industry)
+        // DO NOT search description: templates contain generic words that cause false matches
+        const orConditions: Record<string, unknown>[] = [];
+
+        for (const kw of expandedKeywords) {
+            orConditions.push(
+                { title: { contains: kw, mode: "insensitive" } },
+                { skills: { hasSome: [kw] } },
+                { company: { industry: { contains: kw, mode: "insensitive" } } },
+                { industry: { name: { contains: kw, mode: "insensitive" } } },
+            );
+        }
+
+        // Also search original query in company name
+        orConditions.push(
+            { company: { name: { contains: params.q, mode: "insensitive" } } },
+        );
+
+        where.OR = orConditions;
     }
     if (params?.loc) {
         where.location = { contains: params.loc, mode: "insensitive" };

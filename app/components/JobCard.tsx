@@ -121,15 +121,17 @@ export default function JobCard({
                                 borderRadius: "12px",
                                 border: "1.5px solid var(--border)",
                                 fontWeight: 700,
+                                objectFit: "contain",
+                                padding: "4px",
                             }}
                         />
                     </div>
                     <div className="job-card-info-group">
                         <div className="job-card-header">
-                            <h3 className="job-title" style={{ display: "flex", alignItems: "center", gap: "0.4rem" }} title={title}>
-                                {title || "Tuyển dụng"}
+                            <h3 className="job-title" title={title}>
+                                <span className="job-title-text">{title || "Tuyển dụng"}</span>
                                 {featured && (
-                                    <span style={{ fontSize: "0.65rem", backgroundColor: "linear-gradient(to right, #FDE047, #F59E0B)", background: "#FEF08A", color: "#A16207", padding: "2px 6px", borderRadius: "4px", fontWeight: "bold", border: "1px solid #FDE047", marginLeft: "0.2rem" }}>
+                                    <span style={{ fontSize: "0.65rem", backgroundColor: "linear-gradient(to right, #FDE047, #F59E0B)", background: "#FEF08A", color: "#A16207", padding: "2px 6px", borderRadius: "4px", fontWeight: "bold", border: "1px solid #FDE047", flexShrink: 0 }}>
                                         VIP
                                     </span>
                                 )}
@@ -342,10 +344,17 @@ export default function JobCard({
                     font-weight: 700;
                     color: var(--text);
                     margin: 0;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.4rem;
+                    min-width: 0;
+                    text-align: left;
+                }
+                .job-title-text {
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
-                    text-align: left;
+                    min-width: 0;
                 }
                 .company-info { width: 100%; text-align: left; }
                 .company-name {

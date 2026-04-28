@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
-import { useState } from "react";
+import Avatar from "@/app/components/Avatar";
+import { useState, useEffect, useRef } from "react";
 
 interface Company {
     id: string;
@@ -40,7 +41,20 @@ export default function CompaniesPageContent({
 }: CompaniesPageContentProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const [showFilters, setShowFilters] = useState(false);
+    const [isIndustryDropdownOpen, setIsIndustryDropdownOpen] = useState(false);
+    const [industrySearchTerm, setIndustrySearchTerm] = useState("");
+
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsIndustryDropdownOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     const totalPages = Math.ceil(total / limit);
 
@@ -65,261 +79,185 @@ export default function CompaniesPageContent({
         return `/companies?${params.toString()}`;
     };
 
+    const stringToColor = (str: string) => {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+            hash = str.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        const hue = Math.abs(hash % 360);
+        return `hsl(${hue}, 55%, 55%)`;
+    };
+
     return (
         <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
             <Navbar />
 
-            {/* Sub-header */}
-            <div className="jobs-header">
+            {/* Header */}
+            <div className="cp-header">
                 <div className="container-xl">
-
-                    {/* Search Bar - Matching Jobs page style */}
-                    <div style={{ marginTop: "1rem" }}>
-                        <form method="GET" className="companies-search-form">
-                            <div className="companies-search-input">
-                                <input
-                                    type="text"
-                                    name="q"
-                                    defaultValue={currentQ || ""}
-                                    placeholder="Tìm kiếm công ty..."
-                                />
-                            </div>
-
-                            <select
-                                name="industry"
-                                defaultValue={currentIndustry || ""}
-                                onChange={(e) => handleFilterChange("industry", e.target.value)}
-                                className="companies-search-select"
-                            >
-                                <option value="">Tất cả ngành nghề</option>
-                                {industryList.map((ind) => (
-                                    <option key={ind} value={ind}>
-                                        {ind}
-                                    </option>
-                                ))}
-                            </select>
-
-                            <button
-                                type="submit"
-                                className="btn-primary companies-search-btn"
-                            >
-                                Tìm kiếm
-                            </button>
-                        </form>
+                    <div className="cp-hero-center">
+                        <h1 className="cp-title">
+                            Khám phá Doanh nghiệp
+                            {currentQ && <span style={{ color: "var(--primary)" }}> "{currentQ}"</span>}
+                            {currentIndustry && <span style={{ color: "var(--cta)" }}> — {currentIndustry}</span>}
+                        </h1>
+                        <p className="cp-subtitle">Tìm hiểu văn hóa, môi trường và cơ hội nghề nghiệp tại các công ty hàng đầu.</p>
                     </div>
+
+                    {/* Search */}
+                    <form method="GET" className="cp-search">
+                        <div className="cp-search-field">
+                            <svg width="18" height="18" fill="none" stroke="var(--primary)" strokeWidth="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" /><path strokeLinecap="round" d="M21 21l-4.35-4.35" /></svg>
+                            <input type="text" name="q" defaultValue={currentQ || ""} placeholder="Tên công ty, từ khóa..." />
+                        </div>
+                        <div className="cp-search-divider" />
+                        <div className="cp-search-field cp-search-dropdown-wrap" ref={dropdownRef}>
+                            <svg width="18" height="18" fill="none" stroke="var(--primary)" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                            <div className="cp-dropdown-trigger" onClick={() => setIsIndustryDropdownOpen(!isIndustryDropdownOpen)}>
+                                <span style={{ color: currentIndustry ? "var(--text)" : "var(--text-muted)" }}>
+                                    {currentIndustry || "Tất cả lĩnh vực"}
+                                </span>
+                                <svg width="14" height="14" fill="none" stroke="var(--text-muted)" strokeWidth="2" viewBox="0 0 24 24" style={{ transform: isIndustryDropdownOpen ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                            </div>
+                            <input type="hidden" name="industry" value={currentIndustry || ""} />
+
+                            {isIndustryDropdownOpen && (
+                                <div className="cp-dropdown-menu">
+                                    <div className="cp-dropdown-search-wrap">
+                                        <input
+                                            type="text"
+                                            placeholder="Tìm lĩnh vực..."
+                                            value={industrySearchTerm}
+                                            onChange={(e) => setIndustrySearchTerm(e.target.value)}
+                                            onClick={(e) => e.stopPropagation()}
+                                            autoFocus
+                                        />
+                                    </div>
+                                    <div className="cp-dropdown-list">
+                                        <div className={`cp-dropdown-item ${!currentIndustry ? "active" : ""}`} onClick={() => { handleFilterChange("industry", ""); setIsIndustryDropdownOpen(false); setIndustrySearchTerm(""); }}>
+                                            Tất cả lĩnh vực
+                                        </div>
+                                        {industryList.filter(ind => ind.toLowerCase().includes(industrySearchTerm.toLowerCase())).map(ind => (
+                                            <div key={ind} className={`cp-dropdown-item ${currentIndustry === ind ? "active" : ""}`} onClick={() => { handleFilterChange("industry", ind); setIsIndustryDropdownOpen(false); setIndustrySearchTerm(""); }}>
+                                                {ind}
+                                            </div>
+                                        ))}
+                                        {industryList.filter(ind => ind.toLowerCase().includes(industrySearchTerm.toLowerCase())).length === 0 && (
+                                            <div className="cp-dropdown-empty">Không tìm thấy</div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                        <button type="submit" className="btn-primary cp-search-btn">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" /><path strokeLinecap="round" d="M21 21l-4.35-4.35" /></svg>
+                            Tìm kiếm
+                        </button>
+                    </form>
                 </div>
             </div>
 
-            <main className="section-sm" style={{ flex: 1, padding: "2rem 1rem" }}>
+            {/* Main */}
+            <main className="cp-main">
                 <div className="container-xl">
-                    {/* Mobile filter toggle */}
-                    <div className="filter-toggle" style={{ marginBottom: "1rem" }}>
-                        <button
-                            onClick={() => setShowFilters(!showFilters)}
-                            className="btn-outline"
-                            style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.5rem 1rem" }}
-                        >
-                            <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-                            </svg>
-                            Bộ lọc {showFilters ? "▲" : "▼"}
-                        </button>
+                    {/* Results bar */}
+                    <div className="cp-results-bar">
+                        <span className="section-label">DANH SÁCH CÔNG TY</span>
+                        <span className="cp-count">Tìm thấy <strong>{total}</strong> công ty</span>
                     </div>
 
-                    {/* Results count */}
-                    <div style={{ marginBottom: "1.5rem", color: "var(--text-muted)", fontSize: "0.95rem" }}>
-                        Tìm thấy <strong style={{ color: "var(--text)" }}>{total}</strong> công ty
-                    </div>
-
-                    {/* Companies Grid */}
                     {companies.length === 0 ? (
-                        <div
-                            style={{
-                                textAlign: "center",
-                                padding: "4rem 2rem",
-                                background: "var(--card-bg)",
-                                borderRadius: "12px",
-                                border: "1px solid var(--border)",
-                            }}
-                        >
-                            <svg
-                                style={{ width: "64px", height: "64px", color: "var(--text-muted)", marginBottom: "1rem" }}
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={1.5}
-                                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                                />
-                            </svg>
-                            <h2 style={{ fontSize: "1.25rem", fontWeight: 700, color: "var(--text)", marginBottom: "0.5rem" }}>
-                                Không tìm thấy công ty nào
-                            </h2>
-                            <p style={{ color: "var(--text-muted)", marginBottom: "1.5rem" }}>
-                                {currentQ || currentIndustry
-                                    ? "Thử thay đổi tiêu chí tìm kiếm để xem kết quả khác"
-                                    : "Hiện chưa có công ty nào trong hệ thống"}
-                            </p>
-                            {(currentQ || currentIndustry) && (
-                                <Link href="/companies" className="btn-primary">
-                                    Xem tất cả công ty
-                                </Link>
-                            )}
+                        <div className="cp-empty">
+                            <svg width="48" height="48" fill="none" stroke="var(--text-muted)" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                            <h3>Không tìm thấy công ty nào</h3>
+                            <p>{currentQ || currentIndustry ? "Thử thay đổi tiêu chí tìm kiếm." : "Hệ thống hiện chưa có công ty nào."}</p>
+                            {(currentQ || currentIndustry) && <Link href="/companies" className="btn-primary" style={{ marginTop: "1rem" }}>Xóa bộ lọc</Link>}
                         </div>
                     ) : (
-                        <div className="companies-grid">
-                            {companies.map((company) => (
-                                <Link
-                                    key={company.id}
-                                    href={`/companies/${company.slug}`}
-                                    className="company-card company-card-inner"
-                                >
-                                    <div className="company-card-header">
-                                        {/* Logo */}
-                                        <div
-                                            className="company-card-logo"
-                                            style={{ background: company.logo ? "transparent" : "var(--tag-bg)" }}
-                                        >
-                                            {company.logo ? (
-                                                <img
+                        <div className="cp-grid">
+                            {companies.map((company) => {
+                                const accent = stringToColor(company.id);
+                                return (
+                                    <Link key={company.id} href={`/companies/${company.slug}`} className="cp-card card card-clickable">
+
+                                        <div className="cp-card-body">
+                                            {/* Logo + info row */}
+                                            <div className="cp-card-row">
+                                                <Avatar
                                                     src={company.logo}
                                                     alt={company.name}
-                                                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                                                />
-                                            ) : (
-                                                company.name.charAt(0)
-                                            )}
-                                        </div>
-
-                                        {/* Info */}
-                                        <div style={{ flex: 1, minWidth: 0 }}>
-                                            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.25rem" }}>
-                                                <h3
+                                                    fallback={company.name}
+                                                    size={48}
                                                     style={{
-                                                        fontSize: "1.1rem",
-                                                        fontWeight: 700,
-                                                        color: "var(--text)",
-                                                        overflow: "hidden",
-                                                        textOverflow: "ellipsis",
-                                                        whiteSpace: "nowrap",
+                                                        borderRadius: "10px",
+                                                        border: "1.5px solid var(--border)",
+                                                        objectFit: "contain",
+                                                        padding: "4px",
+                                                        backgroundColor: "#fff",
                                                     }}
-                                                >
-                                                    {company.name}
-                                                </h3>
-                                                {company.verified && (
-                                                    <svg
-                                                        style={{ width: "16px", height: "16px", color: "#10B981", flexShrink: 0 }}
-                                                        fill="currentColor"
-                                                        viewBox="0 0 20 20"
-                                                    >
-                                                        <path
-                                                            fillRule="evenodd"
-                                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                            clipRule="evenodd"
-                                                        />
-                                                    </svg>
-                                                )}
+                                                />
+                                                <div className="cp-card-titleblock">
+                                                    <h3 className="cp-card-name">
+                                                        {company.name}
+                                                        {company.verified && (
+                                                            <svg width="16" height="16" viewBox="0 0 20 20" fill="#10B981" style={{ flexShrink: 0 }}><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
+                                                        )}
+                                                    </h3>
+                                                    <div className="cp-card-tags">
+                                                        {company.industry && <span className="tag">{company.industry}</span>}
+                                                        {company.locations && company.locations.length > 0 && (
+                                                            <span className="tag">{company.locations[0]}{company.locations.length > 1 && ` +${company.locations.length - 1}`}</span>
+                                                        )}
+                                                    </div>
+                                                </div>
                                             </div>
-                                            {company.industry && (
-                                                <p style={{ color: "var(--text-muted)", fontSize: "0.875rem" }}>{company.industry}</p>
-                                            )}
-                                        </div>
-                                    </div>
 
-                                    {/* Stats */}
-                                    <div className="company-card-stats">
-                                        {company.locations && company.locations.length > 0 && (
-                                            <div style={{ display: "flex", alignItems: "center", gap: "0.375rem", color: "var(--text-muted)", fontSize: "0.875rem" }}>
-                                                <svg style={{ width: "14px", height: "14px" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                </svg>
-                                                {company.locations?.[0] || "N/A"}
+                                            {/* Description */}
+                                            <p className="cp-card-desc">
+                                                {company.description ? company.description.replace(/<[^>]*>?/gm, "") : "Chưa có mô tả chi tiết cho công ty này."}
+                                            </p>
+
+                                            {/* Footer */}
+                                            <div className="cp-card-footer">
+                                                <span className="cp-card-jobcount">
+                                                    <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M20 7h-4V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2H4a2 2 0 00-2 2v11a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z" /></svg>
+                                                    {company._count.jobs} việc làm
+                                                </span>
+                                                <span className="cp-card-link">
+                                                    Xem chi tiết
+                                                    <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                                                </span>
                                             </div>
-                                        )}
-                                        <div style={{ display: "flex", alignItems: "center", gap: "0.375rem", color: "var(--text-muted)", fontSize: "0.875rem" }}>
-                                            <svg style={{ width: "14px", height: "14px" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                            </svg>
-                                            <span style={{ color: company._count.jobs > 0 ? "var(--primary)" : "var(--text-muted)" }}>
-                                                {company._count.jobs} việc làm
-                                            </span>
                                         </div>
-                                    </div>
-                                </Link>
-                            ))}
+                                    </Link>
+                                );
+                            })}
                         </div>
                     )}
 
                     {/* Pagination */}
                     {totalPages > 1 && (
-                        <div style={{ display: "flex", justifyContent: "center", gap: "0.5rem", flexWrap: "wrap" }}>
+                        <div className="cp-pagination">
                             {page > 1 && (
-                                <Link
-                                    href={buildPageUrl(page - 1)}
-                                    style={{
-                                        padding: "0.5rem 1rem",
-                                        borderRadius: "6px",
-                                        border: "1px solid var(--border)",
-                                        background: "var(--bg)",
-                                        color: "var(--text)",
-                                        textDecoration: "none",
-                                        fontSize: "0.9rem",
-                                        minWidth: "80px",
-                                        textAlign: "center",
-                                    }}
-                                >
-                                    ← Trước
+                                <Link href={buildPageUrl(page - 1)} className="cp-page-btn">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+                                    Trước
                                 </Link>
                             )}
-
-                            {Array.from({ length: totalPages }, (_, i) => i + 1)
-                                .filter((p) => p === 1 || p === totalPages || Math.abs(p - page) <= 1)
-                                .map((p, idx, arr) => (
-                                    <span key={p}>
-                                        {idx > 0 && arr[idx - 1] !== p - 1 && (
-                                            <span style={{ padding: "0.5rem", color: "var(--text-muted)" }}>...</span>
-                                        )}
-                                        <Link
-                                            href={buildPageUrl(p)}
-                                            style={{
-                                                padding: "0.5rem 1rem",
-                                                borderRadius: "6px",
-                                                border: "1px solid var(--border)",
-                                                background: p === page ? "var(--primary)" : "var(--bg)",
-                                                color: p === page ? "white" : "var(--text)",
-                                                textDecoration: "none",
-                                                fontSize: "0.9rem",
-                                                fontWeight: p === page ? 600 : 400,
-                                                minWidth: "40px",
-                                                textAlign: "center",
-                                                display: "inline-block",
-                                            }}
-                                        >
-                                            {p}
-                                        </Link>
-                                    </span>
-                                ))}
-
+                            <div className="cp-page-nums">
+                                {Array.from({ length: totalPages }, (_, i) => i + 1)
+                                    .filter((p) => p === 1 || p === totalPages || Math.abs(p - page) <= 1)
+                                    .map((p, idx, arr) => (
+                                        <span key={p}>
+                                            {idx > 0 && arr[idx - 1] !== p - 1 && <span className="cp-page-dots">···</span>}
+                                            <Link href={buildPageUrl(p)} className={`cp-page-num ${p === page ? "active" : ""}`}>{p}</Link>
+                                        </span>
+                                    ))}
+                            </div>
                             {page < totalPages && (
-                                <Link
-                                    href={buildPageUrl(page + 1)}
-                                    style={{
-                                        padding: "0.5rem 1rem",
-                                        borderRadius: "6px",
-                                        border: "1px solid var(--border)",
-                                        background: "var(--bg)",
-                                        color: "var(--text)",
-                                        textDecoration: "none",
-                                        fontSize: "0.9rem",
-                                        minWidth: "80px",
-                                        textAlign: "center",
-                                    }}
-                                >
-                                    Sau →
+                                <Link href={buildPageUrl(page + 1)} className="cp-page-btn">
+                                    Sau
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                                 </Link>
                             )}
                         </div>
@@ -330,156 +268,378 @@ export default function CompaniesPageContent({
             <Footer />
 
             <style jsx global>{`
-                .company-card:hover {
-                    border-color: var(--primary);
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-                    transform: translateY(-2px);
+                /* ===== HEADER ===== */
+                .cp-header {
+                    background: var(--bg-card);
+                    border-bottom: 1.5px solid var(--border);
+                    padding: 2.5rem 0 2rem;
+                }
+                .cp-hero-center {
+                    text-align: center;
+                    margin-bottom: 1.5rem;
+                }
+                .cp-title {
+                    font-size: clamp(1.5rem, 3vw, 2rem);
+                    font-weight: 800;
+                    color: var(--text);
+                    margin-bottom: 0.5rem;
+                }
+                .cp-subtitle {
+                    color: var(--text-muted);
+                    font-size: 0.9375rem;
+                    margin: 0 auto;
+                    max-width: 520px;
                 }
 
-                /* Companies search form */
-                .companies-search-form {
+                /* ===== SEARCH ===== */
+                .cp-search {
                     display: flex;
-                    gap: 0.5rem;
-                    flex-wrap: wrap;
-                }
-
-                .companies-search-input {
-                    flex: 1 1 300px;
-                    min-width: 200px;
-                }
-
-                .companies-search-input input {
-                    width: 100%;
-                    padding: 0.75rem 1rem;
-                    border-radius: 8px;
-                    border: 1px solid var(--border);
-                    background: var(--bg);
-                    color: var(--text);
-                    font-size: 0.95rem;
-                    height: 48px;
-                    box-sizing: border-box;
-                }
-
-                .companies-search-select {
-                    padding: 0.75rem 1rem;
-                    border-radius: 8px;
-                    border: 1px solid var(--border);
-                    background: var(--bg);
-                    color: var(--text);
-                    font-size: 0.95rem;
-                    height: 48px;
-                    min-width: 180px;
-                    cursor: pointer;
-                }
-
-                .companies-search-btn {
-                    padding: 0.75rem 1.5rem;
-                    border-radius: 8px;
-                    font-weight: 600;
-                    height: 48px;
-                    white-space: nowrap;
-                }
-
-                /* Companies grid */
-                .companies-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-                    gap: 1.5rem;
-                    margin-bottom: 2rem;
-                }
-
-                /* Company card */
-                .company-card-inner {
-                    display: block;
-                    background: var(--card-bg);
+                    background: var(--bg-card);
+                    border: 2px solid var(--border);
                     border-radius: 12px;
-                    border: 1px solid var(--border);
-                    padding: 1.5rem;
-                    text-decoration: none;
-                    transition: all 0.2s ease;
+                    overflow: hidden;
+                    max-width: 760px;
+                    margin: 0 auto;
+                    transition: border-color 200ms;
                 }
-
-                .company-card-header {
-                    display: flex;
-                    gap: 1rem;
-                    margin-bottom: 1rem;
+                .cp-search:focus-within {
+                    border-color: var(--primary);
                 }
-
-                .company-card-logo {
-                    width: 56px;
-                    height: 56px;
-                    border-radius: 10px;
-                    border: 1.5px solid var(--border);
+                .cp-search-field {
                     display: flex;
                     align-items: center;
-                    justify-content: center;
-                    font-weight: 800;
-                    font-size: 1.25rem;
-                    color: var(--primary);
+                    gap: 0.625rem;
+                    padding: 0 1rem;
+                    flex: 1;
+                    min-width: 0;
+                }
+                .cp-search-field input {
+                    border: none;
+                    background: transparent;
+                    outline: none;
+                    font-size: 0.9375rem;
+                    color: var(--text);
+                    width: 100%;
+                    padding: 0.875rem 0;
+                    font-family: inherit;
+                }
+                .cp-search-field input::placeholder {
+                    color: var(--text-muted);
+                }
+                .cp-search-divider {
+                    width: 1.5px;
+                    align-self: center;
+                    height: 24px;
+                    background: var(--border);
                     flex-shrink: 0;
+                }
+                .cp-search-dropdown-wrap {
+                    position: relative;
+                    flex: 0.7;
+                }
+                .cp-dropdown-trigger {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    cursor: pointer;
+                    flex: 1;
+                    font-size: 0.9375rem;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    user-select: none;
+                    gap: 0.5rem;
+                }
+                .cp-dropdown-menu {
+                    position: absolute;
+                    top: calc(100% + 10px);
+                    left: -1rem;
+                    right: -1rem;
+                    background: var(--bg-card);
+                    border: 1px solid var(--border);
+                    border-radius: 10px;
+                    box-shadow: var(--shadow-lg);
+                    z-index: 100;
                     overflow: hidden;
                 }
-
-                .company-card-stats {
-                    display: flex;
-                    gap: 1rem;
-                    padding-top: 1rem;
-                    border-top: 1px solid var(--border);
+                .cp-dropdown-search-wrap {
+                    padding: 0.625rem;
+                    border-bottom: 1px solid var(--border);
+                }
+                .cp-dropdown-search-wrap input {
+                    width: 100%;
+                    padding: 0.5rem 0.75rem;
+                    border: 1px solid var(--border);
+                    border-radius: 6px;
+                    background: var(--bg);
+                    color: var(--text);
+                    font-size: 0.875rem;
+                    outline: none;
+                }
+                .cp-dropdown-search-wrap input:focus {
+                    border-color: var(--primary);
+                }
+                .cp-dropdown-list {
+                    max-height: 220px;
+                    overflow-y: auto;
+                }
+                .cp-dropdown-item {
+                    padding: 0.625rem 1rem;
+                    font-size: 0.875rem;
+                    cursor: pointer;
+                    color: var(--text);
+                    transition: background 150ms;
+                }
+                .cp-dropdown-item:hover {
+                    background: var(--bg);
+                }
+                .cp-dropdown-item.active {
+                    color: var(--primary);
+                    font-weight: 600;
+                    background: var(--tag-bg);
+                }
+                .cp-dropdown-empty {
+                    padding: 1rem;
+                    text-align: center;
+                    color: var(--text-muted);
+                    font-size: 0.875rem;
+                }
+                .cp-search-btn {
+                    border-radius: 0 10px 10px 0 !important;
+                    white-space: nowrap;
+                    flex-shrink: 0;
                 }
 
-                /* Tablet: 641px - 768px */
+                /* ===== MAIN ===== */
+                .cp-main {
+                    flex: 1;
+                    background: var(--bg);
+                    padding: 2.5rem 0 4rem;
+                }
+                .cp-results-bar {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 1.5rem;
+                }
+                .cp-count {
+                    font-size: 0.875rem;
+                    color: var(--text-muted);
+                }
+                .cp-count strong {
+                    color: var(--text);
+                    font-weight: 700;
+                }
+
+                /* ===== GRID ===== */
+                .cp-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+                    gap: 1.25rem;
+                }
+
+                /* ===== CARD ===== */
+                .cp-card {
+                    text-decoration: none !important;
+                    display: flex;
+                    flex-direction: column;
+                    overflow: hidden;
+                    padding: 0 !important;
+                }
+
+                .cp-card-body {
+                    padding: 1.25rem 1.5rem 1.25rem;
+                    display: flex;
+                    flex-direction: column;
+                    flex: 1;
+                }
+                .cp-card-row {
+                    display: flex;
+                    gap: 1rem;
+                    align-items: flex-start;
+                    margin-bottom: 0.875rem;
+                }
+
+                .cp-card-titleblock {
+                    flex: 1;
+                    min-width: 0;
+                }
+                .cp-card-name {
+                    font-size: 1rem;
+                    font-weight: 700;
+                    color: var(--text);
+                    margin: 0 0 0.375rem;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.375rem;
+                    line-height: 1.3;
+                }
+                .cp-card-tags {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 0.375rem;
+                }
+                .cp-card-tags .tag {
+                    font-size: 0.75rem;
+                    padding: 0.125rem 0.5rem;
+                }
+                .cp-card-desc {
+                    font-size: 0.8125rem;
+                    color: var(--text-muted);
+                    line-height: 1.6;
+                    margin: 0;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    flex: 1;
+                }
+                .cp-card-footer {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-top: 1rem;
+                    padding-top: 0.875rem;
+                    border-top: 1px solid var(--border);
+                }
+                .cp-card-jobcount {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.375rem;
+                    font-size: 0.8125rem;
+                    font-weight: 600;
+                    color: var(--text-muted);
+                }
+                .cp-card-link {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.25rem;
+                    font-size: 0.8125rem;
+                    font-weight: 700;
+                    color: var(--primary);
+                    transition: gap 200ms;
+                }
+                .cp-card:hover .cp-card-link {
+                    gap: 0.5rem;
+                }
+
+                /* ===== EMPTY ===== */
+                .cp-empty {
+                    text-align: center;
+                    padding: 4rem 2rem;
+                    background: var(--bg-card);
+                    border: 1.5px solid var(--border);
+                    border-radius: 12px;
+                    max-width: 480px;
+                    margin: 0 auto;
+                }
+                .cp-empty h3 {
+                    font-size: 1.25rem;
+                    font-weight: 700;
+                    color: var(--text);
+                    margin: 1rem 0 0.5rem;
+                }
+                .cp-empty p {
+                    color: var(--text-muted);
+                    font-size: 0.9375rem;
+                }
+
+                /* ===== PAGINATION ===== */
+                .cp-pagination {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 0.5rem;
+                    margin-top: 3rem;
+                    flex-wrap: wrap;
+                }
+                .cp-page-nums {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.25rem;
+                }
+                .cp-page-num {
+                    width: 36px;
+                    height: 36px;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 8px;
+                    font-weight: 600;
+                    font-size: 0.875rem;
+                    color: var(--text);
+                    background: var(--bg-card);
+                    border: 1.5px solid var(--border);
+                    text-decoration: none;
+                    transition: all 150ms;
+                }
+                .cp-page-num:hover {
+                    border-color: var(--primary);
+                    color: var(--primary);
+                }
+                .cp-page-num.active {
+                    background: var(--primary);
+                    color: #fff;
+                    border-color: var(--primary);
+                }
+                .cp-page-btn {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.375rem;
+                    padding: 0 1rem;
+                    height: 36px;
+                    border-radius: 8px;
+                    background: var(--bg-card);
+                    border: 1.5px solid var(--border);
+                    color: var(--text);
+                    font-weight: 600;
+                    font-size: 0.875rem;
+                    text-decoration: none;
+                    transition: all 150ms;
+                }
+                .cp-page-btn:hover {
+                    border-color: var(--primary);
+                    color: var(--primary);
+                }
+                .cp-page-dots {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 28px;
+                    color: var(--text-muted);
+                    font-size: 0.875rem;
+                    letter-spacing: 1px;
+                }
+
+                /* ===== RESPONSIVE ===== */
                 @media (max-width: 768px) {
-                    .companies-grid {
+                    .cp-search {
+                        flex-direction: column;
+                        border-radius: 10px;
+                    }
+                    .cp-search-field {
+                        padding: 0.75rem 1rem;
+                        border-bottom: 1px solid var(--border);
+                    }
+                    .cp-search-divider { display: none; }
+                    .cp-search-btn {
+                        border-radius: 0 0 8px 8px !important;
+                        width: 100%;
+                        justify-content: center;
+                    }
+                    .cp-search-dropdown-wrap {
+                        flex: none;
+                    }
+                    .cp-grid {
                         grid-template-columns: repeat(2, 1fr);
                         gap: 1rem;
                     }
-
-                    .companies-search-form {
-                        flex-direction: column;
-                    }
-
-                    .companies-search-input {
-                        flex: none;
-                        min-width: 0;
-                        width: 100%;
-                    }
-
-                    .companies-search-select {
-                        width: 100%;
-                        min-width: 0;
-                    }
-
-                    .companies-search-btn {
-                        width: 100%;
-                    }
                 }
-
-                /* Mobile: <= 640px */
                 @media (max-width: 640px) {
-                    .companies-grid {
-                        grid-template-columns: 1fr;
-                        gap: 0.875rem;
-                    }
-
-                    .company-card-inner {
-                        padding: 1rem;
-                    }
-
-                    .company-card-logo {
-                        width: 48px;
-                        height: 48px;
-                        font-size: 1.1rem;
-                        border-radius: 8px;
-                    }
-
-                    .company-card-header h3 {
-                        font-size: 0.95rem !important;
-                    }
-
-                    .company-card-stats {
-                        flex-wrap: wrap;
-                        gap: 0.75rem;
-                    }
+                    .cp-header { padding: 1.75rem 0 1.5rem; }
+                    .cp-grid { grid-template-columns: 1fr; }
+                    .cp-results-bar { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+                    .cp-page-nums { display: none; }
+                    .cp-card-row { gap: 0.75rem; }
                 }
             `}</style>
         </div>

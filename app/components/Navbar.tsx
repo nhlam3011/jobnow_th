@@ -98,6 +98,8 @@ export default function Navbar({ industries }: NavbarProps) {
     const isMarketInsightsActive = pathname?.startsWith('/market-insights');
     const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const [userAvatar, setUserAvatar] = useState<string | null>(null);
+    const [companyLogo, setCompanyLogo] = useState<string | null>(null);
+    const [companyName, setCompanyName] = useState<string | null>(null);
 
     // Fetch user info/avatar for candidates/admins
     const lastUpdated = (session?.user as any)?.lastUpdated;
@@ -110,7 +112,7 @@ export default function Navbar({ industries }: NavbarProps) {
                 })
                 .catch(() => { });
         }
-    }, [session, lastUpdated]);
+    }, [session?.user?.role, session?.user?.id, lastUpdated]);
 
     // Fetch company info for employers
     useEffect(() => {
@@ -123,7 +125,7 @@ export default function Navbar({ industries }: NavbarProps) {
                 })
                 .catch(() => { });
         }
-    }, [session, lastUpdated]);
+    }, [session?.user?.role, session?.user?.id, lastUpdated]);
 
     const industryList = industries && industries.length > 0 ? industries : DEFAULT_INDUSTRIES;
     const isLoggedIn = status === "authenticated";

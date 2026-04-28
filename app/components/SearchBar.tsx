@@ -298,19 +298,6 @@ export default function SearchBar({ size = "lg", defaultAI = false }: SearchBarP
                     />
                 </div>
 
-                <div className="search-location">
-                    <svg width="18" height="18" fill="none" stroke="var(--primary)" strokeWidth="2" viewBox="0 0 24 24" style={{ flexShrink: 0, marginRight: "0.5rem" }}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 0 1-2.827 0l-4.244-4.243a8 8 0 1 1 11.314 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                    </svg>
-                    <input
-                        type="text"
-                        placeholder="Địa điểm..."
-                        value={location}
-                        onChange={(e) => setLocation(e.target.value)}
-                        disabled={isLoading}
-                    />
-                </div>
 
                 <button type="submit" className="btn-primary search-submit" disabled={isLoading}>
                     {isLoading ? (

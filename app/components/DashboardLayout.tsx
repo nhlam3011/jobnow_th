@@ -167,7 +167,7 @@ export default function DashboardLayout({
         } else {
             setDisplayImage(sessionData?.user?.image || userImage);
         }
-    }, [role, sessionData?.user?.image, userImage, lastUpdated]);
+    }, [role, sessionData?.user?.id, sessionData?.user?.image, userImage, lastUpdated]);
 
     // Close sidebar on route change
     useEffect(() => {

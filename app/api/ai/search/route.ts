@@ -137,14 +137,23 @@ async function performAISearch(query: string, location?: string, limit = 20) {
 async function performDatabaseSearch(query: string, location?: string, limit = 20) {
     const queryLower = query.toLowerCase();
     const queryWords = queryLower.split(/\s+/).filter(w => w.length > 1);
+    const skillTerms = [query, ...queryWords];
+    const isShortQuery = query.length <= 3;
 
     // Build search conditions
+    // For short queries like "IT", skip description search to avoid false positives
     const orConditions: any[] = [
         { title: { contains: query, mode: "insensitive" } },
-        { description: { contains: query, mode: "insensitive" } },
-        { requirements: { contains: query, mode: "insensitive" } },
-        { skills: { hasSome: queryWords } },
+        { skills: { hasSome: skillTerms } },
     ];
+
+    // Only search description/requirements for longer queries
+    if (!isShortQuery) {
+        orConditions.push(
+            { description: { contains: query, mode: "insensitive" } },
+            { requirements: { contains: query, mode: "insensitive" } },
+        );
+    }
 
     // Add company search
     const companies = await prisma.company.findMany({

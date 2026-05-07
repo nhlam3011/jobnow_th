@@ -23,8 +23,47 @@ const queryExpansionCache = new Map<string, string[]>();
  * Use Gemini AI to expand a search query into related Vietnamese job keywords.
  * E.g., "IT" → ["Công nghệ thông tin", "CNTT", "developer", "lập trình", "phần mềm"]
  */
+// Hardcoded common industry aliases for instant and 100% reliable mapping
+const COMMON_ALIASES: Record<string, string[]> = {
+    "it": ["Công nghệ thông tin", "Kỹ sư phần mềm", "Lập trình viên", "IT", "Phần mềm", "Developer"],
+    "cntt": ["Công nghệ thông tin", "Kỹ sư phần mềm", "Lập trình viên"],
+    "hr": ["Nhân sự", "Human Resources", "Tuyển dụng"],
+    "nhân sự": ["HR", "Tuyển dụng", "Human Resources"],
+    "pr": ["Marketing", "Báo chí / Truyền thông", "Public Relations", "Truyền thông"],
+    "marketing": ["Kinh doanh / Marketing", "PR", "Truyền thông"],
+    "kế toán": ["Kế toán / Kiểm toán", "Kế toán", "Kiểm toán"],
+    "kiểm toán": ["Kế toán / Kiểm toán", "Kế toán", "Kiểm toán", "Auditing"],
+    "sale": ["Kinh doanh / Marketing", "Kinh doanh", "Bán hàng", "Sales"],
+    "sales": ["Kinh doanh / Marketing", "Kinh doanh", "Bán hàng", "Sale"],
+    "ngân hàng": ["Tài chính / Ngân hàng", "Tài chính", "Bank"],
+    "tài chính": ["Tài chính / Ngân hàng", "Ngân hàng", "Finance"],
+    "du lịch": ["Du lịch / Khách sạn", "Khách sạn", "Tour"],
+    "khách sạn": ["Du lịch / Khách sạn", "Du lịch", "Hotel"],
+    "nhà hàng": ["F&B / Nhà hàng", "Khách sạn", "F&B", "Restaurant"],
+    "f&b": ["F&B / Nhà hàng", "Nhà hàng", "Food & Beverage"],
+    "logistics": ["Vận tải / Logistics", "Vận tải", "Supply Chain"],
+    "vận tải": ["Vận tải / Logistics", "Logistics", "Giao nhận"],
+    "y tế": ["Y tế / Dược phẩm", "Dược phẩm", "Bác sĩ", "Y tá"],
+    "dược": ["Y tế / Dược phẩm", "Y tế", "Dược phẩm", "Pharmacist"],
+    "giáo dục": ["Giáo dục / Đào tạo", "Đào tạo", "Giáo viên", "Education"],
+    "thiết kế": ["Thiết kế", "Design", "UI/UX", "Graphic"],
+    "luật": ["Luật", "Legal", "Luật sư"],
+    "bds": ["Bất động sản", "Real Estate", "Nhà đất"],
+    "bđs": ["Bất động sản", "Real Estate", "Nhà đất"],
+    "bất động sản": ["Real Estate", "BĐS", "Nhà đất"],
+    "kỹ thuật": ["Kỹ thuật", "Engineering", "Kỹ sư"],
+    "sản xuất": ["Sản xuất", "Manufacturing", "Nhà máy"]
+};
+
 async function expandQueryWithAI(query: string): Promise<string[]> {
     const cacheKey = query.toLowerCase().trim();
+    
+    // 1. Instant return for hardcoded common aliases
+    if (COMMON_ALIASES[cacheKey]) {
+        return COMMON_ALIASES[cacheKey];
+    }
+    
+    // 2. Return from in-memory cache
     if (queryExpansionCache.has(cacheKey)) {
         return queryExpansionCache.get(cacheKey)!;
     }
@@ -76,6 +115,8 @@ export async function getJobs(params?: {
     page?: number;
     limit?: number;
 }) {
+    let expandedKeywords: string[] = [];
+    
     // Tự động gỡ VIP các tin đã hết hạn
     await prisma.job.updateMany({
         where: { isVip: true, vipUntil: { lt: new Date() } },
@@ -137,36 +178,79 @@ export async function getJobs(params?: {
         const orConditions: Record<string, unknown>[] = [];
 
         // Direct query matches (highest relevance)
-        orConditions.push(
-            { title: { contains: params.q, mode: "insensitive" } },
-            { skills: { hasSome: [params.q] } },
-            { industry: { name: { contains: params.q, mode: "insensitive" } } },
-            { company: { name: { contains: params.q, mode: "insensitive" } } },
-        );
+        const isShortQuery = params.q.trim().length <= 3;
 
-        // Individual words of the query
-        const queryWords = params.q.split(/\s+/).filter(w => w.length > 1);
-        for (const word of queryWords) {
-            if (word.toLowerCase() !== params.q.toLowerCase()) {
-                orConditions.push(
-                    { title: { contains: word, mode: "insensitive" } },
-                    { skills: { hasSome: [word] } },
-                );
+        if (isShortQuery) {
+            const qSpace = " " + params.q;
+            const spaceQ = params.q + " ";
+            const spaceQSpace = " " + params.q + " ";
+            
+            orConditions.push(
+                // Pseudo-word-boundary for Title
+                { title: { startsWith: spaceQ, mode: "insensitive" } },
+                { title: { endsWith: qSpace, mode: "insensitive" } },
+                { title: { contains: spaceQSpace, mode: "insensitive" } },
+                { title: { equals: params.q, mode: "insensitive" } },
+                { title: { startsWith: params.q, mode: "insensitive" } }, // e.g. "IT Support"
+                // Skills exact match
+                { skills: { hasSome: [params.q, params.q.toUpperCase()] } },
+                // Pseudo-word-boundary for Company
+                { company: { name: { startsWith: spaceQ, mode: "insensitive" } } },
+                { company: { name: { endsWith: qSpace, mode: "insensitive" } } },
+                { company: { name: { contains: spaceQSpace, mode: "insensitive" } } },
+                { company: { name: { equals: params.q, mode: "insensitive" } } },
+                { company: { name: { startsWith: params.q, mode: "insensitive" } } }, // e.g. "FPT Software"
+                // Pseudo-word-boundary for Industry
+                { industry: { name: { startsWith: spaceQ, mode: "insensitive" } } },
+                { industry: { name: { endsWith: qSpace, mode: "insensitive" } } },
+                { industry: { name: { contains: spaceQSpace, mode: "insensitive" } } },
+                { industry: { name: { equals: params.q, mode: "insensitive" } } }
+            );
+        } else {
+            orConditions.push(
+                { title: { contains: params.q, mode: "insensitive" } },
+                { skills: { hasSome: [params.q] } },
+                { industry: { name: { contains: params.q, mode: "insensitive" } } },
+                { company: { name: { contains: params.q, mode: "insensitive" } } },
+            );
+        }
+
+        // Individual words of the query (only for long queries)
+        if (!isShortQuery) {
+            const queryWords = params.q.split(/\s+/).filter(w => w.length > 3);
+            for (const word of queryWords) {
+                if (word.toLowerCase() !== params.q.toLowerCase()) {
+                    orConditions.push(
+                        { title: { contains: word, mode: "insensitive" } },
+                        { skills: { hasSome: [word] } },
+                    );
+                }
             }
         }
+
+        // Helper for whole word matching
+        const isWordMatch = (text: string, query: string) => {
+            if (!text || !query) return false;
+            const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`(^|[^a-zA-Z0-9À-ỹ])(${escapedQuery})([^a-zA-Z0-9À-ỹ]|$)`, 'i');
+            return regex.test(text);
+        };
 
         // Check if query matches a company name — if so, skip AI expansion to avoid noise
         const matchedCompanies = await prisma.company.findMany({
             where: { name: { contains: params.q, mode: "insensitive" } },
-            select: { id: true },
-            take: 5,
+            select: { name: true },
+            take: 10,
         });
-        const isCompanySearch = matchedCompanies.length > 0;
+        
+        // Only consider it a company search if the query is an actual word in the company name (e.g. "FPT" in "FPT Software"), not just a random substring (e.g. "it" in "Deloitte")
+        const isCompanySearch = matchedCompanies.some(c => isWordMatch(c.name, params.q));
 
         // AI expansion — only when NOT searching for a company name
         if (!isCompanySearch) {
             try {
-                const expandedKeywords = await expandQueryWithAI(params.q);
+                expandedKeywords = await expandQueryWithAI(params.q);
+                console.log("AI Expansion returned:", expandedKeywords);
                 for (const kw of expandedKeywords) {
                     if (kw.toLowerCase() === params.q.toLowerCase()) continue;
                     orConditions.push(
@@ -256,36 +340,73 @@ export async function getJobs(params?: {
         });
 
         const queryLower = params.q.toLowerCase();
+        const expandedLower = expandedKeywords.map(k => k.toLowerCase());
+        const allSearchTerms = [queryLower, ...expandedLower];
+
         const scoredJobs = allJobs.map((job: any) => {
             let score = 0;
 
-            // Title contains exact query (highest weight)
-            if (job.title.toLowerCase().includes(queryLower)) {
-                score += 200;
-                if (job.title.toLowerCase().startsWith(queryLower)) score += 50;
-                if (job.title.toLowerCase() === queryLower) score += 100;
-            }
+            // Helper for whole word matching
+            const isWordMatch = (text: string, query: string) => {
+                if (!text || !query) return false;
+                const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                // Word boundary that works with Vietnamese chars
+                const regex = new RegExp(`(^|[^a-zA-Z0-9À-ỹ])(${escapedQuery})([^a-zA-Z0-9À-ỹ]|$)`, 'i');
+                return regex.test(text);
+            };
 
-            // Skills exact match with query
-            for (const skill of job.skills) {
-                if (skill.toLowerCase() === queryLower) {
-                    score += 80;
-                } else if (skill.toLowerCase().includes(queryLower)) {
-                    score += 40;
+            const titleLower = job.title.toLowerCase();
+            
+            for (const term of allSearchTerms) {
+                const isMainQuery = term === queryLower;
+                const multiplier = isMainQuery ? 1 : 0.6; // AI expanded terms give less points
+
+                // Title match
+                if (titleLower === term) {
+                    score += 300 * multiplier;
+                } else if (titleLower.startsWith(term)) {
+                    score += 150 * multiplier;
+                } else if (isWordMatch(titleLower, term)) {
+                    score += 100 * multiplier;
+                } else if (titleLower.includes(term) && term.length > 3) {
+                    score += 50 * multiplier; 
                 }
-            }
 
-            // Company name match (high weight — searching "FPT" should show FPT jobs)
-            const companyLower = job.company.name.toLowerCase();
-            if (companyLower === queryLower) {
-                score += 180; // exact company name match
-            } else if (companyLower.includes(queryLower) || queryLower.includes(companyLower)) {
-                score += 120; // partial company name match
-            }
+                // Skills match
+                for (const skill of job.skills) {
+                    const skillLower = skill.toLowerCase();
+                    if (skillLower === term) {
+                        score += 100 * multiplier;
+                    } else if (isWordMatch(skillLower, term)) {
+                        score += 60 * multiplier;
+                    } else if (skillLower.includes(term) && term.length > 3) {
+                        score += 20 * multiplier;
+                    }
+                }
 
-            // Industry name match
-            if (job.industry?.name?.toLowerCase().includes(queryLower)) {
-                score += 60;
+                // Company match (only for main query)
+                if (isMainQuery) {
+                    const companyLower = job.company.name.toLowerCase();
+                    if (companyLower === term) {
+                        score += 180;
+                    } else if (isWordMatch(companyLower, term)) {
+                        score += 120;
+                    } else if (companyLower.includes(term) && term.length > 3) {
+                        score += 40;
+                    }
+                }
+
+                // Industry match
+                if (job.industry?.name) {
+                    const industryLower = job.industry.name.toLowerCase();
+                    if (industryLower === term) {
+                        score += 100 * multiplier;
+                    } else if (isWordMatch(industryLower, term)) {
+                        score += 60 * multiplier;
+                    } else if (industryLower.includes(term) && term.length > 3) {
+                        score += 20 * multiplier;
+                    }
+                }
             }
 
             // VIP bonus
@@ -294,8 +415,11 @@ export async function getJobs(params?: {
             return { ...job, _relevance: score };
         });
 
+        // Filter out jobs that got 0 score (meaning they were false-positive substring matches from DB)
+        const relevantJobs = scoredJobs.filter((job: any) => job._relevance > 0);
+
         // Sort by relevance, then by sort preference
-        scoredJobs.sort((a: any, b: any) => {
+        relevantJobs.sort((a: any, b: any) => {
             if (b._relevance !== a._relevance) return b._relevance - a._relevance;
             if (params?.sort === "salary_high") return (b.salaryMax || 0) - (a.salaryMax || 0);
             if (params?.sort === "salary_low") return (a.salaryMin || 0) - (b.salaryMin || 0);
@@ -303,8 +427,8 @@ export async function getJobs(params?: {
         });
 
         // Remove internal score field and paginate
-        const paginatedJobs = scoredJobs.slice(skip, skip + limit).map(({ _relevance, industry: _ind, ...rest }: any) => rest);
-        const total = scoredJobs.length;
+        const paginatedJobs = relevantJobs.slice(skip, skip + limit).map(({ _relevance, industry: _ind, ...rest }: any) => rest);
+        const total = relevantJobs.length;
 
         return { jobs: paginatedJobs, total };
     }

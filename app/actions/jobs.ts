@@ -32,12 +32,18 @@ async function expandQueryWithAI(query: string): Promise<string[]> {
     try {
         const prompt = `Bạn là hệ thống tìm kiếm việc làm. Người dùng tìm: "${query}"
 
-Trả về TÊN NGÀNH NGHỀ và TÊN VỊ TRÍ CÔNG VIỆC liên quan. KHÔNG trả về từ chung chung như "phần mềm", "công cụ", "kỹ năng".
+Trả về TÊN VỊ TRÍ CÔNG VIỆC và TÊN NGÀNH NGHỀ **trực tiếp liên quan**.
+
+QUY TẮC:
+- CHỈ trả về tên vị trí công việc cụ thể hoặc tên ngành
+- KHÔNG trả về tên công nghệ/kỹ năng đơn lẻ (React, Python, SQL, Docker...)
+- KHÔNG trả về vị trí quá rộng hoặc không liên quan trực tiếp
+- Tối đa 5 kết quả
 
 Ví dụ:
-- "IT" → ["Công nghệ thông tin", "Developer", "Backend Engineer", "Frontend Developer", "DevOps"]
-- "HR" → ["Nhân sự", "Tuyển dụng", "HR Manager", "Recruitment"]
-- "ngân hàng" → ["Tài chính / Ngân hàng", "Tín dụng", "Giao dịch viên", "Banking"]
+- "frontend" → ["Frontend Developer", "UI Developer", "Lập trình giao diện"]
+- "kế toán" → ["Kế toán tổng hợp", "Kế toán trưởng", "Kế toán / Kiểm toán"]
+- "IT" → ["Công nghệ thông tin", "Developer", "Lập trình viên"]
 
 CHỈ trả về JSON array. KHÔNG giải thích.`;
 
@@ -45,7 +51,7 @@ CHỈ trả về JSON array. KHÔNG giải thích.`;
         const jsonMatch = result.match(/\[[\s\S]*\]/);
         if (jsonMatch) {
             const keywords: string[] = JSON.parse(jsonMatch[0]);
-            const expanded = keywords.filter(k => typeof k === "string" && k.trim().length > 0).slice(0, 8);
+            const expanded = keywords.filter(k => typeof k === "string" && k.trim().length > 0).slice(0, 5);
             queryExpansionCache.set(cacheKey, expanded);
             return expanded;
         }
@@ -87,9 +93,14 @@ export async function getJobs(params?: {
     if (params?.q && params.useAI) {
         try {
             const aiJobs = await semanticJobSearch(params.q, 50);
-            if (aiJobs && Array.isArray(aiJobs) && aiJobs.length > 0) {
+            // Filter by minimum similarity and require enough results
+            const goodMatches = Array.isArray(aiJobs) 
+                ? aiJobs.filter((job: any) => Number(job.similarity) >= 0.5)
+                : [];
+            
+            if (goodMatches.length >= 3) {
                 return {
-                    jobs: aiJobs.map((job: any) => ({
+                    jobs: goodMatches.map((job: any) => ({
                         id: job.id,
                         title: job.title,
                         slug: job.slug,
@@ -113,35 +124,60 @@ export async function getJobs(params?: {
                         },
                         similarity: job.similarity,
                     })),
-                    total: aiJobs.length
+                    total: goodMatches.length
                 };
             }
+            // Not enough good AI results, fall through to keyword search
         } catch (e) {
             console.error("AI search failed, falling back to text search:", e);
         }
     }
     // Text-based search fallback (runs when AI search fails or is disabled)
     if (params?.q) {
-        // Use AI to expand the query into related keywords
-        const expandedKeywords = await expandQueryWithAI(params.q);
-
-        // Build OR conditions — only search precise fields (title, skills, industry)
-        // DO NOT search description: templates contain generic words that cause false matches
         const orConditions: Record<string, unknown>[] = [];
 
-        for (const kw of expandedKeywords) {
-            orConditions.push(
-                { title: { contains: kw, mode: "insensitive" } },
-                { skills: { hasSome: [kw] } },
-                { company: { industry: { contains: kw, mode: "insensitive" } } },
-                { industry: { name: { contains: kw, mode: "insensitive" } } },
-            );
-        }
-
-        // Also search original query in company name
+        // Direct query matches (highest relevance)
         orConditions.push(
+            { title: { contains: params.q, mode: "insensitive" } },
+            { skills: { hasSome: [params.q] } },
+            { industry: { name: { contains: params.q, mode: "insensitive" } } },
             { company: { name: { contains: params.q, mode: "insensitive" } } },
         );
+
+        // Individual words of the query
+        const queryWords = params.q.split(/\s+/).filter(w => w.length > 1);
+        for (const word of queryWords) {
+            if (word.toLowerCase() !== params.q.toLowerCase()) {
+                orConditions.push(
+                    { title: { contains: word, mode: "insensitive" } },
+                    { skills: { hasSome: [word] } },
+                );
+            }
+        }
+
+        // Check if query matches a company name — if so, skip AI expansion to avoid noise
+        const matchedCompanies = await prisma.company.findMany({
+            where: { name: { contains: params.q, mode: "insensitive" } },
+            select: { id: true },
+            take: 5,
+        });
+        const isCompanySearch = matchedCompanies.length > 0;
+
+        // AI expansion — only when NOT searching for a company name
+        if (!isCompanySearch) {
+            try {
+                const expandedKeywords = await expandQueryWithAI(params.q);
+                for (const kw of expandedKeywords) {
+                    if (kw.toLowerCase() === params.q.toLowerCase()) continue;
+                    orConditions.push(
+                        { title: { contains: kw, mode: "insensitive" } },
+                        { industry: { name: { contains: kw, mode: "insensitive" } } },
+                    );
+                }
+            } catch (e) {
+                console.error("AI query expansion failed, using basic search:", e);
+            }
+        }
 
         where.OR = orConditions;
     }
@@ -149,17 +185,18 @@ export async function getJobs(params?: {
         where.location = { contains: params.loc, mode: "insensitive" };
     }
     if (params?.type) where.jobType = params.type;
-    if (params?.industryId) {
-        // Handle slug or ID
-        if (params.industryId.length > 15) {
-            where.industryId = params.industryId;
-        } else {
-            where.industry = { slug: params.industryId };
-        }
-    }
 
     // Advanced search conditions
     const andConditions: Record<string, unknown>[] = [];
+
+    if (params?.industryId) {
+        andConditions.push({
+            OR: [
+                { industryId: params.industryId },
+                { industry: { slug: params.industryId } }
+            ]
+        });
+    }
     
     // Salary range filter: Overlap logic
     if (params?.salary) {
@@ -209,11 +246,74 @@ export async function getJobs(params?: {
 
     const orderBy = [{ isVip: "desc" }, secondaryOrderBy];
 
+    if (params?.q) {
+        // When searching: fetch more results, score & rank them, then paginate
+        const fetchLimit = Math.max(limit * 3, 50); // fetch extra to score
+        const allJobs = await prisma.job.findMany({
+            where,
+            include: { company: { select: { name: true, logo: true, slug: true, verified: true } }, industry: { select: { name: true } } },
+            take: fetchLimit,
+        });
+
+        const queryLower = params.q.toLowerCase();
+        const scoredJobs = allJobs.map((job: any) => {
+            let score = 0;
+
+            // Title contains exact query (highest weight)
+            if (job.title.toLowerCase().includes(queryLower)) {
+                score += 200;
+                if (job.title.toLowerCase().startsWith(queryLower)) score += 50;
+                if (job.title.toLowerCase() === queryLower) score += 100;
+            }
+
+            // Skills exact match with query
+            for (const skill of job.skills) {
+                if (skill.toLowerCase() === queryLower) {
+                    score += 80;
+                } else if (skill.toLowerCase().includes(queryLower)) {
+                    score += 40;
+                }
+            }
+
+            // Company name match (high weight — searching "FPT" should show FPT jobs)
+            const companyLower = job.company.name.toLowerCase();
+            if (companyLower === queryLower) {
+                score += 180; // exact company name match
+            } else if (companyLower.includes(queryLower) || queryLower.includes(companyLower)) {
+                score += 120; // partial company name match
+            }
+
+            // Industry name match
+            if (job.industry?.name?.toLowerCase().includes(queryLower)) {
+                score += 60;
+            }
+
+            // VIP bonus
+            if (job.isVip) score += 10;
+
+            return { ...job, _relevance: score };
+        });
+
+        // Sort by relevance, then by sort preference
+        scoredJobs.sort((a: any, b: any) => {
+            if (b._relevance !== a._relevance) return b._relevance - a._relevance;
+            if (params?.sort === "salary_high") return (b.salaryMax || 0) - (a.salaryMax || 0);
+            if (params?.sort === "salary_low") return (a.salaryMin || 0) - (b.salaryMin || 0);
+            return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        });
+
+        // Remove internal score field and paginate
+        const paginatedJobs = scoredJobs.slice(skip, skip + limit).map(({ _relevance, industry: _ind, ...rest }: any) => rest);
+        const total = scoredJobs.length;
+
+        return { jobs: paginatedJobs, total };
+    }
+
     const [jobs, total] = await Promise.all([
         prisma.job.findMany({
             where,
             include: { company: { select: { name: true, logo: true, slug: true, verified: true } } },
-            orderBy: params?.q ? undefined : orderBy,
+            orderBy,
             take: limit,
             skip,
         }),

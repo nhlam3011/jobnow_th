@@ -6,24 +6,7 @@ import { getMyApplications } from "@/app/actions/applications";
 import { getRecommendedJobs } from "@/lib/ai";
 import Link from "next/link";
 
-// Avatar component inlined - simplified for server component
-function InlineAvatar({ src, alt, fallback, size = 40, style = {} }: { src?: string | null; alt: string; fallback?: string | null; size?: number; style?: React.CSSProperties }) {
-    const initials = fallback ? fallback.charAt(0).toUpperCase() : alt.split(" ").pop()?.charAt(0).toUpperCase() || "?";
-    const hasValidSrc = src && src !== "" && src !== "null" && src !== "undefined";
-
-    if (!hasValidSrc) {
-        return (
-            <div style={{ width: size, height: size, borderRadius: "50%", background: "var(--primary-light, #E0E7FF)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: "bold", fontSize: size > 30 ? `${size * 0.4}px` : "0.875rem", flexShrink: 0, ...style }}>
-                {initials}
-            </div>
-        );
-    }
-    return (
-        <div style={{ width: size, height: size, borderRadius: "50%", overflow: "hidden", position: "relative", flexShrink: 0, ...style }}>
-            <img src={src} alt={alt} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-        </div>
-    );
-}
+import Avatar from "@/app/components/Avatar";
 
 const STATUS_LABEL: Record<string, { label: string; color: string }> = {
     PENDING: { label: "Đang chờ", color: "#F59E0B" },
@@ -95,20 +78,22 @@ export default async function CandidateDashboard() {
                             recentApps.map((app: any) => {
                                 const st = STATUS_LABEL[app.status] || { label: app.status, color: "#64748B" };
                                 return (
-                                    <div key={app.id} className="dash-card-item" style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-                                        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                                            <InlineAvatar
+                                    <div key={app.id} className="dash-card-item" style={{ display: "flex", flexDirection: "column", gap: "0.75rem", height: "100%" }}>
+                                        <div style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem", flex: 1 }}>
+                                            <Avatar
                                                 src={app.job.company.logo}
                                                 alt={app.job.company.name}
                                                 fallback={app.job.company.name}
                                                 size={44}
                                                 style={{
-                                                    borderRadius: "10px",
+                                                    borderRadius: "12px",
                                                     border: "1.5px solid var(--border)",
                                                     fontSize: "1rem",
                                                     fontWeight: 700,
                                                     color: st.color,
-                                                    background: `${st.color}12`
+                                                    backgroundColor: "#fff",
+                                                    objectFit: "contain",
+                                                    padding: "4px"
                                                 }}
                                             />
                                             {/* Job info */}
@@ -119,7 +104,7 @@ export default async function CandidateDashboard() {
                                                 <div className="dash-card-item-subtitle">{app.job.company.name}</div>
                                             </div>
                                         </div>
-                                        <div style={{ borderTop: "1px solid var(--border)", paddingTop: "0.625rem" }}>
+                                        <div style={{ borderTop: "1px solid var(--border)", paddingTop: "0.625rem", marginTop: "auto" }}>
                                             <span className="dash-badge" style={{ background: `${st.color}15`, color: st.color }}>
                                                 {st.label}
                                             </span>
@@ -144,20 +129,22 @@ export default async function CandidateDashboard() {
                             </div>
                         ) : (
                             suggestedJobs.map((job) => (
-                                <Link key={job.id} href={`/jobs/${job.slug}`} className="dash-card-item" style={{ textDecoration: "none", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-                                    <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                                        <InlineAvatar
+                                <Link key={job.id} href={`/jobs/${job.slug}`} className="dash-card-item" style={{ textDecoration: "none", display: "flex", flexDirection: "column", gap: "0.75rem", height: "100%" }}>
+                                    <div style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem", flex: 1 }}>
+                                        <Avatar
                                             src={job.companyLogo}
                                             alt={job.companyName || "?"}
                                             fallback={job.companyName || "?"}
                                             size={44}
                                             style={{
-                                                borderRadius: "10px",
+                                                borderRadius: "12px",
                                                 border: "1.5px solid var(--border)",
                                                 fontSize: "1rem",
                                                 fontWeight: 700,
                                                 color: "var(--primary)",
-                                                background: "var(--tag-bg)"
+                                                backgroundColor: "#fff",
+                                                objectFit: "contain",
+                                                padding: "4px"
                                             }}
                                         />
                                         <div style={{ flex: 1, minWidth: 0 }}>
@@ -167,7 +154,7 @@ export default async function CandidateDashboard() {
                                             <div className="dash-card-item-subtitle">{job.companyName} · {job.location || "N/A"}</div>
                                         </div>
                                     </div>
-                                    <div className="dash-card-item-footer" style={{ borderTop: "1px solid var(--border)", paddingTop: "0.625rem", margin: 0, justifyContent: "space-between" }}>
+                                    <div className="dash-card-item-footer" style={{ borderTop: "1px solid var(--border)", paddingTop: "0.625rem", marginTop: "auto", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                                         {job.similarity && (
                                             <div style={{
                                                 fontSize: "0.75rem",

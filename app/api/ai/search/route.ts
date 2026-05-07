@@ -66,47 +66,36 @@ export async function POST(request: NextRequest) {
 // AI-powered semantic search using embeddings
 async function performAISearch(query: string, location?: string, limit = 20) {
     const embedding = await getEmbedding(query);
-
-    // Build where clause
-    const whereClause: any = {
-        status: "ACTIVE",
-    };
-
-    // Add location filter if provided
-    if (location) {
-        whereClause.location = { contains: location, mode: "insensitive" };
-    }
+    // Convert to string format for pgvector: '[0.1,0.2,...]'
+    const embeddingString = `[${embedding.join(',')}]`;
 
     // Check if jobs have embeddings
     const jobsWithEmbeddings = await prisma.$queryRaw<Array<{ count: bigint }>>`
         SELECT COUNT(*) as count FROM "Job" 
         WHERE status = 'ACTIVE' 
-        AND embedding IS NOT NULL 
-        AND array_length(embedding, 1) > 0
+        AND embedding IS NOT NULL
     `;
 
     if (Number(jobsWithEmbeddings[0]?.count) === 0) {
-        // No embeddings available, use fallback
         throw new Error("No embeddings available");
     }
 
     let jobs;
 
     if (location) {
-        // Use raw query with location filter
         jobs = await prisma.$queryRaw`
             SELECT 
                 j.*,
                 c.name as "companyName",
                 c.logo as "companyLogo",
                 c.slug as "companySlug",
-                1 - (j.embedding <=> ${embedding}::vector) as similarity
+                1 - (j.embedding <=> ${embeddingString}::vector) as similarity
             FROM "Job" j
             JOIN "Company" c ON j."companyId" = c.id
             WHERE j.status = 'ACTIVE'
                 AND j.embedding IS NOT NULL
                 AND j.location ILIKE ${'%' + location + '%'}
-            ORDER BY j.embedding <=> ${embedding}::vector
+            ORDER BY j.embedding <=> ${embeddingString}::vector
             LIMIT ${limit}
         `;
     } else {
@@ -116,12 +105,12 @@ async function performAISearch(query: string, location?: string, limit = 20) {
                 c.name as "companyName",
                 c.logo as "companyLogo",
                 c.slug as "companySlug",
-                1 - (j.embedding <=> ${embedding}::vector) as similarity
+                1 - (j.embedding <=> ${embeddingString}::vector) as similarity
             FROM "Job" j
             JOIN "Company" c ON j."companyId" = c.id
             WHERE j.status = 'ACTIVE'
                 AND j.embedding IS NOT NULL
-            ORDER BY j.embedding <=> ${embedding}::vector
+            ORDER BY j.embedding <=> ${embeddingString}::vector
             LIMIT ${limit}
         `;
     }

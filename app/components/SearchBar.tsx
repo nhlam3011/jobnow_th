@@ -183,35 +183,11 @@ export default function SearchBar({ size = "lg", defaultAI = false }: SearchBarP
     };
 
     const handleSearchWithValue = async (searchKeyword: string) => {
-        if (useAI && searchKeyword) {
-            setIsLoading(true);
-            try {
-                const response = await fetch("/api/ai/search", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ query: searchKeyword, location: location, limit: 20 }),
-                });
-
-                const params = new URLSearchParams();
-                params.set("q", searchKeyword);
-                params.set("ai", useAI ? "true" : "false");
-                if (location) params.set("loc", location);
-                router.push(`/jobs?${params.toString()}`);
-            } catch (error) {
-                console.error("AI search failed:", error);
-                const params = new URLSearchParams();
-                params.set("q", searchKeyword);
-                if (location) params.set("loc", location);
-                router.push(`/jobs?${params.toString()}`);
-            } finally {
-                setIsLoading(false);
-            }
-        } else {
-            const params = new URLSearchParams();
-            if (searchKeyword) params.set("q", searchKeyword);
-            if (location) params.set("loc", location);
-            router.push(`/jobs?${params.toString()}`);
-        }
+        const params = new URLSearchParams();
+        if (searchKeyword) params.set("q", searchKeyword);
+        if (useAI) params.set("ai", "true");
+        if (location) params.set("loc", location);
+        router.push(`/jobs?${params.toString()}`);
     };
 
     const handleSearch = async (e: React.FormEvent) => {

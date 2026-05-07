@@ -326,6 +326,7 @@ export default function JobCard({
                     gap: 1.25rem;
                     align-items: flex-start;
                     width: 100%;
+                    flex: 1;
                 }
                 .job-card-logo { flex-shrink: 0; }
                 .job-card-content { flex: 1; min-width: 0; }
@@ -442,7 +443,7 @@ export default function JobCard({
                 .job-card-footer {
                     display: flex; justify-content: space-between; align-items: center;
                     padding-top: 0.75rem;
-                    margin-top: .75rem;
+                    margin-top: auto;
                     border-top: 1px solid var(--border);
                     position: relative; z-index: 20;
                 }

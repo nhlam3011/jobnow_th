@@ -7,14 +7,13 @@ const getApiKey = () => process.env.GEMINI_API_KEY || "";
 export const genAI = new GoogleGenerativeAI(getApiKey());
 
 export const AI_CONFIG = {
-    chatModel: process.env.GEMINI_CHAT_MODEL || "gemini-2.5-flash",
+    chatModel: process.env.GEMINI_CHAT_MODEL || "gemini-3.1-flash-lite",
     embeddingModel: process.env.GEMINI_EMBEDDING_MODEL || "gemini-embedding-001",
 } as const;
 
 export type ChatModel =
-    | "gemini-1.5-flash"
-    | "gemini-1.5-pro"
-    | "gemini-2.0-flash"
+    | "gemini-3.1-flash-lite"
+    | "gemini-3.1-pro-preview"
     | "gemini-2.5-flash"
     | "gemini-pro";
 
@@ -22,7 +21,7 @@ export async function generateText(prompt: string, model?: ChatModel): Promise<s
     const key = getApiKey();
     if (!key) throw new Error("GEMINI_API_KEY is not set in environment");
 
-    const modelName = model || AI_CONFIG.chatModel || "gemini-2.5-flash";
+    const modelName = model || AI_CONFIG.chatModel || "gemini-3.1-flash-lite";
     try {
         const client = new GoogleGenerativeAI(key);
         const geminiModel = client.getGenerativeModel({ model: modelName });
@@ -57,7 +56,7 @@ export async function generateStructuredText(
     const key = getApiKey();
     if (!key) throw new Error("GEMINI_API_KEY is not set in environment");
 
-    const modelName = model || AI_CONFIG.chatModel || "gemini-2.5-flash";
+    const modelName = model || AI_CONFIG.chatModel || "gemini-3.1-flash-lite";
     try {
         const client = new GoogleGenerativeAI(key);
         const geminiModel = client.getGenerativeModel({ model: modelName });

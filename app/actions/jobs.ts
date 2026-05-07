@@ -244,7 +244,7 @@ export async function getJobs(params?: {
         });
         
         // Only consider it a company search if the query is an actual word in the company name (e.g. "FPT" in "FPT Software"), not just a random substring (e.g. "it" in "Deloitte")
-        const isCompanySearch = matchedCompanies.some(c => isWordMatch(c.name, params.q));
+        const isCompanySearch = matchedCompanies.some(c => isWordMatch(c.name, params.q as string));
 
         // AI expansion — only when NOT searching for a company name
         if (!isCompanySearch) {
